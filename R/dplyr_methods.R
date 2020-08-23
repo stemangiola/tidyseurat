@@ -149,11 +149,12 @@ bind_rows.default <-  function(..., .id = NULL)
 bind_rows.tidyseurat <- function(..., .id = NULL)
 {
   
-  tts = dplyr:::flatten_bindable(rlang::dots_values(...))
-  
+
+    
+  tts = flatten_if(dots_values(...), is_spliced)
 
   # Check if cell with same name
-  merge(  tts[[1]] ,  tts[[2]] ,  add.cell.ids = 1:2 )
+  merge(  tts[[1]] ,  tts[[2]] ,  add.cell.ids = 1:2 ) %>% tidy
   
   
 }
@@ -186,7 +187,7 @@ bind_cols.default <-  function(..., .id = NULL)
 bind_cols.tidyseurat <- function(..., .id = NULL)
 {
   
-  tts = 	tts = flatten_if(dots_values(...), is_spliced) # Original that fails Bioconductor dplyr:::flatten_bindable(rlang::dots_values(...))
+  tts = 	tts = flatten_if(dots_values(...), is_spliced) 
   
   tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]]@meta.data, tts[[2]], .id = .id) 
   
@@ -241,10 +242,8 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   .data@meta.data %>%
-    dplyr::distinct(..., .keep_all = .keep_all) %>%
-    
-    # Attach attributes
-    as_tibble(rownames="cell")
+    as_tibble(rownames="cell") %>%
+    dplyr::distinct(..., .keep_all = .keep_all)
   
 }
 ############# END ADDED tidyseurat #####################################
@@ -344,22 +343,6 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 }
 ############# END ADDED tidyseurat #####################################
 
-
-############# START ADDED tidyseurat #####################################
-
-# #' @importFrom dplyr filter_all
-# #' @export
-# dplyr::filter_all
-#
-# #' @importFrom dplyr filter_at
-# #' @export
-# dplyr::filter_at
-#
-# #' @importFrom dplyr filter_if
-# #' @export
-# dplyr::filter_if
-
-############# END ADDED tidyseurat #####################################
 
 #' Group by one or more variables
 #'
@@ -793,7 +776,7 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -845,7 +828,7 @@ inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells = new_meta %>% pull("cell"))
-        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -900,7 +883,7 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells = new_meta %>% pull("cell"))
-        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -955,9 +938,300 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
   
+}
+
+#' Subset rows using their positions
+#'
+#' @description
+#' `slice()` lets you index rows by their (integer) locations. It allows you
+#' to select, remove, and duplicate rows. It is accompanied by a number of
+#' helpers for common use cases:
+#'
+#' * `slice_head()` and `slice_tail()` select the first or last rows.
+#' * `slice_sample()` randomly selects rows.
+#' * `slice_min()` and `slice_max()` select rows with highest or lowest values
+#'   of a variable.
+#'
+#' If `.data` is a [grouped_df], the operation will be performed on each group,
+#' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
+#' each group.
+#'
+#' @details
+#' Slice does not work with relational databases because they have no
+#' intrinsic notion of row order. If you want to perform the equivalent
+#' operation, use [filter()] and [row_number()].
+#'
+#' @family single table verbs
+#' @inheritParams arrange
+#' @inheritParams filter
+#' @param ... For `slice()`: <[`data-masking`][dplyr_data_masking]> Integer row
+#'   values.
+#'
+#'   Provide either positive values to keep, or negative values to drop.
+#'   The values provided must be either all positive or all negative.
+#'   Indices beyond the number of rows in the input are silently ignored.
+#'
+#'   For `slice_helpers()`, these arguments are passed on to methods.
+#'
+#' @param n,prop Provide either `n`, the number of rows, or `prop`, the
+#'   proportion of rows to select. If neither are supplied, `n = 1` will be
+#'   used.
+#'
+#'   If `n` is greater than the number of rows in the group (or `prop > 1`),
+#'   the result will be silently truncated to the group size. If the
+#'   `prop`ortion of a group size is not an integer, it is rounded down.
+#' @return
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
+#' * Each row may appear 0, 1, or many times in the output.
+#' * Columns are not modified.
+#' * Groups are not modified.
+#' * Data frame attributes are preserved.
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
+#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
+#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
+#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
+#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
+#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
+#' @export
+#' @examples
+#' mtcars %>% slice(1L)
+#' # Similar to tail(mtcars, 1):
+#' mtcars %>% slice(n())
+#' mtcars %>% slice(5:n())
+#' # Rows can be dropped with negative indices:
+#' slice(mtcars, -(1:4))
+#'
+#' # First and last rows based on existing order
+#' mtcars %>% slice_head(n = 5)
+#' mtcars %>% slice_tail(n = 5)
+#'
+#' # Rows with minimum and maximum values of a variable
+#' mtcars %>% slice_min(mpg, n = 5)
+#' mtcars %>% slice_max(mpg, n = 5)
+#'
+#' # slice_min() and slice_max() may return more rows than requested
+#' # in the presence of ties. Use with_ties = FALSE to suppress
+#' mtcars %>% slice_min(cyl, n = 1)
+#' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
+#'
+#' # slice_sample() allows you to random select with or without replacement
+#' mtcars %>% slice_sample(n = 5)
+#' mtcars %>% slice_sample(n = 5, replace = TRUE)
+#'
+#' # you can optionally weight by a variable - this code weights by the
+#' # physical weight of the cars, so heavy cars are more likely to get
+#' # selected
+#' mtcars %>% slice_sample(weight_by = wt, n = 5)
+#'
+#' # Group wise operation ----------------------------------------
+#' df <- tibble(
+#'   group = rep(c("a", "b", "c"), c(1, 2, 4)),
+#'   x = runif(7)
+#' )
+#'
+#' # All slice helpers operate per group, silently truncating to the group
+#' # size, so the following code works without error
+#' df %>% group_by(group) %>% slice_head(n = 2)
+#'
+#' # When specifying the proportion of rows to include non-integer sizes
+#' # are rounded down, so group a gets 0 rows
+#' df %>% group_by(group) %>% slice_head(prop = 0.5)
+#'
+#' # Filter equivalents --------------------------------------------
+#' # slice() expressions can often be written to use `filter()` and
+#' # `row_number()`, which can also be translated to SQL. For many databases,
+#' # you'll need to supply an explicit variable to use to compute the row number.
+#' filter(mtcars, row_number() == 1L)
+#' filter(mtcars, row_number() == n())
+#' filter(mtcars, between(row_number(), 5, n()))
+slice <- function(.data, ..., .preserve = FALSE) {
+  UseMethod("slice")
+}
+#' @export
+slice.default <-  function (.data, ..., .preserve = FALSE)
+{
+  dplyr::filter(.data, ..., .preserve = .preserve)
+}
+
+#' @export
+slice.tidyseurat <- function (.data, ..., .preserve = FALSE)
+{
+  new_meta = dplyr::slice(.data@meta.data, ..., .preserve = .preserve)
+  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_obj@meta.data = new_meta
+  
+  new_obj
+  
+}
+
+#' Subset columns using their names and types
+#'
+#' @description
+#'
+#' Select (and optionally rename) variables in a data frame, using a concise
+#' mini-language that makes it easy to refer to variables based on their name
+#' (e.g. `a:f` selects all columns from `a` on the left to `f` on the
+#' right). You can also use predicate functions like [is.numeric] to select
+#' variables based on their properties.
+#'
+#'
+#' ## Overview of selection features
+#'
+#' ```{r, child = "man/rmd/overview.Rmd"}
+#' ```
+#'
+#' @inheritParams arrange
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> One or more unquoted
+#'   expressions separated by commas. Variable names can be used as if they
+#'   were positions in the data frame, so expressions like `x:y` can
+#'   be used to select a range of variables.
+#' @return
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
+#' * Rows are not affected.
+#' * Output columns are a subset of input columns, potentially with a different
+#'   order. Columns will be renamed if `new_name = old_name` form is used.
+#' * Data frame attributes are preserved.
+#' * Groups are maintained; you can't select off grouping variables.
+#'
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
+#'
+#' @section Examples:
+#' ```{r, child = "man/rmd/setup.Rmd"}
+#' ```
+#'
+#' Here we show the usage for the basic selection operators. See the
+#' specific help pages to learn about helpers like [starts_with()].
+#'
+#' The selection language can be used in functions like
+#' `dplyr::select()` or `tidyr::pivot_longer()`. Let's first attach
+#' the tidyverse:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' library(tidyverse)
+#'
+#' # For better printing
+#' iris <- as_tibble(iris)
+#' ```
+#'
+#' Select variables by name:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' starwars %>% select(height)
+#'
+#' iris %>% pivot_longer(Sepal.Length)
+#' ```
+#'
+#' Select multiple variables by separating them with commas. Note how
+#' the order of columns is determined by the order of inputs:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' starwars %>% select(homeworld, height, mass)
+#' ```
+#'
+#' Functions like `tidyr::pivot_longer()` don't take variables with
+#' dots. In this case use `c()` to select multiple variables:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
+#' ```
+#'
+#' ## Operators:
+#'
+#' The `:` operator selects a range of consecutive variables:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' starwars %>% select(name:mass)
+#' ```
+#'
+#' The `!` operator negates a selection:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' starwars %>% select(!(name:mass))
+#'
+#' iris %>% select(!c(Sepal.Length, Petal.Length))
+#'
+#' iris %>% select(!ends_with("Width"))
+#' ```
+#'
+#' `&` and `|` take the intersection or the union of two selections:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' iris %>% select(starts_with("Petal") & ends_with("Width"))
+#'
+#' iris %>% select(starts_with("Petal") | ends_with("Width"))
+#' ```
+#'
+#' To take the difference between two selections, combine the `&` and
+#' `!` operators:
+#'
+#' ```{r, comment = "#>", collapse = TRUE}
+#' iris %>% select(starts_with("Petal") & !ends_with("Width"))
+#' ```
+#'
+#' @family single table verbs
+#' @export
+select <- function(.data, ...) {
+  UseMethod("select")
+}
+
+#' @export
+select.default <-  function (.data, ...)
+{
+  dplyr::select(.data, ...)
+}
+
+#' @export
+select.tidyseurat <- function (.data, ...)
+{
+  
+  .data %>%
+    to_tib() %>%
+    select_helper(...) %>%
+    when(
+      
+      # If key columns are missing
+      (c("cell",  "orig.ident", "nCount_RNA", "nFeature_RNA") %in% colnames(.)) %>% any %>% `!` ~ {
+        message("tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.")
+        (.)
+      },
+      
+      # If valid seurat meta data
+      ~ {
+        .data@meta.data = (.) %>% data.frame(row.names = "cell")
+        .data
+      }
+    )
+  
+}
+
+#' @importFrom purrr when
+#' @importFrom dplyr select
+#' @importFrom rlang expr
+select_helper = function(.data, ...){
+  
+  loc <- tidyselect::eval_select(expr(c(...)), .data)
+
+  dplyr::select( .data, loc) 
 }
