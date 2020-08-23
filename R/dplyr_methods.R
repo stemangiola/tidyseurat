@@ -149,18 +149,12 @@ bind_rows.default <-  function(..., .id = NULL)
 bind_rows.tidyseurat <- function(..., .id = NULL)
 {
   
-  tts = flatten_if(dots_values(...), is_spliced) # Original that fails Bioconductor dplyr:::flatten_bindable(rlang::dots_values(...))
+  tts = dplyr:::flatten_bindable(rlang::dots_values(...))
   
-  par1 = tts[[1]] %>% get_tt_columns() %>% unlist
-  par2 = tts[[2]] %>% get_tt_columns() %>% unlist
+
+  # Check if cell with same name
+  merge(  tts[[1]] ,  tts[[2]] ,  add.cell.ids = 1:2 )
   
-  # # tt_columns of the two objects must match
-  # error_if_parameters_not_match(par1, par2)
-  
-  dplyr::bind_rows(..., .id = .id) %>%
-    
-    # Attach attributes
-    reattach_internals(tts[[1]])
   
 }
 
@@ -194,10 +188,9 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
   
   tts = 	tts = flatten_if(dots_values(...), is_spliced) # Original that fails Bioconductor dplyr:::flatten_bindable(rlang::dots_values(...))
   
-  dplyr::bind_cols(..., .id = .id) %>%
-    
-    # Attach attributes
-    reattach_internals(tts[[1]])
+  tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]]@meta.data, tts[[2]], .id = .id) 
+  
+  tts[[1]]
   
 }
 
@@ -245,16 +238,13 @@ distinct.default <-  function (.data, ..., .keep_all = FALSE)
 #' @export
 distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
+  message("tidyseurat says: A data frame is returned for independent data analysis.")
+  
+  .data@meta.data %>%
     dplyr::distinct(..., .keep_all = .keep_all) %>%
     
     # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    as_tibble(rownames="cell")
   
 }
 ############# END ADDED tidyseurat #####################################
@@ -345,17 +335,12 @@ filter.default <-  function (.data, ..., .preserve = FALSE)
 #' @export
 filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::filter( ..., .preserve = .preserve) %>%
-    
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+  new_meta = dplyr::filter(.data@meta.data, ..., .preserve = .preserve)
+  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_obj@meta.data = new_meta
   
+  new_obj
+                   
 }
 ############# END ADDED tidyseurat #####################################
 
@@ -427,66 +412,14 @@ group_by.default <-  function (.data, ..., .add = FALSE, .drop = group_by_drop_d
 #' @export
 group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::group_by( ..., .drop = .drop) %>%
+  message("tidyseurat says: A data frame is returned for independent data analysis.")
+  
+  .data@meta.data %>%
     
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    as_tibble(rownames="cell")
+    dplyr::group_by( ..., .drop = .drop) 
   
 }
-############# END ADDED tidyseurat #####################################
-
-#' ungroup
-#' @rdname dplyr-methods
-#' @export
-#' @param x A [tbl()]
-ungroup <- function(x, ...) {
-  UseMethod("ungroup")
-}
-############# START ADDED tidyseurat #####################################
-
-#' @export
-ungroup.default <-  function (x, ...)
-{
-  dplyr::ungroup(x, ...)
-}
-
-#' @export
-ungroup.tidyseurat <- function (x, ...)
-{
-  x %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::ungroup( ...) %>%
-    
-    # Attach attributes
-    reattach_internals(x) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
-  
-}
-############# END ADDED tidyseurat #####################################
-
-############# START ADDED tidyseurat #####################################
-
-# #' @importFrom dplyr group_by_all
-# #' @export
-# dplyr::group_by_all
-#
-# #' @importFrom dplyr group_by_at
-# #' @export
-# dplyr::group_by_at
-#
-# #' @importFrom dplyr group_by_if
-# #' @export
-# dplyr::group_by_if
-
 ############# END ADDED tidyseurat #####################################
 
 #' Summarise each group to fewer rows
@@ -572,45 +505,16 @@ summarise.default <-  function (.data, ...)
 #' @export
 summarise.tidyseurat <- function (.data, ...)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::summarise( ...) %>%
+  
+  message("tidyseurat says: A data frame is returned for independent data analysis.")
+  
+  .data@meta.data %>%
     
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    as_tibble(rownames="cell") %>%
+    dplyr::summarise( ...)
   
 }
 ############# END ADDED tidyseurat #####################################
-
-############# START ADDED tidyseurat #####################################
-
-# #' @importFrom dplyr summarize_all
-# #' @export
-# dplyr::summarize_all
-#
-# #' @importFrom dplyr summarize_at
-# #' @export
-# dplyr::summarize_at
-#
-# #' @importFrom dplyr summarize_if
-# #' @export
-# dplyr::summarize_if
-
-############# END ADDED tidyseurat #####################################
-
-# #' @rdname dplyr-methods
-# #' @export
-# summarize_all <- summarise_all
-# #' @rdname dplyr-methods
-# #' @export
-# summarize_if <- summarise_if
-# #' @rdname dplyr-methods
-# #' @export
-# summarize_at <- summarise_at
 
 #' Create, modify, and delete columns
 #'
@@ -711,18 +615,10 @@ mutate.default <-  function(.data, ...)
 #' @export
 mutate.tidyseurat <- function(.data, ...)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::mutate(...) %>%
-    
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
-  
-  
+
+  .data@meta.data = dplyr::mutate(.data@meta.data, ...) 
+
+  .data
 }
 #' @export
 mutate.nested_tidyseurat <- function(.data, ...)
@@ -740,22 +636,6 @@ mutate.nested_tidyseurat <- function(.data, ...)
   
   
 }
-############# END ADDED tidyseurat #####################################
-
-############# START ADDED tidyseurat #####################################
-
-# #' @importFrom dplyr mutate_all
-# #' @export
-# dplyr::mutate_all
-#
-# #' @importFrom dplyr mutate_at
-# #' @export
-# dplyr::mutate_at
-#
-# #' @importFrom dplyr mutate_if
-# #' @export
-# dplyr::mutate_if
-
 ############# END ADDED tidyseurat #####################################
 
 #' Rename columns
@@ -803,17 +683,10 @@ rename.default <-  function(.data, ...)
 #' @export
 rename.tidyseurat <- function(.data, ...)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::rename(...) %>%
-    
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+  .data@meta.data = dplyr::rename( .data@meta.data,  ...)
   
+  .data
+ 
   
 }
 ############# END ADDED tidyseurat #####################################
@@ -860,17 +733,12 @@ rowwise.default <-  function(.data)
 #' @export
 rowwise.tidyseurat <- function(.data)
 {
-  .data %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::rowwise() %>%
-    
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+  message("tidyseurat says: A data frame is returned for independent data analysis.")
   
+  .data@meta.data %>%
+    
+    as_tibble(rownames="cell") %>%
+    dplyr::rowwise()
   
 }
 ############# END ADDED tidyseurat #####################################
@@ -910,16 +778,25 @@ left_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", 
 left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                 ...)
 {
-  x %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::left_join(y, by = by, copy = copy, suffix = suffix, ...) %>%
+  
+  new_meta = x %>% to_tib() %>% dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) 
+  
+  new_meta %>%
     
-    # Attach attributes
-    reattach_internals(x) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    when(
+      
+      # If duplicated cells returns tibble
+      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+        message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+        new_meta
+      },
+      
+      # Otherwise return updated tidyseurat
+      ~ {
+        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj
+      } 
+    )
   
 }
 
@@ -953,16 +830,25 @@ inner_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x",
 #' @export
 inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
 {
-  x %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::inner_join(y, by = by, copy = copy, suffix = suffix, ...) %>%
+  new_meta = x %>% to_tib() %>% dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...) 
+  
+  new_meta %>%
     
-    # Attach attributes
-    reattach_internals(x) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    when(
+      
+      # If duplicated cells returns tibble
+      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+        message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+        new_meta
+      },
+      
+      # Otherwise return updated tidyseurat
+      ~ {
+        new_obj = subset(x,   cells = new_meta %>% pull("cell"))
+        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj
+      } 
+    )
   
 }
 
@@ -998,16 +884,26 @@ right_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x",
 right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                  ...)
 {
-  x %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::right_join(y, by = by, copy = copy, suffix = suffix, ...) %>%
+
+  new_meta = x %>% to_tib() %>% dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) 
+  
+  new_meta %>%
     
-    # Attach attributes
-    reattach_internals(x) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    when(
+      
+      # If duplicated cells returns tibble
+      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+        message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+        new_meta
+      },
+      
+      # Otherwise return updated tidyseurat
+      ~ {
+        new_obj = subset(x,   cells = new_meta %>% pull("cell"))
+        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj
+      } 
+    )
   
 }
 
@@ -1044,19 +940,24 @@ full_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x", 
 full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                 ...)
 {
-  x %>%
-    drop_class(c("tidyseurat", "tt")) %>%
-    dplyr::full_join(y, by = by, copy = copy, suffix = suffix, ...) %>%
+
+  new_meta = x %>% to_tib() %>% dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...) 
+  
+  new_meta %>%
     
-    # Attach attributes
-    reattach_internals(x) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("tidyseurat")
+    when(
+      
+      # If duplicated cells returns tibble
+      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+        message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+        new_meta
+      },
+      
+      # Otherwise return updated tidyseurat
+      ~ {
+        new_obj@meta.data = new_meta %>% as.data.frame(row.names = "cell")
+        new_obj
+      } 
+    )
   
 }
-
-#' @importFrom dplyr do
-#' @export
-dplyr::do
