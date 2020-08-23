@@ -19,6 +19,7 @@ setMethod(
 
 #' tidy for seurat
 #' @export
-tidy <- function(object){  as(object, "tidyseurat") }
+tidy <- function(object) {  UseMethod("tidy", object) }
 
-
+#' @export
+tidy.Seurat <- function(object){  as(object, "tidyseurat") }
