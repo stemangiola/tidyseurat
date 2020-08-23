@@ -75,6 +75,8 @@ arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
   
   .data@meta.data = dplyr::arrange( .data@meta.data, ..., .by_group = .by_group) 
   
+  .data
+  
 }
 
 ############# END ADDED tidyseurat #####################################

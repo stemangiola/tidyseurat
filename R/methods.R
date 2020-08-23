@@ -4,6 +4,7 @@ setClass("tidyseurat", contains="Seurat")
 
 #' @importFrom methods show
 #' @import Seurat
+#' @importFrom magrittr %>%
 setMethod(
   f = "show",
   signature = "tidyseurat",
