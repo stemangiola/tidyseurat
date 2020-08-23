@@ -1,0 +1,37 @@
+Type: Package
+Package: tidyseurat
+Title: Brings transcriptomics to the tidyverse 
+Version: 1.1.5
+Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
+                  role = c("aut", "cre")),
+            person("Maria", "Doyle", email = "Maria.Doyle@petermac.org",
+            role = c("ctb"))
+                  )
+Description: This is a collection of utility functions that allow
+    to perform exploration of and calculations to RNA sequencing data, in
+    a modular, pipe-friendly and tidy fashion.
+License: GPL-3
+Depends:
+    R (>= 3.6.0)
+Imports:
+    tibble,
+    readr,
+    dplyr,
+    magrittr,
+    tidyr,
+    stringr,
+    rlang,
+    purrr,
+    Seurat
+Suggests:
+    BiocStyle,
+    testthat
+VignetteBuilder: 
+    knitr
+RdMacros:
+    lifecycle
+Biarch: true
+biocViews: AssayDomain, Infrastructure, RNASeq, DifferentialExpression, GeneExpression, Normalization, Clustering, QualityControl, Sequencing, Transcription, Transcriptomics
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1

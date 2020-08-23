@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^vignettes/introduction_cache$
+^doc$
+^Meta$
+^codecov\.yml$
+^dev$
+^README_cache$
+^README_files$
+README.Rmd
+^.git$
+.coveralls.yml
+.travis.yml
+^.github$
+^\.github$
