@@ -31,6 +31,20 @@ add_class = function(var, name) {
   var
 }
 
+#' Remove class to abject
+#'
+#' @keywords internal
+#'
+#'
+#' @param var A tibble
+#' @param name A character name of the class
+#'
+#' @return A tibble with an additional attribute
+#' @keywords internal
+drop_class = function(var, name) {
+  class(var) <- class(var)[!class(var)%in%name]
+  var
+}
 
 #' get abundance long
 #' @importFrom magrittr "%$%"
