@@ -1,5 +1,18 @@
 
-#setClass("Seurat")
+#' @importFrom purrr reduce
+#' @importFrom purrr map
+as_tibble = function(object){
+  object@meta.data %>%
+    tibble::as_tibble(rownames="cell") %>%
+    
+    # Attach reduced dimensions
+    left_join(
+      object@reductions %>%
+        map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] %>% as_tibble(rownames="cell")  ) %>%
+        reduce(left_join, by="cell")
+    )
+}
+
 setClass("tidyseurat", contains="Seurat")
 
 #' @importFrom methods show
