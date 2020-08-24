@@ -72,8 +72,8 @@ ggplot.tbl_df <- function(.data = NULL, mapping = aes(), ..., environment = pare
 
 #' @export
 ggplot.tidyseurat <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  .data@meta.data %>%
-    as_tibble(rownames = "cell") %>%
+  .data %>%
+    as_tibble() %>%
     ggplot2::ggplot( mapping = mapping)
 }
 

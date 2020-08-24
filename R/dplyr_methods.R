@@ -261,7 +261,7 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   .data %>%
-    to_tib %>%
+    as_tibble() %>%
     dplyr::distinct(..., .keep_all = .keep_all)
   
 }
@@ -402,7 +402,7 @@ group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   .data %>%
-    to_tib %>%
+    as_tibble() %>%
     dplyr::group_by( ..., .add = .add, .drop = .drop) 
   
 }
@@ -495,7 +495,7 @@ summarise.tidyseurat <- function (.data, ...)
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   .data %>%
-    to_tib %>%
+    as_tibble() %>%
     dplyr::summarise( ...)
   
 }
@@ -724,9 +724,8 @@ rowwise.tidyseurat <- function(.data)
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
-  .data@meta.data %>%
-    
-    as_tibble(rownames="cell") %>%
+  .data %>%
+    as_tibble() %>%
     dplyr::rowwise()
   
 }
@@ -824,7 +823,7 @@ inner_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x",
 inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
 {
   x %>%
-    to_tib() %>%
+    as_tibble() %>%
     dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
     
     when(
@@ -838,7 +837,7 @@ inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells =  pull(., "cell"))
-        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
+        new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
       } 
     )
@@ -881,7 +880,7 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 {
 
   x %>% 
-    to_tib() %>% 
+    as_tibble() %>%
     dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
     
     when(
@@ -895,7 +894,7 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells = (.) %>% pull("cell"))
-        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
+        new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
       } 
     )
@@ -939,7 +938,7 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 {
 
  x %>% 
-    to_tib() %>% 
+    as_tibble() %>%
     dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
     
     when(
@@ -952,7 +951,7 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
+        new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
       } 
     )
@@ -1221,7 +1220,7 @@ select.tidyseurat <- function (.data, ...)
 {
   
   .data %>%
-    to_tib() %>%
+    as_tibble() %>%
     select_helper(...) %>%
     when(
       
@@ -1233,7 +1232,7 @@ select.tidyseurat <- function (.data, ...)
       
       # If valid seurat meta data
       ~ {
-        .data@meta.data = (.) %>% data.frame(row.names = "cell")
+        .data@meta.data = (.) %>% as_meta_data(.data)
         .data
       }
     )
@@ -1453,7 +1452,7 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   .data %>%
-    to_tib %>%
+    as_tibble() %>%
     dplyr::count(  ..., wt = wt, sort = sort, name = name, .drop = .drop)
   
 }
