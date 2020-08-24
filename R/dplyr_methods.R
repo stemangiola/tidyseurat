@@ -69,14 +69,29 @@ arrange.default <- function(.data, ..., .by_group = FALSE) {
   
 }
 
+#' @importFrom tibble as_tibble
+#' 
 #' @export
 #' @inheritParams arrange
 arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
   
-  .data@meta.data = dplyr::arrange( .data@meta.data, ..., .by_group = .by_group) 
+  .data@meta.data = dplyr::arrange( 
+    .data@meta.data %>% 
+      as_tibble(rownames="cell"), 
+    ..., .by_group = .by_group
+  ) %>%
+    data.frame(row.names = "cell")
+  
+  
+  # 
+  # .data@active.ident = .data@active.ident[match(rownames(.data@meta.data), names(.data@active.ident))]
+  # 
+  # .data@assays = .data@assays %>%
+  #   map(
+  #     ~ .x[,match(rownames(.data@meta.data), colnames(x))]
+  #   )
   
   .data
-  
 }
 
 ############# END ADDED tidyseurat #####################################
@@ -109,6 +124,8 @@ arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
+#' @param add.cell.ids from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
+#' 
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
@@ -130,12 +147,12 @@ NULL
 #' 
 #' @export
 #'
-bind_rows <- function(..., .id = NULL) {
+bind_rows <- function(..., .id = NULL,  add.cell.ids = NULL) {
   UseMethod("bind_rows")
 }
 
 #' @export
-bind_rows.default <-  function(..., .id = NULL)
+bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
 {
   dplyr::bind_rows(..., .id = .id)
 }
@@ -146,7 +163,7 @@ bind_rows.default <-  function(..., .id = NULL)
 #' 
 #' @export
 #' 
-bind_rows.tidyseurat <- function(..., .id = NULL)
+bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
 {
   
 
@@ -154,7 +171,7 @@ bind_rows.tidyseurat <- function(..., .id = NULL)
   tts = flatten_if(dots_values(...), is_spliced)
 
   # Check if cell with same name
-  merge(  tts[[1]] ,  tts[[2]] ,  add.cell.ids = 1:2 ) %>% tidy
+  merge(  tts[[1]] ,  tts[[2]]  ,  add.cell.ids = add.cell.ids) %>% tidy
   
   
 }
@@ -214,6 +231,8 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
 ############# START ADDED tidyseurat #####################################
 
 #' distinct
+#' 
+#' 
 #' @param .data A tbl. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #' @param .keep_all If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)
@@ -241,27 +260,11 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
-  .data@meta.data %>%
-    as_tibble(rownames="cell") %>%
+  .data %>%
+    to_tib %>%
     dplyr::distinct(..., .keep_all = .keep_all)
   
 }
-############# END ADDED tidyseurat #####################################
-
-############# START ADDED tidyseurat #####################################
-
-# #' @importFrom dplyr distinct_all
-# #' @export
-# dplyr::distinct_all
-#
-# #' @importFrom dplyr distinct_at
-# #' @export
-# dplyr::distinct_at
-#
-# #' @importFrom dplyr distinct_if
-# #' @export
-# dplyr::distinct_if
-
 ############# END ADDED tidyseurat #####################################
 
 #' Subset rows using column values
@@ -334,7 +337,7 @@ filter.default <-  function (.data, ..., .preserve = FALSE)
 #' @export
 filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
-  new_meta = dplyr::filter(.data@meta.data, ..., .preserve = .preserve)
+  new_meta = .data %>% to_tib %>% dplyr::filter( ..., .preserve = .preserve) %>% data.frame(row.names = "cell")
   new_obj = subset(.data,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
@@ -343,8 +346,9 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 }
 ############# END ADDED tidyseurat #####################################
 
-
 #' Group by one or more variables
+#' 
+#' @importFrom dplyr group_by_drop_default
 #'
 #' @description
 #' Most data operations are done on groups defined by variables.
@@ -397,10 +401,9 @@ group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
-  .data@meta.data %>%
-    
-    as_tibble(rownames="cell")
-    dplyr::group_by( ..., .drop = .drop) 
+  .data %>%
+    to_tib %>%
+    dplyr::group_by( ..., .add = .add, .drop = .drop) 
   
 }
 ############# END ADDED tidyseurat #####################################
@@ -491,9 +494,8 @@ summarise.tidyseurat <- function (.data, ...)
   
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
-  .data@meta.data %>%
-    
-    as_tibble(rownames="cell") %>%
+  .data %>%
+    to_tib %>%
     dplyr::summarise( ...)
   
 }
@@ -599,7 +601,11 @@ mutate.default <-  function(.data, ...)
 mutate.tidyseurat <- function(.data, ...)
 {
 
-  .data@meta.data = dplyr::mutate(.data@meta.data, ...) 
+  .data@meta.data =
+    .data %>% 
+    to_tib %>%
+    dplyr::mutate( ...)  %>% 
+    data.frame(row.names = "cell")
 
   .data
 }
@@ -729,6 +735,8 @@ rowwise.tidyseurat <- function(.data)
 
 
 #' Left join datasets
+#' 
+#' @importFrom dplyr count
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -762,28 +770,30 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
                                 ...)
 {
   
-  new_meta = x %>% to_tib() %>% dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) 
-  
-  new_meta %>%
+  x %>% 
+    to_tib() %>%
+    dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
     
     when(
       
       # If duplicated cells returns tibble
-      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      dplyr::count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        new_meta
+        (.)
       },
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
-        new_obj
+        x@meta.data = (.) %>% data.frame(row.names = "cell")
+        x
       } 
     )
   
 }
 
 #' Inner join datasets
+#' 
+#' @importFrom dplyr pull
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -813,22 +823,22 @@ inner_join.default <-  function (x, y, by = NULL, copy = FALSE, suffix = c(".x",
 #' @export
 inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
 {
-  new_meta = x %>% to_tib() %>% dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...) 
-  
-  new_meta %>%
+  x %>%
+    to_tib() %>%
+    dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
     
     when(
       
       # If duplicated cells returns tibble
-      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        new_meta
+        (.)
       },
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj = subset(x,   cells = new_meta %>% pull("cell"))
-        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
+        new_obj = subset(x,   cells =  pull(., "cell"))
+        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -836,6 +846,8 @@ inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 }
 
 #' Right join datasets
+#' 
+#' @importFrom dplyr pull
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -868,22 +880,22 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
                                  ...)
 {
 
-  new_meta = x %>% to_tib() %>% dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) 
-  
-  new_meta %>%
+  x %>% 
+    to_tib() %>% 
+    dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
     
     when(
       
       # If duplicated cells returns tibble
-      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        new_meta
+        (.)
       },
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj = subset(x,   cells = new_meta %>% pull("cell"))
-        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
+        new_obj = subset(x,   cells = (.) %>% pull("cell"))
+        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -892,6 +904,8 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 
 
 #' Full join datasets
+#' 
+#' @importFrom dplyr pull
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -924,21 +938,21 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
                                 ...)
 {
 
-  new_meta = x %>% to_tib() %>% dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...) 
-  
-  new_meta %>%
+ x %>% 
+    to_tib() %>% 
+    dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
     
     when(
       
       # If duplicated cells returns tibble
-      count(., "cell") %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
-        new_meta
+        (.)
       },
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = new_meta %>% data.frame(row.names = "cell")
+        new_obj@meta.data = (.) %>% data.frame(row.names = "cell")
         new_obj
       } 
     )
@@ -1064,7 +1078,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 #' @export
 slice.default <-  function (.data, ..., .preserve = FALSE)
 {
-  dplyr::filter(.data, ..., .preserve = .preserve)
+  dplyr::slice(.data, ..., .preserve = .preserve)
 }
 
 #' @export
@@ -1234,4 +1248,120 @@ select_helper = function(.data, ...){
   loc <- tidyselect::eval_select(expr(c(...)), .data)
 
   dplyr::select( .data, loc) 
+}
+
+
+#' Sample n rows from a table
+#'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `sample_n()` and `sample_frac()` have been superseded in favour of
+#' [slice_sample()]. While they will not be deprecated in the near future,
+#' retirement means that we will only perform critical bug fixes, so we recommend
+#' moving to the newer alternative.
+#'
+#' These functions were superseded because we realised it was more convenient to
+#' have two mutually exclusive arguments to one function, rather than two
+#' separate functions. This also made it to clean up a few other smaller
+#' design issues with `sample_n()`/`sample_frac`:
+#'
+#' * The connection to `slice()` was not obvious.
+#' * The name of the first argument, `tbl`, is inconsistent with other
+#'   single table verbs which use `.data`.
+#' * The `size` argument uses tidy evaluation, which is surprising and
+#'   undocumented.
+#' * It was easier to remove the deprecated `.env` argument.
+#' * `...` was in a suboptimal position.
+#'
+#' @keywords internal
+#' @param tbl A data.frame.
+#' @param size <[`tidy-select`][dplyr_tidy_select]>
+#'   For `sample_n()`, the number of rows to select.
+#'   For `sample_frac()`, the fraction of rows to select.
+#'   If `tbl` is grouped, `size` applies to each group.
+#' @param replace Sample with or without replacement?
+#' @param weight <[`tidy-select`][dplyr_tidy_select]> Sampling weights.
+#'   This must evaluate to a vector of non-negative numbers the same length as
+#'   the input. Weights are automatically standardised to sum to 1.
+#' @param .env DEPRECATED.
+#' @param ... ignored
+#' @examples
+#' by_cyl <- mtcars %>% group_by(cyl)
+#'
+#' # sample_n() -> slice_sample() ----------------------------------------------
+#' sample_n(mtcars, 10)
+#' sample_n(mtcars, 50, replace = TRUE)
+#' sample_n(mtcars, 10, weight = mpg)
+#'
+#' # Changes:
+#' # * explicitly name the `n` argument,
+#' # * the `weight` argument is now `weight_by`.
+#'
+#' slice_sample(mtcars, n = 10)
+#' slice_sample(mtcars, n = 50, replace = TRUE)
+#' slice_sample(mtcars, n = 10, weight_by = mpg)
+#'
+#' # Note that sample_n() would error if n was bigger than the group size
+#' # slice_sample() will just use the available rows for consistency with
+#' # the other slice helpers like slice_head()
+#'
+#' # sample_frac() -> slice_sample() -------------------------------------------
+#' sample_frac(mtcars)
+#' sample_frac(mtcars, replace = TRUE)
+#'
+#' # Changes:
+#' # * use prop = 1 to randomly sample all rows
+#'
+#' slice_sample(mtcars, prop = 1)
+#' slice_sample(mtcars, prop = 1, replace = TRUE)
+#'
+#' @export
+sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  UseMethod("sample_n")
+}
+
+#' @export
+sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
+                             .env = parent.frame(), ...) {
+  tbl %>% sample_n(size, replace = replace, weight = weight, .env = .env, ...)
+}
+
+#' @export
+sample_n.tisyseurat <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL, ...) {
+  
+  lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
+  
+  new_meta = .data@meta.data %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...) 
+  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_obj@meta.data = new_meta
+  
+  new_obj
+  
+}
+
+#' @rdname sample_n
+#' @export
+sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
+  UseMethod("sample_frac")
+}
+
+#' @export
+sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
+                                .env = parent.frame(), ...) {
+  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}.")
+}
+
+#' @export
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL, ...) {
+
+  lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
+  
+  new_meta = .data@meta.data %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...) 
+  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_obj@meta.data = new_meta
+  
+  new_obj
+  
 }
