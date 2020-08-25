@@ -180,6 +180,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
   
 }
 
+#' @importFrom dplyr select_if
 as_meta_data = function(.data, seurat_object){
   
   col_to_exclude =  get_special_columns(seurat_object)

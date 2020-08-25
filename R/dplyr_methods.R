@@ -585,6 +585,8 @@ mutate.default <-  function(.data, ...)
 
 
 #' @importFrom dplyr mutate
+#' @importFrom rlang enquos
+#' 
 #' @export
 mutate.tidyseurat <- function(.data, ...)
 {

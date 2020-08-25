@@ -61,6 +61,7 @@ unnest.default <-  function (.data, cols, ..., keep_empty = FALSE, ptype = NULL,
 }
 
 #' @importFrom rlang quo_name
+#' @importFrom purrr imap
 #' 
 #' @export
 #' @rdname tidyr-methods
@@ -127,6 +128,8 @@ nest.default <-  function (.data, ...)
   tidyr::nest(.data, ...)
 }
 
+#' @importFrom rlang enquos
+#' 
 #' @export
 #' @rdname tidyr-methods
 nest.tidyseurat <- function (.data, ...)
