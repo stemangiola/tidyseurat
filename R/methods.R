@@ -40,13 +40,10 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 #' @rdname join_transcripts
 #'
 #' @param .data A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |
-#' @param .formula A formula with no response variable, representing the desired linear model
-#' @param .sample The name of the sample column
-#' @param .transcript The name of the transcript/gene column
-#' @param .abundance The name of the transcript/gene abundance column
-#'
-#' @param significance_threshold A real between 0 and 1 (usually 0.05).
-#' @param action A character string. Whether to join the new information to the input tbl (add), or just get the non-redundant tbl with the new information (get).
+#' @param transcripts A formula with no response variable, representing the desired linear model
+#' @param all The name of the sample column
+#' @param exclude_zeros The name of the transcript/gene column
+#' @param shape The name of the transcript/gene abundance column
 #'
 #' @details At the moment this function uses edgeR only, but other inference algorithms will be added in the near future.
 #'
@@ -93,14 +90,19 @@ join_transcripts.tidyseurat <-
   function(.data,
            transcripts = NULL,
            all = F,
-           exclude_zeros = F)
+           exclude_zeros = F,
+           shape = "long")
   {
     
     message("tidyseurat says: A data frame is returned for independent data analysis.")
 
     .data %>%
       as_tibble() %>%
-      left_join(
+      
+      when(
+        
+      # Shape is long
+      shape == "long" ~ (.) %>% left_join(
         get_abundance_sc_long(
           .data = .data,
           transcripts = transcripts,
@@ -109,7 +111,19 @@ join_transcripts.tidyseurat <-
         ),
         by = "cell"
       ) %>%
-      select(cell, transcript, contains("abundance"), everything())
+        select(cell, transcript, contains("abundance"), everything()),
+      
+      # Shape if wide
+      ~ (.) %>% left_join(
+          get_abundance_sc_wide(
+            .data = .data,
+            transcripts = transcripts,
+            all = all
+          ),
+          by = "cell"
+        ) 
+      )
+      
 
    
   }

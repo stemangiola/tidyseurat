@@ -15,17 +15,13 @@ join_transcripts(
 \arguments{
 \item{.data}{A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |}
 
-\item{.formula}{A formula with no response variable, representing the desired linear model}
+\item{transcripts}{A formula with no response variable, representing the desired linear model}
 
-\item{.sample}{The name of the sample column}
+\item{all}{The name of the sample column}
 
-\item{.transcript}{The name of the transcript/gene column}
+\item{exclude_zeros}{The name of the transcript/gene column}
 
-\item{.abundance}{The name of the transcript/gene abundance column}
-
-\item{significance_threshold}{A real between 0 and 1 (usually 0.05).}
-
-\item{action}{A character string. Whether to join the new information to the input tbl (add), or just get the non-redundant tbl with the new information (get).}
+\item{shape}{The name of the transcript/gene abundance column}
 }
 \value{
 A `tbl` with additional columns for the statistics from the hypothesis test (e.g.,  log fold change, p-value and false discovery rate).

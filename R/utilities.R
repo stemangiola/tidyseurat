@@ -91,18 +91,17 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
   else variable_genes = NULL
   
   # Just grub last assay
-  my_assay = .data@assays %>% names  %>% tail(1)
-  
-  
-  my_assay %>%
+  .data@assays %>%
+    tail(1) %>%
+    .[[1]] %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ .x@counts[variable_genes,],
-      transcripts %>% is.null %>% `!` ~ .x@counts[transcripts,],
+      variable_genes %>% is.null %>% `!` ~ (.)@counts[variable_genes,],
+      transcripts %>% is.null %>% `!` ~ (.)@counts[transcripts,],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
     as.matrix() %>%
     t %>%
-    as_tibble(rownames = quo_name(.transcript)) 
+    as_tibble(rownames = "cell") 
   
 }
 
@@ -134,7 +133,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
 				 3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
 				 ")
   
-  
+   
   # Get variable features if existing
   if(
     length(VariableFeatures(.data)) > 0  &
@@ -164,6 +163,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
            # Replace 0 with NA
            when(exclude_zeros ~ (.) %>% { x = (.); x[x == 0] <- NA; x }, ~ (.)) %>%
            
+           data.frame() %>%
            as_tibble(rownames = "transcript") %>%
            tidyr::pivot_longer(
              cols = -transcript,

@@ -72,6 +72,8 @@ pbmc_small_tidy
 
 We can treat `pbmc_small_tidy` effectively as a normal tibble.
 
+Here we plot number of transcripts per cell
+
 ``` r
 pbmc_small_tidy %>%
   tidyseurat::ggplot(aes(nFeature_RNA, fill=groups)) + 
@@ -81,6 +83,8 @@ pbmc_small_tidy %>%
 
 ![](man/figures/plot1-1.png)<!-- -->
 
+Here we plot total transcriptional material per cell
+
 ``` r
 pbmc_small_tidy %>%
   tidyseurat::ggplot(aes(groups, nCount_RNA, fill=groups)) + 
@@ -89,8 +93,25 @@ pbmc_small_tidy %>%
   my_theme
 ```
 
-![](man/figures/plot2-1.png)<!-- --> \#\# Preprocess the dataset Also
-you can treat the object as Seurat object and proceed with data
+![](man/figures/plot2-1.png)<!-- -->
+
+Here we plot abundance of two transcripts for each group
+
+``` r
+pbmc_small_tidy %>% 
+  join_transcripts(transcripts = c("HLA-DRA" ,     "LYZ" )) %>%
+  ggplot(aes(groups, abundance_RNA + 1, fill=groups)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(size=nCount_RNA), alpha=0.5, width = 0.2) + 
+  scale_y_log10() + 
+  my_theme
+```
+
+![](man/figures/unnamed-chunk-6-1.png)<!-- -->
+
+## Preprocess the dataset
+
+Also you can treat the object as Seurat object and proceed with data
 processing.
 
 ``` r
@@ -306,11 +327,29 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/unnamed-chunk-10-1.png)<!-- -->
 
-## Nested analyses
+We can easily plot gene correlation per cell category, adding
+multi-layer annotations
 
-A powerful tool we can use with tidyseurat is `nest`. We can easily
+``` r
+pbmc_small_cell_type %>% 
+  
+  # Add mitochondrial abundance
+  mutate(mitochondrial = rnorm(n())) %>%
+  
+  # Plot correlation
+  join_transcripts(transcripts = c("CST3" ,     "LYZ" ), shape = "wide") %>%
+  ggplot(aes(CST3 +1, LYZ + 1, color=groups, size=mitochondrial)) +
+  geom_point() + 
+  facet_wrap(~first.labels, scales = "free") +
+  scale_x_log10() +
+  scale_y_log10() +
+  my_theme
+```
+
+![](man/figures/unnamed-chunk-11-1.png)<!-- --> \#\# Nested analyses A
+powerful tool we can use with tidyseurat is `nest`. We can easily
 perform independent analyses on subsets of the dataset. First we
 classify cell types in lymphoid and myeloid; then, nest based on the new
 classification
@@ -374,4 +413,4 @@ pbmc_small_nested_reanalysed %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/unnamed-chunk-14-1.png)<!-- -->
