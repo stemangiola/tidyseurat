@@ -16,7 +16,19 @@ pow = function(a,b){	a^b }
 # Equals
 eq = function(a,b){	a==b }
 
+prepend = function (x, values, before = 1) 
+{
+  n <- length(x)
+  stopifnot(before > 0 && before <= n)
+  if (before == 1) {
+    c(values, x)
+  }
+  else {
+    c(x[1:(before - 1)], values, x[before:n])
+  }
+}
 #' Add class to abject
+#' 
 #'
 #' @keywords internal
 #'
@@ -173,7 +185,8 @@ as_meta_data = function(.data, seurat_object){
   col_to_exclude =  get_special_columns(seurat_object)
   
   .data %>% 
-    select(-one_of(col_to_exclude)) %>%
+    select_if(!colnames(.) %in% col_to_exclude) %>%
+    #select(-one_of(col_to_exclude)) %>%
     data.frame(row.names = "cell")
 }
 
@@ -187,6 +200,29 @@ get_special_columns = function(seurat_object){
 
 get_special_datasets = function(seurat_object){
   seurat_object@reductions %>%
-    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] %>% as_tibble(rownames="cell")  )
+    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] )
   
+}
+
+get_needed_columns = function(){
+  #c("cell",  "orig.ident", "nCount_RNA", "nFeature_RNA")
+  c("cell")
+}
+
+#' Convert array of quosure (e.g. c(col_a, col_b)) into character vector
+#' 
+#' @keywords internal
+#'
+#' @importFrom rlang quo_name
+#' @importFrom rlang quo_squash
+#'
+#' @param v A array of quosures (e.g. c(col_a, col_b))
+#'
+#' @return A character vector
+quo_names <- function(v) {
+  
+  v = quo_name(quo_squash(v))
+  gsub('^c\\(|`|\\)$', '', v) %>% 
+    strsplit(', ') %>% 
+    unlist 
 }

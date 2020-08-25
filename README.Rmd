@@ -1,0 +1,285 @@
+---
+title: "tidyseurat - part of tidyTranscriptomics"
+output: github_document
+always_allow_html: true
+---
+
+<!-- badges: start -->
+[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![R build status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
+<!-- badges: end -->
+
+```{r echo=FALSE}
+knitr::opts_chunk$set( fig.path = "man/figures/")
+```
+
+**Brings Seurat to the tidyverse!** 
+
+website: [stemangiola.github.io/tidyseurat/](http://stemangiola.github.io/tidyseurat/)
+
+Please have a look also to 
+
+- [nanny](https://github.com/stemangiola/nanny) for tidy high-level data
+analysis and manipulation 
+- [tidygate](https://github.com/stemangiola/tidygate) for adding custom
+gate information to your tibble 
+- [tidyHeatmap](https://github.com/stemangiola/tidyHeatmap) for heatmaps produced with tidy principles
+
+<!---
+
+[![Build Status](https://travis-ci.org/stemangiola/tidyseurat.svg?branch=master)](https://travis-ci.org/stemangiola/tidyseurat) [![Coverage Status](https://coveralls.io/repos/github/stemangiola/tidyseurat/badge.svg?branch=master)](https://coveralls.io/github/stemangiola/tidyseurat?branch=master)
+
+-->
+
+```{r, echo=FALSE, include=FALSE, }
+library(knitr)
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE,
+                      message = FALSE, cache.lazy = FALSE)
+
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(magrittr)
+library(ggplot2)
+library(Seurat)
+library(plotly)
+library(tidyseurat)
+
+
+my_theme = 	
+  list(
+    scale_fill_brewer(palette="Set1"),
+    scale_color_brewer(palette="Set1") ,
+    theme_bw() +
+  	theme(
+  		panel.border = element_blank(),
+  		axis.line = element_line(),
+  		panel.grid.major = element_line(size = 0.2),
+  		panel.grid.minor = element_line(size = 0.1),
+  		text = element_text(size=12),
+  		legend.position="bottom",
+  		aspect.ratio=1,
+  		strip.background = element_blank(),
+  		axis.title.x  = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
+  		axis.title.y  = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10))
+  	)
+  )
+
+```
+
+## Installation
+
+From CRAN (in submission)
+```{r eval=FALSE}
+install.packages("tidyseurat")
+```
+
+From Github
+```{r, eval=FALSE}
+devtools::install_github("stemangiola/tidyseurat")
+```
+
+## Create `tidyseurat`
+This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs. 
+
+```{r}
+pbmc_small_tidy = tidyseurat::pbmc_small %>% tidy()
+pbmc_small_tidy
+```
+
+## Preliminary plots
+We can treat `pbmc_small_tidy` effectively as a normal tibble. 
+
+```{r plot1, cache=TRUE}
+
+pbmc_small_tidy %>%
+  tidyseurat::ggplot(aes(nFeature_RNA, fill=groups)) + 
+  geom_histogram() +
+  my_theme
+
+```
+
+```{r plot2, cache=TRUE}
+
+pbmc_small_tidy %>%
+  tidyseurat::ggplot(aes(groups, nCount_RNA, fill=groups)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.1) +
+  my_theme
+
+
+```
+## Preprocess the dataset
+Also you can treat the object as Seurat object and proceed with data processing.
+
+```{r preprocess, cache=TRUE}
+
+pbmc_small_pca = 
+  pbmc_small_tidy %>%
+  SCTransform(verbose = FALSE) %>% 
+  FindVariableFeatures(verbose = FALSE) %>% 
+  RunPCA(verbose = FALSE)
+
+pbmc_small_pca
+```
+
+
+If a tool is not included in the tidyseurat collection, we can use `as_tibble` to permanently convert `tidyseurat` into tibble
+```{r pc plot, cache=TRUE}
+
+pbmc_small_pca %>%
+  as_tibble %>%
+  select(contains("PC"), everything()) %>%
+	  GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups))
+
+```
+
+## Identify clusters and reduce dimensions
+We proceed with cluster identification
+```{r cluster, cache=TRUE}
+
+pbmc_small_cluster = 
+  pbmc_small_pca %>%
+  FindNeighbors(verbose=FALSE) %>% 
+  FindClusters(method = "igraph", verbose=FALSE )
+
+pbmc_small_cluster
+```
+
+Now we can interrogate the object as if it was a regular tibble data frame
+```{r cluster count, cache=TRUE}
+
+pbmc_small_cluster %>%
+  tidyseurat::count(groups, seurat_clusters)
+
+```
+## Reduce dimensions
+We can calculate the first 3 UMAP dimensions using Seurat framework 
+```{r umap, cache=TRUE}
+
+pbmc_small_UMAP = 
+  pbmc_small_cluster %>%
+  RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L, )
+
+```
+
+and we can plot them using 3D plot using plotly
+```{r umap plot, cache=TRUE}
+
+pbmc_small_UMAP %>%
+	plot_ly(
+		x = ~`UMAP_1`,
+		y = ~`UMAP_2`, 
+		z = ~`UMAP_3`,
+		color = ~ seurat_clusters
+	) 
+
+```
+
+
+## Cell type prediction
+We can infer cell type identities using singleR
+
+```{r eval=FALSE}
+blueprint = SingleR::BlueprintEncodeData()
+
+cell_type_df = 
+  pbmc_small_UMAP@assays[["SCT"]]@counts %>% 
+  log1p %>%
+  Matrix::Matrix(sparse = TRUE) %>%
+ SingleR::SingleR(
+     ref = blueprint ,
+     labels = blueprint$label.main,
+     method = "single"
+ ) %>%
+  as.data.frame() %>%
+  as_tibble(rownames="cell") %>% 
+  select(cell, first.labels)
+```
+
+```{r}
+pbmc_small_cell_type =
+  pbmc_small_UMAP %>%
+  left_join(cell_type_df, by="cell")
+
+pbmc_small_cell_type %>%
+  tidyseurat::select(cell, first.labels, everything())
+```
+We can easily summarise the results. For example, see how cell type classification overlaps with cluster classification.
+```{r}
+pbmc_small_cell_type %>%
+  count(seurat_clusters, first.labels)
+```
+
+We can easily reshape the data for building information-rish faceted plots
+
+```{r}
+pbmc_small_cell_type %>%
+  
+  # Reshaping
+  pivot_longer(
+    cols=c(seurat_clusters, first.labels), 
+    names_to = "classifier", values_to = "label"
+  ) %>%
+  
+  # Plotting
+  ggplot(aes(UMAP_1, UMAP_2, color=label)) +
+  geom_point() +
+  facet_wrap(~classifier) +
+  my_theme
+
+```
+
+##  Nested analyses
+A powerful tool we can use with tidyseurat is `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification
+
+```{r}
+pbmc_small_nested = 
+  pbmc_small_cell_type %>%
+  filter(first.labels != "Erythrocytes") %>%
+  mutate(cell_class = if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lmphoid")) %>%
+  nest(data = -cell_class)
+
+pbmc_small_nested
+```
+
+Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster. Using both tidyverse and Seurat seamlessy
+
+```{r}
+pbmc_small_nested_reanalysed = 
+  pbmc_small_nested %>%
+  mutate(data = map(
+    data, ~ .x %>% 
+      FindVariableFeatures(verbose = FALSE) %>%
+      RunPCA(npcs = 10, verbose = FALSE) %>%
+      FindNeighbors(verbose = FALSE) %>% 
+      FindClusters(method = "igraph" , verbose = FALSE) %>% 
+      RunUMAP(reduction = "pca", dims = 1:10, n.components = 3L, verbose = FALSE)
+  )) 
+
+pbmc_small_nested_reanalysed
+```
+
+Now we can unnest and plot the new clasification
+
+```{r}
+pbmc_small_nested_reanalysed %>%
+  
+  # Convert to tibble otherwise Seurat drops reduced dimensions when unifying data sets.
+  mutate(data = map(data, ~ .x %>% as_tibble)) %>%
+  unnest(data) %>%
+
+  # Define unique clusters
+  unite("cluster", c(cell_class, seurat_clusters), remove=FALSE) %>%
+  
+  # Plotting
+  ggplot(aes(UMAP_1, UMAP_2, color=cluster)) +
+  geom_point() +
+  facet_wrap(~cell_class) +
+  my_theme
+
+
+```
+
+
+
+

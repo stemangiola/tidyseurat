@@ -82,11 +82,22 @@ as_tibble.tidyseurat = function(x, ...,
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
   x@meta.data %>%
     tibble::as_tibble(rownames="cell") %>%
+
     
     # Attach reduced dimensions
-    left_join(
-      get_special_datasets(x) %>%
-        reduce(left_join, by="cell"),
-      by = "cell"
+    when(
+      
+      # Only if I have reduced dimensions and special datasets
+      length(x@reductions) > 0 ~ (.) %>% left_join(
+        get_special_datasets(x) %>%
+          map(~ as_tibble(.x, rownames="cell")) %>%
+          reduce(left_join, by="cell"),
+        by = "cell"
+      ),
+      
+      # Otherwise skip
+      ~ (.)
     )
+    
+    
 }

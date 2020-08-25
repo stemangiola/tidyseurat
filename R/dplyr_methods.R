@@ -323,7 +323,7 @@ filter.default <-  function (.data, ..., .preserve = FALSE)
 #' @export
 filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
-  new_meta = .data %>% to_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
+  new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
   new_obj = subset(.data,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
@@ -590,8 +590,8 @@ mutate.tidyseurat <- function(.data, ...)
 {
 
   # Check that we are not modifying a key column
-  cols = tidyselect::eval_select(expr(c(...)), .data@meta.data) 
-  if(intersect(cols %>% names, get_special_columns(.data)) %>% length %>% gt(0))
+  cols = enquos(...) %>% names 
+  if(intersect(cols, get_special_columns(.data)) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data =
@@ -602,22 +602,7 @@ mutate.tidyseurat <- function(.data, ...)
 
   .data
 }
-#' @export
-mutate.tidyseurat_nested <- function(.data, ...)
-{
-  .data %>%
-    drop_class(c("nested_tidyseurat", "tt")) %>%
-    dplyr::mutate(...) %>%
-    
-    # Attach attributes
-    reattach_internals(.data) %>%
-    
-    # Add class
-    add_class("tt") %>%
-    add_class("nested_tidyseurat")
-  
-  
-}
+
 ############# END ADDED tidyseurat #####################################
 
 #' Rename columns
@@ -1217,14 +1202,14 @@ select.default <-  function (.data, ...)
 #' @export
 select.tidyseurat <- function (.data, ...)
 {
-  
+   
   .data %>%
     as_tibble() %>%
     select_helper(...) %>%
     when(
       
       # If key columns are missing
-      (c("cell",  "orig.ident", "nCount_RNA", "nFeature_RNA") %in% colnames(.)) %>% any %>% `!` ~ {
+      (get_needed_columns() %in% colnames(.)) %>% all %>% `!` ~ {
         message("tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.")
         (.)
       },
