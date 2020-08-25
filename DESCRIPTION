@@ -12,7 +12,8 @@ Description: This is a collection of utility functions that allow
     a modular, pipe-friendly and tidy fashion.
 License: GPL-3
 Depends:
-    R (>= 3.6.0)
+    R (>= 3.6.0),
+    Seurat
 Imports:
     tibble,
     readr,
@@ -23,10 +24,15 @@ Imports:
     stringr,
     rlang,
     purrr,
-    Seurat
+    lifecycle,
+    methods,
+    plotly
 Suggests:
     BiocStyle,
-    testthat
+    testthat,
+    knitr,
+    GGally,
+    webshot
 VignetteBuilder: 
     knitr
 RdMacros:

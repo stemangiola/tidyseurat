@@ -21,7 +21,6 @@ distinct
 }
 \examples{
 
-distinct(tidyseurat::counts_mini)
 
 
 }

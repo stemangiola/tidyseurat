@@ -85,10 +85,6 @@ nest
 
 library(dplyr)
 
-nest(tidyseurat(tidyseurat::counts_mini, sample, transcript, count), data = -transcript) \%>\%
-unnest(data)
 
-
-nest(tidyseurat(tidyseurat::counts_mini, sample, transcript, count), data = -transcript)
 
 }

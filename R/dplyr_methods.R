@@ -227,7 +227,6 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
 #'
 #' @examples
 #'
-#' distinct(tidyseurat::counts_mini)
 #'
 #'
 #' @export
@@ -691,8 +690,6 @@ rename.tidyseurat <- function(.data, ...)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' df <- expand.grid(x = 1:3, y = 3:1)
-#' df_done <- df %>% rowwise() %>% do(i = seq(.$x, .$y))
 ############# START ADDED tidyseurat #####################################
 #' @export
 rowwise <- function(.data) {
@@ -736,8 +733,6 @@ rowwise.tidyseurat <- function(.data)
 #'
 #' @examples
 #'`%>%` = magrittr::`%>%`
-#' annotation = tidyseurat::counts %>% distinct(sample) %>% mutate(source = "AU")
-#' tidyseurat::counts %>% left_join(annotation)
 #'
 left_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
   UseMethod("left_join")
@@ -791,8 +786,6 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 #'
 #' @examples
 #'`%>%` = magrittr::`%>%`
-#' annotation = tidyseurat::counts %>% distinct(sample) %>% mutate(source = "AU")
-#' tidyseurat::counts %>% inner_join(annotation)
 #'
 #' @export
 inner_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
@@ -845,8 +838,6 @@ inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 #'
 #' @examples
 #'`%>%` = magrittr::`%>%`
-#' annotation = tidyseurat::counts %>% distinct(sample) %>% mutate(source = "AU")
-#' tidyseurat::counts %>% right_join(annotation)
 #'
 #' @export
 right_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
@@ -903,8 +894,6 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 #'
 #' @examples
 #'`%>%` = magrittr::`%>%`
-#' annotation = tidyseurat::counts %>% distinct(sample) %>% mutate(source = "AU")
-#' tidyseurat::counts %>% full_join(annotation)
 #'
 #' @export
 full_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
@@ -1008,55 +997,6 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 #' @export
 #' @examples
 #' mtcars %>% slice(1L)
-#' # Similar to tail(mtcars, 1):
-#' mtcars %>% slice(n())
-#' mtcars %>% slice(5:n())
-#' # Rows can be dropped with negative indices:
-#' slice(mtcars, -(1:4))
-#'
-#' # First and last rows based on existing order
-#' mtcars %>% slice_head(n = 5)
-#' mtcars %>% slice_tail(n = 5)
-#'
-#' # Rows with minimum and maximum values of a variable
-#' mtcars %>% slice_min(mpg, n = 5)
-#' mtcars %>% slice_max(mpg, n = 5)
-#'
-#' # slice_min() and slice_max() may return more rows than requested
-#' # in the presence of ties. Use with_ties = FALSE to suppress
-#' mtcars %>% slice_min(cyl, n = 1)
-#' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
-#'
-#' # slice_sample() allows you to random select with or without replacement
-#' mtcars %>% slice_sample(n = 5)
-#' mtcars %>% slice_sample(n = 5, replace = TRUE)
-#'
-#' # you can optionally weight by a variable - this code weights by the
-#' # physical weight of the cars, so heavy cars are more likely to get
-#' # selected
-#' mtcars %>% slice_sample(weight_by = wt, n = 5)
-#'
-#' # Group wise operation ----------------------------------------
-#' df <- tibble(
-#'   group = rep(c("a", "b", "c"), c(1, 2, 4)),
-#'   x = runif(7)
-#' )
-#'
-#' # All slice helpers operate per group, silently truncating to the group
-#' # size, so the following code works without error
-#' df %>% group_by(group) %>% slice_head(n = 2)
-#'
-#' # When specifying the proportion of rows to include non-integer sizes
-#' # are rounded down, so group a gets 0 rows
-#' df %>% group_by(group) %>% slice_head(prop = 0.5)
-#'
-#' # Filter equivalents --------------------------------------------
-#' # slice() expressions can often be written to use `filter()` and
-#' # `row_number()`, which can also be translated to SQL. For many databases,
-#' # you'll need to supply an explicit variable to use to compute the row number.
-#' filter(mtcars, row_number() == 1L)
-#' filter(mtcars, row_number() == n())
-#' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
@@ -1273,32 +1213,6 @@ select_helper = function(.data, ...){
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
 #'
-#' # sample_n() -> slice_sample() ----------------------------------------------
-#' sample_n(mtcars, 10)
-#' sample_n(mtcars, 50, replace = TRUE)
-#' sample_n(mtcars, 10, weight = mpg)
-#'
-#' # Changes:
-#' # * explicitly name the `n` argument,
-#' # * the `weight` argument is now `weight_by`.
-#'
-#' slice_sample(mtcars, n = 10)
-#' slice_sample(mtcars, n = 50, replace = TRUE)
-#' slice_sample(mtcars, n = 10, weight_by = mpg)
-#'
-#' # Note that sample_n() would error if n was bigger than the group size
-#' # slice_sample() will just use the available rows for consistency with
-#' # the other slice helpers like slice_head()
-#'
-#' # sample_frac() -> slice_sample() -------------------------------------------
-#' sample_frac(mtcars)
-#' sample_frac(mtcars, replace = TRUE)
-#'
-#' # Changes:
-#' # * use prop = 1 to randomly sample all rows
-#'
-#' slice_sample(mtcars, prop = 1)
-#' slice_sample(mtcars, prop = 1, replace = TRUE)
 #'
 #' @export
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
@@ -1389,32 +1303,6 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
 #' @examples
 #' # count() is a convenient way to get a sense of the distribution of
 #' # values in a dataset
-#' starwars %>% count(species)
-#' starwars %>% count(species, sort = TRUE)
-#' starwars %>% count(sex, gender, sort = TRUE)
-#' starwars %>% count(birth_decade = round(birth_year, -1))
-#'
-#' # use the `wt` argument to perform a weighted count. This is useful
-#' # when the data has already been aggregated once
-#' df <- tribble(
-#'   ~name,    ~gender,   ~runs,
-#'   "Max",    "male",       10,
-#'   "Sandra", "female",      1,
-#'   "Susan",  "female",      4
-#' )
-#' # counts rows:
-#' df %>% count(gender)
-#' # counts runs:
-#' df %>% count(gender, wt = runs)
-#'
-#' # tally() is a lower-level function that assumes you've done the grouping
-#' starwars %>% tally()
-#' starwars %>% group_by(species) %>% tally()
-#'
-#' # both count() and tally() have add_ variants that work like
-#' # mutate() instead of summarise
-#' df %>% add_count(gender, wt = runs)
-#' df %>% add_tally(wt = runs)
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 UseMethod("count")
 }

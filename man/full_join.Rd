@@ -27,7 +27,5 @@ Full join datasets
 }
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-annotation = tidyseurat::counts \%>\% distinct(sample) \%>\% mutate(source = "AU")
-tidyseurat::counts \%>\% full_join(annotation)
 
 }
