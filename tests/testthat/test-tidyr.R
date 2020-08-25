@@ -1,8 +1,12 @@
+context('tidyr test')
+
+tt = pbmc_small@assays$RNA@counts %>% CreateSeuratObject() %>% tidy %>% mutate(groups = rep(1:2, dplyr::n()/2))
+
 test_that("nest_unnest",{
   
   col_names = colnames(tt@meta.data) %>% c("cell")
   
-  x =     tt %>% nest(data = -Phase) %>% unnest(data) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA() 
+  x =     tt %>% nest(data = -groups) %>% unnest(data) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA() 
   y =     tt %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
 
 

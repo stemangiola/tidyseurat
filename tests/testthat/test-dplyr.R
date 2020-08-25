@@ -1,6 +1,6 @@
 context('dplyr test')
 
-
+tt = pbmc_small %>% tidy
 
 test_that("arrange",{
 
@@ -37,11 +37,11 @@ test_that("bind_rows",{
 
 test_that("bind_cols",{
   
-  tt_bind = tt %>% select(batch, low_quality)
+  tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
   
   
   expect_equal(
-    tt %>% bind_cols(tt_bind) %>% select(batch...18, low_quality...19) %>% ncol,
+    tt %>% bind_cols(tt_bind) %>% select(nCount_RNA...8 ,nFeature_RNA...9) %>% ncol,
     2
   )
   
@@ -49,61 +49,61 @@ test_that("bind_cols",{
 
 test_that("distinct",{
   
-  expect_equal(   tt %>% distinct(Phase) %>% ncol,    1  )
+  expect_equal(   tt %>% distinct(groups) %>% ncol,    1  )
   
 })
 
 test_that("filter",{
   
-  expect_equal(   tt %>% filter(Phase == "G2M") %>% ncol,    358  )
+  expect_equal(   tt %>% filter(groups == "g1") %>% ncol,    44  )
   
 })
 
 test_that("group_by",{
   
-  expect_equal(   tt %>% group_by(Phase) %>% nrow,    1000  )
+  expect_equal(   tt %>% group_by(groups) %>% nrow,    80  )
   
 })
 
 test_that("summarise",{
   
-  expect_equal(   tt %>% summarise(mean(mito.tot)) %>% nrow,    1  )
+  expect_equal(   tt %>% summarise(mean(nCount_RNA)) %>% nrow,    1  )
   
 })
 
 test_that("mutate",{
   
-  expect_equal(   tt %>% mutate(S.Score = 1) %>% distinct(S.Score) %>% nrow,    1  )
+  expect_equal(   tt %>% mutate(nFeature_RNA = 1) %>% distinct(nFeature_RNA) %>% nrow,    1  )
   
 })
 
 test_that("rename",{
   
-  expect_equal(   tt %>% rename(s_score = S.Score) %>% select(s_score) %>% ncol,    1  )
+  expect_equal(   tt %>% rename(s_score = nFeature_RNA) %>% select(s_score) %>% ncol,    1  )
   
 })
 
 test_that("left_join",{
   
-  expect_equal(   tt %>% left_join(tt %>% distinct(Phase) %>% mutate(new_column = 1:3)) %>% `@` (meta.data) %>% ncol,    18  )
+  expect_equal(   tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol,    8  )
   
 })
 
 test_that("inner_join",{
   
-  expect_equal(   tt %>% inner_join(tt %>% distinct(Phase) %>% mutate(new_column = 1:3) %>% slice(1)) %>% ncol,    358  )
+  expect_equal(   tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
   
 })
 
 test_that("right_join",{
   
-  expect_equal(   tt %>% right_join(tt %>% distinct(Phase) %>% mutate(new_column = 1:3) %>% slice(1)) %>% ncol,    358  )
+  expect_equal(   tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
   
 })
 
 test_that("full_join",{
   
-  expect_equal(   tt %>% full_join(tibble::tibble(Phase = "G2M", other=1:4)) %>% nrow,    2074  )
+  expect_equal(   tt %>% full_join(tibble::tibble(groups = "g1", other=1:4)) %>% nrow,    212  )
   
 })
 
@@ -115,9 +115,9 @@ test_that("slice",{
 
 test_that("select",{
   
-  expect_equal(   tt %>% select(cell, S.Score ) %>% class %>% as.character,    "tidyseurat"  )
+  expect_equal(   tt %>% select(cell, orig.ident ) %>% class %>% as.character,    "tidyseurat"  )
 
-  expect_equal(   tt %>% select( S.Score ) %>% class %>% as.character %>% .[1],    "tbl_df"  )
+  expect_equal(   tt %>% select( orig.ident ) %>% class %>% as.character %>% .[1],    "tbl_df"  )
   
 })
 

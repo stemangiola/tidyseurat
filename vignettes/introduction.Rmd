@@ -148,7 +148,7 @@ pbmc_small_pca
 
 
 If a tool is not included in the tidyseurat collection, we can use `as_tibble` to permanently convert `tidyseurat` into tibble
-```{r pc plot, cache=TRUE}
+```{r pc_plot, cache=TRUE}
 
 pbmc_small_pca %>%
   as_tibble %>%
@@ -170,7 +170,7 @@ pbmc_small_cluster
 ```
 
 Now we can interrogate the object as if it was a regular tibble data frame
-```{r cluster count, cache=TRUE}
+```{r cluster_count, cache=TRUE}
 
 pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
@@ -187,7 +187,7 @@ pbmc_small_UMAP =
 ```
 
 and we can plot them using 3D plot using plotly
-```{r umap plot, cache=TRUE}
+```{r umap_plot, cache=TRUE}
 
 pbmc_small_UMAP %>%
 	plot_ly(
