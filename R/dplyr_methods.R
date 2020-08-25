@@ -213,21 +213,7 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
 }
 
 ############# END ADDED tidyseurat #####################################
-############# START ADDED tidyseurat #####################################
 
-# #' @importFrom dplyr arrange_all
-# #' @export
-# dplyr::arrange_all
-#
-# #' @importFrom dplyr arrange_at
-# #' @export
-# dplyr::arrange_at
-#
-# #' @importFrom dplyr arrange_if
-# #' @export
-# dplyr::arrange_if
-
-############# END ADDED tidyseurat #####################################
 ############# START ADDED tidyseurat #####################################
 
 #' distinct
@@ -337,7 +323,7 @@ filter.default <-  function (.data, ..., .preserve = FALSE)
 #' @export
 filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
-  new_meta = .data %>% to_tib %>% dplyr::filter( ..., .preserve = .preserve) %>% data.frame(row.names = "cell")
+  new_meta = .data %>% to_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
   new_obj = subset(.data,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
@@ -597,9 +583,16 @@ mutate.default <-  function(.data, ...)
   dplyr::mutate(.data, ...)
 }
 
+
+#' @importFrom dplyr mutate
 #' @export
 mutate.tidyseurat <- function(.data, ...)
 {
+
+  # Check that we are not modifying a key column
+  cols = tidyselect::eval_select(expr(c(...)), .data@meta.data) 
+  if(intersect(cols %>% names, get_special_columns(.data)) %>% length %>% gt(0))
+    stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data =
     .data %>% 
@@ -610,7 +603,7 @@ mutate.tidyseurat <- function(.data, ...)
   .data
 }
 #' @export
-mutate.nested_tidyseurat <- function(.data, ...)
+mutate.tidyseurat_nested <- function(.data, ...)
 {
   .data %>%
     drop_class(c("nested_tidyseurat", "tt")) %>%
@@ -672,6 +665,12 @@ rename.default <-  function(.data, ...)
 #' @export
 rename.tidyseurat <- function(.data, ...)
 {
+  
+  # Check that we are not modifying a key column
+  cols = tidyselect::eval_select(expr(c(...)), .data@meta.data) 
+  if(intersect(cols %>% names, get_special_columns(.data)) %>% length %>% gt(0))
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
+  
   .data@meta.data = dplyr::rename( .data@meta.data,  ...)
   
   .data

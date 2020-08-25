@@ -11,7 +11,7 @@ setMethod(
   definition = function(object) {
 
       object %>%
-      to_tib %>%
+      as_tibble() %>%
       print()
     
 
@@ -25,23 +25,7 @@ tidy <- function(object) {  UseMethod("tidy", object) }
 #' @export
 tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 
-as_meta_data = function(.data, seurat_object){
-  
-  col_to_exclude =  get_special_columns(seurat_object)
-  
-  .data %>% 
-    select(-one_of(col_to_exclude)) %>%
-    data.frame(row.names = "cell")
-}
 
-get_special_columns = function(seurat_object){
-  get_special_datasets(seurat_object) %>%
-    map_chr(~ .x@cell.embeddings %>% colnames  )
-}
-
-get_special_datasets = function(seurat_object){
-  seurat_object@reductions 
-}
 
 #' Add differential transcription information to a tbl using edgeR.
 #'

@@ -85,8 +85,8 @@ as_tibble.tidyseurat = function(x, ...,
     
     # Attach reduced dimensions
     left_join(
-      get_special_datasets(seurat_object) %>%
-        map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] %>% as_tibble(rownames="cell")  ) %>%
-        reduce(left_join, by="cell")
+      get_special_datasets(x) %>%
+        reduce(left_join, by="cell"),
+      by = "cell"
     )
 }

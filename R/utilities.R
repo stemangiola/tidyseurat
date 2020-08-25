@@ -167,3 +167,26 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
     Reduce(function(...) left_join(..., by=c("transcript", "cell")), .)
   
 }
+
+as_meta_data = function(.data, seurat_object){
+  
+  col_to_exclude =  get_special_columns(seurat_object)
+  
+  .data %>% 
+    select(-one_of(col_to_exclude)) %>%
+    data.frame(row.names = "cell")
+}
+
+#' @importFrom purrr map_chr
+get_special_columns = function(seurat_object){
+  get_special_datasets(seurat_object) %>%
+    map(~ .x %>% colnames  ) %>%
+    unlist %>% 
+    as.character
+}
+
+get_special_datasets = function(seurat_object){
+  seurat_object@reductions %>%
+    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] %>% as_tibble(rownames="cell")  )
+  
+}
