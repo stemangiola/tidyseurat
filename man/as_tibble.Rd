@@ -7,7 +7,6 @@
 as_tibble(
   x,
   ...,
-  .rows = NULL,
   .name_repair = c("check_unique", "unique", "universal", "minimal"),
   rownames = pkgconfig::get_config("tibble::rownames", NULL)
 )
@@ -18,16 +17,16 @@ coerced to a tibble.}
 
 \item{...}{Unused, for extensibility.}
 
+\item{.name_repair}{see tidyr
+
+  For compatibility only, do not use for new code.}
+
 \item{rownames}{How to treat existing row names of a data frame or matrix:
  * `NULL`: remove row names. This is the default.
  * `NA`: keep row names.
  * A string: the name of a new column. Existing rownames are transferred
    into this column and the `row.names` attribute is deleted.
 Read more in [rownames].}
-
-\item{_n, validate}{`r lifecycle::badge("soft-deprecated")`
-
-  For compatibility only, do not use for new code.}
 }
 \description{
 `r lifecycle::badge("maturing")`

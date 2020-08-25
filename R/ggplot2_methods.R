@@ -1,6 +1,7 @@
 
 #' Create a new ggplot from a tidyseurat object
 #'
+#' 
 #' `ggplot()` initializes a ggplot object. It can be used to
 #' declare the input data frame for a graphic and to specify the
 #' set of plot aesthetics intended to be common throughout all
@@ -10,9 +11,6 @@
 #' and is almost always followed by `+` to add component to the
 #' plot. There are three common ways to invoke `ggplot()`:
 #'
-#' * `ggplot(df, aes(x, y, other aesthetics))`
-#' * `ggplot(df)`
-#' * `ggplot()`
 #'
 #' The first method is recommended if all layers use the same
 #' data and the same set of aesthetics, although this method
@@ -27,7 +25,9 @@
 #' multiple data frames are used to produce different layers, as
 #' is often the case in complex graphics.
 #'
-#' @param data Default dataset to use for plot. If not already a data.frame,
+#' @importFrom ggplot2 aes
+#' 
+#' @param .data Default dataset to use for plot. If not already a data.frame,
 #'   will be converted to one by [fortify()]. If not specified,
 #'   must be supplied in each layer added to the plot.
 #' @param mapping Default list of aesthetic mappings to use for plot.

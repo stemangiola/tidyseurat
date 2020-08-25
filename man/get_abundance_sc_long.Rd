@@ -6,6 +6,16 @@
 \usage{
 get_abundance_sc_long(.data, transcripts = NULL, all = F, exclude_zeros = F)
 }
+\arguments{
+\item{.data}{A tidyseurat}
+
+\item{transcripts}{A character}
+
+\item{all}{A boolean}
+
+\item{exclude_zeros}{A boolean}
+}
 \description{
 get abundance long
 }
+\keyword{internal}

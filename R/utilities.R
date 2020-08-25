@@ -1,4 +1,8 @@
 #' @importFrom tibble as_tibble
+#' 
+#' @keywords internal
+#' 
+#' @param .data A tidyseurat
 to_tib = function(.data){ .data@meta.data %>% as_tibble(rownames = "cell") }
 
 # Greater than
@@ -59,12 +63,21 @@ drop_class = function(var, name) {
 }
 
 #' get abundance long
+#' 
+#' @keywords internal
+#' 
 #' @importFrom magrittr "%$%"
+#' @importFrom utils tail
+#' 
+#' @param .data A tidyseurat
+#' @param transcripts A character
+#' @param all A boolean
 #'
 #' @export
 get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
   
-  
+  # Solve CRAN warnings
+  . = NULL
   
   # Check if output would be too big without forcing
   if(
@@ -106,6 +119,9 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
 }
 
 #' get abundance long
+#' 
+#' @keywords internal
+#' 
 #' @importFrom magrittr "%$%"
 #' @importFrom Seurat VariableFeatures
 #' @importFrom tidyr pivot_longer
@@ -113,11 +129,17 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
 #' @importFrom purrr when
 #' @importFrom purrr map2
 #' 
+#' @param .data A tidyseurat
+#' @param transcripts A character
+#' @param all A boolean
+#' @param exclude_zeros A boolean
+#' 
 #'
 #' @export
 get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zeros = F){
   
-  
+  # Solve CRAN warnings
+  . = NULL
   
   # Check if output would be too big without forcing
   if(
@@ -181,7 +203,16 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
 }
 
 #' @importFrom dplyr select_if
+#' 
+#' @keywords internal
+#' 
+#' @param .data A tibble
+#' @param seurat_object A tidyseurat
+#' 
 as_meta_data = function(.data, seurat_object){
+  
+  # Solve CRAN warnings
+  . = NULL
   
   col_to_exclude =  get_special_columns(seurat_object)
   
@@ -192,6 +223,11 @@ as_meta_data = function(.data, seurat_object){
 }
 
 #' @importFrom purrr map_chr
+#' 
+#' @keywords internal
+#' 
+#' @param seurat_object A tidyseurat
+#' 
 get_special_columns = function(seurat_object){
   get_special_datasets(seurat_object) %>%
     map(~ .x %>% colnames  ) %>%

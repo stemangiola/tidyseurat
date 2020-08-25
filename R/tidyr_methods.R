@@ -125,6 +125,7 @@ nest.default <-  function (.data, ...)
 }
 
 #' @importFrom rlang enquos
+#' @importFrom rlang :=
 #' 
 #' @export
 #' @rdname tidyr-methods
@@ -157,6 +158,8 @@ nest.tidyseurat <- function (.data, ...)
   
 }
 
+#' @importFrom tidyr extract
+#' 
 #' @export
 extract <- function  (data, col, into, regex = "([[:alnum:]]+)", remove = TRUE, 
 										 convert = FALSE, ...)   {

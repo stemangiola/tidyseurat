@@ -19,9 +19,16 @@ setMethod(
 )
 
 #' tidy for seurat
+#' 
+#' @param object A Seurat object
+#' 
 #' @export
 tidy <- function(object) {  UseMethod("tidy", object) }
 
+#' @importFrom methods as
+#' 
+#' @param object A Seurat object
+#' 
 #' @export
 tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 

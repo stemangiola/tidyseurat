@@ -6,6 +6,14 @@
 \usage{
 get_abundance_sc_wide(.data, transcripts = NULL, all = F)
 }
+\arguments{
+\item{.data}{A tidyseurat}
+
+\item{transcripts}{A character}
+
+\item{all}{A boolean}
+}
 \description{
 get abundance long
 }
+\keyword{internal}

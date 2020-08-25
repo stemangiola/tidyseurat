@@ -966,9 +966,6 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 #'
 #'   For `slice_helpers()`, these arguments are passed on to methods.
 #'
-#' @param n,prop Provide either `n`, the number of rows, or `prop`, the
-#'   proportion of rows to select. If neither are supplied, `n = 1` will be
-#'   used.
 #'
 #'   If `n` is greater than the number of rows in the group (or `prop > 1`),
 #'   the result will be silently truncated to the group size. If the
@@ -1231,8 +1228,8 @@ sample_n.tisyseurat <- function(tbl, size, replace = FALSE,
   
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
   
-  new_meta = .data@meta.data %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...) 
-  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_meta = tbl@meta.data %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...) 
+  new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
   new_obj
@@ -1248,7 +1245,7 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame(), ...) {
-  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}.")
+  stop( "must be a data frame, not {friendly_type_of(tbl)}.")
 }
 
 #' @export
@@ -1257,8 +1254,8 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
   
-  new_meta = .data@meta.data %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...) 
-  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_meta = tbl@meta.data %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...) 
+  new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
   new_obj
@@ -1325,7 +1322,7 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
-  .data %>%
+  x %>%
     as_tibble() %>%
     dplyr::count(  ..., wt = wt, sort = sort, name = name, .drop = .drop)
   

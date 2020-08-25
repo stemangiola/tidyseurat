@@ -45,9 +45,7 @@
 #'   * A string: the name of a new column. Existing rownames are transferred
 #'     into this column and the `row.names` attribute is deleted.
 #'  Read more in [rownames].
-
-#' @param _n,validate
-#'   `r lifecycle::badge("soft-deprecated")`
+#' @param .name_repair see tidyr
 #'
 #'   For compatibility only, do not use for new code.
 #' @export
@@ -56,7 +54,6 @@
 #' colnames(m) <- c("a", "b", "c", "d", "e")
 #' df <- as_tibble(m)
 as_tibble <- function(x, ...,
-                      .rows = NULL,
                       .name_repair = c("check_unique", "unique", "universal", "minimal"),
                       rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
   UseMethod("as_tibble")
@@ -64,11 +61,9 @@ as_tibble <- function(x, ...,
 
 #' @export
 as_tibble.default <- function(x, ...,
-                      .rows = NULL,
                       .name_repair = c("check_unique", "unique", "universal", "minimal"),
                       rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
   tibble::as_tibble(x, ...,
-   .rows = .rows,
    .name_repair = .name_repair,
    rownames = rownames)
 }
@@ -77,7 +72,6 @@ as_tibble.default <- function(x, ...,
 #' @importFrom purrr reduce
 #' @importFrom purrr map
 as_tibble.tidyseurat = function(x, ...,
-                     .rows = NULL,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
   x@meta.data %>%
