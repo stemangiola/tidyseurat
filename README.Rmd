@@ -41,7 +41,6 @@ library(purrr)
 library(magrittr)
 library(ggplot2)
 library(Seurat)
-library(plotly)
 library(tidyseurat)
 
 
