@@ -1,15 +1,11 @@
 Type: Package
 Package: tidyseurat
-Title: Brings transcriptomics to the tidyverse 
-Version: 1.1.5
+Title: Brings Seurat to The Tidyverse 
+Version: 0.1.0
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
-                  role = c("aut", "cre")),
-            person("Maria", "Doyle", email = "Maria.Doyle@petermac.org",
-            role = c("ctb"))
-                  )
-Description: This is a collection of utility functions that allow
-    to perform exploration of and calculations to RNA sequencing data, in
-    a modular, pipe-friendly and tidy fashion.
+                  role = c("aut", "cre")) )
+Description: It creates an invisible layer that allow to see the 'Seurat' object 
+    as tibble and interact seemenglessy with the tidyverse.
 License: GPL-3
 Depends:
     R (>= 3.6.0),
