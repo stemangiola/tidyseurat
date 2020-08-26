@@ -12,12 +12,10 @@ Depends:
     Seurat
 Imports:
     tibble,
-    readr,
     dplyr,
     magrittr,
     tidyr,
     ggplot2,
-    stringr,
     rlang,
     purrr,
     lifecycle,

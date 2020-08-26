@@ -138,7 +138,7 @@ pbmc_small_pca
 
 
 If a tool is not included in the tidyseurat collection, we can use `as_tibble` to permanently convert `tidyseurat` into tibble
-```{r pc plot, cache=TRUE}
+```{r pc_plot, cache=TRUE}
 
 pbmc_small_pca %>%
   as_tibble %>%

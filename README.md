@@ -151,7 +151,7 @@ pbmc_small_pca %>%
       GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups))
 ```
 
-![](man/figures/pc%20plot-1.png)<!-- -->
+![](man/figures/pc_plot-1.png)<!-- -->
 
 ## Identify clusters and reduce dimensions
 
