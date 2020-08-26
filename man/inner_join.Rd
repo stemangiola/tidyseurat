@@ -20,7 +20,7 @@ inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 \item{...}{Data frames to combine (See dplyr)}
 }
 \value{
-A tt object
+A tidyseurat object
 }
 \description{
 Inner join datasets
@@ -28,4 +28,6 @@ Inner join datasets
 \examples{
 `\%>\%` = magrittr::`\%>\%`
 
+tt = pbmc_small \%>\% tidy
+tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 }

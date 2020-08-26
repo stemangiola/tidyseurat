@@ -69,6 +69,12 @@ Use `NA` to omit the variable in the output.}
 Given either a regular expression or a vector of character positions,
 `separate()` turns a single character column into multiple columns.
 }
+\examples{
+
+ un = pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+ un \%>\% separate(col = new_col, into= c("orig.ident", "groups"))
+
+}
 \seealso{
 [unite()], the complement, [extract()] which uses regular
   expression capturing groups.

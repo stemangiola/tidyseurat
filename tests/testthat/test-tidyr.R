@@ -40,3 +40,13 @@ test_that("extract",{
   
   
 })
+
+test_that("pivot_longer",{
+  
+  expect_equal( 
+    tt %>% pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value")  %>% class %>% .[1], 
+    "tbl_df"
+  )
+  
+  
+})

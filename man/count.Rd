@@ -53,6 +53,9 @@ but use `mutate()` instead of `summarise()` so that they add a new column
 with group-wise counts.
 }
 \examples{
-# count() is a convenient way to get a sense of the distribution of
-# values in a dataset
+
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\% tidy \%>\% count(groups)
+
+
 }

@@ -51,7 +51,7 @@
 #' @family single table verbs
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' arrange(mtcars, cyl, disp)
+#' pbmc_small %>% tidy %>% arrange(nFeature_RNA)
 arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
@@ -130,16 +130,15 @@ arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' one <- mtcars[1:4, ]
-#' two <- mtcars[11:14, ]
-#'
-#' # You can supply data frames as arguments:
-#' bind_rows(one, two)
+#' tt = pbmc_small %>% tidy
+#' bind_rows(    tt, tt  )
+#' 
+#' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
+#' tt %>% bind_cols(tt_bind)
 #'
 #' @name bind
 NULL
 
- 
 
 #' @rdname dplyr-methods
 #' 
@@ -176,10 +175,7 @@ bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
   
 }
 
- 
 
-
- 
 #' @export
 #' 
 #' @inheritParams bind
@@ -212,9 +208,6 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
   
 }
 
- 
-
- 
 
 #' distinct
 #' 
@@ -223,11 +216,12 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
 #' @param ... Data frames to combine (See dplyr)
 #' @param .keep_all If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
 #'
-#'
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% distinct(groups)
 #'
 #' @export
 distinct <- function (.data, ..., .keep_all = FALSE)  {
@@ -305,6 +299,9 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_tidy_eval
  
@@ -366,7 +363,7 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' by_cyl <- mtcars %>% group_by(cyl)
+#' pbmc_small %>% tidy %>% group_by(groups)
 #'
 
  
@@ -457,9 +454,7 @@ group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop
 #' The following methods are currently available in loaded packages:
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' # A summary applied to ungrouped tbl returns a single row
-#' mtcars %>%
-#'   summarise(mean = mean(disp))
+#' pbmc_small %>% tidy %>% summarise(mean(nCount_RNA))
 #'
  
 #' @export
@@ -564,11 +559,7 @@ summarise.tidyseurat <- function (.data, ...)
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' # Newly created variables are available immediately
-#' mtcars %>% as_tibble() %>% mutate(
-#'   cyl2 = cyl * 2,
-#'   cyl4 = cyl2 * 2
-#' )
+#' pbmc_small %>% tidy %>% mutate(nFeature_RNA = 1)
 #'
  
 #' @export
@@ -634,9 +625,8 @@ mutate.tidyseurat <- function(.data, ...)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' iris <- as_tibble(iris) # so it prints a little nicer
-#' rename(iris, petal_length = Petal.Length)
- 
+#' pbmc_small %>% tidy %>% rename(s_score = nFeature_RNA) 
+#' 
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
@@ -690,6 +680,7 @@ rename.tidyseurat <- function(.data, ...)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
+#' 
  
 #' @export
 rowwise <- function(.data) {
@@ -714,8 +705,6 @@ rowwise.tidyseurat <- function(.data)
 }
  
 
-
-
 #' Left join datasets
 #' 
 #' @importFrom dplyr count
@@ -727,12 +716,15 @@ rowwise.tidyseurat <- function(.data)
 #' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @export
 #'
 #' @examples
-#'`%>%` = magrittr::`%>%`
+#' `%>%` = magrittr::`%>%`
+#' 
+#' tt = pbmc_small %>% tidy
+#' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2))
 #'
 left_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
   UseMethod("left_join")
@@ -782,11 +774,13 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 #' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
-#'`%>%` = magrittr::`%>%`
-#'
+#' `%>%` = magrittr::`%>%`
+#' 
+#' tt = pbmc_small %>% tidy
+#' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
 #' @export
 inner_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
   UseMethod("inner_join")
@@ -834,10 +828,13 @@ inner_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 #' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
-#'`%>%` = magrittr::`%>%`
+#' `%>%` = magrittr::`%>%`
+#' 
+#' tt = pbmc_small %>% tidy
+#' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
 #'
 #' @export
 right_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
@@ -890,10 +887,13 @@ right_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x
 #' @param suffix If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
-#'`%>%` = magrittr::`%>%`
+#' `%>%` = magrittr::`%>%`
+#' 
+#' tt = pbmc_small %>% tidy
+#' tt %>% full_join(tibble::tibble(groups = "g1", other=1:4)) 
 #'
 #' @export
 full_join <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)  {
@@ -993,7 +993,9 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 #' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
-#' mtcars %>% slice(1L)
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% slice(1)
 slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
@@ -1008,7 +1010,7 @@ slice.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
   new_meta = dplyr::slice(.data@meta.data, ..., .preserve = .preserve)
   new_obj = subset(.data,   cells = rownames(new_meta ))
-  new_obj@meta.data = new_meta
+  #new_obj@meta.data = new_meta
   
   new_obj
   
@@ -1053,78 +1055,10 @@ slice.tidyseurat <- function (.data, ..., .preserve = FALSE)
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #'
-#' @section Examples:
-#' ```{r, child = "man/rmd/setup.Rmd"}
-#' ```
-#'
-#' Here we show the usage for the basic selection operators. See the
-#' specific help pages to learn about helpers like [starts_with()].
-#'
-#' The selection language can be used in functions like
-#' `dplyr::select()` or `tidyr::pivot_longer()`. Let's first attach
-#' the tidyverse:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' library(tidyverse)
-#'
-#' # For better printing
-#' iris <- as_tibble(iris)
-#' ```
-#'
-#' Select variables by name:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(height)
-#'
-#' iris %>% pivot_longer(Sepal.Length)
-#' ```
-#'
-#' Select multiple variables by separating them with commas. Note how
-#' the order of columns is determined by the order of inputs:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(homeworld, height, mass)
-#' ```
-#'
-#' Functions like `tidyr::pivot_longer()` don't take variables with
-#' dots. In this case use `c()` to select multiple variables:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
-#' ```
-#'
-#' ## Operators:
-#'
-#' The `:` operator selects a range of consecutive variables:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(name:mass)
-#' ```
-#'
-#' The `!` operator negates a selection:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(!(name:mass))
-#'
-#' iris %>% select(!c(Sepal.Length, Petal.Length))
-#'
-#' iris %>% select(!ends_with("Width"))
-#' ```
-#'
-#' `&` and `|` take the intersection or the union of two selections:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% select(starts_with("Petal") & ends_with("Width"))
-#'
-#' iris %>% select(starts_with("Petal") | ends_with("Width"))
-#' ```
-#'
-#' To take the difference between two selections, combine the `&` and
-#' `!` operators:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% select(starts_with("Petal") & !ends_with("Width"))
-#' ```
+#' @examples
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% select(cell, orig.ident )
 #'
 #' @family single table verbs
 #' @export
@@ -1208,8 +1142,10 @@ select_helper = function(.data, ...){
 #' @param .env DEPRECATED.
 #' @param ... ignored
 #' @examples
-#' by_cyl <- mtcars %>% group_by(cyl)
-#'
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% sample_n(50) 
+#' pbmc_small %>% tidy %>% sample_frac(0.1)
 #'
 #' @export
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
@@ -1298,8 +1234,11 @@ sample_frac.tidyseurat <- function(tbl, size = 1, replace = FALSE,
 #' group transiently, so the output has the same groups as the input.
 #' @export
 #' @examples
-#' # count() is a convenient way to get a sense of the distribution of
-#' # values in a dataset
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% count(groups)
+#' 
+#' 
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 UseMethod("count")
 }
@@ -1349,6 +1288,10 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 #' @export
 #' @examples
+#' 
+#' `%>%` = magrittr::`%>%`
+#' pbmc_small %>% tidy %>% pull(groups)
+#' 
 pull <- function(.data, var = -1, name = NULL, ...) {
   ellipsis::check_dots_used()
   UseMethod("pull")

@@ -46,7 +46,7 @@ Methods available in currently loaded packages:
 
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-by_cyl <- mtcars \%>\% group_by(cyl)
+pbmc_small \%>\% tidy \%>\% group_by(groups)
 
 }
 \concept{grouping functions}

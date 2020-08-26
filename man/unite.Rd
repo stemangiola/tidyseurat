@@ -30,6 +30,12 @@ each value.}
 \description{
 Convenience function to paste together multiple columns into one.
 }
+\examples{
+
+pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+
+
+}
 \seealso{
 [separate()], the complement.
 }

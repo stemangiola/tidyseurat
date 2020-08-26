@@ -79,9 +79,7 @@ The following methods are currently available in loaded packages:
 
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-# A summary applied to ungrouped tbl returns a single row
-mtcars \%>\%
-  summarise(mean = mean(disp))
+pbmc_small \%>\% tidy \%>\% summarise(mean(nCount_RNA))
 
 }
 \seealso{

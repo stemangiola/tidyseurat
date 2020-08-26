@@ -31,4 +31,5 @@ effectively equivalent to [plyr::ldply()].
 }
 \examples{
 `\%>\%` = magrittr::`\%>\%`
+
 }

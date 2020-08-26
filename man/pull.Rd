@@ -48,3 +48,9 @@ The following methods are currently available in loaded packages:
 \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 }
 
+\examples{
+
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\% tidy \%>\% pull(groups)
+
+}

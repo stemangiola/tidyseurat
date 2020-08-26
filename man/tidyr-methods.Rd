@@ -72,9 +72,9 @@ standard tidyverse recycling rules).}
 \item{names_repair}{See tidyr::unnest}
 }
 \value{
-A tt object
+A tidyseurat object
 
-A tt object
+A tidyseurat object
 }
 \description{
 unnest
@@ -84,7 +84,11 @@ nest
 \examples{
 
 library(dplyr)
+pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data) 
 
 
+
+library(dplyr)
+pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data) 
 
 }

@@ -91,11 +91,7 @@ Methods available in currently loaded packages:
 
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-# Newly created variables are available immediately
-mtcars \%>\% as_tibble() \%>\% mutate(
-  cyl2 = cyl * 2,
-  cyl4 = cyl2 * 2
-)
+pbmc_small \%>\% tidy \%>\% mutate(nFeature_RNA = 1)
 
 }
 \seealso{

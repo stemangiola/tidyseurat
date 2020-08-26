@@ -73,7 +73,9 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-mtcars \%>\% slice(1L)
+
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\% tidy \%>\% slice(1)
 }
 \seealso{
 Other single table verbs: 

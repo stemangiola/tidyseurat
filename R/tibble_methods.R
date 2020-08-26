@@ -50,9 +50,7 @@
 #'   For compatibility only, do not use for new code.
 #' @export
 #' @examples
-#' m <- matrix(rnorm(50), ncol = 5)
-#' colnames(m) <- c("a", "b", "c", "d", "e")
-#' df <- as_tibble(m)
+#' pbmc_small %>% tidy %>% as_tibble()
 as_tibble <- function(x, ...,
                       .name_repair = c("check_unique", "unique", "universal", "minimal"),
                       rownames = pkgconfig::get_config("tibble::rownames", NULL)) {
@@ -71,6 +69,10 @@ as_tibble.default <- function(x, ...,
 #' @export
 #' @importFrom purrr reduce
 #' @importFrom purrr map
+#' @importFrom tidyr spread
+#' @importFrom tibble enframe
+#' 
+#' 
 as_tibble.tidyseurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
@@ -84,7 +86,16 @@ as_tibble.tidyseurat = function(x, ...,
       # Only if I have reduced dimensions and special datasets
       length(x@reductions) > 0 ~ (.) %>% left_join(
         get_special_datasets(x) %>%
-          map(~ as_tibble(.x, rownames="cell")) %>%
+          map(~ .x %>% when(
+            
+            # If row == 1 do a trick
+            dim(.) %>% is.null ~ {
+              (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(cell=rownames(x@meta.data))
+              },
+            
+            # Otherwise continue normally
+            ~  as_tibble(., rownames="cell")
+          )) %>%
           reduce(left_join, by="cell"),
         by = "cell"
       ),

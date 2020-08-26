@@ -33,11 +33,12 @@
 #' @param ptype See tidyr::unnest
 #' 
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
 #'
 #' library(dplyr)
+#' pbmc_small %>% tidy %>% nest(data = -groups) %>% unnest(data) 
 #' 
 #'
 #' @rdname tidyr-methods
@@ -106,10 +107,13 @@ unnest.tidyseurat_nested <- function (.data, cols, ..., keep_empty = FALSE, ptyp
 #' @param .data A tbl. (See tidyr)
 #' @param ... Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)
 #'
-#' @return A tt object
+#' @return A tidyseurat object
 #'
 #' @examples
 #'
+#' library(dplyr)
+#' pbmc_small %>% tidy %>% nest(data = -groups) %>% unnest(data) 
+#' 
 #' @rdname tidyr-methods
 #'
 #' @export
@@ -187,6 +191,8 @@ nest.tidyseurat <- function (.data, ...)
 #' @seealso [separate()] to split up by a separator.
 #' @export
 #' @examples
+#' 
+#' pbmc_small %>% tidy %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 #' 
 #' @importFrom tidyr extract
 #' 
@@ -298,6 +304,10 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
+#' 
+#' library(dplyr)
+#' pbmc_small %>% tidy %>% pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
+#' 
 pivot_longer <- function(data,
                          cols,
                          names_to = "name",
@@ -413,6 +423,10 @@ pivot_longer.tidyseurat <- function(data,
 #' @seealso [separate()], the complement.
 #' @export
 #' @examples
+#' 
+#' pbmc_small %>% tidy %>% unite("new_col", c(orig.ident, groups)) 
+#' 
+#' 
 unite <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE) {
   ellipsis::check_dots_unnamed()
   UseMethod("unite")
@@ -474,6 +488,10 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
 #'   expression capturing groups.
 #' @export
 #' @examples
+#' 
+#'  un = pbmc_small %>% tidy %>% unite("new_col", c(orig.ident, groups)) 
+#'  un %>% separate(col = new_col, into= c("orig.ident", "groups"))
+#' 
 separate <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
                      convert = FALSE, extra = "warn", fill = "warn", ...) {
   ellipsis::check_dots_used()

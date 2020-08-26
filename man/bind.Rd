@@ -42,10 +42,10 @@ appears in any of the inputs.
 }
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-one <- mtcars[1:4, ]
-two <- mtcars[11:14, ]
+tt = pbmc_small \%>\% tidy
+bind_rows(    tt, tt  )
 
-# You can supply data frames as arguments:
-bind_rows(one, two)
+tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)
+tt \%>\% bind_cols(tt_bind)
 
 }

@@ -48,8 +48,10 @@ design issues with `sample_n()`/`sample_frac`:
 * `...` was in a suboptimal position.
 }
 \examples{
-by_cyl <- mtcars \%>\% group_by(cyl)
 
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\% tidy \%>\% sample_n(50) 
+pbmc_small \%>\% tidy \%>\% sample_frac(0.1)
 
 }
 \keyword{internal}

@@ -64,9 +64,7 @@ prefer the more expressive maturing `as_tibble_row()` and
 }
 
 \examples{
-m <- matrix(rnorm(50), ncol = 5)
-colnames(m) <- c("a", "b", "c", "d", "e")
-df <- as_tibble(m)
+pbmc_small \%>\% tidy \%>\% as_tibble()
 }
 \seealso{
 [tibble()] constructs a tibble from individual columns. [enframe()]
