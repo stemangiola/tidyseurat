@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Left join datasets — left_join • tidyseurat</title>
+<title>Extract a single column — pull • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Left join datasets — left_join" />
-<meta property="og:description" content="Left join datasets" />
+<meta property="og:title" content="Extract a single column — pull" />
+<meta property="og:description" content="`pull()` is similar to `$`. It's mostly useful because it looks a little
+nicer in pipes, it also works with remote data frames, and it can optionally
+name the output." />
 
 
 
@@ -115,70 +117,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Left join datasets</h1>
+    <h1>Extract a single column</h1>
     
-    <div class="hidden name"><code>left_join.Rd</code></div>
+    <div class="hidden name"><code>pull.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Left join datasets</p>
+    <p>`pull()` is similar to `$`. It's mostly useful because it looks a little
+nicer in pipes, it also works with remote data frames, and it can optionally
+name the output.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>left_join</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pull</span>(<span class='kw'>.data</span>, var = <span class='op'>-</span><span class='fl'>1</span>, name = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>tbls to join. (See dplyr)</p></td>
+      <th>.data</th>
+      <td><p>A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+more details.</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>tbls to join. (See dplyr)</p></td>
+      <th>var</th>
+      <td><p>A variable specified as:</p><ul>
+<li><p>a literal variable name</p></li>
+<li><p>a positive integer, giving the position counting from the left</p></li>
+<li><p>a negative integer, giving the position counting from the right.</p></li>
+</ul>
+
+<p>The default returns the last column (on the assumption that's the
+column you've created most recently).</p>
+<p>This argument is taken by expression and supports
+<a href='https://rlang.r-lib.org/reference/nse-force.html'>quasiquotation</a> (you can unquote column
+names and column locations).</p></td>
     </tr>
     <tr>
-      <th>by</th>
-      <td><p>A character vector of variables to join by. (See dplyr)</p></td>
-    </tr>
-    <tr>
-      <th>copy</th>
-      <td><p>If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)</p></td>
-    </tr>
-    <tr>
-      <th>suffix</th>
-      <td><p>If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)</p></td>
+      <th>name</th>
+      <td><p>An optional parameter that specifies the column to be used
+as names for a named vector. Specified in a similar manner as <code>var</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Data frames to combine (See dplyr)</p></td>
+      <td><p>For use by methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tidyseurat object</p>
+    <p>A vector the same size as `.data`.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>This function is a **generic**, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.</p>
+<p>The following methods are currently available in loaded packages:
+dplyr (<code>data.frame</code>)
+.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-
-<span class='kw'>tt</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span>
-<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(new_column = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>))</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; # A tibble: 80 x 16
-#&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
-#&gt;    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
-#&gt;  1 ATGC… SeuratPro…         70           47 0               A             g2    
-#&gt;  2 CATG… SeuratPro…         85           52 0               A             g1    
-#&gt;  3 GAAC… SeuratPro…         87           50 1               B             g2    
-#&gt;  4 TGAC… SeuratPro…        127           56 0               A             g2    
-#&gt;  5 AGTC… SeuratPro…        173           53 0               A             g2    
-#&gt;  6 TCTG… SeuratPro…         70           48 0               A             g1    
-#&gt;  7 TGGT… SeuratPro…         64           36 0               A             g1    
-#&gt;  8 GCAG… SeuratPro…         72           45 0               A             g1    
-#&gt;  9 GATA… SeuratPro…         52           36 0               A             g1    
-#&gt; 10 AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;,
-#&gt; #   new_column &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,
-#&gt; #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</div><div class='input'></div></pre>
+    <pre class="examples"><div class='input'>
+<span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span>(<span class='kw'>groups</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("pull"): no applicable method for 'pull' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

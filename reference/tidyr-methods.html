@@ -73,7 +73,7 @@ nest" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -211,24 +211,43 @@ standard tidyverse recycling rules).</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tt object</p>
-<p>A tt object</p>
+    <p>A tidyseurat object</p>
+<p>A tidyseurat object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidyseurat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    arrange, as_tibble, bind_cols, bind_rows, count, distinct, filter,</span>
-#&gt; <span class='message'>    full_join, group_by, inner_join, left_join, mutate, rename,</span>
-#&gt; <span class='message'>    right_join, rowwise, sample_frac, sample_n, select, slice,</span>
-#&gt; <span class='message'>    summarise</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span>(data = <span class='op'>-</span><span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='kw'>data</span>) </div><div class='output co'>#&gt; # A tibble: 80 x 8
+#&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+#&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;        
+#&gt;  1 ATGC… SeuratPro…         70           47 0               A            
+#&gt;  2 GAAC… SeuratPro…         87           50 1               B            
+#&gt;  3 TGAC… SeuratPro…        127           56 0               A            
+#&gt;  4 AGTC… SeuratPro…        173           53 0               A            
+#&gt;  5 AGGT… SeuratPro…         62           31 0               A            
+#&gt;  6 GGGT… SeuratPro…        101           41 0               A            
+#&gt;  7 CATG… SeuratPro…         51           26 0               A            
+#&gt;  8 TACG… SeuratPro…         99           45 0               A            
+#&gt;  9 GTAA… SeuratPro…         67           33 0               A            
+#&gt; 10 TACA… SeuratPro…        109           41 0               A            
+#&gt; # … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</div><div class='input'>
 
-</div></pre>
+
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span>(data = <span class='op'>-</span><span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='kw'>data</span>) </div><div class='output co'>#&gt; # A tibble: 80 x 8
+#&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+#&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;        
+#&gt;  1 ATGC… SeuratPro…         70           47 0               A            
+#&gt;  2 GAAC… SeuratPro…         87           50 1               B            
+#&gt;  3 TGAC… SeuratPro…        127           56 0               A            
+#&gt;  4 AGTC… SeuratPro…        173           53 0               A            
+#&gt;  5 AGGT… SeuratPro…         62           31 0               A            
+#&gt;  6 GGGT… SeuratPro…        101           41 0               A            
+#&gt;  7 CATG… SeuratPro…         51           26 0               A            
+#&gt;  8 TACG… SeuratPro…         99           45 0               A            
+#&gt;  9 GTAA… SeuratPro…         67           33 0               A            
+#&gt; 10 TACA… SeuratPro…        109           41 0               A            
+#&gt; # … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

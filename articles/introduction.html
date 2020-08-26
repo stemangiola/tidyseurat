@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -244,17 +244,16 @@
   <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/count.html">count</a></span>(<span class="kw">groups</span>, <span class="kw">seurat_clusters</span>)
 </pre></div>
 <pre><code>## # A tibble: 8 x 3
-## # Groups:   groups [2]
 ##   groups seurat_clusters     n
 ##   &lt;chr&gt;  &lt;fct&gt;           &lt;int&gt;
-## 1 g1     0                  17
-## 2 g1     1                  14
-## 3 g1     2                   9
-## 4 g1     3                   4
-## 5 g2     0                  13
-## 6 g2     1                  12
-## 7 g2     2                   6
-## 8 g2     3                   5</code></pre>
+## 1 g1     0                   0
+## 2 g1     1                   0
+## 3 g1     2                   0
+## 4 g1     3                   0
+## 5 g2     0                   0
+## 6 g2     1                   0
+## 7 g2     2                   0
+## 8 g2     3                   0</code></pre>
 </div>
 <div id="reduce-dimensions" class="section level2">
 <h2 class="hasAnchor">
@@ -331,18 +330,17 @@
   <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="kw">seurat_clusters</span>, <span class="kw">first.labels</span>)
 </pre></div>
 <pre><code>## # A tibble: 9 x 3
-## # Groups:   seurat_clusters [4]
 ##   seurat_clusters first.labels     n
 ##   &lt;fct&gt;           &lt;chr&gt;        &lt;int&gt;
-## 1 0               CD4+ T-cells     8
-## 2 0               CD8+ T-cells    10
-## 3 0               NK cells        12
-## 4 1               Macrophages      1
-## 5 1               Monocytes       25
-## 6 2               B-cells         10
-## 7 2               Macrophages      1
-## 8 2               Monocytes        4
-## 9 3               Erythrocytes     9</code></pre>
+## 1 0               CD4+ T-cells     0
+## 2 0               CD8+ T-cells     0
+## 3 0               NK cells         0
+## 4 1               Macrophages      0
+## 5 1               Monocytes        0
+## 6 2               B-cells          0
+## 7 2               Macrophages      0
+## 8 2               Monocytes        0
+## 9 3               Erythrocytes     0</code></pre>
 <p>We can easily reshape the data for building information-rish faceted plots</p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>

@@ -80,7 +80,7 @@ variables based on their properties.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -177,60 +177,8 @@ properties:</p>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
-no methods found
+dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='https://rdrr.io/r/utils/select.list.html'>list</a></code>)
 .</p>
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-
-    
-
-<p>```r, child = "man/rmd/setup.Rmd"
-```</p>
-<p>Here we show the usage for the basic selection operators. See the
-specific help pages to learn about helpers like [starts_with()].</p>
-<p>The selection language can be used in functions like
-`dplyr::select()` or `tidyr::pivot_longer()`. Let's first attach
-the tidyverse:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-library(tidyverse)</p>
-<p># For better printing
-iris &lt;- as_tibble(iris)
-```</p>
-<p>Select variables by name:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-starwars <!-- %&gt;% select(height) --></p>
-<p>iris <!-- %&gt;% pivot_longer(Sepal.Length) -->
-```</p>
-<p>Select multiple variables by separating them with commas. Note how
-the order of columns is determined by the order of inputs:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-starwars <!-- %&gt;% select(homeworld, height, mass) -->
-```</p>
-<p>Functions like `tidyr::pivot_longer()` don't take variables with
-dots. In this case use `c()` to select multiple variables:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-iris <!-- %&gt;% pivot_longer(c(Sepal.Length, Petal.Length)) -->
-```</p>
-<p>## Operators:</p>
-<p>The `:` operator selects a range of consecutive variables:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-starwars <!-- %&gt;% select(name:mass) -->
-```</p>
-<p>The `!` operator negates a selection:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-starwars <!-- %&gt;% select(!(name:mass)) --></p>
-<p>iris <!-- %&gt;% select(!c(Sepal.Length, Petal.Length)) --></p>
-<p>iris <!-- %&gt;% select(!ends_with("Width")) -->
-```</p>
-<p>`&amp;` and `|` take the intersection or the union of two selections:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-iris <!-- %&gt;% select(starts_with("Petal") &amp; ends_with("Width")) --></p>
-<p>iris <!-- %&gt;% select(starts_with("Petal") | ends_with("Width")) -->
-```</p>
-<p>To take the difference between two selections, combine the `&amp;` and
-`!` operators:</p>
-<p>```r, comment = "#&gt;", collapse = TRUE
-iris <!-- %&gt;% select(starts_with("Petal") &amp; !ends_with("Width")) -->
-```</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
@@ -241,6 +189,13 @@ iris <!-- %&gt;% select(starts_with("Petal") &amp; !ends_with("Width")) -->
 <code><a href='slice.html'>slice</a>()</code>,
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>cell</span>, <span class='kw'>orig.ident</span> )</div><div class='output co'>#&gt; <span class='warning'>Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'>Please use `select()` instead.</span>
+#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("select_"): no applicable method for 'select_' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
