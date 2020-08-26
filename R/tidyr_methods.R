@@ -430,11 +430,11 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
   
   # Check that we are not modifying a key column
   cols = enquo(col) 
-  if(intersect(cols %>% quo_names, get_special_columns(.data)) %>% length %>% gt(0) & remove)
+  if(intersect(cols %>% quo_names, get_special_columns(data)) %>% length %>% gt(0) & remove)
     stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
   
   
-  data@meta.data = tidyr::unite( .data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+  data@meta.data = tidyr::unite( data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
   
   data
   
@@ -484,7 +484,7 @@ separate.default <-  function(data, col, into, sep = "[^[:alnum:]]+", remove = T
                               convert = FALSE, extra = "warn", fill = "warn", ...)
 {
   cols = enquo(col)
-  tidyr::separate(data, !!cols, into, sep = sep, remove = remove,
+  tidyr::separate(data, !!cols, into = into, sep = sep, remove = remove,
                   convert = convert, extra = extra, fill = fill, ...)
 }
 
@@ -495,11 +495,12 @@ separate.tidyseurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove =
   
   # Check that we are not modifying a key column
   cols = enquo(col)
-  if(intersect(cols  %>% quo_names, get_special_columns(.data)) %>% length %>% gt(0) & remove)
+  if(intersect(cols  %>% quo_names, get_special_columns(data)) %>% length %>% gt(0) & remove)
     stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
   
-  
-  data@meta.data = tidyr::separate( .data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+   
+  data@meta.data = tidyr::separate( data@meta.data, !!cols, into = into, sep = sep, remove = remove,
+                                    convert = convert, extra = extra, fill = fill, ...)
   
   data
   

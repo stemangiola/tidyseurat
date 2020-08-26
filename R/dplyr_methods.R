@@ -61,7 +61,7 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #' @rdname dplyr-methods
 #' @export
 #'
-############# START ADDED tidyseurat ###################################
+ 
 #' @inheritParams arrange
 arrange.default <- function(.data, ..., .by_group = FALSE) {
   
@@ -94,7 +94,7 @@ arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
   .data
 }
 
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Efficiently bind multiple data frames by row and column
 #'
@@ -139,7 +139,7 @@ arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
 #' @name bind
 NULL
 
-############# START ADDED tidyseurat #####################################
+ 
 
 #' @rdname dplyr-methods
 #' 
@@ -176,10 +176,10 @@ bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
   
 }
 
-############# END ADDED tidyseurat #####################################
+ 
 
 
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 #' 
 #' @inheritParams bind
@@ -212,9 +212,9 @@ bind_cols.tidyseurat <- function(..., .id = NULL)
   
 }
 
-############# END ADDED tidyseurat #####################################
+ 
 
-############# START ADDED tidyseurat #####################################
+ 
 
 #' distinct
 #' 
@@ -250,7 +250,7 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
     dplyr::distinct(..., .keep_all = .keep_all)
   
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Subset rows using column values
 #'
@@ -307,7 +307,7 @@ distinct.tidyseurat <- function (.data, ..., .keep_all = FALSE)
 #' @examples
 #'
 #' # Learn more in ?dplyr_tidy_eval
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 filter <- function (.data, ..., .preserve = FALSE)  {
   UseMethod("filter")
@@ -329,7 +329,7 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
   new_obj
                    
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Group by one or more variables
 #' 
@@ -369,7 +369,7 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 #' by_cyl <- mtcars %>% group_by(cyl)
 #'
 
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 group_by <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))  {
   UseMethod("group_by")
@@ -391,7 +391,7 @@ group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop
     dplyr::group_by( ..., .add = .add, .drop = .drop) 
   
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Summarise each group to fewer rows
 #'
@@ -461,7 +461,7 @@ group_by.tidyseurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop
 #' mtcars %>%
 #'   summarise(mean = mean(disp))
 #'
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 summarise <- function (.data, ...)  {
   UseMethod("summarise")
@@ -484,7 +484,7 @@ summarise.tidyseurat <- function (.data, ...)
     dplyr::summarise( ...)
   
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Create, modify, and delete columns
 #'
@@ -570,7 +570,7 @@ summarise.tidyseurat <- function (.data, ...)
 #'   cyl4 = cyl2 * 2
 #' )
 #'
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 mutate <- function(.data, ...) {
   UseMethod("mutate")
@@ -604,7 +604,7 @@ mutate.tidyseurat <- function(.data, ...)
   .data
 }
 
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Rename columns
 #'
@@ -636,7 +636,7 @@ mutate.tidyseurat <- function(.data, ...)
 #' `%>%` = magrittr::`%>%`
 #' iris <- as_tibble(iris) # so it prints a little nicer
 #' rename(iris, petal_length = Petal.Length)
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")
@@ -663,7 +663,7 @@ rename.tidyseurat <- function(.data, ...)
  
   
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 #' Group input by rows
 #'
@@ -690,7 +690,7 @@ rename.tidyseurat <- function(.data, ...)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
-############# START ADDED tidyseurat #####################################
+ 
 #' @export
 rowwise <- function(.data) {
   UseMethod("rowwise")
@@ -712,7 +712,7 @@ rowwise.tidyseurat <- function(.data)
     dplyr::rowwise()
   
 }
-############# END ADDED tidyseurat #####################################
+ 
 
 
 
@@ -1223,7 +1223,7 @@ sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
 }
 
 #' @export
-sample_n.tisyseurat <- function(tbl, size, replace = FALSE,
+sample_n.tidyseurat <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL, ...) {
   
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
@@ -1243,13 +1243,13 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 }
 
 #' @export
-sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                .env = parent.frame(), ...) {
-  stop( "must be a data frame, not {friendly_type_of(tbl)}.")
+sample_frac.default <- function(tbl, size, replace = FALSE, weight = NULL,
+                             .env = parent.frame(), ...) {
+  tbl %>% dplyr::sample_frac(size, replace = replace, weight = weight, .env = .env, ...)
 }
 
 #' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+sample_frac.tidyseurat <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL, ...) {
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
@@ -1317,7 +1317,7 @@ count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
     out <- dplyr::dplyr_reconstruct(out, x)
   }
   out}
-
+#' @export
 count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   
   message("tidyseurat says: A data frame is returned for independent data analysis.")
@@ -1325,5 +1325,50 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   x %>%
     as_tibble() %>%
     dplyr::count(  ..., wt = wt, sort = sort, name = name, .drop = .drop)
+  
+}
+
+#' Extract a single column
+#'
+#' `pull()` is similar to `$`. It's mostly useful because it looks a little
+#' nicer in pipes, it also works with remote data frames, and it can optionally
+#' name the output.
+#'
+#' @inheritParams arrange
+#' @inheritParams tidyselect::vars_pull
+#' @param name An optional parameter that specifies the column to be used
+#'   as names for a named vector. Specified in a similar manner as \code{var}.
+#' @param ... For use by methods.
+#' @return A vector the same size as `.data`.
+#' @section Methods:
+#' This function is a **generic**, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' The following methods are currently available in loaded packages:
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
+#' @export
+#' @examples
+pull <- function(.data, var = -1, name = NULL, ...) {
+  ellipsis::check_dots_used()
+  UseMethod("pull")
+}
+#' @export
+pull.default <- function(.data, var = -1, name = NULL, ...) {
+  var = enquo(var)
+  name = enquo(name)
+ .data %>% dplyr::pull( var = !!var, name = !!name, ...)
+  }
+#' @export
+pull.tidyseurat <- function(.data, var = -1, name = NULL, ...) {
+  var = enquo(var)
+  name = enquo(name)
+  
+  message("tidyseurat says: A data frame is returned for independent data analysis.")
+  
+  .data %>%
+    as_tibble() %>%
+    dplyr::pull( var = !!var, name = !!name, ...)
+  
   
 }

@@ -29,8 +29,7 @@ Suggests:
     BiocStyle,
     testthat,
     knitr,
-    GGally,
-    webshot
+    GGally
 VignetteBuilder: 
     knitr
 RdMacros:

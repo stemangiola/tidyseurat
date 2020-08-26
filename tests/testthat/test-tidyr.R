@@ -1,6 +1,6 @@
 context('tidyr test')
 
-tt = pbmc_small@assays$RNA@counts %>% CreateSeuratObject() %>% tidy %>% mutate(groups = rep(1:2, dplyr::n()/2))
+tt = pbmc_small@assays$RNA@counts %>% CreateSeuratObject() %>% tidy %>% mutate(groups = sprintf("g%s", rep(1:2, dplyr::n()/2)))
 
 test_that("nest_unnest",{
   
@@ -13,6 +13,29 @@ test_that("nest_unnest",{
   expect_equal( 
     x@reductions$pca@cell.embeddings %>% as_tibble(rownames = "cell") %>% arrange(cell) %>% pull(PC_1),
     y@reductions$pca@cell.embeddings %>% as_tibble(rownames = "cell") %>% arrange(cell) %>% pull(PC_1)
+  )
+  
+  
+})
+
+test_that("unite separate",{
+  
+  un = tt %>% unite("new_col", c(orig.ident, groups)) 
+
+  expect_equal( un %>% select(new_col) %>% slice(1) %>% pull(new_col),   "SeuratProject_g1")
+  
+  se = un %>% separate(col = new_col, into= c("orig.ident", "groups"))
+  
+  expect_equal( se %>% select(orig.ident) %>% ncol,   1)
+  
+  
+})
+
+test_that("extract",{
+  
+  expect_equal( 
+    tt %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE) %>% pull(g) %>% class , 
+    "integer"
   )
   
   

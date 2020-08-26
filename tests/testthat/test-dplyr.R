@@ -121,5 +121,23 @@ test_that("select",{
   
 })
 
+test_that("sample_n",{
+  
+  expect_equal(   tt %>% sample_n(50) %>% ncol,   50  )
+  
 
+})
 
+test_that("sample_frac",{
+  
+  expect_equal(   tt %>% sample_frac(0.1) %>% ncol,   8  )
+  
+  
+})
+
+test_that("count",{
+  
+  expect_equal(   tt %>% count(groups) %>% nrow,   2  )
+  
+  
+})
