@@ -6,6 +6,9 @@
 \usage{
 tidy(object)
 }
+\arguments{
+\item{object}{A Seurat object}
+}
 \description{
 tidy for seurat
 }

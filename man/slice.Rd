@@ -18,18 +18,15 @@ more details.}
   The values provided must be either all positive or all negative.
   Indices beyond the number of rows in the input are silently ignored.
 
-  For `slice_helpers()`, these arguments are passed on to methods.}
+  For `slice_helpers()`, these arguments are passed on to methods.
 
-\item{.preserve}{when `FALSE` (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
-
-\item{n, prop}{Provide either `n`, the number of rows, or `prop`, the
-  proportion of rows to select. If neither are supplied, `n = 1` will be
-  used.
 
   If `n` is greater than the number of rows in the group (or `prop > 1`),
   the result will be silently truncated to the group size. If the
   `prop`ortion of a group size is not an integer, it is rounded down.}
+
+\item{.preserve}{when `FALSE` (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
 An object of the same type as `.data`. The output has the following

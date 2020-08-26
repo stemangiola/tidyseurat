@@ -187,7 +187,7 @@ pbmc_small_UMAP =
 ```
 
 and we can plot them using 3D plot using plotly
-```{r umap_plot, cache=TRUE}
+```{r umap_plot, eval=FALSE}
 
 pbmc_small_UMAP %>%
 	plot_ly(
@@ -198,6 +198,8 @@ pbmc_small_UMAP %>%
 	) 
 
 ```
+
+![screenshot plotly](../man/figures/plotly.png)
 
 
 ## Cell type prediction

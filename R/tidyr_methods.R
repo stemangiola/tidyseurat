@@ -158,6 +158,36 @@ nest.tidyseurat <- function (.data, ...)
   
 }
 
+#' Extract a character column into multiple columns using regular
+#' expression groups
+#'
+#' Given a regular expression with capturing groups, `extract()` turns
+#' each group into a new column. If the groups don't match, or the input
+#' is NA, the output will be NA.
+#'
+#' @inheritParams expand
+#' @param data A tidyseurat object
+#' @param col Column name or position. This is passed to
+#'   [tidyselect::vars_pull()].
+#'
+#'   This argument is passed by expression and supports
+#'   [quasiquotation][rlang::quasiquotation] (you can unquote column
+#'   names or column positions).
+#' @param into Names of new variables to create as character vector.
+#'    Use `NA` to omit the variable in the output.
+#' @param regex a regular expression used to extract the desired values.
+#'   There should be one group (defined by `()`) for each element of `into`.
+#' @param remove If `TRUE`, remove input column from output data frame.
+#' @param convert If `TRUE`, will run [type.convert()] with
+#'   `as.is = TRUE` on new columns. This is useful if the component
+#'   columns are integer, numeric or logical.
+#'
+#'   NB: this will cause string `"NA"`s to be converted to `NA`s.
+#' @param ... Additional arguments passed on to methods.
+#' @seealso [separate()] to split up by a separator.
+#' @export
+#' @examples
+#' 
 #' @importFrom tidyr extract
 #' 
 #' @export
@@ -359,5 +389,119 @@ pivot_longer.tidyseurat <- function(data,
                         values_transform = values_transform,
                         ...
     )
+  
+}
+
+#' Unite multiple columns into one by pasting strings together
+#'
+#' Convenience function to paste together multiple columns into one.
+#'
+#' @param data A data frame.
+#' @param col The name of the new column, as a string or symbol.
+#'
+#'   This argument is passed by expression and supports
+#'   [quasiquotation][rlang::quasiquotation] (you can unquote strings
+#'   and symbols). The name is captured from the expression with
+#'   [rlang::ensym()] (note that this kind of interface where
+#'   symbols do not represent actual objects is now discouraged in the
+#'   tidyverse; we support it here for backward compatibility).
+#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to unite
+#' @param sep Separator to use between values.
+#' @param na.rm If `TRUE`, missing values will be remove prior to uniting
+#'   each value.
+#' @param remove If `TRUE`, remove input columns from output data frame.
+#' @seealso [separate()], the complement.
+#' @export
+#' @examples
+unite <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE) {
+  ellipsis::check_dots_unnamed()
+  UseMethod("unite")
+}
+#' @export
+unite.default <-  function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
+{
+  cols = enquo(col) 
+  tidyr::unite(data, !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+}
+
+#' @export
+unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
+{
+  
+  # Check that we are not modifying a key column
+  cols = enquo(col) 
+  if(intersect(cols %>% quo_names, get_special_columns(.data)) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
+  
+  
+  data@meta.data = tidyr::unite( .data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+  
+  data
+  
+  
+}
+
+#' Separate a character column into multiple columns with a regular
+#' expression or numeric locations
+#'
+#' Given either a regular expression or a vector of character positions,
+#' `separate()` turns a single character column into multiple columns.
+#'
+#' @inheritParams extract
+#' @param sep Separator between columns.
+#'
+#'   If character, `sep` is interpreted as a regular expression. The default
+#'   value is a regular expression that matches any sequence of
+#'   non-alphanumeric values.
+#'
+#'   If numeric, `sep` is interpreted as character positions to split at. Positive
+#'   values start at 1 at the far-left of the string; negative value start at -1 at
+#'   the far-right of the string. The length of `sep` should be one less than
+#'   `into`.
+#' @param extra If `sep` is a character vector, this controls what
+#'   happens when there are too many pieces. There are three valid options:
+#'
+#'   * "warn" (the default): emit a warning and drop extra values.
+#'   * "drop": drop any extra values without a warning.
+#'   * "merge": only splits at most `length(into)` times
+#' @param fill If `sep` is a character vector, this controls what
+#'   happens when there are not enough pieces. There are three valid options:
+#'
+#'   * "warn" (the default): emit a warning and fill from the right
+#'   * "right": fill with missing values on the right
+#'   * "left": fill with missing values on the left
+#' @seealso [unite()], the complement, [extract()] which uses regular
+#'   expression capturing groups.
+#' @export
+#' @examples
+separate <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
+                     convert = FALSE, extra = "warn", fill = "warn", ...) {
+  ellipsis::check_dots_used()
+  UseMethod("separate")
+}
+#' @export
+separate.default <-  function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
+                              convert = FALSE, extra = "warn", fill = "warn", ...)
+{
+  cols = enquo(col)
+  tidyr::separate(data, !!cols, into, sep = sep, remove = remove,
+                  convert = convert, extra = extra, fill = fill, ...)
+}
+
+#' @export
+separate.tidyseurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
+                                convert = FALSE, extra = "warn", fill = "warn", ...)
+{
+  
+  # Check that we are not modifying a key column
+  cols = enquo(col)
+  if(intersect(cols  %>% quo_names, get_special_columns(.data)) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
+  
+  
+  data@meta.data = tidyr::separate( .data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+  
+  data
+  
   
 }
