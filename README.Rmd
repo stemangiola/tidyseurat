@@ -79,12 +79,23 @@ From Github
 devtools::install_github("stemangiola/tidyseurat")
 ```
 
-## Create `tidyseurat`
+## Create `tidyseurat`, the best of both worlds!
 This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs. 
 
 ```{r}
 pbmc_small_tidy = tidyseurat::pbmc_small %>% tidy()
+```
+
+**It looks like a tibble**
+
+```{r}
 pbmc_small_tidy
+```
+
+**But it is a Seurat object afterall**
+
+```{r}
+pbmc_small_tidy@assays
 ```
 
 ## Preliminary plots

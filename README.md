@@ -44,13 +44,18 @@ From Github
 devtools::install_github("stemangiola/tidyseurat")
 ```
 
-## Create `tidyseurat`
+## Create `tidyseurat`, the best of both worlds\!
 
 This is a seurat object but it is evaluated as tibble. So it is fully
 compatible both with Seurat and tidyverse APIs.
 
 ``` r
 pbmc_small_tidy = tidyseurat::pbmc_small %>% tidy()
+```
+
+**It looks like a tibble**
+
+``` r
 pbmc_small_tidy
 ```
 
@@ -69,6 +74,17 @@ pbmc_small_tidy
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
     ## # … with 70 more rows, and 8 more variables: RNA_snn_res.1 <fct>, PC_1 <dbl>,
     ## #   PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+
+**But it is a seurat object afterall**
+
+``` r
+pbmc_small_tidy@assays
+```
+
+    ## $RNA
+    ## Assay data with 230 features for 80 cells
+    ## Top 10 variable features:
+    ##  PPBP, IGLL5, VDAC3, CD1C, AKR1C3, PF4, MYL9, GNLY, TREML1, CA2
 
 ## Preliminary plots
 
@@ -109,7 +125,7 @@ pbmc_small_tidy %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/unnamed-chunk-8-1.png)<!-- -->
 
 ## Preprocess the dataset
 
@@ -222,7 +238,7 @@ pbmc_small_cluster %>%
   DoHeatmap(features = markers$gene) 
 ```
 
-![](man/figures/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/unnamed-chunk-9-1.png)<!-- -->
 
 ## Reduce dimensions
 
@@ -337,7 +353,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/unnamed-chunk-13-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations
@@ -358,7 +374,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- --> \#\# Nested analyses A
+![](man/figures/unnamed-chunk-14-1.png)<!-- --> \#\# Nested analyses A
 powerful tool we can use with tidyseurat is `nest`. We can easily
 perform independent analyses on subsets of the dataset. First we
 classify cell types in lymphoid and myeloid; then, nest based on the new
@@ -423,4 +439,4 @@ pbmc_small_nested_reanalysed %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-15-1.png)<!-- -->
+![](man/figures/unnamed-chunk-17-1.png)<!-- -->
