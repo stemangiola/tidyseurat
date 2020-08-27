@@ -15,6 +15,8 @@ website:
 
 Please have a look also to
 
+  - [tidybulk](https://github.com/stemangiola/tidybulk) for tidy
+    high-level data analysis and manipulation
   - [nanny](https://github.com/stemangiola/nanny) for tidy high-level
     data analysis and manipulation
   - [tidygate](https://github.com/stemangiola/tidygate) for adding
@@ -153,7 +155,7 @@ pbmc_small_pca %>%
 
 ![](man/figures/pc_plot-1.png)<!-- -->
 
-## Identify clusters and reduce dimensions
+## Identify clusters
 
 We proceed with cluster identification
 
@@ -204,6 +206,23 @@ pbmc_small_cluster %>%
     ## 6 g2     1                  12
     ## 7 g2     2                   6
     ## 8 g2     3                   5
+
+We can identify cluster markers using Seurat
+
+``` r
+# Identify markers
+markers = 
+  pbmc_small_cluster %>% 
+  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  group_by(cluster) %>%
+  top_n(10, avg_logFC)
+
+# Plot heatmap
+pbmc_small_cluster %>%
+  DoHeatmap(features = markers$gene) 
+```
+
+![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
 ## Reduce dimensions
 
@@ -287,18 +306,17 @@ pbmc_small_cell_type %>%
 ```
 
     ## # A tibble: 9 x 3
-    ## # Groups:   seurat_clusters [4]
     ##   seurat_clusters first.labels     n
     ##   <fct>           <chr>        <int>
-    ## 1 0               CD4+ T-cells     8
-    ## 2 0               CD8+ T-cells    10
-    ## 3 0               NK cells        12
-    ## 4 1               Macrophages      1
-    ## 5 1               Monocytes       25
-    ## 6 2               B-cells         10
-    ## 7 2               Macrophages      1
-    ## 8 2               Monocytes        4
-    ## 9 3               Erythrocytes     9
+    ## 1 0               CD4+ T-cells     0
+    ## 2 0               CD8+ T-cells     0
+    ## 3 0               NK cells         0
+    ## 4 1               Macrophages      0
+    ## 5 1               Monocytes        0
+    ## 6 2               B-cells          0
+    ## 7 2               Macrophages      0
+    ## 8 2               Monocytes        0
+    ## 9 3               Erythrocytes     0
 
 We can easily reshape the data for building information-rish faceted
 plots
@@ -319,7 +337,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-10-1.png)<!-- -->
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations
@@ -340,7 +358,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-11-1.png)<!-- --> \#\# Nested analyses A
+![](man/figures/unnamed-chunk-12-1.png)<!-- --> \#\# Nested analyses A
 powerful tool we can use with tidyseurat is `nest`. We can easily
 perform independent analyses on subsets of the dataset. First we
 classify cell types in lymphoid and myeloid; then, nest based on the new
@@ -405,4 +423,4 @@ pbmc_small_nested_reanalysed %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/unnamed-chunk-15-1.png)<!-- -->

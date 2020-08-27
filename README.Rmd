@@ -18,6 +18,8 @@ website: [stemangiola.github.io/tidyseurat/](http://stemangiola.github.io/tidyse
 
 Please have a look also to 
 
+- [tidybulk](https://github.com/stemangiola/tidybulk) for tidy high-level data
+analysis and manipulation 
 - [nanny](https://github.com/stemangiola/nanny) for tidy high-level data
 analysis and manipulation 
 - [tidygate](https://github.com/stemangiola/tidygate) for adding custom
@@ -147,7 +149,7 @@ pbmc_small_pca %>%
 
 ```
 
-## Identify clusters and reduce dimensions
+## Identify clusters 
 We proceed with cluster identification
 ```{r cluster, cache=TRUE}
 
@@ -166,6 +168,23 @@ pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
 
 ```
+
+We can identify cluster markers using Seurat
+```{r}
+
+# Identify markers
+markers = 
+  pbmc_small_cluster %>% 
+  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  group_by(cluster) %>%
+  top_n(10, avg_logFC)
+
+# Plot heatmap
+pbmc_small_cluster %>%
+  DoHeatmap(features = markers$gene) 
+  
+```
+
 ## Reduce dimensions
 We can calculate the first 3 UMAP dimensions using Seurat framework 
 ```{r umap, cache=TRUE}
