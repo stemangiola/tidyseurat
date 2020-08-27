@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -163,7 +163,9 @@
     <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
 
 <span class='kw'>tt</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span>
-<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(new_column = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("right_join"): no applicable method for 'right_join' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'></div></pre>
+<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(new_column = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span>(<span class='fl'>1</span>))
+</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("right_join"): no applicable method for 'right_join' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

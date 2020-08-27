@@ -75,7 +75,7 @@ expression or numeric locations — separate" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -213,21 +213,23 @@ Use `NA` to omit the variable in the output.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
  <span class='kw'>un</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='unite.html'>unite</a></span>(<span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>orig.ident</span>, <span class='kw'>groups</span>)) 
- <span class='kw'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span>(col = <span class='kw'>new_col</span>, into= <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span>))</div><div class='output co'>#&gt; # A tibble: 80 x 15
+ <span class='kw'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span>(col = <span class='kw'>new_col</span>, into= <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span>))
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 15</span><span>
 #&gt;    cell  orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
-#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
-#&gt;  1 ATGC… SeuratPro… g2             70           47 0               A            
-#&gt;  2 CATG… SeuratPro… g1             85           52 0               A            
-#&gt;  3 GAAC… SeuratPro… g2             87           50 1               B            
-#&gt;  4 TGAC… SeuratPro… g2            127           56 0               A            
-#&gt;  5 AGTC… SeuratPro… g2            173           53 0               A            
-#&gt;  6 TCTG… SeuratPro… g1             70           48 0               A            
-#&gt;  7 TGGT… SeuratPro… g1             64           36 0               A            
-#&gt;  8 GCAG… SeuratPro… g1             72           45 0               A            
-#&gt;  9 GATA… SeuratPro… g1             52           36 0               A            
-#&gt; 10 AATG… SeuratPro… g1            100           41 0               A            
-#&gt; # … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,
-#&gt; #   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</div><div class='input'></div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro… g2             70           47 0               A            
+#&gt; </span><span style='color: #555555;'> 2</span><span> CATG… SeuratPro… g1             85           52 0               A            
+#&gt; </span><span style='color: #555555;'> 3</span><span> GAAC… SeuratPro… g2             87           50 1               B            
+#&gt; </span><span style='color: #555555;'> 4</span><span> TGAC… SeuratPro… g2            127           56 0               A            
+#&gt; </span><span style='color: #555555;'> 5</span><span> AGTC… SeuratPro… g2            173           53 0               A            
+#&gt; </span><span style='color: #555555;'> 6</span><span> TCTG… SeuratPro… g1             70           48 0               A            
+#&gt; </span><span style='color: #555555;'> 7</span><span> TGGT… SeuratPro… g1             64           36 0               A            
+#&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro… g1             72           45 0               A            
+#&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro… g1             52           36 0               A            
+#&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro… g1            100           41 0               A            
+#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

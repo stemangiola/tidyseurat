@@ -74,7 +74,7 @@ to `NA` are dropped." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -209,22 +209,24 @@ individual methods for extra arguments and differences in behaviour.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span>(<span class='kw'>groups</span> <span class='op'>==</span> <span class='st'>"g1"</span>)</div><div class='output co'>#&gt; # A tibble: 44 x 15
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span>(<span class='kw'>groups</span> <span class='op'>==</span> <span class='st'>"g1"</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 44 x 15</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
-#&gt;    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
-#&gt;  1 CATG… SeuratPro…         85           52 0               A             g1    
-#&gt;  2 TCTG… SeuratPro…         70           48 0               A             g1    
-#&gt;  3 TGGT… SeuratPro…         64           36 0               A             g1    
-#&gt;  4 GCAG… SeuratPro…         72           45 0               A             g1    
-#&gt;  5 GATA… SeuratPro…         52           36 0               A             g1    
-#&gt;  6 AATG… SeuratPro…        100           41 0               A             g1    
-#&gt;  7 AGAG… SeuratPro…        191           61 0               A             g1    
-#&gt;  8 CTAA… SeuratPro…        168           44 0               A             g1    
-#&gt;  9 TTGG… SeuratPro…        135           45 0               A             g1    
-#&gt; 10 CATC… SeuratPro…         79           43 0               A             g1    
-#&gt; # … with 34 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,
-#&gt; #   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</div><div class='input'>
-<span class='co'># Learn more in ?dplyr_tidy_eval</span></div></pre>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> CATG… SeuratPro…         85           52 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 2</span><span> TCTG… SeuratPro…         70           48 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 3</span><span> TGGT… SeuratPro…         64           36 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 4</span><span> GCAG… SeuratPro…         72           45 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 5</span><span> GATA… SeuratPro…         52           36 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 6</span><span> AATG… SeuratPro…        100           41 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 7</span><span> AGAG… SeuratPro…        191           61 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 8</span><span> CTAA… SeuratPro…        168           44 0               A             g1    
+#&gt; </span><span style='color: #555555;'> 9</span><span> TTGG… SeuratPro…        135           45 0               A             g1    
+#&gt; </span><span style='color: #555555;'>10</span><span> CATC… SeuratPro…         79           43 0               A             g1    
+#&gt; </span><span style='color: #555555;'># … with 34 more rows, and 8 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+<span class='co'># Learn more in ?dplyr_tidy_eval</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
