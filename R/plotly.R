@@ -88,6 +88,8 @@
 #'  \item For inspecting plotly objects: [plotly_json()]
 #'  \item For quick, accurate, and searchable plotly.js reference: [schema()]
 #' }
+#' 
+#' @return A plotly
 #' @export
 #' @examples
 #' \dontrun{

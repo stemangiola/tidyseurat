@@ -115,6 +115,9 @@ Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-l
 with the source argument in [event_data()] to retrieve the 
 event data corresponding to a specific plot (shiny apps can have multiple plots).}
 }
+\value{
+A plotly
+}
 \description{
 This function maps R objects to [plotly.js](https://plot.ly/javascript/),
 an (MIT licensed) web-based interactive charting library. It provides 

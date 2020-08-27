@@ -65,6 +65,9 @@ Use `NA` to omit the variable in the output.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
+\value{
+A tidyseurat objector a tibble depending on input
+}
 \description{
 Given either a regular expression or a vector of character positions,
 `separate()` turns a single character column into multiple columns.

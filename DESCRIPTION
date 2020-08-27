@@ -1,11 +1,11 @@
 Type: Package
 Package: tidyseurat
 Title: Brings Seurat to The Tidyverse 
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")) )
 Description: It creates an invisible layer that allow to see the 'Seurat' object 
-    as tibble and interact seemenglessy with the tidyverse.
+    as tibble and interact seamlessly with the tidyverse.
 License: GPL-3
 Depends:
     R (>= 3.6.0),
@@ -22,12 +22,14 @@ Imports:
     methods,
     plotly,
     ellipsis,
-    tidyselect
+    tidyselect,
+    utils
 Suggests:
     BiocStyle,
     testthat,
     knitr,
-    GGally
+    GGally,
+    markdown
 VignetteBuilder: 
     knitr
 RdMacros:

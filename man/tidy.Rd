@@ -9,6 +9,9 @@ tidy(object)
 \arguments{
 \item{object}{A Seurat object}
 }
+\value{
+A tidyseurat object
+}
 \description{
 tidy for seurat
 }

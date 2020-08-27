@@ -28,6 +28,9 @@ coerced to a tibble.}
    into this column and the `row.names` attribute is deleted.
 Read more in [rownames].}
 }
+\value{
+A tibble
+}
 \description{
 `r lifecycle::badge("maturing")`
 

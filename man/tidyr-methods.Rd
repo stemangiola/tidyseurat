@@ -72,9 +72,9 @@ standard tidyverse recycling rules).}
 \item{names_repair}{See tidyr::unnest}
 }
 \value{
-A tidyseurat object
+A tidyseurat objector a tibble depending on input
 
-A tidyseurat object
+A tidyseurat objector a tibble depending on input
 }
 \description{
 unnest

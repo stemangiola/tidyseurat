@@ -18,6 +18,9 @@ If not specified, must be supplied in each layer added to the plot.}
 
 \item{environment}{DEPRECATED. Used prior to tidy evaluation.}
 }
+\value{
+A ggplot
+}
 \description{
 `ggplot()` initializes a ggplot object. It can be used to
 declare the input data frame for a graphic and to specify the

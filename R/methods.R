@@ -22,6 +22,8 @@ setMethod(
 #' 
 #' @param object A Seurat object
 #' 
+#' @return A tidyseurat object
+#' 
 #' @export
 tidy <- function(object) {  UseMethod("tidy", object) }
 
@@ -77,8 +79,8 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 #'
 join_transcripts <- function(.data,
                               transcripts = NULL,
-                              all = F,
-                              exclude_zeros = F,
+                              all = FALSE,
+                              exclude_zeros = FALSE,
                               shape = "long") {
   UseMethod("join_transcripts", .data)
 }
@@ -86,8 +88,8 @@ join_transcripts <- function(.data,
 join_transcripts.default <-
   function(.data,
            transcripts = NULL,
-           all = F,
-           exclude_zeros = F,
+           all = FALSE,
+           exclude_zeros = FALSE,
            shape = "long")
   {
     print("This function cannot be applied to this object")
@@ -96,8 +98,8 @@ join_transcripts.default <-
 join_transcripts.tidyseurat <-
   function(.data,
            transcripts = NULL,
-           all = F,
-           exclude_zeros = F,
+           all = FALSE,
+           exclude_zeros = FALSE,
            shape = "long")
   {
     

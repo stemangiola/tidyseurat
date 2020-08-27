@@ -27,6 +27,9 @@ the input. Weights are automatically standardised to sum to 1.}
 
 \item{...}{ignored}
 }
+\value{
+A tidyseurat object
+}
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
 `sample_n()` and `sample_frac()` have been superseded in favour of

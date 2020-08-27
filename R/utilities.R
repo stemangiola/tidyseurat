@@ -72,9 +72,13 @@ drop_class = function(var, name) {
 #' @param .data A tidyseurat
 #' @param transcripts A character
 #' @param all A boolean
+#' 
+#' 
+#' @return A tidyseurat object
+#' 
 #'
 #' @export
-get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
+get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
   
   # Solve CRAN warnings
   . = NULL
@@ -83,7 +87,7 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
   if(
     length(VariableFeatures(.data)) == 0  &
     is.null(transcripts) &
-    all == F
+    all == FALSE
   ) stop("
 				 Your object do not contain variable trancript labels,
 				 transcript argument is empty and all argument is set to FALSE.
@@ -97,7 +101,7 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
   if(
     length(VariableFeatures(.data)) > 0  &
     is.null(transcripts) &
-    all == F
+    all == FALSE
   ) variable_genes = VariableFeatures(.data)
   
   # Else
@@ -134,9 +138,10 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = F){
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #' 
+#' @return A tidyseurat object
 #'
 #' @export
-get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zeros = F){
+get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){
   
   # Solve CRAN warnings
   . = NULL
@@ -145,7 +150,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
   if(
     length(VariableFeatures(.data)) == 0  &
     is.null(transcripts) &
-    all == F
+    all == FALSE
   ) stop("
 				 Your object do not contain variable trancript labels,
 				 transcript argument is empty and all argument is set to FALSE.
@@ -160,7 +165,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
   if(
     length(VariableFeatures(.data)) > 0  &
     is.null(transcripts) &
-    all == F
+    all == FALSE
   ) variable_genes = VariableFeatures(.data)
   
   # Else
@@ -176,8 +181,8 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = F, exclude_zer
          
          ~ .x %>%
            when(
-             variable_genes %>% is.null %>% `!` ~ .x@data[variable_genes,, drop=F],
-             transcripts %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(transcripts),, drop=F],
+             variable_genes %>% is.null %>% `!` ~ .x@data[variable_genes,, drop=FALSE],
+             transcripts %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(transcripts),, drop=FALSE],
              all  ~ .x@data,
              ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
            ) %>%

@@ -34,6 +34,9 @@
 #'   If not specified, must be supplied in each layer added to the plot.
 #' @param ... Other arguments passed on to methods. Not currently used.
 #' @param environment DEPRECATED. Used prior to tidy evaluation.
+#' 
+#' @return A ggplot
+#' 
 #' @export
 #' @examples
 #' # Generate some sample data, then compute mean and standard deviation

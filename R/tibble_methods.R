@@ -48,6 +48,8 @@
 #' @param .name_repair see tidyr
 #'
 #'   For compatibility only, do not use for new code.
+#' @return A tibble
+#' 
 #' @export
 #' @examples
 #' pbmc_small %>% tidy %>% as_tibble()

@@ -4,7 +4,7 @@
 \alias{get_abundance_sc_wide}
 \title{get abundance long}
 \usage{
-get_abundance_sc_wide(.data, transcripts = NULL, all = F)
+get_abundance_sc_wide(.data, transcripts = NULL, all = FALSE)
 }
 \arguments{
 \item{.data}{A tidyseurat}
@@ -12,6 +12,9 @@ get_abundance_sc_wide(.data, transcripts = NULL, all = F)
 \item{transcripts}{A character}
 
 \item{all}{A boolean}
+}
+\value{
+A tidyseurat object
 }
 \description{
 get abundance long

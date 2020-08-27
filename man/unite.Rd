@@ -27,6 +27,9 @@ unite(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
 \item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
 each value.}
 }
+\value{
+A tidyseurat objector a tibble depending on input
+}
 \description{
 Convenience function to paste together multiple columns into one.
 }

@@ -32,9 +32,9 @@
 #' @param names_repair See tidyr::unnest
 #' @param ptype See tidyr::unnest
 #' 
-#'
-#' @return A tidyseurat object
-#'
+#' 
+#' @return A tidyseurat objector a tibble depending on input
+#' 
 #' @examples
 #'
 #' library(dplyr)
@@ -106,9 +106,9 @@ unnest.tidyseurat_nested <- function (.data, cols, ..., keep_empty = FALSE, ptyp
 #'
 #' @param .data A tbl. (See tidyr)
 #' @param ... Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)
-#'
-#' @return A tidyseurat object
-#'
+#' 
+#' @return A tidyseurat objector a tibble depending on input
+#' 
 #' @examples
 #'
 #' library(dplyr)
@@ -192,6 +192,8 @@ nest.tidyseurat <- function (.data, ...)
 #' @export
 #' @examples
 #' 
+#' @return A tidyseurat objector a tibble depending on input
+#'  
 #' pbmc_small %>% tidy %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 #' 
 #' @importFrom tidyr extract
@@ -301,6 +303,9 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #'   be character, and the type of the variables generated from `values_to`
 #'   will be the common type of the input columns used to generate them.
 #' @param ... Additional arguments passed on to methods.
+#' 
+#' @return A tidyseurat objector a tibble depending on input
+#' 
 #' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
@@ -421,6 +426,9 @@ pivot_longer.tidyseurat <- function(data,
 #'   each value.
 #' @param remove If `TRUE`, remove input columns from output data frame.
 #' @seealso [separate()], the complement.
+#' 
+#' @return A tidyseurat objector a tibble depending on input
+#' 
 #' @export
 #' @examples
 #' 
@@ -486,6 +494,9 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
 #'   * "left": fill with missing values on the left
 #' @seealso [unite()], the complement, [extract()] which uses regular
 #'   expression capturing groups.
+#' 
+#' @return A tidyseurat objector a tibble depending on input
+#' 
 #' @export
 #' @examples
 #' 

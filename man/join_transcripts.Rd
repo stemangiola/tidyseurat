@@ -7,8 +7,8 @@
 join_transcripts(
   .data,
   transcripts = NULL,
-  all = F,
-  exclude_zeros = F,
+  all = FALSE,
+  exclude_zeros = FALSE,
   shape = "long"
 )
 }

@@ -1146,6 +1146,8 @@ select_helper = function(.data, ...){
 #' `%>%` = magrittr::`%>%`
 #' pbmc_small %>% tidy %>% sample_n(50) 
 #' pbmc_small %>% tidy %>% sample_frac(0.1)
+#' 
+#' @return A tidyseurat object
 #'
 #' @export
 sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {

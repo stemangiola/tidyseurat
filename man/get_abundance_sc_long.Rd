@@ -4,7 +4,12 @@
 \alias{get_abundance_sc_long}
 \title{get abundance long}
 \usage{
-get_abundance_sc_long(.data, transcripts = NULL, all = F, exclude_zeros = F)
+get_abundance_sc_long(
+  .data,
+  transcripts = NULL,
+  all = FALSE,
+  exclude_zeros = FALSE
+)
 }
 \arguments{
 \item{.data}{A tidyseurat}
@@ -14,6 +19,9 @@ get_abundance_sc_long(.data, transcripts = NULL, all = F, exclude_zeros = F)
 \item{all}{A boolean}
 
 \item{exclude_zeros}{A boolean}
+}
+\value{
+A tidyseurat object
 }
 \description{
 get abundance long
