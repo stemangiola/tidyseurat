@@ -192,10 +192,10 @@ nest.tidyseurat <- function (.data, ...)
 #' @export
 #' @examples
 #' 
-#' @return A tidyseurat objector a tibble depending on input
-#'  
 #' pbmc_small %>% tidy %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 #' 
+#' @return A tidyseurat objector a tibble depending on input
+#'  
 #' @importFrom tidyr extract
 #' 
 #' @export

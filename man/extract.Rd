@@ -43,8 +43,6 @@ There should be one group (defined by `()`) for each element of `into`.}
 }
 \value{
 A tidyseurat objector a tibble depending on input
- 
-pbmc_small %>% tidy %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 }
 \description{
 Given a regular expression with capturing groups, `extract()` turns
@@ -52,6 +50,8 @@ each group into a new column. If the groups don't match, or the input
 is NA, the output will be NA.
 }
 \examples{
+
+pbmc_small \%>\% tidy \%>\% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 
 }
 \seealso{
