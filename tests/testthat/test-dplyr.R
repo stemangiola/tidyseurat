@@ -41,7 +41,7 @@ test_that("bind_cols",{
   
   
   expect_equal(
-    tt %>% bind_cols(tt_bind) %>% select(nCount_RNA...8 ,nFeature_RNA...9) %>% ncol,
+    tt %>% bind_cols(tt_bind) %>% select(nCount_RNA...9 ,nFeature_RNA...10) %>% ncol,
     2
   )
   
@@ -85,7 +85,7 @@ test_that("rename",{
 
 test_that("left_join",{
   
-  expect_equal(   tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol,    8  )
+  expect_equal(   tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol,    9  )
   
 })
 
