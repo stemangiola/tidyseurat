@@ -15,13 +15,13 @@ website:
 
 Please have a look also to
 
-  - [tidybulk](https://github.com/stemangiola/tidybulk) for tidy
+  - [tidybulk](https://stemangiola.github.io/tidybulk) for tidy
     high-level data analysis and manipulation
-  - [nanny](https://github.com/stemangiola/nanny) for tidy high-level
+  - [nanny](https://stemangiola.github.io/nanny) for tidy high-level
     data analysis and manipulation
-  - [tidygate](https://github.com/stemangiola/tidygate) for adding
-    custom gate information to your tibble
-  - [tidyHeatmap](https://github.com/stemangiola/tidyHeatmap) for
+  - [tidygate](https://stemangiola.github.io/tidygate) for adding custom
+    gate information to your tibble
+  - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap) for
     heatmaps produced with tidy principles
 
 <!---
