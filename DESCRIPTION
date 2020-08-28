@@ -1,7 +1,7 @@
 Type: Package
 Package: tidyseurat
-Title: Brings Seurat to The Tidyverse 
-Version: 0.1.3
+Title: 'Brings Seurat to the Tidyverse 
+Version: 0.1.4
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")) )
 Description: It creates an invisible layer that allow to see the 'Seurat' object 

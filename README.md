@@ -11,7 +11,7 @@ status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/bad
 **Brings Seurat to the tidyverse\!**
 
 website:
-[stemangiola.github.io/tidyseurat/](http://stemangiola.github.io/tidyseurat/)
+[stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
 Please have a look also to
 

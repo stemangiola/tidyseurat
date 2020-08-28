@@ -14,7 +14,7 @@ knitr::opts_chunk$set( fig.path = "man/figures/")
 
 **Brings Seurat to the tidyverse!** 
 
-website: [stemangiola.github.io/tidyseurat/](http://stemangiola.github.io/tidyseurat/)
+website: [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
 Please have a look also to 
 
