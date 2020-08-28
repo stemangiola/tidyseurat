@@ -75,7 +75,7 @@ expression or numeric locations — separate" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -217,7 +217,7 @@ Use `NA` to omit the variable in the output.</p></td>
     <pre class="examples"><div class='input'>
  <span class='kw'>un</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='unite.html'>unite</a></span>(<span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>orig.ident</span>, <span class='kw'>groups</span>)) 
  <span class='kw'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span>(col = <span class='kw'>new_col</span>, into= <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span>))
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 15</span><span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 16</span><span>
 #&gt;    cell  orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro… g2             70           47 0               A            
@@ -230,8 +230,9 @@ Use `NA` to omit the variable in the output.</p></td>
 #&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro… g1             72           45 0               A            
 #&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro… g1             52           36 0               A            
 #&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro… g1            100           41 0               A            
-#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

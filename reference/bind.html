@@ -74,7 +74,7 @@ data frames into one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -172,7 +172,7 @@ appears in any of the inputs.</p>
     <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
 <span class='kw'>tt</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span>
 <span class='fu'><a href='arrange.html'>bind_rows</a></span>(    <span class='kw'>tt</span>, <span class='kw'>tt</span>  )
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 8</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 9</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -185,14 +185,14 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A             g1    
 #&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro…         52           36 0               A             g1    
 #&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; </span><span style='color: #555555;'># … with 150 more rows, and 1 more variable: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'># … with 150 more rows, and 2 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='kw'>tt_bind</span> <span class='op'>=</span> <span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='kw'>nCount_RNA</span> ,<span class='kw'>nFeature_RNA</span>)
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.</span></div><div class='input'><span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='arrange.html'>bind_cols</a></span>(<span class='kw'>tt_bind</span>)
 </div><div class='output co'>#&gt; <span class='message'>New names:</span>
 #&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...2</span>
 #&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...3</span>
-#&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...8</span>
-#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...9</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 80 x 17</span><span>
+#&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...9</span>
+#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...10</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 80 x 18</span><span>
 #&gt;    cell  orig.ident nCount_RNA...2 nFeature_RNA...3 RNA_snn_res.0.8
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>               </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>          
 #&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…             70               47 0              
@@ -205,9 +205,9 @@ appears in any of the inputs.</p>
 #&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro…             72               45 0              
 #&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro…             52               36 0              
 #&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro…            100               41 0              
-#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 12 more variables: letter.idents </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   groups </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, nCount_RNA...8 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   nFeature_RNA...9 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 13 more variables: letter.idents </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   groups </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, nCount_RNA...9 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   nFeature_RNA...10 </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 </div></span></pre>
   </div>

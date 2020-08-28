@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Group input by rows — rowwise • tidyseurat</title>
+<title>Example data set 2 — pbmc_small_nested_interactions • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Group input by rows — rowwise" />
-<meta property="og:description" content="See [this repository](https://github.com/jennybc/row-oriented-workflows)
-for alternative ways to perform row-wise operations." />
+<meta property="og:title" content="Example data set 2 — pbmc_small_nested_interactions" />
+<meta property="og:description" content="Example data set 2" />
 
 
 
@@ -116,46 +115,22 @@ for alternative ways to perform row-wise operations." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Group input by rows</h1>
+    <h1>Example data set 2</h1>
     
-    <div class="hidden name"><code>rowwise.Rd</code></div>
+    <div class="hidden name"><code>pbmc_small_nested_interactions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See [this repository](https://github.com/jennybc/row-oriented-workflows)
-for alternative ways to perform row-wise operations.</p>
+    <p>Example data set 2</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rowwise</span>(<span class='kw'>.data</span>)</pre>
+    <pre class="usage"><span class='kw'>pbmc_small_nested_interactions</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.data</th>
-      <td><p>Input data frame.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A `tbl`</p>
-<p>A `tbl`</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>An object of class <code>tbl_df</code> (inherits from <code>tbl</code>, <code>data.frame</code>) with 100 rows and 9 columns.</p>
 
-    <p>`rowwise()` is used for the results of [do()] when you
-create list-variables. It is also useful to support arbitrary
-complex operations that need to be applied to each row.</p>
-<p>Currently, rowwise grouping only works with data frames. Its
-main impact is to allow you to work with list-variables in
-[summarise()] and [mutate()] without having to
-use <code>[[1]]</code>. This makes `summarise()` on a rowwise tbl
-effectively equivalent to [plyr::ldply()].</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
