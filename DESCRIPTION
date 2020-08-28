@@ -29,7 +29,8 @@ Suggests:
     testthat,
     knitr,
     GGally,
-    markdown
+    markdown,
+    SingleCellSignalR
 VignetteBuilder: 
     knitr
 RdMacros:

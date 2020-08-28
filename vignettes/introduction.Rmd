@@ -12,7 +12,6 @@ vignette: >
   %\usepackage[UTF-8]{inputenc}
 ---
 
-
 <!-- badges: start -->
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![R build status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
 <!-- badges: end -->
@@ -27,6 +26,8 @@ website: [stemangiola.github.io/tidyseurat/](http://stemangiola.github.io/tidyse
 
 Please have a look also to 
 
+- [tidybulk](https://github.com/stemangiola/tidybulk) for tidy high-level data
+analysis and manipulation 
 - [nanny](https://github.com/stemangiola/nanny) for tidy high-level data
 analysis and manipulation 
 - [tidygate](https://github.com/stemangiola/tidygate) for adding custom
@@ -50,6 +51,7 @@ library(purrr)
 library(magrittr)
 library(ggplot2)
 library(Seurat)
+library(SingleCellSignalR)
 library(tidyseurat)
 
 
@@ -74,6 +76,25 @@ my_theme =
 
 ```
 
+## Functions/utilities available
+
+Seurat-compatible Functions | Description
+------------ | -------------
+`all` | After all `tidyseurat` is a Seurat object, just better
+
+tidyverse Packages | Description
+------------ | -------------
+`dplyr` | All `dplyr` APIs like for any tibble
+`tidyr` | All `tidyr` APIs like for any tibble
+`ggplot2` | `ggplot` like for any tibble
+`plotly` | `plot_ly` like for any tibble
+
+Utilities | Description
+------------ | -------------
+`tidy` | Add `tidyseurat` invisible layer over a Seurat object
+`as_tibble` | Convert cell-wise information to a `tbl_df`
+`join_transcripts` | Add transcript-wise information, returns a `tbl_df`
+
 ## Installation
 
 From CRAN (in submission)
@@ -86,21 +107,43 @@ From Github
 devtools::install_github("stemangiola/tidyseurat")
 ```
 
-## Create `tidyseurat`
+## Create `tidyseurat`, the best of both worlds!
 This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs. 
 
 ```{r}
 pbmc_small_tidy = tidyseurat::pbmc_small %>% tidy()
+```
+
+**It looks like a tibble**
+
+```{r}
 pbmc_small_tidy
 ```
 
+**But it is a Seurat object after all**
+
+```{r}
+pbmc_small_tidy@assays
+```
+## Annotation polishing using tidyverse
+We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.
+
+```{r}
+pbmc_small_polished =
+  pbmc_small_tidy %>%
+  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = F) 
+
+pbmc_small_polished %>%
+  select(sample, everything())
+```
+
 ## Preliminary plots
-We can treat `pbmc_small_tidy` effectively as a normal tibble. 
+We can treat `pbmc_small_polished` effectively as a normal tibble for plotting. 
 
 Here we plot number of transcripts per cell
 ```{r plot1, cache=TRUE}
 
-pbmc_small_tidy %>%
+pbmc_small_polished %>%
   tidyseurat::ggplot(aes(nFeature_RNA, fill=groups)) + 
   geom_histogram() +
   my_theme
@@ -110,7 +153,7 @@ pbmc_small_tidy %>%
 Here we plot total transcriptional material per cell
 ```{r plot2, cache=TRUE}
 
-pbmc_small_tidy %>%
+pbmc_small_polished %>%
   tidyseurat::ggplot(aes(groups, nCount_RNA, fill=groups)) + 
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
@@ -121,7 +164,7 @@ pbmc_small_tidy %>%
 
 Here we plot abundance of two transcripts for each group
 ```{r}
-pbmc_small_tidy %>% 
+pbmc_small_polished %>% 
   join_transcripts(transcripts = c("HLA-DRA" ,     "LYZ" )) %>%
   ggplot(aes(groups, abundance_RNA + 1, fill=groups)) + 
   geom_boxplot(outlier.shape = NA) + 
@@ -137,7 +180,7 @@ Also you can treat the object as Seurat object and proceed with data processing.
 ```{r preprocess, cache=TRUE}
 
 pbmc_small_pca = 
-  pbmc_small_tidy %>%
+  pbmc_small_polished %>%
   SCTransform(verbose = FALSE) %>% 
   FindVariableFeatures(verbose = FALSE) %>% 
   RunPCA(verbose = FALSE)
@@ -169,7 +212,7 @@ pbmc_small_cluster
 ```
 
 Now we can interrogate the object as if it was a regular tibble data frame
-```{r cluster_count, cache=TRUE}
+```{r cluster count, cache=TRUE}
 
 pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
@@ -203,7 +246,7 @@ pbmc_small_UMAP =
 ```
 
 and we can plot them using 3D plot using plotly
-```{r umap_plot, eval=FALSE}
+```{r umap plot, eval=FALSE}
 
 pbmc_small_UMAP %>%
 	plot_ly(
@@ -214,8 +257,7 @@ pbmc_small_UMAP %>%
 	) 
 
 ```
-
-![screenshot plotly](../man/figures/plotly.png)
+![screenshot plotly](man/figures/plotly.png)
 
 
 ## Cell type prediction
@@ -288,6 +330,7 @@ pbmc_small_cell_type %>%
   scale_y_log10() +
   my_theme
 ```
+
 ##  Nested analyses
 A powerful tool we can use with tidyseurat is `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification
 
@@ -337,6 +380,45 @@ pbmc_small_nested_reanalysed %>%
   my_theme
 
 
+```
+
+We can perform a large number of functional analyses on data subsets. For example intra-sample cell-cell interactions, for then comparing/testing whether interactions have strenghten/weaken across conditions. In this small dataset we have just two sample (one for condition) but you can imagine how you can use tidyverse to perform t-tests and visualisation.
+
+```{r, eval = FALSE}
+pbmc_small_nested_interactions = 
+  pbmc_small_nested_reanalysed %>%
+  
+  # Unnest based on cell category
+  unnest(data) %>%
+  
+  # Create unambiguous clusters
+  mutate(integrated_clusters = first.labels %>% as.factor %>% as.integer) %>%
+
+  # Nest based on sample
+	tidyseurat::nest(data = -sample) %>%
+	tidyseurat::mutate(interactions = map(data, ~ {
+		
+		# Produce variables. Yuck!
+		cluster = .x@meta.data$integrated_clusters
+		data = data.frame(.x[["SCT"]]@data)
+
+		# Ligand/Receptor analysis using SingleCellSignalR
+		data %>%
+			cell_signaling(genes=rownames(data),cluster=cluster) %>%
+			inter_network(data = data, signal = ., genes = rownames(data), cluster = cluster) %$%
+			`individual-networks` %>% 
+			map_dfr(~bind_rows(as_tibble(.x))) 
+	})) 
+
+pbmc_small_nested_interactions %>%
+  select(-data) %>%
+  unnest(interactions)
+```
+
+If the data set was not so small, and interactions could be identified, you would see something as below.
+
+```{r, echo = FALSE}
+tidyseurat::pbmc_small_nested_interactions
 ```
 
 

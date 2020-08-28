@@ -1265,7 +1265,7 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   
   x %>%
     as_tibble() %>%
-    dplyr::count(  ..., wt = wt, sort = sort, name = name, .drop = .drop)
+    dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
   
 }
 
