@@ -580,9 +580,9 @@ mutate.tidyseurat <- function(.data, ...)
 
   .data@meta.data =
     .data %>% 
-    to_tib %>%
+    as_tibble %>%
     dplyr::mutate( ...)  %>% 
-    data.frame(row.names = "cell")
+    as_meta_data()
 
   .data
 }
