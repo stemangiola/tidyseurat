@@ -237,7 +237,7 @@ get_special_columns = function(seurat_object){
   get_special_datasets(seurat_object) %>%
     map(~ .x %>% colnames  ) %>%
     unlist %>% 
-    as.character
+    as.character 
 }
 
 get_special_datasets = function(seurat_object){
@@ -267,4 +267,14 @@ quo_names <- function(v) {
   gsub('^c\\(|`|\\)$', '', v) %>% 
     strsplit(', ') %>% 
     unlist 
+}
+
+#' @importFrom purrr when
+#' @importFrom dplyr select
+#' @importFrom rlang expr
+select_helper = function(.data, ...){
+  
+  loc <- tidyselect::eval_select(expr(c(...)), .data)
+  
+  dplyr::select( .data, loc) 
 }

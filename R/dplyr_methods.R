@@ -75,23 +75,15 @@ arrange.default <- function(.data, ..., .by_group = FALSE) {
 #' @inheritParams arrange
 arrange.tidyseurat <- function(.data, ..., .by_group = FALSE) {
   
-  .data@meta.data = dplyr::arrange( 
-    .data@meta.data %>% 
-      as_tibble(rownames="cell"), 
-    ..., .by_group = .by_group
-  ) %>%
-    data.frame(row.names = "cell")
-  
-  
-  # 
-  # .data@active.ident = .data@active.ident[match(rownames(.data@meta.data), names(.data@active.ident))]
-  # 
-  # .data@assays = .data@assays %>%
-  #   map(
-  #     ~ .x[,match(rownames(.data@meta.data), colnames(x))]
-  #   )
+
+  .data@meta.data = 
+    .data %>% 
+    as_tibble() %>%
+    dplyr::arrange(  ..., .by_group = .by_group  ) %>%
+    as_meta_data(.data) 
   
   .data
+  
 }
 
  
@@ -321,7 +313,7 @@ filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
   new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
   new_obj = subset(.data,   cells = rownames(new_meta ))
-  new_obj@meta.data = new_meta
+  #new_obj@meta.data = new_meta
   
   new_obj
                    
@@ -583,7 +575,7 @@ mutate.tidyseurat <- function(.data, ...)
 
   # Check that we are not modifying a key column
   cols = enquos(...) %>% names 
-  if(intersect(cols, get_special_columns(.data)) %>% length %>% gt(0))
+  if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data =
@@ -644,7 +636,7 @@ rename.tidyseurat <- function(.data, ...)
   
   # Check that we are not modifying a key column
   cols = tidyselect::eval_select(expr(c(...)), .data@meta.data) 
-  if(intersect(cols %>% names, get_special_columns(.data)) %>% length %>% gt(0))
+  if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
   
   .data@meta.data = dplyr::rename( .data@meta.data,  ...)
@@ -743,7 +735,7 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
 {
   
   x %>% 
-    to_tib() %>%
+    as_tibble() %>%
     dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
     
     when(
@@ -756,7 +748,7 @@ left_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
       
       # Otherwise return updated tidyseurat
       ~ {
-        x@meta.data = (.) %>% data.frame(row.names = "cell")
+        x@meta.data = (.) %>% as_meta_data(x)
         x
       } 
     )
@@ -926,8 +918,8 @@ full_join.tidyseurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x"
       
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj@meta.data = (.) %>% as_meta_data(new_obj)
-        new_obj
+        x@meta.data = (.) %>% as_meta_data(x)
+        x
       } 
     )
   
@@ -1094,16 +1086,6 @@ select.tidyseurat <- function (.data, ...)
       }
     )
   
-}
-
-#' @importFrom purrr when
-#' @importFrom dplyr select
-#' @importFrom rlang expr
-select_helper = function(.data, ...){
-  
-  loc <- tidyselect::eval_select(expr(c(...)), .data)
-
-  dplyr::select( .data, loc) 
 }
 
 

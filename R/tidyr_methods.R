@@ -221,9 +221,10 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 	col = enquo(col)
 	
 	data@meta.data = 
-	  data@meta.data %>%
-		tidyr::extract(col = !!col, into = into, regex = regex, remove = remove, 
-									 convert = convert, ...)  
+	  data %>%
+	  as_tibble() %>%
+	  tidyr::extract(col = !!col, into = into, regex = regex, remove = remove, convert = convert, ...) %>%
+	  as_meta_data(data)
 	
 	data
 		
@@ -452,11 +453,11 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
   
   # Check that we are not modifying a key column
   cols = enquo(col) 
-  if(intersect(cols %>% quo_names, get_special_columns(data)) %>% length %>% gt(0) & remove)
-    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% paste(collapse=", ")))
+  if(intersect(cols %>% quo_names, get_special_columns(data) %>% c(get_needed_columns())) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
   
   
-  data@meta.data = tidyr::unite( data@meta.data,  !!cols, ..., sep = sep, remove = remove, na.rm = na.rm)
+  data@meta.data = data %>% as_tibble() %>% tidyr::unite(!!cols, ..., sep = sep, remove = remove, na.rm = na.rm) %>% as_meta_data(data)
   
   data
   
@@ -524,12 +525,16 @@ separate.tidyseurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove =
   
   # Check that we are not modifying a key column
   cols = enquo(col)
-  if(intersect(cols  %>% quo_names, get_special_columns(data)) %>% length %>% gt(0) & remove)
-    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% paste(collapse=", ")))
+  if(intersect(cols  %>% quo_names, get_special_columns(data) %>% c(get_needed_columns())) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
   
    
-  data@meta.data = tidyr::separate( data@meta.data, !!cols, into = into, sep = sep, remove = remove,
-                                    convert = convert, extra = extra, fill = fill, ...)
+  data@meta.data =
+    data %>%
+    as_tibble() %>% 
+    tidyr::separate(!!cols, into = into, sep = sep, remove = remove,  convert = convert, extra = extra, fill = fill, ...) %>%
+    as_meta_data(data)
+  
   
   data
   
