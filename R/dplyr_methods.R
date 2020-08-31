@@ -582,7 +582,7 @@ mutate.tidyseurat <- function(.data, ...)
     .data %>% 
     as_tibble %>%
     dplyr::mutate( ...)  %>% 
-    as_meta_data()
+    as_meta_data(.data)
 
   .data
 }

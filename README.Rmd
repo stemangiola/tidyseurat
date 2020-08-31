@@ -1,5 +1,5 @@
 ---
-title: "tidyseurat - part of tidyTranscriptomics"
+title: "tidyseurat - part of tidytranscriptomics"
 output: github_document
 always_allow_html: true
 ---

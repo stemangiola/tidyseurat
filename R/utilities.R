@@ -112,8 +112,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
     tail(1) %>%
     .[[1]] %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ (.)@counts[variable_genes,],
-      transcripts %>% is.null %>% `!` ~ (.)@counts[transcripts,],
+      variable_genes %>% is.null %>% `!` ~ (.)@counts[variable_genes,, drop=FALSE],
+      transcripts %>% is.null %>% `!` ~ (.)@counts[transcripts,, drop=FALSE],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
     as.matrix() %>%
@@ -242,7 +242,7 @@ get_special_columns = function(seurat_object){
 
 get_special_datasets = function(seurat_object){
   seurat_object@reductions %>%
-    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings))] )
+    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings)), drop=FALSE] )
   
 }
 
