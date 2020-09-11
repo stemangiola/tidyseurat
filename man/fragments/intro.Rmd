@@ -3,10 +3,9 @@
 
 website: [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
-Please have a look also to 
+Please also have a look at 
 
-- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy high-level data
-analysis and manipulation 
+- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk RNA-seq analysis 
 - [nanny](https://github.com/stemangiola/nanny) for tidy high-level data
 analysis and manipulation 
 - [tidygate](https://github.com/stemangiola/tidygate) for adding custom
@@ -16,39 +15,14 @@ gate information to your tibble
 
 ```{r, echo=FALSE, include=FALSE, }
 library(knitr)
-knitr::opts_chunk$set(cache = TRUE, warning = FALSE,
-                      message = FALSE, cache.lazy = FALSE)
-
-library(dplyr)
-library(tidyr)
-library(purrr)
-library(magrittr)
-library(ggplot2)
-library(Seurat)
-library(SingleCellSignalR)
-library(tidyseurat)
-
-
-my_theme = 	
-  list(
-    scale_fill_brewer(palette="Set1"),
-    scale_color_brewer(palette="Set1") ,
-    theme_bw() +
-  	theme(
-  		panel.border = element_blank(),
-  		axis.line = element_line(),
-  		panel.grid.major = element_line(size = 0.2),
-  		panel.grid.minor = element_line(size = 0.1),
-  		text = element_text(size=12),
-  		legend.position="bottom",
-  		aspect.ratio=1,
-  		strip.background = element_blank(),
-  		axis.title.x  = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
-  		axis.title.y  = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10))
-  	)
-  )
-
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
+
+# Introduction
+
+tidyseurat provides a bridge between the Seurat single-cell package [@butler2018integrating; @stuart2019comprehensive] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the
+Seurat object as a tidyverse tibble, and provides Seurat-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions.
+
 
 ## Functions/utilities available
 
@@ -76,16 +50,29 @@ From CRAN
 install.packages("tidyseurat")
 ```
 
-From Github
+From Github (development)
 ```{r, eval=FALSE}
 devtools::install_github("stemangiola/tidyseurat")
 ```
 
+```{r}
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(magrittr)
+library(ggplot2)
+library(Seurat)
+library(SingleCellSignalR)
+library(tidyseurat)
+```
+
+
 ## Create `tidyseurat`, the best of both worlds!
+
 This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs. 
 
 ```{r}
-pbmc_small_tidy = tidyseurat::pbmc_small %>% tidy()
+pbmc_small_tidy <- tidyseurat::pbmc_small %>% tidy()
 ```
 
 **It looks like a tibble**
@@ -99,60 +86,93 @@ pbmc_small_tidy
 ```{r}
 pbmc_small_tidy@assays
 ```
-## Annotation polishing using tidyverse
-We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.
+
+# Annotation polishing
+
+We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`.
 
 ```{r}
-pbmc_small_polished =
-  pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = F) 
-
-pbmc_small_polished %>%
-  select(sample, everything())
+pbmc_small_tidy$file[1:5]
 ```
 
-## Preliminary plots
+We may want to extract the run/sample name out of it into a separate column. Tidyverse `extract` can be used to convert a character column into multiple columns using regular expression groups.
+
+```{r}
+# Create sample column
+pbmc_small_polished <-
+    pbmc_small_tidy %>%
+    extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove=FALSE)
+# Reorder to have sample column up front
+pbmc_small_polished %>%
+    select(sample, everything())
+```
+
+# Preliminary plots
+
+Set colours and theme for plots.
+
+```{r}
+# Use colourblind-friendly colours
+friendly_cols <- dittoSeq::dittoColors()
+# Set theme
+my_theme <-
+    list(
+        scale_fill_manual(values=friendly_cols),
+        scale_color_manual(values=friendly_cols),
+        theme_bw() +
+            theme(
+                panel.border=element_blank(),
+                axis.line=element_line(),
+                panel.grid.major=element_line(size=0.2),
+                panel.grid.minor=element_line(size=0.1),
+                text=element_text(size=12),
+                legend.position="bottom",
+                aspect.ratio=1,
+                strip.background=element_blank(),
+                axis.title.x=element_text(margin=margin(t=10, r=10, b=10, l=10)),
+                axis.title.y=element_text(margin=margin(t=10, r=10, b=10, l=10))
+            )
+    )
+```
+
 We can treat `pbmc_small_polished` effectively as a normal tibble for plotting. 
 
-Here we plot number of transcripts per cell
-```{r plot1, cache=TRUE}
+Here we plot number of transcripts per cell.
 
+```{r plot1}
 pbmc_small_polished %>%
   tidyseurat::ggplot(aes(nFeature_RNA, fill=groups)) + 
   geom_histogram() +
   my_theme
-
 ```
 
-Here we plot total transcriptional material per cell
-```{r plot2, cache=TRUE}
+Here we plot total transcripts per cell.
 
+```{r plot2}
 pbmc_small_polished %>%
   tidyseurat::ggplot(aes(groups, nCount_RNA, fill=groups)) + 
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
   my_theme
-
-
 ```
 
-Here we plot abundance of two transcripts for each group
+Here we plot abundance of two transcripts for each group.
+
 ```{r}
 pbmc_small_polished %>% 
-  join_transcripts(transcripts = c("HLA-DRA" ,     "LYZ" )) %>%
+  join_transcripts(transcripts = c("HLA-DRA" , "LYZ" )) %>%
   ggplot(aes(groups, abundance_RNA + 1, fill=groups)) + 
   geom_boxplot(outlier.shape = NA) + 
   geom_jitter(aes(size=nCount_RNA), alpha=0.5, width = 0.2) + 
   scale_y_log10() + 
   my_theme
-
 ```
 
-## Preprocess the dataset
+# Preprocess the dataset
+
 Also you can treat the object as Seurat object and proceed with data processing.
 
-```{r preprocess, cache=TRUE}
-
+```{r preprocess}
 pbmc_small_pca = 
   pbmc_small_polished %>%
   SCTransform(verbose = FALSE) %>% 
@@ -163,20 +183,21 @@ pbmc_small_pca
 ```
 
 
-If a tool is not included in the tidyseurat collection, we can use `as_tibble` to permanently convert `tidyseurat` into tibble
-```{r pc_plot, cache=TRUE}
+If a tool is not included in the tidyseurat collection, we can use `as_tibble` to permanently convert `tidyseurat` into tibble.
 
+```{r pc_plot}
 pbmc_small_pca %>%
   as_tibble %>%
   select(contains("PC"), everything()) %>%
-	  GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups))
-
+	  GGally::ggpairs(columns = 1:5, ggplot2::aes(colour=groups)) +
+    my_theme
 ```
 
-## Identify clusters 
-We proceed with cluster identification
-```{r cluster, cache=TRUE}
+# Identify clusters 
 
+We proceed with cluster identification with Seurat.
+
+```{r cluster}
 pbmc_small_cluster = 
   pbmc_small_pca %>%
   FindNeighbors(verbose=FALSE) %>% 
@@ -185,19 +206,18 @@ pbmc_small_cluster =
 pbmc_small_cluster
 ```
 
-Now we can interrogate the object as if it was a regular tibble data frame
-```{r cluster count, cache=TRUE}
+Now we can interrogate the object as if it was a regular tibble data frame.
 
+```{r cluster count}
 pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
-
 ```
 
-We can identify cluster markers using Seurat
-```{r}
+We can identify cluster markers using Seurat.
 
-# Identify markers
-markers = 
+```{r}
+# Identify top 10 markers per cluster
+markers <- 
   pbmc_small_cluster %>% 
   FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
   group_by(cluster) %>%
@@ -205,42 +225,45 @@ markers =
 
 # Plot heatmap
 pbmc_small_cluster %>%
-  DoHeatmap(features = markers$gene) 
-  
+  DoHeatmap(features = markers$gene,
+            group.colors = friendly_cols) 
 ```
 
-## Reduce dimensions
-We can calculate the first 3 UMAP dimensions using Seurat framework 
-```{r umap, cache=TRUE}
+# Reduce dimensions
 
+We can calculate the first 3 UMAP dimensions using the Seurat framework.
+
+```{r umap}
 pbmc_small_UMAP = 
   pbmc_small_cluster %>%
   RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L, )
-
 ```
 
-and we can plot them using 3D plot using plotly
-```{r umap plot, eval=FALSE}
+And we can plot them using 3D plot using plotly.
 
+```{r umap plot, eval=FALSE}
 pbmc_small_UMAP %>%
 	plot_ly(
 		x = ~`UMAP_1`,
 		y = ~`UMAP_2`, 
 		z = ~`UMAP_3`,
-		color = ~ seurat_clusters
+		color = ~ seurat_clusters,
+		colors=friendly_cols[1:4]
 	) 
-
 ```
 ![screenshot plotly](`r screenshot`)
 
 
 ## Cell type prediction
-We can infer cell type identities using singleR
+
+We can infer cell type identities using *SingleR* [@aran2019reference] and manipulate the output using tidyverse.
 
 ```{r eval=FALSE}
-blueprint = SingleR::BlueprintEncodeData()
+# Get cell type reference data
+blueprint <- celldex::BlueprintEncodeData()
 
-cell_type_df = 
+# Infer cell identities
+cell_type_df <- 
   pbmc_small_UMAP@assays[["SCT"]]@counts %>% 
   log1p %>%
   Matrix::Matrix(sparse = TRUE) %>%
@@ -255,31 +278,35 @@ cell_type_df =
 ```
 
 ```{r}
+# Join UMAP and cell type info
 pbmc_small_cell_type =
   pbmc_small_UMAP %>%
   left_join(cell_type_df, by="cell")
 
+# Reorder columns
 pbmc_small_cell_type %>%
   tidyseurat::select(cell, first.labels, everything())
 ```
-We can easily summarise the results. For example, see how cell type classification overlaps with cluster classification.
+
+We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.
+
 ```{r}
 pbmc_small_cell_type %>%
   count(seurat_clusters, first.labels)
 ```
 
-We can easily reshape the data for building information-rish faceted plots
+We can easily reshape the data for building information-rich faceted plots.
 
 ```{r}
 pbmc_small_cell_type %>%
   
-  # Reshaping
+  # Reshape and add classifier column
   pivot_longer(
     cols=c(seurat_clusters, first.labels), 
     names_to = "classifier", values_to = "label"
   ) %>%
   
-  # Plotting
+  # UMAP plots for cell type and cluster
   ggplot(aes(UMAP_1, UMAP_2, color=label)) +
   geom_point() +
   facet_wrap(~classifier) +
@@ -287,12 +314,12 @@ pbmc_small_cell_type %>%
 
 ```
 
-We can easily plot gene correlation per cell category, adding multi-layer annotations
+We can easily plot gene correlation per cell category, adding multi-layer annotations.
 
 ```{r}
 pbmc_small_cell_type %>% 
   
-  # Add mitochondrial abundance
+# Add some mitochondrial abundance values
   mutate(mitochondrial = rnorm(n())) %>%
   
   # Plot correlation
@@ -305,20 +332,21 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-##  Nested analyses
+#  Nested analyses
+
 A powerful tool we can use with tidyseurat is `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification
 
 ```{r}
 pbmc_small_nested = 
   pbmc_small_cell_type %>%
   filter(first.labels != "Erythrocytes") %>%
-  mutate(cell_class = if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lmphoid")) %>%
+  mutate(cell_class = if_else(`first.labels` %in% c("Macrophages", "Monocytes"), "myeloid", "lymphoid")) %>%
   nest(data = -cell_class)
 
 pbmc_small_nested
 ```
 
-Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster. Using both tidyverse and Seurat seamlessy
+Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.
 
 ```{r}
 pbmc_small_nested_reanalysed = 
@@ -335,7 +363,7 @@ pbmc_small_nested_reanalysed =
 pbmc_small_nested_reanalysed
 ```
 
-Now we can unnest and plot the new clasification
+Now we can unnest and plot the new classification.
 
 ```{r}
 pbmc_small_nested_reanalysed %>%
@@ -352,11 +380,9 @@ pbmc_small_nested_reanalysed %>%
   geom_point() +
   facet_wrap(~cell_class) +
   my_theme
-
-
 ```
 
-We can perform a large number of functional analyses on data subsets. For example intra-sample cell-cell interactions, for then comparing/testing whether interactions have strenghten/weaken across conditions. In this small dataset we have just two sample (one for condition) but you can imagine how you can use tidyverse to perform t-tests and visualisation.
+We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using *SingleCellSignalR* [@cabello2020singlecellsignalr], and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won't work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.
 
 ```{r, eval = FALSE}
 pbmc_small_nested_interactions = 
@@ -394,6 +420,4 @@ If the data set was not so small, and interactions could be identified, you woul
 ```{r, echo = FALSE}
 tidyseurat::pbmc_small_nested_interactions
 ```
-
-
 
