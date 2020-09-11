@@ -1,0 +1,10 @@
+base
+knitr
+dplyr
+tidyr
+purrr
+magrittr
+ggplot2
+Seurat
+SingleCellSignalR
+tidyseurat
