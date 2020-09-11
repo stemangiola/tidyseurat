@@ -2,7 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{join_transcripts}
 \alias{join_transcripts}
-\title{Add differential transcription information to a tbl using edgeR.}
+\title{Extract and join information for transcripts.}
 \usage{
 join_transcripts(
   .data,
@@ -13,39 +13,32 @@ join_transcripts(
 )
 }
 \arguments{
-\item{.data}{A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |}
+\item{.data}{A tidyseurat object}
 
-\item{transcripts}{A formula with no response variable, representing the desired linear model}
+\item{transcripts}{A vector of transcript identifiers to join}
 
-\item{all}{The name of the sample column}
+\item{all}{If TRUE return all}
 
-\item{exclude_zeros}{The name of the transcript/gene column}
+\item{exclude_zeros}{If TRUE exclude zero values}
 
-\item{shape}{The name of the transcript/gene abundance column}
+\item{shape}{Format of the returned table "long" or "wide"}
 }
 \value{
-A `tbl` with additional columns for the statistics from the hypothesis test (e.g.,  log fold change, p-value and false discovery rate).
+A `tbl` containing the information.for the specified transcripts
 }
 \description{
-join_transcripts() takes as imput a `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> | and returns a `tbl` with additional columns for the statistics from the hypothesis test.
+join_transcripts() extracts and joins information for specified transcripts
 }
 \details{
 \lifecycle{experimental}
 
-At the moment this function uses edgeR only, but other inference algorithms will be added in the near future.
+This function extracts information for specified transcripts and returns the information in either long or wide format.
 }
 \examples{
-\donttest{
 
+pbmc_small \%>\% 
+tidy \%>\% 
+join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 
-
-	join_transcripts(
-	    ~ condition,
-	    sample,
-	    transcript,
-	    `count`
-	)
-
-}
 
 }
