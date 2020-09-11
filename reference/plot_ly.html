@@ -329,44 +329,23 @@ help inform default axis/scale titles
     <p>Carson Sievert</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 
-<span class='co'># plot_ly() tries to create a sensible plot based on the information you </span>
-<span class='co'># give it. If you don't provide a trace type, plot_ly() will infer one.</span>
-<span class='fu'>plot_ly</span>(<span class='kw'>economics</span>, x = <span class='op'>~</span><span class='kw'>pop</span>)
-<span class='fu'>plot_ly</span>(<span class='kw'>economics</span>, x = <span class='op'>~</span><span class='kw'>date</span>, y = <span class='op'>~</span><span class='kw'>pop</span>)
-<span class='co'># plot_ly() doesn't require data frame(s), which allows one to take </span>
-<span class='co'># advantage of trace type(s) designed specifically for numeric matrices</span>
-<span class='fu'>plot_ly</span>(z = <span class='op'>~</span><span class='kw'>volcano</span>)
-<span class='fu'>plot_ly</span>(z = <span class='op'>~</span><span class='kw'>volcano</span>, type = <span class='st'>"surface"</span>)
+<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> 
+   <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> 
+   <span class='fu'>plot_ly</span>(x=<span class='op'>~</span><span class='kw'>nCount_RNA</span>, y=<span class='op'>~</span><span class='kw'>nFeature_RNA</span>)
+</div><div class='output co'>#&gt; <span class='message'>No trace type specified:</span>
+#&gt; <span class='message'>  Based on info supplied, a 'scatter' trace seems appropriate.</span>
+#&gt; <span class='message'>  Read more about this trace type -&gt; https://plot.ly/r/reference/#scatter</span></div><div class='output co'>#&gt; <span class='message'>No scatter mode specifed:</span>
+#&gt; <span class='message'>  Setting the mode to markers</span>
+#&gt; <span class='message'>  Read more about this attribute -&gt; https://plot.ly/r/reference/#scatter-mode</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `arrange_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'>Please use `arrange()` instead.</span>
+#&gt; <span class='warning'>See vignette('programming') for more help</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'>
+<span class='co'># }</span>
 
-<span class='co'># plotly has a functional interface: every plotly function takes a plotly</span>
-<span class='co'># object as it's first input argument and returns a modified plotly object</span>
-<span class='fu'>add_lines</span>(<span class='fu'>plot_ly</span>(<span class='kw'>economics</span>, x = <span class='op'>~</span><span class='kw'>date</span>, y = <span class='op'>~</span><span class='kw'>unemploy</span><span class='op'>/</span><span class='kw'>pop</span>))
-
-<span class='co'># To make code more readable, plotly imports the pipe operator from magrittr</span>
-<span class='kw'>economics</span> <span class='op'>%&gt;%</span> <span class='fu'>plot_ly</span>(x = <span class='op'>~</span><span class='kw'>date</span>, y = <span class='op'>~</span><span class='kw'>unemploy</span><span class='op'>/</span><span class='kw'>pop</span>) <span class='op'>%&gt;%</span> <span class='fu'>add_lines</span>()
-
-<span class='co'># Attributes defined via plot_ly() set 'global' attributes that </span>
-<span class='co'># are carried onto subsequent traces, but those may be over-written</span>
-<span class='fu'>plot_ly</span>(<span class='kw'>economics</span>, x = <span class='op'>~</span><span class='kw'>date</span>, color = <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='st'>"black"</span>)) <span class='op'>%&gt;%</span>
- <span class='fu'>add_lines</span>(y = <span class='op'>~</span><span class='kw'>uempmed</span>) <span class='op'>%&gt;%</span>
- <span class='fu'>add_lines</span>(y = <span class='op'>~</span><span class='kw'>psavert</span>, color = <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span>(<span class='st'>"red"</span>))
-
-<span class='co'># Attributes are documented in the figure reference -&gt; https://plot.ly/r/reference</span>
-<span class='co'># You might notice plot_ly() has named arguments that aren't in this figure</span>
-<span class='co'># reference. These arguments make it easier to map abstract data values to</span>
-<span class='co'># visual attributes.</span>
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plot_ly</span>(<span class='kw'>iris</span>, x = <span class='op'>~</span><span class='kw'>Sepal.Width</span>, y = <span class='op'>~</span><span class='kw'>Sepal.Length</span>) 
-<span class='fu'>add_markers</span>(<span class='kw'>p</span>, color = <span class='op'>~</span><span class='kw'>Petal.Length</span>, size = <span class='op'>~</span><span class='kw'>Petal.Length</span>)
-<span class='fu'>add_markers</span>(<span class='kw'>p</span>, color = <span class='op'>~</span><span class='kw'>Species</span>)
-<span class='fu'>add_markers</span>(<span class='kw'>p</span>, color = <span class='op'>~</span><span class='kw'>Species</span>, colors = <span class='st'>"Set1"</span>)
-<span class='fu'>add_markers</span>(<span class='kw'>p</span>, symbol = <span class='op'>~</span><span class='kw'>Species</span>)
-<span class='fu'>add_paths</span>(<span class='kw'>p</span>, linetype = <span class='op'>~</span><span class='kw'>Species</span>)
-
-}
-
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
