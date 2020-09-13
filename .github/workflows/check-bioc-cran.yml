@@ -68,7 +68,7 @@ jobs:
         runs-on: ubuntu-latest
 
         ## Name shown on the GHA log
-        name: ubuntu-latest (r_biocdocker bioc_${{ env.biocversion }})
+        name: ubuntu-latest (r_biocdocker)
 
         ## Environment variables unique to this job.
         env:
@@ -226,7 +226,7 @@ jobs:
     R_CMD_check_r_lib:
       runs-on: ${{ matrix.config.os }}
       
-      name: ${{ matrix.config.os }} (r_${{ env.rversion }} bioc_${{ env.biocversion }})
+      name: ${{ matrix.config.os }}
       
       strategy:
           fail-fast: false
