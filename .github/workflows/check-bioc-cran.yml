@@ -79,8 +79,8 @@ jobs:
       ## runner to a docker directory, such that we can then cache the linked
       ## directory. This directory will contain the R packages used.
     container:
-        image: bioconductor/bioconductor_docker:RELEASE_3_11
-    volumes:
+      image: bioconductor/bioconductor_docker:RELEASE_3_11
+      volumes:
       - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
     steps:
       - name: Install latest git
@@ -106,6 +106,7 @@ jobs:
         ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
         ## If they update their steps, we will also need to update ours.
       - uses: actions/checkout@v2
+      
       - name: Query dependencies
         run: |
            install.packages('remotes')
@@ -113,6 +114,7 @@ jobs:
            message(paste('****', Sys.time(), 'installing BiocManager ****'))
            remotes::install_cran("BiocManager")
         shell: Rscript {0}
+        
       - name: Cache R packages
         if: "!contains(github.event.head_commit.message, '/nocache')"
         uses: actions/cache@v1
@@ -224,11 +226,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-      config:
-        ## Comment/Un-comment in case you also want to run other versions
-        - {os: windows-latest}
-        - {os: macOS-latest}
-        # - {os: ubuntu-16.04, rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+        config:
+          ## Comment/Un-comment in case you also want to run other versions
+          - {os: windows-latest}
+          - {os: macOS-latest}
+          # - {os: ubuntu-16.04, rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
