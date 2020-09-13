@@ -37,10 +37,10 @@
 ## CHANGE when there's a new Biocondcutor release
 
 on:
-    push:
+  push:
     branches:
     - master
-pull_request:
+  pull_request:
     branches:
     - master
     - dev
