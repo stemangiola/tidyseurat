@@ -39,11 +39,11 @@
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
     branches:
-    - master
-    - dev
+      - master
+      - dev
 
 name: R_CMD_check_bioc
 
@@ -64,298 +64,291 @@ env:
   cache_version: 'cache_v1'
 
 jobs:
-    R_CMD_check_bioc:
-        runs-on: ubuntu-latest
-
-        ## Name shown on the GHA log
-        name: ubuntu-latest (r_biocdocker)
-
-        ## Environment variables unique to this job.
+  R_CMD_check_bioc:
+    runs-on: ubuntu-latest
+    ## Name shown on the GHA log
+    name: ubuntu-latest (r_biocdocker)
+    ## Environment variables unique to this job.
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      TZ: UTC
+      NOT_CRAN: true
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ## The docker container to use. Note that we link a directory on the GHA
+      ## runner to a docker directory, such that we can then cache the linked
+      ## directory. This directory will contain the R packages used.
+    container:
+        image: bioconductor/bioconductor_docker:RELEASE_3_11
+    volumes:
+      - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
+    steps:
+      - name: Install latest git
+        run: |
+            ## git version provided
+            git --version
+            ## to be able to install software properties
+            sudo apt-get update -y
+            ## to be able to use add-apt-repository
+            sudo apt-get install software-properties-common -y
+            ## to use stable releases of git that are already in a PPA at
+            ## https://launchpad.net/~git-core/+archive/ubuntu/candidate
+            sudo add-apt-repository ppa:git-core/candidate -y
+            ## Update
+            sudo apt-get update -y
+            ## Upgrade git and other tools
+            sudo apt-get upgrade -y
+            ## latest git version
+            git --version
+        shell: bash {0}
+        ## Related to https://github.com/rocker-org/rocker-versioned2/issues/52
+        ## Most of these steps are the same as the ones in
+        ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
+        ## If they update their steps, we will also need to update ours.
+      - uses: actions/checkout@v2
+      - name: Query dependencies
+        run: |
+           install.packages('remotes')
+           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+           message(paste('****', Sys.time(), 'installing BiocManager ****'))
+           remotes::install_cran("BiocManager")
+        shell: Rscript {0}
+      - name: Cache R packages
+        if: "!contains(github.event.head_commit.message, '/nocache')"
+        uses: actions/cache@v1
+        with:
+         path: /home/runner/work/_temp/Library
+         key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
+         restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}-
+      
+      - name: Install dependencies
+        run: |
+          ## Try installing the package dependencies in steps. First the local
+          ## dependencies, then any remaining dependencies to avoid the
+          ## issues described at
+          ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
+          ## https://github.com/r-lib/remotes/issues/296
+          ## Ideally, all dependencies should get installed in the first pass.
+          
+          ## Pass #1 at installing dependencies
+          message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
+          local_deps <- remotes::local_package_deps(dependencies = TRUE)
+          deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install(local_deps[local_deps %in% deps$package[deps$diff != 0]])
+      
+          ## Pass #2 at installing dependencies
+          message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
+          deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install(deps$package[deps$diff != 0])
+  
+          ## For running the checks
+          message(paste('****', Sys.time(), 'installing rcmdcheck ****'))
+          remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
+  
+      - name: Session info
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
+  
+      - name: Check
         env:
-            R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-            TZ: UTC
-            NOT_CRAN: true
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-
-        ## The docker container to use. Note that we link a directory on the GHA
-        ## runner to a docker directory, such that we can then cache the linked
-        ## directory. This directory will contain the R packages used.
-        container:
-            image: bioconductor/bioconductor_docker:RELEASE_3_11
-        volumes:
-          - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
-
-        steps:
-          - name: Install latest git
-            run: |
-                ## git version provided
-                git --version
-                ## to be able to install software properties
-                sudo apt-get update -y
-                ## to be able to use add-apt-repository
-                sudo apt-get install software-properties-common -y
-                ## to use stable releases of git that are already in a PPA at
-                ## https://launchpad.net/~git-core/+archive/ubuntu/candidate
-                sudo add-apt-repository ppa:git-core/candidate -y
-                ## Update
-                sudo apt-get update -y
-                ## Upgrade git and other tools
-                sudo apt-get upgrade -y
-                ## latest git version
-                git --version
-            shell: bash {0}
-            ## Related to https://github.com/rocker-org/rocker-versioned2/issues/52
-
-            ## Most of these steps are the same as the ones in
-            ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
-            ## If they update their steps, we will also need to update ours.
-          - uses: actions/checkout@v2
-
-          - name: Query dependencies
-            run: |
-               install.packages('remotes')
-               saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-               message(paste('****', Sys.time(), 'installing BiocManager ****'))
-               remotes::install_cran("BiocManager")
-            shell: Rscript {0}
-
-          - name: Cache R packages
-            if: "!contains(github.event.head_commit.message, '/nocache')"
-            uses: actions/cache@v1
-            with:
-             path: /home/runner/work/_temp/Library
-             key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
-             restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}-
+          _R_CHECK_CRAN_INCOMING_: false
+        run: |
+          rcmdcheck::rcmdcheck(
+              args = c("--no-build-vignettes", "--no-manual", "--timings"),
+              build_args = c("--no-manual", "--no-resave-data"),
+              error_on = "warning",
+              check_dir = "check"
+          )
+        shell: Rscript {0}
+  
+      - name: Reveal testthat details
+        if:  env.has_testthat == 'true'
+        run: find . -name testthat.Rout -exec cat '{}' ';'
+  
+      - name: Install covr
+        if: github.ref == 'refs/heads/master' && env.run_covr == 'true'
+        run: |
+           remotes::install_cran("covr")
+        shell: Rscript {0}
+  
+      - name: Test coverage
+        if: github.ref == 'refs/heads/master' && env.run_covr == 'true'
+        run: |
+          covr::codecov()
+        shell: Rscript {0}
+  
+      - name: Install pkgdown
+        if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
+        run: |
+          remotes::install_github("r-lib/pkgdown")
+        shell: Rscript {0}
+  
+      - name: Install package
+        if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
+        run: R CMD INSTALL .
+      
+      - name: Deploy package
+        if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          Rscript -e "pkgdown::deploy_to_branch(new_process = FALSE)"
+        shell: bash {0}
+        ## Note that you need to run pkgdown::deploy_to_branch(new_process = FALSE)
+        ## at least one locally before this will work. This creates the gh-pages
+        ## branch (erasing anything you haven't version controlled!) and
+        ## makes the git history recognizable by pkgdown.
+      
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_results
+          path: check
+      
+        ## Run R CMD check on both macOS and Windows. You can also run the
+        ## tests on Linux outside of the Bioconductor docker environment. If you
+        ## do so, you might have to install system dependencies on Linux
+        ## Bioconductor's docker includes all the system dependencies required by
+        ## Bioconductor packages and their dependencies (which includes many CRAN
+        ## dependencies as well, thus making this workflow useful beyond Bioconductor)
+  R_CMD_check_r_lib:
+    runs-on: ${{ matrix.config.os }}
+    
+    name: ${{ matrix.config.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+      config:
+        ## Comment/Un-comment in case you also want to run other versions
+        - {os: windows-latest}
+        - {os: macOS-latest}
+        # - {os: ubuntu-16.04, rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+    
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      BIOCVERSIONNUM: ${{ env.biocversionnum }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Setup R from r-lib
+        uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ env.rversion }}
+    
+      - name: Setup pandoc from r-lib
+        uses: r-lib/actions/setup-pandoc@master
+      
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        shell: Rscript {0}
+      
+      - name: Cache R packages
+        if: "!contains(github.event.head_commit.message, '/nocache')"
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}-
           
-          - name: Install dependencies
-            run: |
-              ## Try installing the package dependencies in steps. First the local
-              ## dependencies, then any remaining dependencies to avoid the
-              ## issues described at
-              ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
-              ## https://github.com/r-lib/remotes/issues/296
-              ## Ideally, all dependencies should get installed in the first pass.
-              
-              ## Pass #1 at installing dependencies
-              message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
-              local_deps <- remotes::local_package_deps(dependencies = TRUE)
-              deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
-              BiocManager::install(local_deps[local_deps %in% deps$package[deps$diff != 0]])
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+      
+      - name: Install macOS system dependencies
+        if: matrix.config.os == 'macOS-latest'
+        run: |
+          ## Enable installing XML from source if needed
+          brew install libxml2
+          echo "::set-env name=XML_CONFIG::/usr/local/opt/libxml2/bin/xml2-config"
+      
+          ## Required to install magick as noted at
+          ## https://github.com/r-lib/usethis/commit/f1f1e0d10c1ebc75fd4c18fa7e2de4551fd9978f#diff-9bfee71065492f63457918efcd912cf2
+          brew install imagemagick@6
+      
+      - name: Install Windows system dependencies
+        if: runner.os == 'Windows'
+        run: |
+          ## Edit below if you have any Windows system dependencies
+        shell: Rscript {0}
+      
+      - name: Install BiocManager
+        run: |
+          message(paste('****', Sys.time(), 'installing BiocManager ****'))
+          remotes::install_cran("BiocManager")
+        shell: Rscript {0}
+      
+      - name: Set BiocVersion
+        run: |
+          BiocManager::install(version = Sys.getenv('BIOCVERSIONNUM'), ask = FALSE)
+        shell: Rscript {0}
+      
+      - name: Install dependencies
+        run: |
+          ## Try installing the package dependencies in steps. First the local
+          ## dependencies, then any remaining dependencies to avoid the
+          ## issues described at
+          ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
+          ## https://github.com/r-lib/remotes/issues/296
+          ## Ideally, all dependencies should get installed in the first pass.
           
-              ## Pass #2 at installing dependencies
-              message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
-              deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
-              BiocManager::install(deps$package[deps$diff != 0])
+          ## Pass #1 at installing dependencies
+          message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
+          local_deps <- remotes::local_package_deps(dependencies = TRUE)
+          deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install(local_deps[local_deps %in% deps$package[deps$diff != 0]])
       
-              ## For running the checks
-              message(paste('****', Sys.time(), 'installing rcmdcheck ****'))
-              remotes::install_cran("rcmdcheck")
-            shell: Rscript {0}
-      
-          - name: Session info
-            run: |
-              options(width = 100)
-              pkgs <- installed.packages()[, "Package"]
-              sessioninfo::session_info(pkgs, include_base = TRUE)
-            shell: Rscript {0}
-      
-          - name: Check
-            env:
-              _R_CHECK_CRAN_INCOMING_: false
-            run: |
-              rcmdcheck::rcmdcheck(
-                  args = c("--no-build-vignettes", "--no-manual", "--timings"),
-                  build_args = c("--no-manual", "--no-resave-data"),
-                  error_on = "warning",
-                  check_dir = "check"
-              )
-            shell: Rscript {0}
-      
-          - name: Reveal testthat details
-            if:  env.has_testthat == 'true'
-            run: find . -name testthat.Rout -exec cat '{}' ';'
-      
-          - name: Install covr
-            if: github.ref == 'refs/heads/master' && env.run_covr == 'true'
-            run: |
-               remotes::install_cran("covr")
-            shell: Rscript {0}
-      
-          - name: Test coverage
-            if: github.ref == 'refs/heads/master' && env.run_covr == 'true'
-            run: |
-              covr::codecov()
-            shell: Rscript {0}
-      
-          - name: Install pkgdown
-            if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
-            run: |
-              remotes::install_github("r-lib/pkgdown")
-            shell: Rscript {0}
-      
-          - name: Install package
-            if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
-            run: R CMD INSTALL .
+          ## Pass #2 at installing dependencies
+          message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
+          deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install(deps$package[deps$diff != 0])
           
-          - name: Deploy package
-            if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
-            run: |
-              git config --local user.email "action@github.com"
-              git config --local user.name "GitHub Action"
-              Rscript -e "pkgdown::deploy_to_branch(new_process = FALSE)"
-            shell: bash {0}
-            ## Note that you need to run pkgdown::deploy_to_branch(new_process = FALSE)
-            ## at least one locally before this will work. This creates the gh-pages
-            ## branch (erasing anything you haven't version controlled!) and
-            ## makes the git history recognizable by pkgdown.
-          
-          - name: Upload check results
-            if: failure()
-            uses: actions/upload-artifact@master
-            with:
-              name: ${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_results
-              path: check
-          
-            ## Run R CMD check on both macOS and Windows. You can also run the
-            ## tests on Linux outside of the Bioconductor docker environment. If you
-            ## do so, you might have to install system dependencies on Linux
-            ## Bioconductor's docker includes all the system dependencies required by
-            ## Bioconductor packages and their dependencies (which includes many CRAN
-            ## dependencies as well, thus making this workflow useful beyond Bioconductor)
-    R_CMD_check_r_lib:
-      runs-on: ${{ matrix.config.os }}
+          ## For running the checks
+          message(paste('****', Sys.time(), 'installing rcmdcheck****'))
+          remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
       
-      name: ${{ matrix.config.os }}
+      - name: Session info
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
       
-      strategy:
-          fail-fast: false
-          matrix:
-            config:
-              ## Comment/Un-comment in case you also want to run other versions
-              - {os: windows-latest}
-              - {os: macOS-latest}
-              # - {os: ubuntu-16.04, rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+      - name: Check
+        env:
+          _R_CHECK_CRAN_INCOMING_: false
+        run: |
+            rcmdcheck::rcmdcheck(
+                args = c("--no-build-vignettes", "--no-manual", "--timings"),
+                build_args = c("--no-manual", "--no-resave-data"),
+                error_on = "warning",
+                check_dir = "check"
+            )
+        shell: Rscript {0}
       
-      env:
-        R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-        RSPM: ${{ matrix.config.rspm }}
-        BIOCVERSIONNUM: ${{ env.biocversionnum }}
-        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: Reveal testthat details
+        if:  env.has_testthat == 'true'
+        run: find . -name testthat.Rout -exec cat '{}' ';'
       
-      steps:
-        - uses: actions/checkout@v2
-      
-        - name: Setup R from r-lib
-          uses: r-lib/actions/setup-r@master
-          with:
-            r-version: ${{ env.rversion }}
-      
-        - name: Setup pandoc from r-lib
-          uses: r-lib/actions/setup-pandoc@master
-        
-        - name: Query dependencies
-          run: |
-            install.packages('remotes')
-            saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          shell: Rscript {0}
-        
-        - name: Cache R packages
-          if: "!contains(github.event.head_commit.message, '/nocache')"
-          uses: actions/cache@v1
-          with:
-            path: ${{ env.R_LIBS_USER }}
-            key: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_${{ hashFiles('.github/depends.Rds') }}
-            restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}-
-            
-        - name: Install Linux system dependencies
-          if: runner.os == 'Linux'
-          env:
-            RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
-          run: |
-            Rscript -e "remotes::install_github('r-hub/sysreqs')"
-            sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-            sudo -s eval "$sysreqs"
-        
-        - name: Install macOS system dependencies
-          if: matrix.config.os == 'macOS-latest'
-          run: |
-            ## Enable installing XML from source if needed
-            brew install libxml2
-            echo "::set-env name=XML_CONFIG::/usr/local/opt/libxml2/bin/xml2-config"
-        
-            ## Required to install magick as noted at
-            ## https://github.com/r-lib/usethis/commit/f1f1e0d10c1ebc75fd4c18fa7e2de4551fd9978f#diff-9bfee71065492f63457918efcd912cf2
-            brew install imagemagick@6
-        
-        - name: Install Windows system dependencies
-          if: runner.os == 'Windows'
-          run: |
-            ## Edit below if you have any Windows system dependencies
-          shell: Rscript {0}
-        
-        - name: Install BiocManager
-          run: |
-            message(paste('****', Sys.time(), 'installing BiocManager ****'))
-            remotes::install_cran("BiocManager")
-          shell: Rscript {0}
-        
-        - name: Set BiocVersion
-          run: |
-            BiocManager::install(version = Sys.getenv('BIOCVERSIONNUM'), ask = FALSE)
-          shell: Rscript {0}
-        
-        - name: Install dependencies
-          run: |
-            ## Try installing the package dependencies in steps. First the local
-            ## dependencies, then any remaining dependencies to avoid the
-            ## issues described at
-            ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
-            ## https://github.com/r-lib/remotes/issues/296
-            ## Ideally, all dependencies should get installed in the first pass.
-            
-            ## Pass #1 at installing dependencies
-            message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
-            local_deps <- remotes::local_package_deps(dependencies = TRUE)
-            deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
-            BiocManager::install(local_deps[local_deps %in% deps$package[deps$diff != 0]])
-        
-            ## Pass #2 at installing dependencies
-            message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
-            deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
-            BiocManager::install(deps$package[deps$diff != 0])
-            
-            ## For running the checks
-            message(paste('****', Sys.time(), 'installing rcmdcheck****'))
-            remotes::install_cran("rcmdcheck")
-          shell: Rscript {0}
-        
-        - name: Session info
-          run: |
-            options(width = 100)
-            pkgs <- installed.packages()[, "Package"]
-            sessioninfo::session_info(pkgs, include_base = TRUE)
-          shell: Rscript {0}
-        
-        - name: Check
-          env:
-            _R_CHECK_CRAN_INCOMING_: false
-          run: |
-              rcmdcheck::rcmdcheck(
-                  args = c("--no-build-vignettes", "--no-manual", "--timings"),
-                  build_args = c("--no-manual", "--no-resave-data"),
-                  error_on = "warning",
-                  check_dir = "check"
-              )
-          shell: Rscript {0}
-        
-        - name: Reveal testthat details
-          if:  env.has_testthat == 'true'
-          run: find . -name testthat.Rout -exec cat '{}' ';'
-        
-        - name: Upload check results
-          if: failure()
-          uses: actions/upload-artifact@master
-          with:
-            name: ${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}-bioc_${{ env.biocversion }}_results
-            path: check  
+      - name: Upload check results
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}-bioc_${{ env.biocversion }}_results
+          path: check 
