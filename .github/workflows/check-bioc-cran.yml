@@ -121,7 +121,7 @@ jobs:
         with:
          path: /home/runner/work/_temp/Library
          key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
-         restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}-
+         restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_
       
       - name: Install dependencies
         run: |
@@ -263,7 +263,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}-
+          restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_
           
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
