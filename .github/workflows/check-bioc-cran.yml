@@ -1,10 +1,9 @@
 ## Maria: This GHA is adapted from lcolladotor's one described below.
+## - Autodetects current Bioc release and tests against that Docker image for ubuntu. 
+##   Tests against current Bioc release packages and R version for Mac and Windows
 ## - Changed - to _ in variable names to try to use act (https://github.com/nektos/act) 
-##   for testing GHA locally
-## - Removed the needs: due to this with act https://github.com/nektos/act/issues/295
-## - Had to hardcode bioconductor version in a few places below for moment as couldn't use env variable
-## - Some Bioconductor packages failed to install locally with act, might be due 
-##   to the issue lcolladotor mentions below
+##   for testing GHA locally. But added back needs so won't work with act but can test with my fork
+## 
 ##
 ## Read more about GitHub actions the features of this GitHub Actions workflow
 ## at https://lcolladotor.github.io/biocthis/articles/biocthis.html#use_bioc_github_action
@@ -55,19 +54,43 @@ name: R_CMD_check_bioc
 ## Note that you can always run a GHA test without the cache by using the word
 ## "/nocache" in the commit message.
 env:
-  rversion: '4.0'
-  biocversionnum: '3_11'
-  biocversion: 'RELEASE_3_11'
   has_testthat: 'true'
   run_covr: 'true'
   run_pkgdown: 'true'
   cache_version: 'cache_v1'
 
 jobs:
+  define_bioc_version:
+    runs-on: ubuntu-latest
+    outputs:
+      rversion: ${{ steps.findversion.outputs.rversion }}
+      biocversionnum: ${{ steps.findversion.outputs.biocversionnum }}
+      biocrelease: ${{ steps.findversion.outputs.biocrelease }}
+    steps:
+      - id: findversion
+        run: |
+          ## Define the R and Bioconductor version numbers for the current Bioc release
+          biocversionnum=$(Rscript -e "info <- BiocManager:::.version_map_get_online('https://bioconductor.org/config.yaml'); res <- subset(info, BiocStatus == 'release')[, 'Bioc']; cat(as.character(res))")
+          biocrelease=${biocversionnum/\./_}
+          biocrelease=${biocrelease/#/RELEASE_}
+          rversion=$(Rscript -e "info <- BiocManager:::.version_map_get_online('https://bioconductor.org/config.yaml'); res <- subset(info, BiocStatus == 'release')[, 'R']; cat(as.character(res))")
+         
+          ## Print the results
+          echo $biocversionnum
+          echo $biocrelease
+          echo $rversion
+
+          ## Save the info for the next job
+          echo "::set-output name=rversion::${rversion}"
+          echo "::set-output name=biocversionnum::${biocversionnum}"
+          echo "::set-output name=biocrelease::${biocrelease}"
+        shell: bash {0}
   R_CMD_check_bioc:
     runs-on: ubuntu-latest
+    needs: define_bioc_version
+    
     ## Name shown on the GHA log
-    name: ubuntu-latest (r_biocdocker)
+    name: (r-biocdocker bioc-${{ needs.define-bioc-info.outputs.biocrelease }})
     ## Environment variables unique to this job.
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -79,7 +102,7 @@ jobs:
       ## runner to a docker directory, such that we can then cache the linked
       ## directory. This directory will contain the R packages used.
     container:
-      image: bioconductor/bioconductor_docker:RELEASE_3_11
+      image: "bioconductor/bioconductor_docker:${biocrelease}"
       volumes:
       - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
     steps:
@@ -120,8 +143,8 @@ jobs:
         uses: actions/cache@v1
         with:
          path: /home/runner/work/_temp/Library
-         key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
-         restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_
+         key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}_bioc_${{ needs.define-bioc-info.outputs.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
+         restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}_bioc_${{ needs.define-bioc-info.outputs.biocversionnum }}_
       
       - name: Install dependencies
         run: |
@@ -211,7 +234,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@master
         with:
-          name: ${{ runner.os }}_biocdocker_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversionnum }}_results
+          name: ${{ runner.os }}_biocdocker_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}_bioc_${{ needs.define-bioc-info.outputs.biocversionnum }}_results
           path: check
       
         ## Run R CMD check on both macOS and Windows. You can also run the
@@ -222,6 +245,7 @@ jobs:
         ## dependencies as well, thus making this workflow useful beyond Bioconductor)
   R_CMD_check_r_lib:
     runs-on: ${{ matrix.config.os }}
+    needs: define_bioc_version
     
     name: ${{ matrix.config.os }}
     
@@ -246,7 +270,7 @@ jobs:
       - name: Setup R from r-lib
         uses: r-lib/actions/setup-r@master
         with:
-          r-version: ${{ env.rversion }}
+          r-version: ${{ needs.define-bioc-info.outputs.rversion }}
     
       - name: Setup pandoc from r-lib
         uses: r-lib/actions/setup-pandoc@master
@@ -262,9 +286,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}_bioc_${{ env.biocversion }}_
-          
+          key: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}_bioc_${{ needs.define-bioc-info.outputs.biocversionnum }}_${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ env.cache_version }}_${{ runner.os }}_biocdocker_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}_bioc_${{ needs.define-bioc-info.outputs.biocversionnum }}_
+      
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         env:
@@ -354,5 +378,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@master
         with:
-          name: ${{ runner.os }}_biocbranch_${{ env.biocversion }}_r_${{ env.rversion }}-bioc_${{ env.biocversion }}_results
+          name: ${{ runner.os }}_biocbranch_${{ needs.define-bioc-info.outputs.biocversion }}_r_${{ needs.define-bioc-info.outputs.rversion }}-bioc_${{ needs.define-bioc-info.outputs.biocversion }}_results
           path: check 
