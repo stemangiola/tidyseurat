@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
     <p>Right join datasets</p>
     </div>
 
-    <pre class="usage"><span class='fu'>right_join</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, by = <span class='kw'>NULL</span>, copy = <span class='fl'>FALSE</span>, suffix = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>right_join</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>suffix</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>".x"</span>, <span class='st'>".y"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,11 +160,10 @@
     <p>A tidyseurat object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
+    <pre class="examples"><div class='input'><span class='no'>`%&gt;%`</span> <span class='kw'>=</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='no'>`%&gt;%`</span>
 
-<span class='kw'>tt</span> <span class='op'>=</span> <span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span>
-<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='kw'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='kw'>groups</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(new_column = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span>(<span class='fl'>1</span>))
-</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("right_join"): no applicable method for 'right_join' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'>
+<span class='no'>tt</span> <span class='kw'>=</span> <span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span>
+<span class='no'>tt</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>tt</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='distinct.html'>distinct</a></span>(<span class='no'>groups</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>new_column</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice</a></span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("right_join"): no applicable method for 'right_join' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -181,7 +180,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

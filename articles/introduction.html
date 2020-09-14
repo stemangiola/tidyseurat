@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -69,13 +69,13 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of the tidyseurat package</h1>
                         <h4 class="author">Stefano Mangiola</h4>
             
-            <h4 class="date">2020-09-11</h4>
+            <h4 class="date">2020-09-14</h4>
       
       
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -85,13 +85,13 @@
     
     
 <!-- badges: start -->
-<p><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a> <a href="https://github.com/stemangiola/tidyseurat/actions"><img src="https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
+<p><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a> <!-- badges: end --></p>
 <p><strong>Brings Seurat to the tidyverse!</strong></p>
 <p>website: <a href="https://stemangiola.github.io/tidyseurat/">stemangiola.github.io/tidyseurat/</a></p>
-<p>Please have a look also to</p>
+<p>Please also have a look at</p>
 <ul>
 <li>
-<a href="https://stemangiola.github.io/tidybulk/">tidybulk</a> for tidy high-level data analysis and manipulation</li>
+<a href="https://stemangiola.github.io/tidybulk/">tidybulk</a> for tidy bulk RNA-seq analysis</li>
 <li>
 <a href="https://github.com/stemangiola/nanny">nanny</a> for tidy high-level data analysis and manipulation</li>
 <li>
@@ -99,11 +99,11 @@
 <li>
 <a href="https://stemangiola.github.io/tidyHeatmap/">tidyHeatmap</a> for heatmaps produced with tidy principles</li>
 </ul>
-<!---
-
-[![Build Status](https://travis-ci.org/stemangiola/tidyseurat.svg?branch=master)](https://travis-ci.org/stemangiola/tidyseurat) [![Coverage Status](https://coveralls.io/repos/github/stemangiola/tidyseurat/badge.svg?branch=master)](https://coveralls.io/github/stemangiola/tidyseurat?branch=master)
-
---><div id="functionsutilities-available" class="section level2">
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>tidyseurat provides a bridge between the Seurat single-cell package <span class="citation">(Butler et al. 2018; Stuart et al. 2019)</span> and the tidyverse <span class="citation">(Wickham et al. 2019)</span>. It creates an invisible layer that enables viewing the Seurat object as a tidyverse tibble, and provides Seurat-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions.</p>
+<div id="functionsutilities-available" class="section level2">
 <h2 class="hasAnchor">
 <a href="#functionsutilities-available" class="anchor"></a>Functions/utilities available</h2>
 <table class="table">
@@ -168,26 +168,26 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>From CRAN (in submission)</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tidyseurat"</span>)
-</pre></div>
-<p>From Github</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"stemangiola/tidyseurat"</span>)
-</pre></div>
+<p>From CRAN</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tidyseurat"</span>)</pre></body></html></div>
+<p>From Github (development)</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"stemangiola/tidyseurat"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">magrittr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Seurat</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SingleCellSignalR</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyseurat</span>)</pre></body></html></div>
 </div>
 <div id="create-tidyseurat-the-best-of-both-worlds" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-tidyseurat-the-best-of-both-worlds" class="anchor"></a>Create <code>tidyseurat</code>, the best of both worlds!</h2>
 <p>This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">pbmc_small_tidy</span> <span class="op">=</span> <span class="kw">tidyseurat</span>::<span class="kw"><a href="../reference/pbmc_small.html">pbmc_small</a></span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tidy.html">tidy</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">pbmc_small_tidy</span> <span class="kw">&lt;-</span> <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="no"><a href="../reference/pbmc_small.html">pbmc_small</a></span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tidy.html">tidy</a></span>()</pre></body></html></div>
 <p><strong>It looks like a tibble</strong></p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">pbmc_small_tidy</span>
-</pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">pbmc_small_tidy</span></pre></body></html></div>
 <pre><code>## # A tibble: 80 x 16
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
@@ -205,26 +205,36 @@
 ## #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
 ## #   tSNE_2 &lt;dbl&gt;</code></pre>
 <p><strong>But it is a Seurat object after all</strong></p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">pbmc_small_tidy</span><span class="op">@</span>assays
-</pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">pbmc_small_tidy</span>@<span class="kw">assays</span></pre></body></html></div>
 <pre><code>## $RNA
 ## Assay data with 230 features for 80 cells
 ## Top 10 variable features:
 ##  PPBP, IGLL5, VDAC3, CD1C, AKR1C3, PF4, MYL9, GNLY, TREML1, CA2</code></pre>
 </div>
-<div id="annotation-polishing-using-tidyverse" class="section level2">
-<h2 class="hasAnchor">
-<a href="#annotation-polishing-using-tidyverse" class="anchor"></a>Annotation polishing using tidyverse</h2>
-<p>We may have a column that contains the directory each run was taken from. We may want to extract the run/sample name out of it.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">pbmc_small_polished</span> <span class="op">=</span>
-  <span class="kw">pbmc_small_tidy</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/extract.html">extract</a></span>(<span class="kw">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, remove = <span class="kw">F</span>) 
-
-<span class="kw">pbmc_small_polished</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">sample</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>())
-</pre></div>
+</div>
+<div id="annotation-polishing" class="section level1">
+<h1 class="hasAnchor">
+<a href="#annotation-polishing" class="anchor"></a>Annotation polishing</h1>
+<p>We may have a column that contains the directory each run was taken from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">pbmc_small_tidy</span>$<span class="no">file</span>[<span class="fl">1</span>:<span class="fl">5</span>]</pre></body></html></div>
+<pre><code>##                                     ATGCCAGAACGACT 
+## "../data/sample2/outs/filtered_feature_bc_matrix/" 
+##                                     CATGGCCTGTGCAT 
+## "../data/sample1/outs/filtered_feature_bc_matrix/" 
+##                                     GAACCTGATGAACC 
+## "../data/sample2/outs/filtered_feature_bc_matrix/" 
+##                                     TGACTGGATTCTCA 
+## "../data/sample2/outs/filtered_feature_bc_matrix/" 
+##                                     AGTCAGACTGCACA 
+## "../data/sample2/outs/filtered_feature_bc_matrix/"</code></pre>
+<p>We may want to extract the run/sample name out of it into a separate column. Tidyverse <code>extract</code> can be used to convert a character column into multiple columns using regular expression groups.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># Create sample column</span>
+<span class="no">pbmc_small_polished</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_tidy</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/extract.html">extract</a></span>(<span class="no">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, <span class="kw">remove</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="co"># Reorder to have sample column up front</span>
+<span class="no">pbmc_small_polished</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">sample</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>())</pre></body></html></div>
 <pre><code>## # A tibble: 80 x 17
 ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 ##    &lt;chr&gt; &lt;chr&gt;  &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
@@ -242,52 +252,66 @@
 ## #   RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,
 ## #   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</code></pre>
 </div>
-<div id="preliminary-plots" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h2>
+<div id="preliminary-plots" class="section level1">
+<h1 class="hasAnchor">
+<a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h1>
+<p>Set colours and theme for plots.</p>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># Use colourblind-friendly colours</span>
+<span class="no">friendly_cols</span> <span class="kw">&lt;-</span> <span class="kw pkg">dittoSeq</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dittoSeq/man/dittoColors.html">dittoColors</a></span>()
+<span class="co"># Set theme</span>
+<span class="no">my_theme</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span>(<span class="kw">values</span> <span class="kw">=</span> <span class="no">friendly_cols</span>),
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span>(<span class="kw">values</span> <span class="kw">=</span> <span class="no">friendly_cols</span>),
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
+      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(
+        <span class="kw">panel.border</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
+        <span class="kw">axis.line</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span>(),
+        <span class="kw">panel.grid.major</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.2</span>),
+        <span class="kw">panel.grid.minor</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.1</span>),
+        <span class="kw">text</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">12</span>),
+        <span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>,
+        <span class="kw">aspect.ratio</span> <span class="kw">=</span> <span class="fl">1</span>,
+        <span class="kw">strip.background</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
+        <span class="kw">axis.title.x</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="kw">margin</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span>(<span class="kw">t</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">r</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">l</span> <span class="kw">=</span> <span class="fl">10</span>)),
+        <span class="kw">axis.title.y</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="kw">margin</span> <span class="kw">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span>(<span class="kw">t</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">r</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">b</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">l</span> <span class="kw">=</span> <span class="fl">10</span>))
+      )
+  )</pre></body></html></div>
 <p>We can treat <code>pbmc_small_polished</code> effectively as a normal tibble for plotting.</p>
-<p>Here we plot number of transcripts per cell</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">pbmc_small_polished</span> <span class="op">%&gt;%</span>
-  <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">nFeature_RNA</span>, fill=<span class="kw">groups</span>)) <span class="op">+</span> 
-  <span class="fu">geom_histogram</span>() <span class="op">+</span>
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/plot1-1.png" width="700"></p>
-<p>Here we plot total transcriptional material per cell</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">pbmc_small_polished</span> <span class="op">%&gt;%</span>
-  <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">groups</span>, <span class="kw">nCount_RNA</span>, fill=<span class="kw">groups</span>)) <span class="op">+</span> 
-  <span class="fu">geom_boxplot</span>(outlier.shape = <span class="fl">NA</span>) <span class="op">+</span>
-  <span class="fu">geom_jitter</span>(width = <span class="fl">0.1</span>) <span class="op">+</span>
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/plot2-1.png" width="700"></p>
-<p>Here we plot abundance of two transcripts for each group</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">pbmc_small_polished</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/join_transcripts.html">join_transcripts</a></span>(transcripts = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HLA-DRA"</span> ,     <span class="st">"LYZ"</span> )) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">groups</span>, <span class="kw">abundance_RNA</span> <span class="op">+</span> <span class="fl">1</span>, fill=<span class="kw">groups</span>)) <span class="op">+</span> 
-  <span class="fu">geom_boxplot</span>(outlier.shape = <span class="fl">NA</span>) <span class="op">+</span> 
-  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(size=<span class="kw">nCount_RNA</span>), alpha=<span class="fl">0.5</span>, width = <span class="fl">0.2</span>) <span class="op">+</span> 
-  <span class="fu">scale_y_log10</span>() <span class="op">+</span> 
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/unnamed-chunk-9-1.png" width="700"></p>
+<p>Here we plot number of transcripts per cell.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">pbmc_small_polished</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">nFeature_RNA</span>, <span class="kw">fill</span> <span class="kw">=</span> <span class="no">groups</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>() +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/plot1-1.png" width="700"></p>
+<p>Here we plot total transcripts per cell.</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">pbmc_small_polished</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">groups</span>, <span class="no">nCount_RNA</span>, <span class="kw">fill</span> <span class="kw">=</span> <span class="no">groups</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.1</span>) +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/plot2-1.png" width="700"></p>
+<p>Here we plot abundance of two transcripts for each group.</p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">pbmc_small_polished</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/join_transcripts.html">join_transcripts</a></span>(<span class="kw">transcripts</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">groups</span>, <span class="no">abundance_RNA</span> + <span class="fl">1</span>, <span class="kw">fill</span> <span class="kw">=</span> <span class="no">groups</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span>(<span class="kw">outlier.shape</span> <span class="kw">=</span> <span class="fl">NA</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="no">nCount_RNA</span>), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.2</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10</a></span>() +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
-<div id="preprocess-the-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#preprocess-the-dataset" class="anchor"></a>Preprocess the dataset</h2>
+<div id="preprocess-the-dataset" class="section level1">
+<h1 class="hasAnchor">
+<a href="#preprocess-the-dataset" class="anchor"></a>Preprocess the dataset</h1>
 <p>Also you can treat the object as Seurat object and proceed with data processing.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">pbmc_small_pca</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_polished</span> <span class="op">%&gt;%</span>
-  <span class="fu">SCTransform</span>(verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span> 
-  <span class="fu">FindVariableFeatures</span>(verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span> 
-  <span class="fu">RunPCA</span>(verbose = <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">pbmc_small_pca</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_polished</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/SCTransform.html">SCTransform</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html">FindVariableFeatures</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html">RunPCA</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 
-<span class="kw">pbmc_small_pca</span>
-</pre></div>
+<span class="no">pbmc_small_pca</span></pre></body></html></div>
 <pre><code>## # A tibble: 80 x 19
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
@@ -304,27 +328,24 @@
 ## # … with 70 more rows, and 12 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
 ## #   sample &lt;chr&gt;, nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,
 ## #   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</code></pre>
-<p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">pbmc_small_pca</span> <span class="op">%&gt;%</span>
-  <span class="kw">as_tibble</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span>(<span class="st">"PC"</span>), <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>()) <span class="op">%&gt;%</span>
-      <span class="kw">GGally</span>::<span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span>(columns = <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">ggplot2</span>::<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(colour=<span class="kw">groups</span>))
-</pre></div>
-<p><img src="man/figures/pc_plot-1.png" width="700"></p>
+<p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble.</p>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">pbmc_small_pca</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"PC"</span>), <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>()) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">GGally</span><span class="kw ns">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span>(<span class="kw">columns</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">5</span>, <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">colour</span> <span class="kw">=</span> <span class="no">groups</span>)) +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/pc_plot-1.png" width="700"></p>
 </div>
-<div id="identify-clusters" class="section level2">
-<h2 class="hasAnchor">
-<a href="#identify-clusters" class="anchor"></a>Identify clusters</h2>
-<p>We proceed with cluster identification</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">pbmc_small_cluster</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_pca</span> <span class="op">%&gt;%</span>
-  <span class="fu">FindNeighbors</span>(verbose=<span class="fl">FALSE</span>) <span class="op">%&gt;%</span> 
-  <span class="fu">FindClusters</span>(method = <span class="st">"igraph"</span>, verbose=<span class="fl">FALSE</span> )
+<div id="identify-clusters" class="section level1">
+<h1 class="hasAnchor">
+<a href="#identify-clusters" class="anchor"></a>Identify clusters</h1>
+<p>We proceed with cluster identification with Seurat.</p>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">pbmc_small_cluster</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_pca</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html">FindNeighbors</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html">FindClusters</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"igraph"</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 
-<span class="kw">pbmc_small_cluster</span>
-</pre></div>
+<span class="no">pbmc_small_cluster</span></pre></body></html></div>
 <pre><code>## # A tibble: 80 x 21
 ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 ##    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
@@ -342,11 +363,9 @@
 ## #   sample &lt;chr&gt;, nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;,
 ## #   seurat_clusters &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,
 ## #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</code></pre>
-<p>Now we can interrogate the object as if it was a regular tibble data frame</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="kw">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/count.html">count</a></span>(<span class="kw">groups</span>, <span class="kw">seurat_clusters</span>)
-</pre></div>
+<p>Now we can interrogate the object as if it was a regular tibble data frame.</p>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">pbmc_small_cluster</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/count.html">count</a></span>(<span class="no">groups</span>, <span class="no">seurat_clusters</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 8 x 3
 ##   groups seurat_clusters     n
 ##   &lt;chr&gt;  &lt;fct&gt;           &lt;int&gt;
@@ -358,72 +377,69 @@
 ## 6 g2     1                  12
 ## 7 g2     2                   6
 ## 8 g2     3                   5</code></pre>
-<p>We can identify cluster markers using Seurat</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="co"># Identify markers</span>
-<span class="kw">markers</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_cluster</span> <span class="op">%&gt;%</span> 
-  <span class="fu">FindAllMarkers</span>(only.pos = <span class="fl">TRUE</span>, min.pct = <span class="fl">0.25</span>, thresh.use = <span class="fl">0.25</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">cluster</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span>(<span class="fl">10</span>, <span class="kw">avg_logFC</span>)
+<p>We can identify cluster markers using Seurat.</p>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="co"># Identify top 10 markers per cluster</span>
+<span class="no">markers</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_cluster</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindAllMarkers.html">FindAllMarkers</a></span>(<span class="kw">only.pos</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">min.pct</span> <span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">thresh.use</span> <span class="kw">=</span> <span class="fl">0.25</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="no">cluster</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span>(<span class="fl">10</span>, <span class="no">avg_logFC</span>)
 
 <span class="co"># Plot heatmap</span>
-<span class="kw">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="fu">DoHeatmap</span>(features = <span class="kw">markers</span><span class="op">$</span><span class="kw">gene</span>) 
-</pre></div>
-<p><img src="man/figures/unnamed-chunk-10-1.png" width="700"></p>
+<span class="no">pbmc_small_cluster</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/DoHeatmap.html">DoHeatmap</a></span>(
+    <span class="kw">features</span> <span class="kw">=</span> <span class="no">markers</span>$<span class="no">gene</span>,
+    <span class="kw">group.colors</span> <span class="kw">=</span> <span class="no">friendly_cols</span>
+  )</pre></body></html></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
-<div id="reduce-dimensions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reduce-dimensions" class="anchor"></a>Reduce dimensions</h2>
-<p>We can calculate the first 3 UMAP dimensions using Seurat framework</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">pbmc_small_UMAP</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="fu">RunUMAP</span>(reduction = <span class="st">"pca"</span>, dims = <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, n.components = <span class="fl">3L</span>, )
-</pre></div>
-<p>and we can plot them using 3D plot using plotly</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">pbmc_small_UMAP</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="../reference/plot_ly.html">plot_ly</a></span>(
-        x = <span class="op">~</span><span class="kw">`UMAP_1`</span>,
-        y = <span class="op">~</span><span class="kw">`UMAP_2`</span>, 
-        z = <span class="op">~</span><span class="kw">`UMAP_3`</span>,
-        color = <span class="op">~</span> <span class="kw">seurat_clusters</span>
-    ) 
-</pre></div>
+<div id="reduce-dimensions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#reduce-dimensions" class="anchor"></a>Reduce dimensions</h1>
+<p>We can calculate the first 3 UMAP dimensions using the Seurat framework.</p>
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">pbmc_small_UMAP</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_cluster</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html">RunUMAP</a></span>(<span class="kw">reduction</span> <span class="kw">=</span> <span class="st">"pca"</span>, <span class="kw">dims</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">15</span>, <span class="kw">n.components</span> <span class="kw">=</span> <span class="fl">3L</span>, )</pre></body></html></div>
+<p>And we can plot them using 3D plot using plotly.</p>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">pbmc_small_UMAP</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/plot_ly.html">plot_ly</a></span>(
+    <span class="kw">x</span> <span class="kw">=</span> ~<span class="no">`UMAP_1`</span>,
+    <span class="kw">y</span> <span class="kw">=</span> ~<span class="no">`UMAP_2`</span>,
+    <span class="kw">z</span> <span class="kw">=</span> ~<span class="no">`UMAP_3`</span>,
+    <span class="kw">color</span> <span class="kw">=</span> ~<span class="no">seurat_clusters</span>,
+    <span class="kw">colors</span> <span class="kw">=</span> <span class="no">friendly_cols</span>[<span class="fl">1</span>:<span class="fl">4</span>]
+  )</pre></body></html></div>
 <div class="figure">
-<img src="man/figures/plotly.png" alt=""><p class="caption">screenshot plotly</p>
-</div>
+<img src="../man/figures/plotly.png" alt=""><p class="caption">screenshot plotly</p>
 </div>
 <div id="cell-type-prediction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cell-type-prediction" class="anchor"></a>Cell type prediction</h2>
-<p>We can infer cell type identities using singleR</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">blueprint</span> <span class="op">=</span> <span class="kw">SingleR</span>::<span class="fu">BlueprintEncodeData</span>()
+<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(Aran et al. 2019)</span> and manipulate the output using tidyverse.</p>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="co"># Get cell type reference data</span>
+<span class="no">blueprint</span> <span class="kw">&lt;-</span> <span class="kw pkg">celldex</span><span class="kw ns">::</span><span class="fu">BlueprintEncodeData</span>()
 
-<span class="kw">cell_type_df</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_UMAP</span><span class="op">@</span>assays[[<span class="st">"SCT"</span>]]<span class="op">@</span>counts <span class="op">%&gt;%</span> 
-  <span class="kw">log1p</span> <span class="op">%&gt;%</span>
-  <span class="kw">Matrix</span>::<span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html">Matrix</a></span>(sparse = <span class="fl">TRUE</span>) <span class="op">%&gt;%</span>
- <span class="kw">SingleR</span>::<span class="fu">SingleR</span>(
-     ref = <span class="kw">blueprint</span> ,
-     labels = <span class="kw">blueprint</span><span class="op">$</span><span class="kw">label.main</span>,
-     method = <span class="st">"single"</span>
- ) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>(rownames=<span class="st">"cell"</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">cell</span>, <span class="kw">first.labels</span>)
-</pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="kw">pbmc_small_cell_type</span> <span class="op">=</span>
-  <span class="kw">pbmc_small_UMAP</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/left_join.html">left_join</a></span>(<span class="kw">cell_type_df</span>, by=<span class="st">"cell"</span>)
+<span class="co"># Infer cell identities</span>
+<span class="no">cell_type_df</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_UMAP</span>@<span class="kw">assays</span><span class="kw">[[</span><span class="st">"SCT"</span>]]@<span class="kw">counts</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log1p</a></span>() <span class="kw">%&gt;%</span>
+  <span class="kw pkg">Matrix</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html">Matrix</a></span>(<span class="kw">sparse</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">SingleR</span><span class="kw ns">::</span><span class="fu">SingleR</span>(
+    <span class="kw">ref</span> <span class="kw">=</span> <span class="no">blueprint</span>,
+    <span class="kw">labels</span> <span class="kw">=</span> <span class="no">blueprint</span>$<span class="no">label.main</span>,
+    <span class="kw">method</span> <span class="kw">=</span> <span class="st">"single"</span>
+  ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>(<span class="kw">rownames</span> <span class="kw">=</span> <span class="st">"cell"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">cell</span>, <span class="no">first.labels</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># Join UMAP and cell type info</span>
+<span class="no">pbmc_small_cell_type</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_UMAP</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/left_join.html">left_join</a></span>(<span class="no">cell_type_df</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"cell"</span>)
 
-<span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
-  <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">cell</span>, <span class="kw">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span>())
-</pre></div>
+<span class="co"># Reorder columns</span>
+<span class="no">pbmc_small_cell_type</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/select.html">select</a></span>(<span class="no">cell</span>, <span class="no">first.labels</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>())</pre></body></html></div>
 <pre><code>## # A tibble: 80 x 25
 ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
 ##    &lt;chr&gt; &lt;chr&gt;        &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;          
@@ -443,11 +459,9 @@
 ## #   seurat_clusters &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,
 ## #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, UMAP_1 &lt;dbl&gt;, UMAP_2 &lt;dbl&gt;,
 ## #   UMAP_3 &lt;dbl&gt;</code></pre>
-<p>We can easily summarise the results. For example, see how cell type classification overlaps with cluster classification.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="kw">seurat_clusters</span>, <span class="kw">first.labels</span>)
-</pre></div>
+<p>We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.</p>
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">pbmc_small_cell_type</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/count.html">count</a></span>(<span class="no">seurat_clusters</span>, <span class="no">first.labels</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 9 x 3
 ##   seurat_clusters first.labels     n
 ##   &lt;fct&gt;           &lt;chr&gt;        &lt;int&gt;
@@ -460,128 +474,117 @@
 ## 7 2               Macrophages      1
 ## 8 2               Monocytes        4
 ## 9 3               Erythrocytes     9</code></pre>
-<p>We can easily reshape the data for building information-rish faceted plots</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
-  
-  <span class="co"># Reshaping</span>
+<p>We can easily reshape the data for building information-rich faceted plots.</p>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">pbmc_small_cell_type</span> <span class="kw">%&gt;%</span>
+
+  <span class="co"># Reshape and add classifier column</span>
   <span class="fu"><a href="../reference/pivot_longer.html">pivot_longer</a></span>(
-    cols=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">seurat_clusters</span>, <span class="kw">first.labels</span>), 
-    names_to = <span class="st">"classifier"</span>, values_to = <span class="st">"label"</span>
-  ) <span class="op">%&gt;%</span>
-  
-  <span class="co"># Plotting</span>
-  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">UMAP_1</span>, <span class="kw">UMAP_2</span>, color=<span class="kw">label</span>)) <span class="op">+</span>
-  <span class="fu">geom_point</span>() <span class="op">+</span>
-  <span class="fu">facet_wrap</span>(<span class="op">~</span><span class="kw">classifier</span>) <span class="op">+</span>
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/unnamed-chunk-14-1.png" width="700"></p>
-<p>We can easily plot gene correlation per cell category, adding multi-layer annotations</p>
-<div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span> 
-  
-  <span class="co"># Add mitochondrial abundance</span>
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(mitochondrial = <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span>())) <span class="op">%&gt;%</span>
-  
+    <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">seurat_clusters</span>, <span class="no">first.labels</span>),
+    <span class="kw">names_to</span> <span class="kw">=</span> <span class="st">"classifier"</span>, <span class="kw">values_to</span> <span class="kw">=</span> <span class="st">"label"</span>
+  ) <span class="kw">%&gt;%</span>
+
+  <span class="co"># UMAP plots for cell type and cluster</span>
+  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">UMAP_1</span>, <span class="no">UMAP_2</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">label</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">classifier</span>) +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p>We can easily plot gene correlation per cell category, adding multi-layer annotations.</p>
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">pbmc_small_cell_type</span> <span class="kw">%&gt;%</span>
+
+  <span class="co"># Add some mitochondrial abundance values</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">mitochondrial</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span>())) <span class="kw">%&gt;%</span>
+
   <span class="co"># Plot correlation</span>
-  <span class="fu"><a href="../reference/join_transcripts.html">join_transcripts</a></span>(transcripts = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CST3"</span> ,     <span class="st">"LYZ"</span> ), shape = <span class="st">"wide"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">CST3</span> <span class="op">+</span><span class="fl">1</span>, <span class="kw">LYZ</span> <span class="op">+</span> <span class="fl">1</span>, color=<span class="kw">groups</span>, size=<span class="kw">mitochondrial</span>)) <span class="op">+</span>
-  <span class="fu">geom_point</span>() <span class="op">+</span> 
-  <span class="fu">facet_wrap</span>(<span class="op">~</span><span class="kw">first.labels</span>, scales = <span class="st">"free"</span>) <span class="op">+</span>
-  <span class="fu">scale_x_log10</span>() <span class="op">+</span>
-  <span class="fu">scale_y_log10</span>() <span class="op">+</span>
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/unnamed-chunk-15-1.png" width="700"></p>
+  <span class="fu"><a href="../reference/join_transcripts.html">join_transcripts</a></span>(<span class="kw">transcripts</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CST3"</span>, <span class="st">"LYZ"</span>), <span class="kw">shape</span> <span class="kw">=</span> <span class="st">"wide"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">CST3</span> + <span class="fl">1</span>, <span class="no">LYZ</span> + <span class="fl">1</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">groups</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="no">mitochondrial</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">first.labels</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free"</span>) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10</a></span>() +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
-<div id="nested-analyses" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nested-analyses" class="anchor"></a>Nested analyses</h2>
+</div>
+<div id="nested-analyses" class="section level1">
+<h1 class="hasAnchor">
+<a href="#nested-analyses" class="anchor"></a>Nested analyses</h1>
 <p>A powerful tool we can use with tidyseurat is <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">pbmc_small_nested</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_cell_type</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="kw">first.labels</span> != <span class="st">"Erythrocytes"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(cell_class = <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span>(<span class="kw">`first.labels`</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span>), <span class="st">"myeloid"</span>, <span class="st">"lmphoid"</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/unnest.html">nest</a></span>(data = <span class="op">-</span><span class="kw">cell_class</span>)
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">pbmc_small_nested</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_cell_type</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="no">first.labels</span> <span class="kw">!=</span> <span class="st">"Erythrocytes"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">cell_class</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span>(<span class="no">`first.labels`</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Macrophages"</span>, <span class="st">"Monocytes"</span>), <span class="st">"myeloid"</span>, <span class="st">"lymphoid"</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/tidyr-methods.html">nest</a></span>(<span class="kw">data</span> <span class="kw">=</span> -<span class="no">cell_class</span>)
 
-<span class="kw">pbmc_small_nested</span>
-</pre></div>
+<span class="no">pbmc_small_nested</span></pre></body></html></div>
 <pre><code>## # A tibble: 2 x 2
 ##   cell_class data      
 ##   &lt;chr&gt;      &lt;list&gt;    
-## 1 lmphoid    &lt;tidysert&gt;
+## 1 lymphoid   &lt;tidysert&gt;
 ## 2 myeloid    &lt;tidysert&gt;</code></pre>
-<p>Now we can independently (i) find variable features, (ii) reduce dimensions, and (iii) cluster. Using both tidyverse and Seurat seamlessy</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="kw">pbmc_small_nested_reanalysed</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_nested</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu">map</span>(
-    <span class="kw">data</span>, <span class="op">~</span> <span class="kw">.x</span> <span class="op">%&gt;%</span> 
-      <span class="fu">FindVariableFeatures</span>(verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span>
-      <span class="fu">RunPCA</span>(npcs = <span class="fl">10</span>, verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span>
-      <span class="fu">FindNeighbors</span>(verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span> 
-      <span class="fu">FindClusters</span>(method = <span class="st">"igraph"</span> , verbose = <span class="fl">FALSE</span>) <span class="op">%&gt;%</span> 
-      <span class="fu">RunUMAP</span>(reduction = <span class="st">"pca"</span>, dims = <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, n.components = <span class="fl">3L</span>, verbose = <span class="fl">FALSE</span>)
-  )) 
+<p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
+<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="no">pbmc_small_nested_reanalysed</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_nested</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(
+    <span class="no">data</span>, ~ <span class="no">.x</span> <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html">FindVariableFeatures</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html">RunPCA</a></span>(<span class="kw">npcs</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html">FindNeighbors</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html">FindClusters</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"igraph"</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html">RunUMAP</a></span>(<span class="kw">reduction</span> <span class="kw">=</span> <span class="st">"pca"</span>, <span class="kw">dims</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">10</span>, <span class="kw">n.components</span> <span class="kw">=</span> <span class="fl">3L</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+  ))
 
-<span class="kw">pbmc_small_nested_reanalysed</span>
-</pre></div>
+<span class="no">pbmc_small_nested_reanalysed</span></pre></body></html></div>
 <pre><code>## # A tibble: 2 x 2
 ##   cell_class data      
 ##   &lt;chr&gt;      &lt;list&gt;    
-## 1 lmphoid    &lt;tidysert&gt;
+## 1 lymphoid   &lt;tidysert&gt;
 ## 2 myeloid    &lt;tidysert&gt;</code></pre>
-<p>Now we can unnest and plot the new clasification</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="kw">pbmc_small_nested_reanalysed</span> <span class="op">%&gt;%</span>
-  
+<p>Now we can unnest and plot the new classification.</p>
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">pbmc_small_nested_reanalysed</span> <span class="kw">%&gt;%</span>
+
   <span class="co"># Convert to tibble otherwise Seurat drops reduced dimensions when unifying data sets.</span>
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu">map</span>(<span class="kw">data</span>, <span class="op">~</span> <span class="kw">.x</span> <span class="op">%&gt;%</span> <span class="kw">as_tibble</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/unnest.html">unnest</a></span>(<span class="kw">data</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">data</span>, ~ <span class="no">.x</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>())) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/tidyr-methods.html">unnest</a></span>(<span class="no">data</span>) <span class="kw">%&gt;%</span>
 
   <span class="co"># Define unique clusters</span>
-  <span class="fu"><a href="../reference/unite.html">unite</a></span>(<span class="st">"cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">cell_class</span>, <span class="kw">seurat_clusters</span>), remove=<span class="fl">FALSE</span>) <span class="op">%&gt;%</span>
-  
+  <span class="fu"><a href="../reference/unite.html">unite</a></span>(<span class="st">"cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">cell_class</span>, <span class="no">seurat_clusters</span>), <span class="kw">remove</span> <span class="kw">=</span> <span class="fl">FALSE</span>) <span class="kw">%&gt;%</span>
+
   <span class="co"># Plotting</span>
-  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu">aes</span>(<span class="kw">UMAP_1</span>, <span class="kw">UMAP_2</span>, color=<span class="kw">cluster</span>)) <span class="op">+</span>
-  <span class="fu">geom_point</span>() <span class="op">+</span>
-  <span class="fu">facet_wrap</span>(<span class="op">~</span><span class="kw">cell_class</span>) <span class="op">+</span>
-  <span class="kw">my_theme</span>
-</pre></div>
-<p><img src="man/figures/unnamed-chunk-18-1.png" width="700"></p>
-<p>We can perform a large number of functional analyses on data subsets. For example intra-sample cell-cell interactions, for then comparing/testing whether interactions have strenghten/weaken across conditions. In this small dataset we have just two sample (one for condition) but you can imagine how you can use tidyverse to perform t-tests and visualisation.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit">
-<span class="kw">pbmc_small_nested_interactions</span> <span class="op">=</span> 
-  <span class="kw">pbmc_small_nested_reanalysed</span> <span class="op">%&gt;%</span>
-  
+  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">UMAP_1</span>, <span class="no">UMAP_2</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">cluster</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(~<span class="no">cell_class</span>) +
+  <span class="no">my_theme</span></pre></body></html></div>
+<p><img src="introduction_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> <span class="citation">(Cabello-Aguilar et al. 2020)</span>, and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">pbmc_small_nested_interactions</span> <span class="kw">&lt;-</span>
+  <span class="no">pbmc_small_nested_reanalysed</span> <span class="kw">%&gt;%</span>
+
   <span class="co"># Unnest based on cell category</span>
-  <span class="fu"><a href="../reference/unnest.html">unnest</a></span>(<span class="kw">data</span>) <span class="op">%&gt;%</span>
-  
+  <span class="fu"><a href="../reference/tidyr-methods.html">unnest</a></span>(<span class="no">data</span>) <span class="kw">%&gt;%</span>
+
   <span class="co"># Create unambiguous clusters</span>
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(integrated_clusters = <span class="kw">first.labels</span> <span class="op">%&gt;%</span> <span class="kw">as.factor</span> <span class="op">%&gt;%</span> <span class="kw">as.integer</span>) <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">integrated_clusters</span> <span class="kw">=</span> <span class="no">first.labels</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>()) <span class="kw">%&gt;%</span>
 
   <span class="co"># Nest based on sample</span>
-    <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/unnest.html">nest</a></span>(data = <span class="op">-</span><span class="kw">sample</span>) <span class="op">%&gt;%</span>
-    <span class="kw">tidyseurat</span>::<span class="fu"><a href="../reference/mutate.html">mutate</a></span>(interactions = <span class="fu">map</span>(<span class="kw">data</span>, <span class="op">~</span> {
-        
-        <span class="co"># Produce variables. Yuck!</span>
-        <span class="kw">cluster</span> <span class="op">=</span> <span class="kw">.x</span><span class="op">@</span>meta.data<span class="op">$</span><span class="kw">integrated_clusters</span>
-        <span class="kw">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">.x</span>[[<span class="st">"SCT"</span>]]<span class="op">@</span>data)
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/tidyr-methods.html">nest</a></span>(<span class="kw">data</span> <span class="kw">=</span> -<span class="no">sample</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyseurat</span><span class="kw ns">::</span><span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="kw">interactions</span> <span class="kw">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">data</span>, ~ {
 
-        <span class="co"># Ligand/Receptor analysis using SingleCellSignalR</span>
-        <span class="kw">data</span> <span class="op">%&gt;%</span>
-            <span class="fu">cell_signaling</span>(genes=<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="kw">data</span>),cluster=<span class="kw">cluster</span>) <span class="op">%&gt;%</span>
-            <span class="fu">inter_network</span>(data = <span class="kw">data</span>, signal = <span class="kw">.</span>, genes = <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="kw">data</span>), cluster = <span class="kw">cluster</span>) <span class="op">%$%</span>
-            <span class="kw">`individual-networks`</span> <span class="op">%&gt;%</span> 
-            <span class="fu">map_dfr</span>(<span class="op">~</span><span class="fu"><a href="../reference/arrange.html">bind_rows</a></span>(<span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>(<span class="kw">.x</span>))) 
-    })) 
+    <span class="co"># Produce variables. Yuck!</span>
+    <span class="no">cluster</span> <span class="kw">&lt;-</span> <span class="no">.x</span>@<span class="kw">meta.data</span>$<span class="no">integrated_clusters</span>
+    <span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">.x</span><span class="kw">[[</span><span class="st">"SCT"</span>]]@<span class="kw">data</span>)
 
-<span class="kw">pbmc_small_nested_interactions</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="op">-</span><span class="kw">data</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/unnest.html">unnest</a></span>(<span class="kw">interactions</span>)
-</pre></div>
+    <span class="co"># Ligand/Receptor analysis using SingleCellSignalR</span>
+    <span class="no">data</span> <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/cell_signaling.html">cell_signaling</a></span>(<span class="kw">genes</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">data</span>), <span class="kw">cluster</span> <span class="kw">=</span> <span class="no">cluster</span>) <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://rdrr.io/pkg/SingleCellSignalR/man/inter_network.html">inter_network</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">signal</span> <span class="kw">=</span> <span class="no">.</span>, <span class="kw">genes</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">data</span>), <span class="kw">cluster</span> <span class="kw">=</span> <span class="no">cluster</span>) <span class="kw">%$%</span>
+      <span class="no">`individual-networks`</span> <span class="kw">%&gt;%</span>
+      <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span>(~ <span class="fu"><a href="../reference/dplyr-methods.html">bind_rows</a></span>(<span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span>(<span class="no">.x</span>)))
+  }))
+
+<span class="no">pbmc_small_nested_interactions</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span>(-<span class="no">data</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="../reference/tidyr-methods.html">unnest</a></span>(<span class="no">interactions</span>)</pre></body></html></div>
 <p>If the data set was not so small, and interactions could be identified, you would see something as below.</p>
 <pre><code>## # A tibble: 100 x 9
 ##    sample ligand receptor ligand.name receptor.name origin destination
@@ -598,6 +601,127 @@
 ## 10 sampl… clust… cluster… CALM1       VIPR1         clust… cluster 3  
 ## # … with 90 more rows, and 2 more variables: interaction.type &lt;chr&gt;,
 ## #   LRscore &lt;dbl&gt;</code></pre>
+</div>
+<div id="session-info" class="section level1">
+<h1 class="hasAnchor">
+<a href="#session-info" class="anchor"></a>Session Info</h1>
+<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<pre><code>## R version 4.0.0 (2020-04-24)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 18.04.5 LTS
+## 
+## Matrix products: default
+## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] tidyseurat_0.1.7        SingleCellSignalR_1.0.0 Seurat_3.1.5           
+##  [4] ggplot2_3.3.1           magrittr_1.5            purrr_0.3.4            
+##  [7] tidyr_1.1.0             dplyr_1.0.0             knitr_1.28             
+## [10] BiocStyle_2.16.0       
+## 
+## loaded via a namespace (and not attached):
+##   [1] backports_1.1.7             circlize_0.4.9             
+##   [3] plyr_1.8.6                  igraph_1.2.5               
+##   [5] lazyeval_0.2.2              splines_4.0.0              
+##   [7] BiocParallel_1.22.0         listenv_0.8.0              
+##   [9] GenomeInfoDb_1.24.2         scater_1.16.2              
+##  [11] digest_0.6.25               foreach_1.5.0              
+##  [13] htmltools_0.4.0             viridis_0.5.1              
+##  [15] fansi_0.4.1                 gdata_2.18.0               
+##  [17] memoise_1.1.0               cluster_2.1.0              
+##  [19] ROCR_1.0-11                 limma_3.44.3               
+##  [21] globals_0.12.5              matrixStats_0.56.0         
+##  [23] pkgdown_1.5.1               colorspace_1.4-1           
+##  [25] rappdirs_0.3.1              ggrepel_0.8.2              
+##  [27] xfun_0.14                   crayon_1.3.4               
+##  [29] RCurl_1.98-1.2              jsonlite_1.6.1             
+##  [31] survival_3.1-12             zoo_1.8-8                  
+##  [33] iterators_1.0.12            ape_5.4                    
+##  [35] glue_1.4.1                  gtable_0.3.0               
+##  [37] zlibbioc_1.34.0             XVector_0.28.0             
+##  [39] SIMLR_1.14.0                leiden_0.3.3               
+##  [41] DelayedArray_0.14.1         BiocSingular_1.4.0         
+##  [43] future.apply_1.5.0          shape_1.4.4                
+##  [45] SingleCellExperiment_1.10.1 BiocGenerics_0.34.0        
+##  [47] scales_1.1.1                pheatmap_1.0.12            
+##  [49] GGally_2.0.0                edgeR_3.30.3               
+##  [51] Rcpp_1.0.4.6                viridisLite_0.3.0          
+##  [53] reticulate_1.16             dqrng_0.2.1                
+##  [55] rsvd_1.0.3                  stats4_4.0.0               
+##  [57] tsne_0.1-3                  dittoSeq_1.0.2             
+##  [59] htmlwidgets_1.5.1           httr_1.4.1                 
+##  [61] gplots_3.0.3                RColorBrewer_1.1-2         
+##  [63] ellipsis_0.3.1              ica_1.0-2                  
+##  [65] reshape_0.8.8               farver_2.0.3               
+##  [67] pkgconfig_2.0.3             uwot_0.1.8                 
+##  [69] utf8_1.1.4                  locfit_1.5-9.4             
+##  [71] labeling_0.3                tidyselect_1.1.0           
+##  [73] rlang_0.4.6                 reshape2_1.4.4             
+##  [75] munsell_0.5.0               tools_4.0.0                
+##  [77] cli_2.0.2                   generics_0.0.2             
+##  [79] ggridges_0.5.2              evaluate_0.14              
+##  [81] stringr_1.4.0               yaml_2.2.1                 
+##  [83] fs_1.4.1                    fitdistrplus_1.1-1         
+##  [85] caTools_1.18.0              RANN_2.6.1                 
+##  [87] pbapply_1.4-2               future_1.17.0              
+##  [89] nlme_3.1-148                scran_1.16.0               
+##  [91] pracma_2.2.9                compiler_4.0.0             
+##  [93] beeswarm_0.2.3              plotly_4.9.2.1             
+##  [95] png_0.1-7                   tibble_3.0.1               
+##  [97] statmod_1.4.34              stringi_1.4.6              
+##  [99] desc_1.2.0                  RSpectra_0.16-0            
+## [101] lattice_0.20-41             Matrix_1.2-18              
+## [103] multtest_2.44.0             vctrs_0.3.1                
+## [105] pillar_1.4.4                lifecycle_0.2.0            
+## [107] BiocManager_1.30.10         lmtest_0.9-37              
+## [109] GlobalOptions_0.1.1         RcppAnnoy_0.0.16           
+## [111] BiocNeighbors_1.6.0         data.table_1.12.8          
+## [113] cowplot_1.0.0               bitops_1.0-6               
+## [115] irlba_2.3.3                 patchwork_1.0.0            
+## [117] GenomicRanges_1.40.0        R6_2.4.1                   
+## [119] bookdown_0.19               KernSmooth_2.23-17         
+## [121] gridExtra_2.3               vipor_0.4.5                
+## [123] IRanges_2.22.2              codetools_0.2-16           
+## [125] MASS_7.3-51.6               gtools_3.8.2               
+## [127] assertthat_0.2.1            SummarizedExperiment_1.18.2
+## [129] rprojroot_1.3-2             withr_2.2.0                
+## [131] sctransform_0.2.1           S4Vectors_0.26.1           
+## [133] GenomeInfoDbData_1.2.3      parallel_4.0.0             
+## [135] grid_4.0.0                  rmarkdown_2.2              
+## [137] DelayedMatrixStats_1.10.1   Rtsne_0.15                 
+## [139] Biobase_2.48.0              ggbeeswarm_0.6.0</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references">
+<div id="ref-aran2019reference">
+<p>Aran, Dvir, Agnieszka P Looney, Leqian Liu, Esther Wu, Valerie Fong, Austin Hsu, Suzanna Chak, et al. 2019. “Reference-Based Analysis of Lung Single-Cell Sequencing Reveals a Transitional Profibrotic Macrophage.” <em>Nature Immunology</em> 20 (2): 163–72.</p>
+</div>
+<div id="ref-butler2018integrating">
+<p>Butler, Andrew, Paul Hoffman, Peter Smibert, Efthymia Papalexi, and Rahul Satija. 2018. “Integrating Single-Cell Transcriptomic Data Across Different Conditions, Technologies, and Species.” <em>Nature Biotechnology</em> 36 (5): 411–20.</p>
+</div>
+<div id="ref-cabello2020singlecellsignalr">
+<p>Cabello-Aguilar, Simon, Mélissa Alame, Fabien Kon-Sun-Tack, Caroline Fau, Matthieu Lacroix, and Jacques Colinge. 2020. “SingleCellSignalR: Inference of Intercellular Networks from Single-Cell Transcriptomics.” <em>Nucleic Acids Research</em> 48 (10): e55–e55.</p>
+</div>
+<div id="ref-stuart2019comprehensive">
+<p>Stuart, Tim, Andrew Butler, Paul Hoffman, Christoph Hafemeister, Efthymia Papalexi, William M Mauck III, Yuhan Hao, Marlon Stoeckius, Peter Smibert, and Rahul Satija. 2019. “Comprehensive Integration of Single-Cell Data.” <em>Cell</em> 177 (7): 1888–1902.</p>
+</div>
+<div id="ref-wickham2019welcome">
+<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the Tidyverse.” <em>Journal of Open Source Software</em> 4 (43): 1686.</p>
+</div>
+</div>
 </div>
   </div>
 
@@ -616,7 +740,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

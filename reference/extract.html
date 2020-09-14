@@ -76,7 +76,7 @@ is NA, the output will be NA." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -132,13 +132,13 @@ is NA, the output will be NA.</p>
     </div>
 
     <pre class="usage"><span class='fu'>extract</span>(
-  <span class='kw'>data</span>,
-  <span class='kw'>col</span>,
-  <span class='kw'>into</span>,
-  regex = <span class='st'>"([[:alnum:]]+)"</span>,
-  remove = <span class='fl'>TRUE</span>,
-  convert = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
+  <span class='no'>data</span>,
+  <span class='no'>col</span>,
+  <span class='no'>into</span>,
+  <span class='kw'>regex</span> <span class='kw'>=</span> <span class='st'>"([[:alnum:]]+)"</span>,
+  <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,24 +192,23 @@ There should be one group (defined by `()`) for each element of `into`.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>extract</span>(<span class='kw'>groups</span>, into = <span class='st'>"g"</span>, regex = <span class='st'>"g([0-9])"</span>, convert = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 80 x 16</span><span>
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>extract</span>(<span class='no'>groups</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='st'>"g"</span>, <span class='kw'>regex</span> <span class='kw'>=</span> <span class='st'>"g([0-9])"</span>, <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 80 x 16
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A                 2
-#&gt; </span><span style='color: #555555;'> 2</span><span> CATG… SeuratPro…         85           52 0               A                 1
-#&gt; </span><span style='color: #555555;'> 3</span><span> GAAC… SeuratPro…         87           50 1               B                 2
-#&gt; </span><span style='color: #555555;'> 4</span><span> TGAC… SeuratPro…        127           56 0               A                 2
-#&gt; </span><span style='color: #555555;'> 5</span><span> AGTC… SeuratPro…        173           53 0               A                 2
-#&gt; </span><span style='color: #555555;'> 6</span><span> TCTG… SeuratPro…         70           48 0               A                 1
-#&gt; </span><span style='color: #555555;'> 7</span><span> TGGT… SeuratPro…         64           36 0               A                 1
-#&gt; </span><span style='color: #555555;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A                 1
-#&gt; </span><span style='color: #555555;'> 9</span><span> GATA… SeuratPro…         52           36 0               A                 1
-#&gt; </span><span style='color: #555555;'>10</span><span> AATG… SeuratPro…        100           41 0               A                 1
-#&gt; </span><span style='color: #555555;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
-</div></span></pre>
+#&gt;    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;int&gt;
+#&gt;  1 ATGC… SeuratPro…         70           47 0               A                 2
+#&gt;  2 CATG… SeuratPro…         85           52 0               A                 1
+#&gt;  3 GAAC… SeuratPro…         87           50 1               B                 2
+#&gt;  4 TGAC… SeuratPro…        127           56 0               A                 2
+#&gt;  5 AGTC… SeuratPro…        173           53 0               A                 2
+#&gt;  6 TCTG… SeuratPro…         70           48 0               A                 1
+#&gt;  7 TGGT… SeuratPro…         64           36 0               A                 1
+#&gt;  8 GCAG… SeuratPro…         72           45 0               A                 1
+#&gt;  9 GATA… SeuratPro…         52           36 0               A                 1
+#&gt; 10 AATG… SeuratPro…        100           41 0               A                 1
+#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -225,7 +224,7 @@ There should be one group (defined by `()`) for each element of `into`.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

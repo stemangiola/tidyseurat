@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add differential transcription information to a tbl using edgeR. — join_transcripts • tidyseurat</title>
+<title>Extract and join information for transcripts. — join_transcripts • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Add differential transcription information to a tbl using edgeR. — join_transcripts" />
-<meta property="og:description" content="join_transcripts() takes as imput a `tbl` formatted as | &amp;lt;SAMPLE&amp;gt; | &amp;lt;TRANSCRIPT&amp;gt; | &amp;lt;COUNT&amp;gt; | &amp;lt;...&amp;gt; | and returns a `tbl` with additional columns for the statistics from the hypothesis test." />
+<meta property="og:title" content="Extract and join information for transcripts. — join_transcripts" />
+<meta property="og:description" content="join_transcripts() extracts and joins information for specified transcripts" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -115,21 +115,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add differential transcription information to a tbl using edgeR.</h1>
+    <h1>Extract and join information for transcripts.</h1>
     
     <div class="hidden name"><code>join_transcripts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>join_transcripts() takes as imput a `tbl` formatted as | &lt;SAMPLE&gt; | &lt;TRANSCRIPT&gt; | &lt;COUNT&gt; | &lt;...&gt; | and returns a `tbl` with additional columns for the statistics from the hypothesis test.</p>
+    <p>join_transcripts() extracts and joins information for specified transcripts</p>
     </div>
 
     <pre class="usage"><span class='fu'>join_transcripts</span>(
-  <span class='kw'>.data</span>,
-  transcripts = <span class='kw'>NULL</span>,
-  all = <span class='fl'>FALSE</span>,
-  exclude_zeros = <span class='fl'>FALSE</span>,
-  shape = <span class='st'>"long"</span>
+  <span class='no'>.data</span>,
+  <span class='kw'>transcripts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>exclude_zeros</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"long"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,47 +137,55 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A `tbl` formatted as | &lt;SAMPLE&gt; | &lt;TRANSCRIPT&gt; | &lt;COUNT&gt; | &lt;...&gt; |</p></td>
+      <td><p>A tidyseurat object</p></td>
     </tr>
     <tr>
       <th>transcripts</th>
-      <td><p>A formula with no response variable, representing the desired linear model</p></td>
+      <td><p>A vector of transcript identifiers to join</p></td>
     </tr>
     <tr>
       <th>all</th>
-      <td><p>The name of the sample column</p></td>
+      <td><p>If TRUE return all</p></td>
     </tr>
     <tr>
       <th>exclude_zeros</th>
-      <td><p>The name of the transcript/gene column</p></td>
+      <td><p>If TRUE exclude zero values</p></td>
     </tr>
     <tr>
       <th>shape</th>
-      <td><p>The name of the transcript/gene abundance column</p></td>
+      <td><p>Format of the returned table "long" or "wide"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A `tbl` with additional columns for the statistics from the hypothesis test (e.g.,  log fold change, p-value and false discovery rate).</p>
+    <p>A `tbl` containing the information.for the specified transcripts</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
-<p>At the moment this function uses edgeR only, but other inference algorithms will be added in the near future.</p>
+<p>This function extracts information for specified transcripts and returns the information in either long or wide format.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-
-
-
-  <span class='fu'>join_transcripts</span>(
-      <span class='op'>~</span> <span class='kw'>condition</span>,
-      <span class='kw'>sample</span>,
-      <span class='kw'>transcript</span>,
-      <span class='kw'>`count`</span>
-  )
-</div><div class='output co'>#&gt; [1] "This function cannot be applied to this object"</div><div class='input'>
-<span class='co'># }</span>
+    <pre class="examples"><div class='input'>
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span>
+<span class='no'>tidy</span> <span class='kw'>%&gt;%</span>
+<span class='fu'>join_transcripts</span>(<span class='kw'>transcripts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HLA-DRA"</span>, <span class='st'>"LYZ"</span>))</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; # A tibble: 160 x 18
+#&gt;    cell  transcript abundance_RNA orig.ident nCount_RNA nFeature_RNA
+#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt;
+#&gt;  1 ATGC… HLA-DRA             0    SeuratPro…         70           47
+#&gt;  2 ATGC… LYZ                 4.97 SeuratPro…         70           47
+#&gt;  3 CATG… HLA-DRA             4.78 SeuratPro…         85           52
+#&gt;  4 CATG… LYZ                 4.78 SeuratPro…         85           52
+#&gt;  5 GAAC… HLA-DRA             0    SeuratPro…         87           50
+#&gt;  6 GAAC… LYZ                 4.75 SeuratPro…         87           50
+#&gt;  7 TGAC… HLA-DRA             0    SeuratPro…        127           56
+#&gt;  8 TGAC… LYZ                 0    SeuratPro…        127           56
+#&gt;  9 AGTC… HLA-DRA             4.07 SeuratPro…        173           53
+#&gt; 10 AGTC… LYZ                 0    SeuratPro…        173           53
+#&gt; # … with 150 more rows, and 12 more variables: RNA_snn_res.0.8 &lt;fct&gt;,
+#&gt; #   letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
 
 </div></pre>
   </div>
@@ -195,7 +203,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

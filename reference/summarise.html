@@ -77,7 +77,7 @@ for each of the summary statistics that you have specified.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@ for each of the summary statistics that you have specified.</p>
 <p>`summarise()` and `summarize()` are synonyms.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarise</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>summarise</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,7 +204,7 @@ individual methods for extra arguments and differences in behaviour.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other single table verbs: 
-<code><a href='arrange.html'>arrange</a>()</code>,
+<code><a href='dplyr-methods.html'>arrange</a>()</code>,
 <code><a href='filter.html'>filter</a>()</code>,
 <code><a href='mutate.html'>mutate</a>()</code>,
 <code><a href='rename.html'>rename</a>()</code>,
@@ -212,13 +212,12 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='slice.html'>slice</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>`%&gt;%`</span> <span class='op'>=</span> <span class='kw'>magrittr</span>::<span class='kw'>`%&gt;%`</span>
-<span class='kw'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='kw'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>summarise</span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>nCount_RNA</span>))
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `summarise_()` is deprecated as of dplyr 0.7.0.</span>
+    <pre class="examples"><div class='input'><span class='no'>`%&gt;%`</span> <span class='kw'>=</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='no'>`%&gt;%`</span>
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise</span>(<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>nCount_RNA</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `summarise_()` is deprecated as of dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `summarise()` instead.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'>
-</div></span></pre>
+#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "c('tidyseurat', 'Seurat')"</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -234,7 +233,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
