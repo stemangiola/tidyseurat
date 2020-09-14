@@ -186,7 +186,9 @@ jobs:
       - name: Install pkgdown
         if: github.ref == 'refs/heads/master' && env.run_pkgdown == 'true'
         run: |
-          remotes::install_github("r-lib/pkgdown")
+          ## Install with BiocManager instead of remotes to get a version 
+          ## that works with the Bioc release
+          BiocManager::install("pkgdown")
         shell: Rscript {0}
   
       - name: Install package
