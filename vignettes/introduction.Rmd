@@ -262,7 +262,6 @@ pbmc_small_UMAP %>%
 We can infer cell type identities using singleR
 
 ```{r eval=FALSE}
-library(SingleCellSignalR)
 blueprint = SingleR::BlueprintEncodeData()
 
 cell_type_df = 
@@ -384,6 +383,8 @@ pbmc_small_nested_reanalysed %>%
 We can perform a large number of functional analyses on data subsets. For example intra-sample cell-cell interactions, for then comparing/testing whether interactions have strenghten/weaken across conditions. In this small dataset we have just two sample (one for condition) but you can imagine how you can use tidyverse to perform t-tests and visualisation.
 
 ```{r, eval = FALSE}
+library(SingleCellSignalR)
+
 pbmc_small_nested_interactions = 
   pbmc_small_nested_reanalysed %>%
   
