@@ -36,11 +36,11 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 
 
 
-#' Add differential transcription information to a tbl using edgeR.
+#' Extract and join information for transcripts.
 #'
 #' \lifecycle{experimental}
 #'
-#' @description join_transcripts() takes as imput a `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> | and returns a `tbl` with additional columns for the statistics from the hypothesis test.
+#' @description join_transcripts() extracts and joins information for specified transcripts
 #'
 #' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
@@ -48,32 +48,22 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 #' @name join_transcripts
 #' @rdname join_transcripts
 #'
-#' @param .data A `tbl` formatted as | <SAMPLE> | <TRANSCRIPT> | <COUNT> | <...> |
-#' @param transcripts A formula with no response variable, representing the desired linear model
-#' @param all The name of the sample column
-#' @param exclude_zeros The name of the transcript/gene column
-#' @param shape The name of the transcript/gene abundance column
+#' @param .data A tidyseurat object
+#' @param transcripts A vector of transcript identifiers to join
+#' @param all If TRUE return all
+#' @param exclude_zeros If TRUE exclude zero values
+#' @param shape Format of the returned table "long" or "wide"
 #'
-#' @details At the moment this function uses edgeR only, but other inference algorithms will be added in the near future.
+#' @details This function extracts information for specified transcripts and returns the information in either long or wide format.
 #'
-#' @return A `tbl` with additional columns for the statistics from the hypothesis test (e.g.,  log fold change, p-value and false discovery rate).
-#'
-#'
-#'
-#'
+#' @return A `tbl` containing the information.for the specified transcripts
+#' 
 #' @examples
-#'\donttest{
 #'
+#' pbmc_small %>% 
+#' tidy %>% 
+#' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 #'
-#'
-#' 	join_transcripts(
-#' 	    ~ condition,
-#' 	    sample,
-#' 	    transcript,
-#' 	    `count`
-#' 	)
-#'
-#'}
 #'
 #' @export
 #'
