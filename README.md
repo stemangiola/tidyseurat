@@ -70,7 +70,6 @@ From Github (development)
     library(magrittr)
     library(ggplot2)
     library(Seurat)
-    library(SingleCellSignalR)
     library(tidyseurat)
 
 Create `tidyseurat`, the best of both worlds!
@@ -165,7 +164,12 @@ Preliminary plots
 Set colours and theme for plots.
 
     # Use colourblind-friendly colours
-    friendly_cols <- dittoSeq::dittoColors()
+    if (requireNamespace("dittoSeq", quietly = TRUE)) {
+          friendly_cols <- dittoSeq::dittoColors()
+       } else {
+          friendly_cols <- c("red", "blue", "green", "purple")
+       }
+
     # Set theme
     my_theme <-
       list(
@@ -532,6 +536,8 @@ with this small example dataset as we have just two samples (one for
 each condition). But some example output is shown below and you can
 imagine how you can use tidyverse on the output to perform t-tests and
 visualisation.
+
+    library(SingleCellSignalR)
 
     pbmc_small_nested_interactions <-
       pbmc_small_nested_reanalysed %>%
