@@ -7,7 +7,6 @@ output:
   BiocStyle::html_document:
     toc_float: true
 vignette: >
-  %\VignetteEngine{knitr::knitr}
   %\VignetteIndexEntry{Overview of the tidyseurat package}
   %\usepackage[UTF-8]{inputenc}
 ---
@@ -51,7 +50,6 @@ library(purrr)
 library(magrittr)
 library(ggplot2)
 library(Seurat)
-library(SingleCellSignalR)
 library(tidyseurat)
 
 
@@ -264,6 +262,7 @@ pbmc_small_UMAP %>%
 We can infer cell type identities using singleR
 
 ```{r eval=FALSE}
+library(SingleCellSignalR)
 blueprint = SingleR::BlueprintEncodeData()
 
 cell_type_df = 
