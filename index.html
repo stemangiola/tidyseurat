@@ -172,8 +172,7 @@
 <span id="cb2-6"><a href="#cb2-6"></a><span class="kw">library</span>(magrittr)</span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="kw">library</span>(ggplot2)</span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="kw">library</span>(Seurat)</span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="kw">library</span>(SingleCellSignalR)</span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="kw">library</span>(tidyseurat)</span></code></pre></div>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="kw">library</span>(tidyseurat)</span></code></pre></div>
 </div>
 <div id="create-tidyseurat-the-best-of-both-worlds" class="section level2">
 <h2 class="hasAnchor">
@@ -255,26 +254,31 @@
 <a href="#preliminary-plots" class="anchor"></a>Preliminary plots</h1>
 <p>Set colours and theme for plots.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Use colourblind-friendly colours</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>friendly_cols &lt;-<span class="st"> </span>dittoSeq<span class="op">::</span><span class="kw">dittoColors</span>()</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co"># Set theme</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>my_theme &lt;-</span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">list</span>(</span>
-<span id="cb8-6"><a href="#cb8-6"></a>    <span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> friendly_cols),</span>
-<span id="cb8-7"><a href="#cb8-7"></a>    <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> friendly_cols),</span>
-<span id="cb8-8"><a href="#cb8-8"></a>    <span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="st">      </span><span class="kw">theme</span>(</span>
-<span id="cb8-10"><a href="#cb8-10"></a>        <span class="dt">panel.border =</span> <span class="kw">element_blank</span>(),</span>
-<span id="cb8-11"><a href="#cb8-11"></a>        <span class="dt">axis.line =</span> <span class="kw">element_line</span>(),</span>
-<span id="cb8-12"><a href="#cb8-12"></a>        <span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.2</span>),</span>
-<span id="cb8-13"><a href="#cb8-13"></a>        <span class="dt">panel.grid.minor =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.1</span>),</span>
-<span id="cb8-14"><a href="#cb8-14"></a>        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>),</span>
-<span id="cb8-15"><a href="#cb8-15"></a>        <span class="dt">legend.position =</span> <span class="st">"bottom"</span>,</span>
-<span id="cb8-16"><a href="#cb8-16"></a>        <span class="dt">aspect.ratio =</span> <span class="dv">1</span>,</span>
-<span id="cb8-17"><a href="#cb8-17"></a>        <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(),</span>
-<span id="cb8-18"><a href="#cb8-18"></a>        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">margin =</span> <span class="kw">margin</span>(<span class="dt">t =</span> <span class="dv">10</span>, <span class="dt">r =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="dv">10</span>, <span class="dt">l =</span> <span class="dv">10</span>)),</span>
-<span id="cb8-19"><a href="#cb8-19"></a>        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">margin =</span> <span class="kw">margin</span>(<span class="dt">t =</span> <span class="dv">10</span>, <span class="dt">r =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="dv">10</span>, <span class="dt">l =</span> <span class="dv">10</span>))</span>
-<span id="cb8-20"><a href="#cb8-20"></a>      )</span>
-<span id="cb8-21"><a href="#cb8-21"></a>  )</span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">"dittoSeq"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</span>
+<span id="cb8-3"><a href="#cb8-3"></a>      friendly_cols &lt;-<span class="st"> </span>dittoSeq<span class="op">::</span><span class="kw">dittoColors</span>()</span>
+<span id="cb8-4"><a href="#cb8-4"></a>   } <span class="cf">else</span> {</span>
+<span id="cb8-5"><a href="#cb8-5"></a>      friendly_cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"purple"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>   }</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co"># Set theme</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>my_theme &lt;-</span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="st">  </span><span class="kw">list</span>(</span>
+<span id="cb8-11"><a href="#cb8-11"></a>    <span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> friendly_cols),</span>
+<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> friendly_cols),</span>
+<span id="cb8-13"><a href="#cb8-13"></a>    <span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="st">      </span><span class="kw">theme</span>(</span>
+<span id="cb8-15"><a href="#cb8-15"></a>        <span class="dt">panel.border =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb8-16"><a href="#cb8-16"></a>        <span class="dt">axis.line =</span> <span class="kw">element_line</span>(),</span>
+<span id="cb8-17"><a href="#cb8-17"></a>        <span class="dt">panel.grid.major =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.2</span>),</span>
+<span id="cb8-18"><a href="#cb8-18"></a>        <span class="dt">panel.grid.minor =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.1</span>),</span>
+<span id="cb8-19"><a href="#cb8-19"></a>        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>),</span>
+<span id="cb8-20"><a href="#cb8-20"></a>        <span class="dt">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21"></a>        <span class="dt">aspect.ratio =</span> <span class="dv">1</span>,</span>
+<span id="cb8-22"><a href="#cb8-22"></a>        <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb8-23"><a href="#cb8-23"></a>        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">margin =</span> <span class="kw">margin</span>(<span class="dt">t =</span> <span class="dv">10</span>, <span class="dt">r =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="dv">10</span>, <span class="dt">l =</span> <span class="dv">10</span>)),</span>
+<span id="cb8-24"><a href="#cb8-24"></a>        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">margin =</span> <span class="kw">margin</span>(<span class="dt">t =</span> <span class="dv">10</span>, <span class="dt">r =</span> <span class="dv">10</span>, <span class="dt">b =</span> <span class="dv">10</span>, <span class="dt">l =</span> <span class="dv">10</span>))</span>
+<span id="cb8-25"><a href="#cb8-25"></a>      )</span>
+<span id="cb8-26"><a href="#cb8-26"></a>  )</span></code></pre></div>
 <p>We can treat <code>pbmc_small_polished</code> effectively as a normal tibble for plotting.</p>
 <p>Here we plot number of transcripts per cell.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>pbmc_small_polished <span class="op">%&gt;%</span></span>
@@ -561,34 +565,36 @@
 <span id="cb25-14"><a href="#cb25-14"></a><span class="st">  </span>my_theme</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-23-1.png"><!-- --></p>
 <p>We can perform a large number of functional analyses on data subsets. For example, we can identify intra-sample cell-cell interactions using <em>SingleCellSignalR</em> <br><span class="math display">@<em>c</em><em>a</em><em>b</em><em>e</em><em>l</em><em>l</em><em>o</em>2020<em>s</em><em>i</em><em>n</em><em>g</em><em>l</em><em>e</em><em>c</em><em>e</em><em>l</em><em>l</em><em>s</em><em>i</em><em>g</em><em>n</em><em>a</em><em>l</em><em>r</em></span><br>, and then compare whether interactions are stronger or weaker across conditions. The code below demonstrates how this analysis could be performed. It won’t work with this small example dataset as we have just two samples (one for each condition). But some example output is shown below and you can imagine how you can use tidyverse on the output to perform t-tests and visualisation.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>pbmc_small_nested_interactions &lt;-</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span>pbmc_small_nested_reanalysed <span class="op">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span><span class="co"># Unnest based on cell category</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="st">  </span><span class="kw">unnest</span>(data) <span class="op">%&gt;%</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a></span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="st">  </span><span class="co"># Create unambiguous clusters</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">integrated_clusters =</span> first.labels <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.integer</span>()) <span class="op">%&gt;%</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a></span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="st">  </span><span class="co"># Nest based on sample</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a><span class="st">  </span>tidyseurat<span class="op">::</span><span class="kw">nest</span>(<span class="dt">data =</span> <span class="op">-</span>sample) <span class="op">%&gt;%</span></span>
-<span id="cb26-12"><a href="#cb26-12"></a><span class="st">  </span>tidyseurat<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">interactions =</span> <span class="kw">map</span>(data, <span class="op">~</span><span class="st"> </span>{</span>
-<span id="cb26-13"><a href="#cb26-13"></a></span>
-<span id="cb26-14"><a href="#cb26-14"></a>    <span class="co"># Produce variables. Yuck!</span></span>
-<span id="cb26-15"><a href="#cb26-15"></a>    cluster &lt;-<span class="st"> </span>.x<span class="op">@</span>meta.data<span class="op">$</span>integrated_clusters</span>
-<span id="cb26-16"><a href="#cb26-16"></a>    data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(.x[[<span class="st">"SCT"</span>]]<span class="op">@</span>data)</span>
-<span id="cb26-17"><a href="#cb26-17"></a></span>
-<span id="cb26-18"><a href="#cb26-18"></a>    <span class="co"># Ligand/Receptor analysis using SingleCellSignalR</span></span>
-<span id="cb26-19"><a href="#cb26-19"></a>    data <span class="op">%&gt;%</span></span>
-<span id="cb26-20"><a href="#cb26-20"></a><span class="st">      </span><span class="kw">cell_signaling</span>(<span class="dt">genes =</span> <span class="kw">rownames</span>(data), <span class="dt">cluster =</span> cluster) <span class="op">%&gt;%</span></span>
-<span id="cb26-21"><a href="#cb26-21"></a><span class="st">      </span><span class="kw">inter_network</span>(<span class="dt">data =</span> data, <span class="dt">signal =</span> ., <span class="dt">genes =</span> <span class="kw">rownames</span>(data), <span class="dt">cluster =</span> cluster) <span class="op">%$%</span></span>
-<span id="cb26-22"><a href="#cb26-22"></a><span class="st">      `</span><span class="dt">individual-networks</span><span class="st">`</span> <span class="op">%&gt;%</span></span>
-<span id="cb26-23"><a href="#cb26-23"></a><span class="st">      </span><span class="kw">map_dfr</span>(<span class="op">~</span><span class="st"> </span><span class="kw">bind_rows</span>(<span class="kw">as_tibble</span>(.x)))</span>
-<span id="cb26-24"><a href="#cb26-24"></a>  }))</span>
-<span id="cb26-25"><a href="#cb26-25"></a></span>
-<span id="cb26-26"><a href="#cb26-26"></a>pbmc_small_nested_interactions <span class="op">%&gt;%</span></span>
-<span id="cb26-27"><a href="#cb26-27"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>data) <span class="op">%&gt;%</span></span>
-<span id="cb26-28"><a href="#cb26-28"></a><span class="st">  </span><span class="kw">unnest</span>(interactions)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">library</span>(SingleCellSignalR)</span>
+<span id="cb26-2"><a href="#cb26-2"></a></span>
+<span id="cb26-3"><a href="#cb26-3"></a>pbmc_small_nested_interactions &lt;-</span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span>pbmc_small_nested_reanalysed <span class="op">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="st">  </span><span class="co"># Unnest based on cell category</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="st">  </span><span class="kw">unnest</span>(data) <span class="op">%&gt;%</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a></span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="st">  </span><span class="co"># Create unambiguous clusters</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">integrated_clusters =</span> first.labels <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.integer</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a></span>
+<span id="cb26-12"><a href="#cb26-12"></a><span class="st">  </span><span class="co"># Nest based on sample</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a><span class="st">  </span>tidyseurat<span class="op">::</span><span class="kw">nest</span>(<span class="dt">data =</span> <span class="op">-</span>sample) <span class="op">%&gt;%</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a><span class="st">  </span>tidyseurat<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">interactions =</span> <span class="kw">map</span>(data, <span class="op">~</span><span class="st"> </span>{</span>
+<span id="cb26-15"><a href="#cb26-15"></a></span>
+<span id="cb26-16"><a href="#cb26-16"></a>    <span class="co"># Produce variables. Yuck!</span></span>
+<span id="cb26-17"><a href="#cb26-17"></a>    cluster &lt;-<span class="st"> </span>.x<span class="op">@</span>meta.data<span class="op">$</span>integrated_clusters</span>
+<span id="cb26-18"><a href="#cb26-18"></a>    data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(.x[[<span class="st">"SCT"</span>]]<span class="op">@</span>data)</span>
+<span id="cb26-19"><a href="#cb26-19"></a></span>
+<span id="cb26-20"><a href="#cb26-20"></a>    <span class="co"># Ligand/Receptor analysis using SingleCellSignalR</span></span>
+<span id="cb26-21"><a href="#cb26-21"></a>    data <span class="op">%&gt;%</span></span>
+<span id="cb26-22"><a href="#cb26-22"></a><span class="st">      </span><span class="kw">cell_signaling</span>(<span class="dt">genes =</span> <span class="kw">rownames</span>(data), <span class="dt">cluster =</span> cluster) <span class="op">%&gt;%</span></span>
+<span id="cb26-23"><a href="#cb26-23"></a><span class="st">      </span><span class="kw">inter_network</span>(<span class="dt">data =</span> data, <span class="dt">signal =</span> ., <span class="dt">genes =</span> <span class="kw">rownames</span>(data), <span class="dt">cluster =</span> cluster) <span class="op">%$%</span></span>
+<span id="cb26-24"><a href="#cb26-24"></a><span class="st">      `</span><span class="dt">individual-networks</span><span class="st">`</span> <span class="op">%&gt;%</span></span>
+<span id="cb26-25"><a href="#cb26-25"></a><span class="st">      </span><span class="kw">map_dfr</span>(<span class="op">~</span><span class="st"> </span><span class="kw">bind_rows</span>(<span class="kw">as_tibble</span>(.x)))</span>
+<span id="cb26-26"><a href="#cb26-26"></a>  }))</span>
+<span id="cb26-27"><a href="#cb26-27"></a></span>
+<span id="cb26-28"><a href="#cb26-28"></a>pbmc_small_nested_interactions <span class="op">%&gt;%</span></span>
+<span id="cb26-29"><a href="#cb26-29"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>data) <span class="op">%&gt;%</span></span>
+<span id="cb26-30"><a href="#cb26-30"></a><span class="st">  </span><span class="kw">unnest</span>(interactions)</span></code></pre></div>
 <p>If the data set was not so small, and interactions could be identified, you would see something as below.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co">## # A tibble: 100 x 9</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a><span class="co">##    sample ligand receptor ligand.name receptor.name origin destination</span></span>
