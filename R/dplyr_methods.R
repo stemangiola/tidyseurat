@@ -157,13 +157,10 @@ bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
 bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
 {
   
-
-    
   tts = flatten_if(dots_values(...), is_spliced)
-
-  # Check if cell with same name
-  merge(  tts[[1]] ,  tts[[2]]  ,  add.cell.ids = add.cell.ids) %>% tidy
   
+  # Check if cell with same name
+  merge(  tts[[1]] , y = tts[[2]],  add.cell.ids = add.cell.ids) %>% tidy
   
 }
 

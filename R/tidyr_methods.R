@@ -77,9 +77,10 @@ unnest.tidyseurat_nested <- function (.data, cols, ..., keep_empty = FALSE, ptyp
       
       # If my only column to unnest is tidyseurat
       pull(., !!cols) %>% .[[1]] %>% class %>% as.character() %>% eq("tidyseurat") %>% any ~  
-        
+      {
         # Do my trick to unnest
-        mutate(., !!cols := imap(
+        list_seurat = 
+          mutate(., !!cols := imap(
           !!cols, ~ .x %>%
             bind_cols(
               
@@ -87,8 +88,10 @@ unnest.tidyseurat_nested <- function (.data, cols, ..., keep_empty = FALSE, ptyp
               .data_ %>% select(-!!cols) %>% slice(rep(.y, ncol(.x)))
             )
         )) %>%
-        pull(!!cols) %>%
-        reduce(bind_rows),
+        pull(!!cols) 
+        
+        bind_rows(list_seurat[[1]], list_seurat[2:length(list_seurat)])
+      },
       
       # Else do normal stuff
       ~ (.) %>% 
@@ -352,7 +355,7 @@ pivot_longer.default <- function(data,
 ) {
   cols <- enquo(cols)
   tidyr::pivot_longer(data,
-                      cols,
+                      !!cols,
                       names_to = names_to,
                       names_prefix = names_prefix,
                       names_sep = names_sep,
@@ -385,13 +388,13 @@ pivot_longer.tidyseurat <- function(data,
                                   values_transform = list(),
                                   ...
 ) {
-  cols <- enquo(cols) %>% quo_names()
+  cols <- enquo(cols) 
   
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
   data %>%
     as_tibble() %>%
-    tidyr::pivot_longer(cols,
+    tidyr::pivot_longer(!!cols,
                         names_to = names_to,
                         names_prefix = names_prefix,
                         names_sep = names_sep,
