@@ -190,7 +190,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
            # Replace 0 with NA
            when(exclude_zeros ~ (.) %>% { x = (.); x[x == 0] <- NA; x }, ~ (.)) %>%
            
-           data.frame() %>%
+           data.frame(check.names = FALSE) %>%
            as_tibble(rownames = "transcript") %>%
            tidyr::pivot_longer(
              cols = -transcript,

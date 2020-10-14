@@ -1,3 +1,4 @@
+
 #' drplyr-methods
 #' 
 #' @rdname dplyr-methods
@@ -1136,7 +1137,7 @@ sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame(), ...) {
-  tbl %>% sample_n(size, replace = replace, weight = weight, .env = .env, ...)
+  tbl %>% dplyr::sample_n(size, replace = replace, weight = weight, .env = .env, ...)
 }
 
 #' @export
