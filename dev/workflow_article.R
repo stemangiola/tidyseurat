@@ -105,6 +105,14 @@ PBMC_tidy_clean_scaled_UMAP_cluster_cell_type <-
     by = "cell"
   )
 
+
+# Markers
+PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  group_by(cluster) %>%
+  top_n(10, avg_logFC) %>%
+  saveRDS("dev/PBMC_marker_df.rds")
+
 # # Reorder columns
 # PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
 #   count(seurat_clusters, first.labels_cluster = first.labels)

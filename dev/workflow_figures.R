@@ -53,39 +53,39 @@ p1 =
 
 p2 = 
   PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  sample_n(20000) %>%
   ggplot(aes(UMAP_1, UMAP_2, color=seurat_clusters)) +
-  geom_point() +
+  geom_point(size=0.05, alpha=0.2) +
   custom_theme +
   theme(aspect.ratio=1)
 
-# PBMC_tidy_clean_scaled_UMAP_cluster %>%
-#   plot_ly(
-#     x = ~`UMAP_1`,
-#     y = ~`UMAP_2`,
-#     z = ~`UMAP_3`,
-#     color = ~seurat_clusters,
-#     colors = friendly_cols[1:9],sizes = 50, size = 1
-#   )
+PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  sample_n(20000) %>%
+  plot_ly(
+    x = ~`UMAP_1`,
+    y = ~`UMAP_2`,
+    z = ~`UMAP_3`,
+    color = ~seurat_clusters,
+    colors = friendly_cols[1:24],sizes = 50, size = 1
+  )
 
-# Cell_type classification Manual
-
-markers <-
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
-  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
-  group_by(cluster) %>%
-  top_n(10, avg_logFC)
+markers = readRDS("dev/PBMC_marker_df.rds")
 
 p3 = 
   PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
-  join_transcripts(transcripts=markers$gene %>% head) %>%
-  ggplot(aes(seurat_clusters, abundance_SCT, fill=first.labels)) +
-  geom_violin() +
-  facet_wrap(~transcript) +
+  arrange(first.labels) %>%
+  mutate(seurat_clusters = fct_inorder(seurat_clusters)) %>%
+  join_transcripts(transcripts=c("CD3D", "HLA-DRB1")) %>%
+  ggplot(aes(y=seurat_clusters , x=abundance_SCT, fill=first.labels)) +
+  geom_density_ridges(bandwidth = 0.2) +
+  facet_wrap(~transcript, nrow = 2) +
+  coord_flip() +
   custom_theme
 
 # Plot heatmap
 p4 = 
   PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  sample_n(2000) %>%
   DoHeatmap(
     features = markers$gene,
     group.colors = friendly_cols
@@ -93,7 +93,10 @@ p4 =
 
 p5 = 
   PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  sample_n(1000) %>%
   join_transcripts(transcripts=markers$gene) %>%
+  mutate(seurat_clusters = as.integer(seurat_clusters)) %>%
+  filter(seurat_clusters<10) %>%
   group_by(seurat_clusters) %>%
   
   # Plot heatmap
@@ -102,7 +105,10 @@ p5 =
     .column = cell, 
     .value = abundance_SCT, 
     palette_grouping = list(rep("black",9)), 
-    palette_value = circlize::colorRamp2(c(-2, 0, 2), c("purple", "black", "yellow"))
+    palette_value = circlize::colorRamp2(c(-1.5, 0, 1.5), c("purple", "black", "yellow")),
+    
+    # ComplexHeatmap parameters
+    row_gap = unit(0.1, "mm"), column_gap = unit(0.1, "mm")
   ) %>%
     
   # Add annotation
@@ -111,40 +117,27 @@ p5 =
   
 p6 = 
   PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
-  tidyseurat::unite("cluster_cell_type", c(first.labels, seurat_clusters)) %>%
+  tidyseurat::unite("cluster_cell_type", c(first.labels, seurat_clusters), remove=FALSE) %>%
   pivot_longer(
-    c(cluster_cell_type, first.labels_single),
+    c(seurat_clusters, first.labels_single),
     names_to = "classification", values_to = "value"
   ) %>%
   
   ggplot(aes(x = classification, stratum = value, alluvium = cell,
-           fill = value, label = value)) +
-  scale_x_discrete(expand = c(.1, .1)) +
+           fill = first.labels, label = value)) +
+  scale_x_discrete(expand = c(1, 1)) +
   geom_flow() +
   geom_stratum(alpha = .5) +
-  geom_text(stat = "stratum", size = 3) +
-  guides(fill = FALSE) +
-  scale_fill_manual(values = c(
-    "B_cell" = friendly_cols[1],
-    "B_cell_4" = friendly_cols[1],
-    "T_cells" = friendly_cols[2],
-    "T_cells_0" = friendly_cols[2],
-    "T_cells_3" = friendly_cols[2],
-    "T_cells_5" = friendly_cols[2],
-    "T_cells_6" = friendly_cols[2],
-    "NK_cell" = friendly_cols[3],
-    "NK_cell_1" = friendly_cols[3],
-    "NK_cell_7" = friendly_cols[3],
-    "Monocyte" = friendly_cols[4],
-    "Monocyte_2"  = friendly_cols[4],
-    "Monocyte_8"  = friendly_cols[4],
-    "Fibroblasts" = friendly_cols[5],
-    "GMP" = friendly_cols[6],
-    "Macrophage" = friendly_cols[7],
-    "Pre-B_cell_CD34+" = friendly_cols[8],
-    "Pre-B_cell_CD34-" = friendly_cols[8],
-    "HSC_-G-CSF" = friendly_cols[9]
-  )) +
+  # geom_text(stat = "stratum", size = 3) +
+  geom_text_repel(stat = "stratum", size = 3,
+             nudge_x      = 0.05,
+             direction    = "y",
+             angle        = 0,
+             vjust        = 0,
+             segment.size = 0.2
+         ) +
+  scale_fill_manual(values = friendly_cols) +
+  #guides(fill = FALSE) +
   coord_flip() +
   theme_bw() +
   theme(
@@ -153,7 +146,7 @@ p6 =
     panel.grid.major = element_line(size = 0.2),
     panel.grid.minor = element_line(size = 0.1),
     text = element_text(size = 9),
-    legend.position = "none",
+    legend.position = "bottom",
     strip.background = element_blank(),
     axis.title.x = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
     axis.title.y = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
