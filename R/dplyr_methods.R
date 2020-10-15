@@ -310,6 +310,10 @@ filter.default <-  function (.data, ..., .preserve = FALSE)
 filter.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
   new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
+  
+  # Error if size == 0
+  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  
   new_obj = subset(.data,   cells = rownames(new_meta ))
   #new_obj@meta.data = new_meta
   
@@ -999,6 +1003,10 @@ slice.default <-  function (.data, ..., .preserve = FALSE)
 slice.tidyseurat <- function (.data, ..., .preserve = FALSE)
 {
   new_meta = dplyr::slice(.data@meta.data, ..., .preserve = .preserve)
+  
+  # Error if size == 0
+  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  
   new_obj = subset(.data,   cells = rownames(new_meta ))
   #new_obj@meta.data = new_meta
   

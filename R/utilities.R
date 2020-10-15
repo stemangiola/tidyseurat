@@ -208,6 +208,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
 }
 
 #' @importFrom dplyr select_if
+#' @importFrom tibble column_to_rownames
 #' 
 #' @keywords internal
 #' 
@@ -224,7 +225,7 @@ as_meta_data = function(.data, seurat_object){
   .data %>% 
     select_if(!colnames(.) %in% col_to_exclude) %>%
     #select(-one_of(col_to_exclude)) %>%
-    data.frame(row.names = "cell")
+    column_to_rownames("cell")
 }
 
 #' @importFrom purrr map_chr
