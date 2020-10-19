@@ -2,42 +2,16 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unnest}
 \alias{unnest}
-\alias{unnest.tidyseurat_nested}
 \alias{nest}
-\alias{nest.tidyseurat}
 \alias{extract}
-\alias{pivot_longer}
 \alias{unite}
 \alias{separate}
 \title{unnest}
-\usage{
-\method{unnest}{tidyseurat_nested}(
-  data,
-  cols,
-  ...,
-  keep_empty = FALSE,
-  ptype = NULL,
-  names_sep = NULL,
-  names_repair = "check_unique",
-  .drop,
-  .id,
-  .sep,
-  .preserve
-)
-
-\method{nest}{tidyseurat}(.data, ..., .names_sep = NULL)
-}
 \arguments{
-\item{data}{A data frame.}
-
-\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
-longer format.}
-
-\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
-
-\item{keep_empty}{See tidyr::unnest}
-
-\item{ptype}{See tidyr::unnest}
+\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
+If you `unnest()` multiple columns, parallel entries must be of
+compatible sizes, i.e. they're either equal or length 1 (following the
+standard tidyverse recycling rules).}
 
 \item{names_sep}{If `NULL`, the default, the names will be left
   as is. In `nest()`, inner names will come from the former outer names;
@@ -49,26 +23,15 @@ longer format.}
   the new inner names will have the outer names (+ `names_sep`) automatically
   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.}
 
-\item{names_repair}{What happens if the output has invalid column names?
-The default, `"check_unique"` is to error if the columns are duplicated.
-Use `"minimal"` to allow duplicates in the output, or `"unique"` to
-de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
-for more options.}
+\item{keep_empty}{See tidyr::unnest}
+
+\item{names_repair}{See tidyr::unnest}
+
+\item{ptype}{See tidyr::unnest}
 
 \item{.drop}{See tidyr::unnest}
 
 \item{.id}{tidyr::unnest}
-
-\item{.sep}{Separator between columns.
-
-  If character, `sep` is interpreted as a regular expression. The default
-  value is a regular expression that matches any sequence of
-  non-alphanumeric values.
-
-  If numeric, `sep` is interpreted as character positions to split at. Positive
-  values start at 1 at the far-left of the string; negative value start at -1 at
-  the far-right of the string. The length of `sep` should be one less than
-  `into`.}
 
 \item{.preserve}{See tidyr::unnest}
 
@@ -88,59 +51,7 @@ There should be one group (defined by `()`) for each element of `into`.}
 
   NB: this will cause string `"NA"`s to be converted to `NA`s.}
 
-\item{names_to}{A string specifying the name of the column to create
-  from the data stored in the column names of `data`.
-
-  Can be a character vector, creating multiple columns, if `names_sep`
-  or `names_pattern` is provided. In this case, there are two special
-  values you can take advantage of:
-
-  * `NA` will discard that component of the name.
-  * `.value` indicates that component of the name defines the name of the
-    column containing the cell values, overriding `values_to`.}
-
-\item{names_prefix}{A regular expression used to remove matching text
-from the start of each variable name.}
-
-\item{names_sep, names_pattern}{If `names_to` contains multiple values,
-  these arguments control how the column name is broken up.
-
-  `names_sep` takes the same specification as [separate()], and can either
-  be a numeric vector (specifying positions to break on), or a single string
-  (specifying a regular expression to split on).
-
-  `names_pattern` takes the same specification as [extract()], a regular
-  expression containing matching groups (`()`).
-
-  If these arguments do not give you enough control, use
-  `pivot_longer_spec()` to create a spec object and process manually as
-  needed.}
-
-\item{values_to}{A string specifying the name of the column to create
-from the data stored in cell values. If `names_to` is a character
-containing the special `.value` sentinel, this value will be ignored,
-and the name of the value column will be derived from part of the
-existing column names.}
-
-\item{values_drop_na}{If `TRUE`, will drop rows that contain only `NA`s
-in the `value_to` column. This effectively converts explicit missing values
-to implicit missing values, and should generally be used only when missing
-values in `data` were created by its structure.}
-
-\item{names_transform, values_transform}{A list of column name-function pairs.
-Use these arguments if you need to change the type of specific columns.
-For example, `names_transform = list(week = as.integer)` would convert
-a character week variable to an integer.}
-
-\item{names_ptypes, values_ptypes}{A list of column name-prototype pairs.
-  A prototype (or ptype for short) is a zero-length vector (like `integer()`
-  or `numeric()`) that defines the type, class, and attributes of a vector.
-  Use these arguments to confirm that the created columns are the types that
-  you expect.
-
-  If not specified, the type of the columns generated from `names_to` will
-  be character, and the type of the variables generated from `values_to`
-  will be the common type of the input columns used to generate them.}
+\item{data}{A data frame.}
 
 \item{col}{The name of the new column, as a string or symbol.
 
@@ -150,6 +61,8 @@ a character week variable to an integer.}
   [rlang::ensym()] (note that this kind of interface where
   symbols do not represent actual objects is now discouraged in the
   tidyverse; we support it here for backward compatibility).}
+
+\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
 
 \item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
 each value.}
@@ -191,32 +104,16 @@ A tidyseurat objector a tibble depending on input
 A tidyseurat objector a tibble depending on input
 
 A tidyseurat objector a tibble depending on input
-
-A tidyseurat objector a tibble depending on input
 }
 \description{
 Given a regular expression with capturing groups, `extract()` turns
 each group into a new column. If the groups don't match, or the input
 is NA, the output will be NA.
 
-\Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
-
-`pivot_longer()` "lengthens" data, increasing the number of rows and
-decreasing the number of columns. The inverse transformation is
-[pivot_wider()]
-
-Learn more in `vignette("pivot")`.
-
 Convenience function to paste together multiple columns into one.
 
 Given either a regular expression or a vector of character positions,
 `separate()` turns a single character column into multiple columns.
-}
-\details{
-`pivot_longer()` is an updated approach to [gather()], designed to be both
-simpler to use and to handle more use cases. We recommend you use
-`pivot_longer()` for new code; `gather()` isn't going away but is no longer
-under active development.
 }
 \examples{
 
@@ -230,11 +127,6 @@ pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
 
 
 pbmc_small \%>\% tidy \%>\% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
-
-# See vignette("pivot") for examples and explanation
-
-library(dplyr)
-pbmc_small \%>\% tidy \%>\% pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
 
 
 pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 

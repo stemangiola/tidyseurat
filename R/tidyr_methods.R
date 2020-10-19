@@ -120,7 +120,6 @@ NULL
 #' @importFrom rlang :=
 #' 
 #' @export
-#' @rdname tidyr-methods
 nest.tidyseurat <- function (.data, ..., .names_sep = NULL)
 {
   my_data__ = .data
@@ -291,7 +290,6 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #' 
 #' @return A tidyseurat objector a tibble depending on input
 #' 
-#' @rdname tidyr-methods
 #' @name pivot_longer
 #' 
 #' @export
