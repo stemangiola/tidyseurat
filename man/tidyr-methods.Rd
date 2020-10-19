@@ -2,62 +2,16 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{unnest}
 \alias{unnest}
-\alias{unnest.default}
-\alias{unnest.tidyseurat_nested}
 \alias{nest}
-\alias{nest.default}
-\alias{nest.tidyseurat}
+\alias{extract}
+\alias{unite}
+\alias{separate}
 \title{unnest}
-\usage{
-unnest(
-  .data,
-  cols,
-  ...,
-  keep_empty = FALSE,
-  ptype = NULL,
-  names_sep = NULL,
-  names_repair = "check_unique"
-)
-
-\method{unnest}{default}(
-  .data,
-  cols,
-  ...,
-  keep_empty = FALSE,
-  ptype = NULL,
-  names_sep = NULL,
-  names_repair = "check_unique"
-)
-
-\method{unnest}{tidyseurat_nested}(
-  .data,
-  cols,
-  ...,
-  keep_empty = FALSE,
-  ptype = NULL,
-  names_sep = NULL,
-  names_repair = "check_unique"
-)
-
-nest(.data, ...)
-
-\method{nest}{default}(.data, ...)
-
-\method{nest}{tidyseurat}(.data, ...)
-}
 \arguments{
-\item{.data}{A tbl. (See tidyr)}
-
 \item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
 If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
-
-\item{...}{Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)}
-
-\item{keep_empty}{See tidyr::unnest}
-
-\item{ptype}{See tidyr::unnest}
 
 \item{names_sep}{If `NULL`, the default, the names will be left
   as is. In `nest()`, inner names will come from the former outer names;
@@ -69,17 +23,97 @@ standard tidyverse recycling rules).}
   the new inner names will have the outer names (+ `names_sep`) automatically
   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.}
 
+\item{keep_empty}{See tidyr::unnest}
+
 \item{names_repair}{See tidyr::unnest}
+
+\item{ptype}{See tidyr::unnest}
+
+\item{.drop}{See tidyr::unnest}
+
+\item{.id}{tidyr::unnest}
+
+\item{.preserve}{See tidyr::unnest}
+
+\item{.data}{A tbl. (See tidyr)}
+
+\item{.names_sep}{See tidyr::nest}
+
+\item{into}{Names of new variables to create as character vector.
+Use `NA` to omit the variable in the output.}
+
+\item{regex}{a regular expression used to extract the desired values.
+There should be one group (defined by `()`) for each element of `into`.}
+
+\item{convert}{If `TRUE`, will run [type.convert()] with
+  `as.is = TRUE` on new columns. This is useful if the component
+  columns are integer, numeric or logical.
+
+  NB: this will cause string `"NA"`s to be converted to `NA`s.}
+
+\item{data}{A data frame.}
+
+\item{col}{The name of the new column, as a string or symbol.
+
+  This argument is passed by expression and supports
+  [quasiquotation][rlang::quasiquotation] (you can unquote strings
+  and symbols). The name is captured from the expression with
+  [rlang::ensym()] (note that this kind of interface where
+  symbols do not represent actual objects is now discouraged in the
+  tidyverse; we support it here for backward compatibility).}
+
+\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
+
+\item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
+each value.}
+
+\item{remove}{If `TRUE`, remove input columns from output data frame.}
+
+\item{sep}{Separator between columns.
+
+  If character, `sep` is interpreted as a regular expression. The default
+  value is a regular expression that matches any sequence of
+  non-alphanumeric values.
+
+  If numeric, `sep` is interpreted as character positions to split at. Positive
+  values start at 1 at the far-left of the string; negative value start at -1 at
+  the far-right of the string. The length of `sep` should be one less than
+  `into`.}
+
+\item{extra}{If `sep` is a character vector, this controls what
+  happens when there are too many pieces. There are three valid options:
+
+  * "warn" (the default): emit a warning and drop extra values.
+  * "drop": drop any extra values without a warning.
+  * "merge": only splits at most `length(into)` times}
+
+\item{fill}{If `sep` is a character vector, this controls what
+  happens when there are not enough pieces. There are three valid options:
+
+  * "warn" (the default): emit a warning and fill from the right
+  * "right": fill with missing values on the right
+  * "left": fill with missing values on the left}
 }
 \value{
 A tidyseurat objector a tibble depending on input
 
 A tidyseurat objector a tibble depending on input
+
+A tidyseurat objector a tibble depending on input
+
+A tidyseurat objector a tibble depending on input
+
+A tidyseurat objector a tibble depending on input
 }
 \description{
-unnest
+Given a regular expression with capturing groups, `extract()` turns
+each group into a new column. If the groups don't match, or the input
+is NA, the output will be NA.
 
-nest
+Convenience function to paste together multiple columns into one.
+
+Given either a regular expression or a vector of character positions,
+`separate()` turns a single character column into multiple columns.
 }
 \examples{
 
@@ -91,4 +125,23 @@ pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data)
 library(dplyr)
 pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data) 
 
+
+pbmc_small \%>\% tidy \%>\% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
+
+
+pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+
+
+
+ un = pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+ un \%>\% separate(col = new_col, into= c("orig.ident", "groups"))
+
+}
+\seealso{
+[separate()] to split up by a separator.
+
+[separate()], the complement.
+
+[unite()], the complement, [extract()] which uses regular
+  expression capturing groups.
 }

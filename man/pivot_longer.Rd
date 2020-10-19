@@ -3,24 +3,6 @@
 \name{pivot_longer}
 \alias{pivot_longer}
 \title{Pivot data from wide to long}
-\usage{
-pivot_longer(
-  data,
-  cols,
-  names_to = "name",
-  names_prefix = NULL,
-  names_sep = NULL,
-  names_pattern = NULL,
-  names_ptypes = list(),
-  names_transform = list(),
-  names_repair = "check_unique",
-  values_to = "value",
-  values_drop_na = FALSE,
-  values_ptypes = list(),
-  values_transform = list(),
-  ...
-)
-}
 \arguments{
 \item{data}{A data frame to pivot.}
 
@@ -55,21 +37,6 @@ from the start of each variable name.}
   `pivot_longer_spec()` to create a spec object and process manually as
   needed.}
 
-\item{names_ptypes, values_ptypes}{A list of column name-prototype pairs.
-  A prototype (or ptype for short) is a zero-length vector (like `integer()`
-  or `numeric()`) that defines the type, class, and attributes of a vector.
-  Use these arguments to confirm that the created columns are the types that
-  you expect.
-
-  If not specified, the type of the columns generated from `names_to` will
-  be character, and the type of the variables generated from `values_to`
-  will be the common type of the input columns used to generate them.}
-
-\item{names_transform, values_transform}{A list of column name-function pairs.
-Use these arguments if you need to change the type of specific columns.
-For example, `names_transform = list(week = as.integer)` would convert
-a character week variable to an integer.}
-
 \item{names_repair}{What happens if the output has invalid column names?
 The default, `"check_unique"` is to error if the columns are duplicated.
 Use `"minimal"` to allow duplicates in the output, or `"unique"` to
@@ -86,6 +53,21 @@ existing column names.}
 in the `value_to` column. This effectively converts explicit missing values
 to implicit missing values, and should generally be used only when missing
 values in `data` were created by its structure.}
+
+\item{names_transform, values_transform}{A list of column name-function pairs.
+Use these arguments if you need to change the type of specific columns.
+For example, `names_transform = list(week = as.integer)` would convert
+a character week variable to an integer.}
+
+\item{names_ptypes, values_ptypes}{A list of column name-prototype pairs.
+  A prototype (or ptype for short) is a zero-length vector (like `integer()`
+  or `numeric()`) that defines the type, class, and attributes of a vector.
+  Use these arguments to confirm that the created columns are the types that
+  you expect.
+
+  If not specified, the type of the columns generated from `names_to` will
+  be character, and the type of the variables generated from `values_to`
+  will be the common type of the input columns used to generate them.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
