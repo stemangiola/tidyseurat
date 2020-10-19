@@ -11,7 +11,6 @@ setMethod(
   definition = function(object) {
 
       object %>%
-      as_tibble() %>%
       print()
     
 

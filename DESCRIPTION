@@ -26,7 +26,12 @@ Imports:
     plotly,
     ellipsis,
     tidyselect,
-    utils
+    utils,
+    ellipsis,
+    pillar,
+    stringr,
+    cli,
+    fansi
 Suggests:
     BiocStyle,
     testthat,
