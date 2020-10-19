@@ -2,7 +2,7 @@
 #'
 #' @importFrom tidyr unnest
 #'
-#' @param .data A tbl. (See tidyr)
+#' @param data A tbl. (See tidyr)
 #' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
 #'   If you `unnest()` multiple columns, parallel entries must be of
 #'   compatible sizes, i.e. they're either equal or length 1 (following the
@@ -54,8 +54,10 @@ NULL
 #' @importFrom purrr imap
 #' 
 #' @export
-#' @rdname tidyr-methods
-unnest.tidyseurat_nested <- function(data, cols, ..., keep_empty=FALSE, ptype=NULL, names_sep=NULL, names_repair="check_unique", .drop, .id, .sep, .preserve){
+unnest.tidyseurat_nested <- function(
+  data, cols, ..., keep_empty=FALSE, ptype=NULL, names_sep=NULL, 
+  names_repair="check_unique", .drop, .id, .sep, .preserve
+){
   
   # Need this otherwise crashes map
   .data_ = data
