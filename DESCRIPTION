@@ -11,7 +11,7 @@ Description: It creates an invisible layer that allow to see the 'Seurat' object
     as tibble and interact seamlessly with the tidyverse.
 License: GPL-3
 Depends:
-    R (>= 3.6.0),
+    R (>= 4.0.0),
     Seurat
 Imports:
     tibble,
