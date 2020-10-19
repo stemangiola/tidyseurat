@@ -113,6 +113,34 @@ PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
   top_n(10, avg_logFC) %>%
   saveRDS("dev/PBMC_marker_df.rds")
 
+# Nesting
+PBMC_tidy_clean_scaled_UMAP_cluster_cell_type  %>%
+  sample_n(1000) %>%
+  
+  # Label lymphoid and myeloid 
+  tidyseurat::filter(first.labels != "Platelets") %>%
+  tidyseurat::mutate(cell_class = 
+                       if_else(
+                         `first.labels` %in% c("Macrophage", "Monocyte"),
+                         "myeloid", 
+                         "lymphoid"
+                       )
+  ) %>%
+  
+  # Nesting
+  nest(data = -cell_class) %>%
+  
+  # Identification of variable gene transcripts
+  mutate(variable_genes = map_chr(
+    data, ~ .x %>% 
+      FindVariableFeatures() %>%
+      RunPCA(verbose = FALSE) %>%
+      FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+      pull(gene) %>% 
+      head() %>%
+      paste(collapse=", ")
+  )) 
+
 # # Reorder columns
 # PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
 #   count(seurat_clusters, first.labels_cluster = first.labels)
