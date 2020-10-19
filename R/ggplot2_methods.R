@@ -26,6 +26,7 @@
 #' is often the case in complex graphics.
 #'
 #' @importFrom ggplot2 aes
+#' @importFrom ggplot2 ggplot
 #' 
 #' @param .data Default dataset to use for plot. If not already a data.frame,
 #'   will be converted to one by [fortify()]. If not specified,
@@ -37,30 +38,18 @@
 #' 
 #' @return A ggplot
 #' 
+#' @rdname ggplot2-methods
+#' @name ggplot
+#' 
 #' @export
 #' @examples
 #' # Generate some sample data, then compute mean and standard deviation
 #' # in each group
-ggplot <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  UseMethod("ggplot")
-}
+NULL
 
 #' @export
-#' 
-ggplot.tbl_df <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  
-  .data %>%
-    
-    # This is a trick to not loop the call
-    drop_class("tbl_df") %>%
-    ggplot2::ggplot( mapping = mapping, ..., environment = environment)
-  
-  
-}
-
-#' @export
-ggplot.tidyseurat <- function(.data = NULL, mapping = aes(), ..., environment = parent.frame()) {
-  .data %>%
+ggplot.tidyseurat <- function(data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+  data %>%
     as_tibble() %>%
     ggplot2::ggplot( mapping = mapping)
 }

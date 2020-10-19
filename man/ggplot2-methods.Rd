@@ -3,9 +3,6 @@
 \name{ggplot}
 \alias{ggplot}
 \title{Create a new ggplot from a tidyseurat object}
-\usage{
-ggplot(.data = NULL, mapping = aes(), ..., environment = parent.frame())
-}
 \arguments{
 \item{.data}{Default dataset to use for plot. If not already a data.frame,
 will be converted to one by [fortify()]. If not specified,

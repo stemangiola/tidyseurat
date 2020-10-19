@@ -19,6 +19,8 @@ setMethod(
 
 #' tidy for seurat
 #' 
+#' @name tidy
+#' 
 #' @param object A Seurat object
 #' 
 #' @return A tidyseurat object

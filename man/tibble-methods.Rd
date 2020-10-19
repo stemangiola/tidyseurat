@@ -3,23 +3,11 @@
 \name{as_tibble}
 \alias{as_tibble}
 \title{Coerce lists, matrices, and more to data frames}
-\usage{
-as_tibble(
-  x,
-  ...,
-  .name_repair = c("check_unique", "unique", "universal", "minimal"),
-  rownames = pkgconfig::get_config("tibble::rownames", NULL)
-)
-}
 \arguments{
 \item{x}{A data frame, list, matrix, or other object that could reasonably be
 coerced to a tibble.}
 
 \item{...}{Unused, for extensibility.}
-
-\item{.name_repair}{see tidyr
-
-  For compatibility only, do not use for new code.}
 
 \item{rownames}{How to treat existing row names of a data frame or matrix:
  * `NULL`: remove row names. This is the default.
@@ -27,6 +15,10 @@ coerced to a tibble.}
  * A string: the name of a new column. Existing rownames are transferred
    into this column and the `row.names` attribute is deleted.
 Read more in [rownames].}
+
+\item{.name_repair}{see tidyr
+
+  For compatibility only, do not use for new code.}
 }
 \value{
 A tibble
