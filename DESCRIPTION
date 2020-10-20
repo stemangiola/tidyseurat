@@ -33,7 +33,6 @@ Imports:
     cli,
     fansi
 Suggests:
-    BiocStyle,
     testthat,
     knitr,
     GGally,
