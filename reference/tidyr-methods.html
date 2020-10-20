@@ -40,8 +40,12 @@
 
 
 <meta property="og:title" content="unnest — unnest" />
-<meta property="og:description" content="unnest
-nest" />
+<meta property="og:description" content="Given a regular expression with capturing groups, `extract()` turns
+each group into a new column. If the groups don't match, or the input
+is NA, the output will be NA.
+Convenience function to paste together multiple columns into one.
+Given either a regular expression or a vector of character positions,
+`separate()` turns a single character column into multiple columns." />
 
 
 
@@ -73,7 +77,7 @@ nest" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -122,75 +126,24 @@ nest" />
     </div>
 
     <div class="ref-description">
-    <p>unnest</p>
-<p>nest</p>
+    <p>Given a regular expression with capturing groups, `extract()` turns
+each group into a new column. If the groups don't match, or the input
+is NA, the output will be NA.</p>
+<p>Convenience function to paste together multiple columns into one.</p>
+<p>Given either a regular expression or a vector of character positions,
+`separate()` turns a single character column into multiple columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>unnest</span>(
-  <span class='no'>.data</span>,
-  <span class='no'>cols</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>keep_empty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ptype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_sep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_repair</span> <span class='kw'>=</span> <span class='st'>"check_unique"</span>
-)
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>unnest</span>(
-  <span class='no'>.data</span>,
-  <span class='no'>cols</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>keep_empty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ptype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_sep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_repair</span> <span class='kw'>=</span> <span class='st'>"check_unique"</span>
-)
-
-<span class='co'># S3 method for tidyseurat_nested</span>
-<span class='fu'>unnest</span>(
-  <span class='no'>.data</span>,
-  <span class='no'>cols</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>keep_empty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ptype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_sep</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>names_repair</span> <span class='kw'>=</span> <span class='st'>"check_unique"</span>
-)
-
-<span class='fu'>nest</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>nest</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for tidyseurat</span>
-<span class='fu'>nest</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.data</th>
-      <td><p>A tbl. (See tidyr)</p></td>
-    </tr>
     <tr>
       <th>cols</th>
       <td><p>&lt;[`tidy-select`][tidyr_tidy_select]&gt; Columns to unnest.
 If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)</p></td>
-    </tr>
-    <tr>
-      <th>keep_empty</th>
-      <td><p>See tidyr::unnest</p></td>
-    </tr>
-    <tr>
-      <th>ptype</th>
-      <td><p>See tidyr::unnest</p></td>
     </tr>
     <tr>
       <th>names_sep</th>
@@ -204,8 +157,107 @@ standard tidyverse recycling rules).</p></td>
   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.</p></td>
     </tr>
     <tr>
+      <th>keep_empty</th>
+      <td><p>See tidyr::unnest</p></td>
+    </tr>
+    <tr>
       <th>names_repair</th>
       <td><p>See tidyr::unnest</p></td>
+    </tr>
+    <tr>
+      <th>ptype</th>
+      <td><p>See tidyr::unnest</p></td>
+    </tr>
+    <tr>
+      <th>.drop</th>
+      <td><p>See tidyr::unnest</p></td>
+    </tr>
+    <tr>
+      <th>.id</th>
+      <td><p>tidyr::unnest</p></td>
+    </tr>
+    <tr>
+      <th>.preserve</th>
+      <td><p>See tidyr::unnest</p></td>
+    </tr>
+    <tr>
+      <th>.data</th>
+      <td><p>A tbl. (See tidyr)</p></td>
+    </tr>
+    <tr>
+      <th>.names_sep</th>
+      <td><p>See tidyr::nest</p></td>
+    </tr>
+    <tr>
+      <th>into</th>
+      <td><p>Names of new variables to create as character vector.
+Use `NA` to omit the variable in the output.</p></td>
+    </tr>
+    <tr>
+      <th>regex</th>
+      <td><p>a regular expression used to extract the desired values.
+There should be one group (defined by `()`) for each element of `into`.</p></td>
+    </tr>
+    <tr>
+      <th>convert</th>
+      <td><p>If `TRUE`, will run [type.convert()] with
+  `as.is = TRUE` on new columns. This is useful if the component
+  columns are integer, numeric or logical.</p>
+<p>NB: this will cause string `"NA"`s to be converted to `NA`s.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>A data frame.</p></td>
+    </tr>
+    <tr>
+      <th>col</th>
+      <td><p>The name of the new column, as a string or symbol.</p>
+<p>This argument is passed by expression and supports
+  [quasiquotation][rlang::quasiquotation] (you can unquote strings
+  and symbols). The name is captured from the expression with
+  [rlang::ensym()] (note that this kind of interface where
+  symbols do not represent actual objects is now discouraged in the
+  tidyverse; we support it here for backward compatibility).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>&lt;[`tidy-select`][tidyr_tidy_select]&gt; Columns to unite</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>If `TRUE`, missing values will be remove prior to uniting
+each value.</p></td>
+    </tr>
+    <tr>
+      <th>remove</th>
+      <td><p>If `TRUE`, remove input columns from output data frame.</p></td>
+    </tr>
+    <tr>
+      <th>sep</th>
+      <td><p>Separator between columns.</p>
+<p>If character, `sep` is interpreted as a regular expression. The default
+  value is a regular expression that matches any sequence of
+  non-alphanumeric values.</p>
+<p>If numeric, `sep` is interpreted as character positions to split at. Positive
+  values start at 1 at the far-left of the string; negative value start at -1 at
+  the far-right of the string. The length of `sep` should be one less than
+  `into`.</p></td>
+    </tr>
+    <tr>
+      <th>extra</th>
+      <td><p>If `sep` is a character vector, this controls what
+  happens when there are too many pieces. There are three valid options:</p>
+<p>* "warn" (the default): emit a warning and drop extra values.
+  * "drop": drop any extra values without a warning.
+  * "merge": only splits at most `length(into)` times</p></td>
+    </tr>
+    <tr>
+      <th>fill</th>
+      <td><p>If `sep` is a character vector, this controls what
+  happens when there are not enough pieces. There are three valid options:</p>
+<p>* "warn" (the default): emit a warning and fill from the right
+  * "right": fill with missing values on the right
+  * "left": fill with missing values on the left</p></td>
     </tr>
     </table>
 
@@ -213,11 +265,20 @@ standard tidyverse recycling rules).</p></td>
 
     <p>A tidyseurat objector a tibble depending on input</p>
 <p>A tidyseurat objector a tibble depending on input</p>
+<p>A tidyseurat objector a tibble depending on input</p>
+<p>A tidyseurat objector a tibble depending on input</p>
+<p>A tidyseurat objector a tibble depending on input</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>[separate()] to split up by a separator.</p>
+<p>[separate()], the complement.</p>
+<p>[unite()], the complement, [extract()] which uses regular
+  expression capturing groups.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest</span>(<span class='kw'>data</span> <span class='kw'>=</span> -<span class='no'>groups</span>) <span class='kw'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; # A tibble: 80 x 9
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest</span>(<span class='kw'>data</span> <span class='kw'>=</span> -<span class='no'>groups</span>) <span class='kw'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 9
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;        
 #&gt;  1 ATGC… SeuratPro…         70           47 0               A            
@@ -235,7 +296,7 @@ standard tidyverse recycling rules).</p></td>
 
 
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest</span>(<span class='kw'>data</span> <span class='kw'>=</span> -<span class='no'>groups</span>) <span class='kw'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; # A tibble: 80 x 9
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>nest</span>(<span class='kw'>data</span> <span class='kw'>=</span> -<span class='no'>groups</span>) <span class='kw'>%&gt;%</span> <span class='fu'>unnest</span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 9
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;        
 #&gt;  1 ATGC… SeuratPro…         70           47 0               A            
@@ -250,6 +311,59 @@ standard tidyverse recycling rules).</p></td>
 #&gt; 10 TACA… SeuratPro…        109           41 0               A            
 #&gt; # … with 70 more rows, and 3 more variables: RNA_snn_res.1 &lt;chr&gt;, file &lt;chr&gt;,
 #&gt; #   groups &lt;chr&gt;</div><div class='input'>
+
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>extract</span>(<span class='no'>groups</span>, <span class='kw'>into</span> <span class='kw'>=</span> <span class='st'>"g"</span>, <span class='kw'>regex</span> <span class='kw'>=</span> <span class='st'>"g([0-9])"</span>, <span class='kw'>convert</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 16
+#&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g
+#&gt;    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;int&gt;
+#&gt;  1 ATGC… SeuratPro…         70           47 0               A                 2
+#&gt;  2 CATG… SeuratPro…         85           52 0               A                 1
+#&gt;  3 GAAC… SeuratPro…         87           50 1               B                 2
+#&gt;  4 TGAC… SeuratPro…        127           56 0               A                 2
+#&gt;  5 AGTC… SeuratPro…        173           53 0               A                 2
+#&gt;  6 TCTG… SeuratPro…         70           48 0               A                 1
+#&gt;  7 TGGT… SeuratPro…         64           36 0               A                 1
+#&gt;  8 GCAG… SeuratPro…         72           45 0               A                 1
+#&gt;  9 GATA… SeuratPro…         52           36 0               A                 1
+#&gt; 10 AATG… SeuratPro…        100           41 0               A                 1
+#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
+
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>unite</span>(<span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>orig.ident</span>, <span class='no'>groups</span>))</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 15
+#&gt;    cell  new_col nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+#&gt;    &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
+#&gt;  1 ATGC… Seurat…         70           47 0               A            
+#&gt;  2 CATG… Seurat…         85           52 0               A            
+#&gt;  3 GAAC… Seurat…         87           50 1               B            
+#&gt;  4 TGAC… Seurat…        127           56 0               A            
+#&gt;  5 AGTC… Seurat…        173           53 0               A            
+#&gt;  6 TCTG… Seurat…         70           48 0               A            
+#&gt;  7 TGGT… Seurat…         64           36 0               A            
+#&gt;  8 GCAG… Seurat…         72           45 0               A            
+#&gt;  9 GATA… Seurat…         52           36 0               A            
+#&gt; 10 AATG… Seurat…        100           41 0               A            
+#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
+
+
+ <span class='no'>un</span> <span class='kw'>=</span> <span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span> <span class='kw'>%&gt;%</span> <span class='fu'>unite</span>(<span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>orig.ident</span>, <span class='no'>groups</span>))
+ <span class='no'>un</span> <span class='kw'>%&gt;%</span> <span class='fu'>separate</span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>new_col</span>, <span class='kw'>into</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span>))</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 16
+#&gt;    cell  orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
+#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;        
+#&gt;  1 ATGC… SeuratPro… g2             70           47 0               A            
+#&gt;  2 CATG… SeuratPro… g1             85           52 0               A            
+#&gt;  3 GAAC… SeuratPro… g2             87           50 1               B            
+#&gt;  4 TGAC… SeuratPro… g2            127           56 0               A            
+#&gt;  5 AGTC… SeuratPro… g2            173           53 0               A            
+#&gt;  6 TCTG… SeuratPro… g1             70           48 0               A            
+#&gt;  7 TGGT… SeuratPro… g1             64           36 0               A            
+#&gt;  8 GCAG… SeuratPro… g1             72           45 0               A            
+#&gt;  9 GATA… SeuratPro… g1             52           36 0               A            
+#&gt; 10 AATG… SeuratPro… g1            100           41 0               A            
+#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -140,12 +140,6 @@
       <tr>
         
         <td>
-          <p><code><a href="as_tibble.html">as_tibble()</a></code> </p>
-        </td>
-        <td><p>Coerce lists, matrices, and more to data frames</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="bind.html">bind</a></code> </p>
         </td>
         <td><p>Efficiently bind multiple data frames by row and column</p></td>
@@ -164,70 +158,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="distinct.html">distinct()</a></code> </p>
-        </td>
-        <td><p>distinct</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dplyr-methods.html">arrange()</a></code> <code><a href="dplyr-methods.html">bind_rows()</a></code> <code><a href="dplyr-methods.html">bind_cols()</a></code> </p>
-        </td>
-        <td><p>drplyr-methods</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract.html">extract()</a></code> </p>
-        </td>
-        <td><p>Extract a character column into multiple columns using regular
-expression groups</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter.html">filter()</a></code> </p>
-        </td>
-        <td><p>Subset rows using column values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="full_join.html">full_join()</a></code> </p>
-        </td>
-        <td><p>Full join datasets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ggplot.html">ggplot()</a></code> </p>
+          <p><code><a href="ggplot2-methods.html">ggplot</a></code> </p>
         </td>
         <td><p>Create a new ggplot from a tidyseurat object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="group_by.html">group_by()</a></code> </p>
-        </td>
-        <td><p>Group by one or more variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="inner_join.html">inner_join()</a></code> </p>
-        </td>
-        <td><p>Inner join datasets</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="join_transcripts.html">join_transcripts()</a></code> </p>
         </td>
         <td><p>Extract and join information for transcripts.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="left_join.html">left_join()</a></code> </p>
-        </td>
-        <td><p>Left join datasets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mutate.html">mutate()</a></code> </p>
-        </td>
-        <td><p>Create, modify, and delete columns</p></td>
       </tr><tr>
         
         <td>
@@ -243,7 +182,7 @@ expression groups</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pivot_longer.html">pivot_longer()</a></code> </p>
+          <p><code><a href="pivot_longer.html">pivot_longer</a></code> </p>
         </td>
         <td><p>Pivot data from wide to long</p></td>
       </tr><tr>
@@ -255,52 +194,15 @@ expression groups</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pull.html">pull()</a></code> </p>
+          <p><code><a href="print.html">print(<i>&lt;tidyseurat&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Extract a single column</p></td>
+        <td><p>Printing tibbles</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="rename.html">rename()</a></code> </p>
+          <p><code><a href="tibble-methods.html">as_tibble</a></code> </p>
         </td>
-        <td><p>Rename columns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="right_join.html">right_join()</a></code> </p>
-        </td>
-        <td><p>Right join datasets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rowwise.html">rowwise()</a></code> </p>
-        </td>
-        <td><p>Group input by rows</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="select.html">select()</a></code> </p>
-        </td>
-        <td><p>Subset columns using their names and types</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="separate.html">separate()</a></code> </p>
-        </td>
-        <td><p>Separate a character column into multiple columns with a regular
-expression or numeric locations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="slice.html">slice()</a></code> </p>
-        </td>
-        <td><p>Subset rows using their positions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarise.html">summarise()</a></code> </p>
-        </td>
-        <td><p>Summarise each group to fewer rows</p></td>
+        <td><p>Coerce lists, matrices, and more to data frames</p></td>
       </tr><tr>
         
         <td>
@@ -310,15 +212,9 @@ expression or numeric locations</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="tidyr-methods.html">unnest()</a></code> <code><a href="tidyr-methods.html">nest()</a></code> </p>
+          <p><code><a href="tidyr-methods.html">unnest</a></code> </p>
         </td>
         <td><p>unnest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="unite.html">unite()</a></code> </p>
-        </td>
-        <td><p>Unite multiple columns into one by pasting strings together</p></td>
       </tr>
     </tbody>
     </table>

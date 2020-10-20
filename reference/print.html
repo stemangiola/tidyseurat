@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Efficiently bind multiple data frames by row and column — bind • tidyseurat</title>
+<title>Printing tibbles — print • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,16 @@
 
 
 
-<meta property="og:title" content="Efficiently bind multiple data frames by row and column — bind" />
-<meta property="og:description" content="This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-data frames into one." />
+<meta property="og:title" content="Printing tibbles — print" />
+<meta property="og:description" content="`r lifecycle::badge(&quot;maturing&quot;)`
+One of the main features of the `tbl_df` class is the printing:
+* Tibbles only print as many rows and columns as fit on one screen,
+  supplemented by a summary of the remaining rows and columns.
+* Tibble reveals the type of each column, which keeps the user informed about
+  whether a variable is, e.g., `&amp;lt;chr&amp;gt;` or `&amp;lt;fct&amp;gt;` (character versus factor).
+Printing can be tweaked for a one-off call by calling `print()` explicitly
+and setting arguments like `n` and `width`. More persistent control is
+available by setting the options described below." />
 
 
 
@@ -117,63 +123,109 @@ data frames into one." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Efficiently bind multiple data frames by row and column</h1>
+    <h1>Printing tibbles</h1>
     
-    <div class="hidden name"><code>bind.Rd</code></div>
+    <div class="hidden name"><code>print.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is an efficient implementation of the common pattern of
-`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-data frames into one.</p>
+    <p>`r lifecycle::badge("maturing")`</p>
+<p>One of the main features of the `tbl_df` class is the printing:</p>
+<p>* Tibbles only print as many rows and columns as fit on one screen,
+  supplemented by a summary of the remaining rows and columns.
+* Tibble reveals the type of each column, which keeps the user informed about
+  whether a variable is, e.g., `&lt;chr&gt;` or `&lt;fct&gt;` (character versus factor).</p>
+<p>Printing can be tweaked for a one-off call by calling `print()` explicitly
+and setting arguments like `n` and `width`. More persistent control is
+available by setting the options described below.</p>
     </div>
 
+    <pre class="usage"><span class='co'># S3 method for tidyseurat</span>
+<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n_extra</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p>Object to format or print.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Data frames to combine.</p>
-<p>Each argument can either be a data frame, a list that could be a data
-  frame, or a list of data frames.</p>
-<p>When row-binding, columns are matched by name, and any missing
-  columns will be filled with NA.</p>
-<p>When column-binding, rows are matched by position, so all data
-  frames must have the same number of rows. To match by value, not
-  position, see [mutate-joins].</p></td>
+      <td><p>Other arguments passed on to individual methods.</p></td>
     </tr>
     <tr>
-      <th>.id</th>
-      <td><p>Data frame identifier.</p>
-<p>When `.id` is supplied, a new column of identifiers is
-  created to link each row to its original data frame. The labels
-  are taken from the named arguments to `bind_rows()`. When a
-  list of data frames is supplied, the labels are taken from the
-  names of the list. If no names are found a numeric sequence is
-  used instead.</p></td>
+      <th>n</th>
+      <td><p>Number of rows to show. If `NULL`, the default, will print all rows
+if less than option `tibble.print_max`. Otherwise, will print
+`tibble.print_min` rows.</p></td>
     </tr>
     <tr>
-      <th>add.cell.ids</th>
-      <td><p>from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.</p></td>
+      <th>width</th>
+      <td><p>Width of text output to generate. This defaults to `NULL`, which
+means use `getOption("tibble.width")` or (if also `NULL`)
+`getOption("width")`; the latter displays only the columns that fit on one
+screen. You can also set `options(tibble.width = Inf)` to override this
+default and always print all columns.</p></td>
+    </tr>
+    <tr>
+      <th>n_extra</th>
+      <td><p>Number of extra columns to print abbreviated information for,
+if the width is too small for the entire tibble. If `NULL`, the default,
+will print information about at most `tibble.max_extra_cols` extra columns.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`bind_rows()` and `bind_cols()` return the same type as
-  the first input, either a data frame, `tbl_df`, or `grouped_df`.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>Nothing</p>
+    <h2 class="hasAnchor" id="package-options"><a class="anchor" href="#package-options"></a>Package options</h2>
 
-    <p>The output of `bind_rows()` will contain a column if that column
-appears in any of the inputs.</p>
+    
+
+
+<p>The following options are used by the tibble and pillar packages
+to format and print `tbl_df` objects.
+Used by the formatting workhorse `trunc_mat()` and, therefore,
+indirectly, by `print.tbl()`.</p>
+<p>* `tibble.print_max`: Row number threshold: Maximum number of rows printed.
+  Set to `Inf` to always print all rows.  Default: 20.
+* `tibble.print_min`: Number of rows printed if row number threshold is
+  exceeded. Default: 10.
+* `tibble.width`: Output width. Default: `NULL` (use `width` option).
+* `tibble.max_extra_cols`: Number of extra columns printed in reduced form.
+  Default: 100.</p>
+
+
+<ul>
+<li><p><code>pillar.bold</code>: Use bold font, e.g. for column headers? This currently
+defaults to <code>FALSE</code>, because many terminal fonts have poor support for
+bold fonts.</p></li>
+<li><p><code>pillar.subtle</code>: Use subtle style, e.g. for row numbers and data types?
+Default: <code>TRUE</code>.</p></li>
+<li><p><code>pillar.subtle_num</code>: Use subtle style for insignificant digits? Default:
+<code>FALSE</code>, is also affected by the <code>pillar.subtle</code> option.</p></li>
+<li><p><code>pillar.neg</code>: Highlight negative numbers? Default: <code>TRUE</code>.</p></li>
+<li><p><code>pillar.sigfig</code>: The number of significant digits that will be printed and
+highlighted, default: <code>3</code>. Set the <code>pillar.subtle</code> option to <code>FALSE</code> to
+turn off highlighting of significant digits.</p></li>
+<li><p><code>pillar.min_title_chars</code>: The minimum number of characters for the column
+title, default: <code>15</code>.  Column titles may be truncated up to that width to
+save horizontal space. Set to <code>Inf</code> to turn off truncation of column
+titles.</p></li>
+<li><p><code>pillar.min_chars</code>: The minimum number of characters wide to
+display character columns, default: <code>0</code>.  Character columns may be
+truncated up to that width to save horizontal space. Set to <code>Inf</code> to
+turn off truncation of character columns.</p></li>
+</ul>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>`%&gt;%`</span> <span class='kw'>=</span> <span class='kw pkg'>magrittr</span><span class='kw ns'>::</span><span class='no'>`%&gt;%`</span>
-<span class='no'>tt</span> <span class='kw'>=</span> <span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='no'>tidy</span>
-<span class='fu'><a href='dplyr-methods.html'>bind_rows</a></span>(    <span class='no'>tt</span>, <span class='no'>tt</span>  )</div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; # A tibble abstraction: 160 x 9
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tidy.html'>tidy</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>print</span>()</div><div class='output co'>#&gt; # A tibble abstraction: 80 x 16
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
-#&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt; 
+#&gt;    &lt;chr&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt; &lt;fct&gt;           &lt;fct&gt;         &lt;chr&gt; 
 #&gt;  1 ATGC… SeuratPro…         70           47 0               A             g2    
 #&gt;  2 CATG… SeuratPro…         85           52 0               A             g1    
 #&gt;  3 GAAC… SeuratPro…         87           50 1               B             g2    
@@ -184,29 +236,9 @@ appears in any of the inputs.</p>
 #&gt;  8 GCAG… SeuratPro…         72           45 0               A             g1    
 #&gt;  9 GATA… SeuratPro…         52           36 0               A             g1    
 #&gt; 10 AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; # … with 150 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, file &lt;chr&gt;</div><div class='input'>
-<span class='no'>tt_bind</span> <span class='kw'>=</span> <span class='no'>tt</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='dplyr-methods.html'>select</a></span>(<span class='no'>nCount_RNA</span> ,<span class='no'>nFeature_RNA</span>)</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.</span></div><div class='input'><span class='no'>tt</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='dplyr-methods.html'>bind_cols</a></span>(<span class='no'>tt_bind</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...2</span>
-#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...3</span>
-#&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...9</span>
-#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...10</span></div><div class='output co'>#&gt; # A tibble abstraction: 80 x 18
-#&gt;    cell  orig.ident nCount_RNA...2 nFeature_RNA...3 RNA_snn_res.0.8
-#&gt;    &lt;chr&gt; &lt;fct&gt;               &lt;dbl&gt;            &lt;int&gt; &lt;fct&gt;          
-#&gt;  1 ATGC… SeuratPro…             70               47 0              
-#&gt;  2 CATG… SeuratPro…             85               52 0              
-#&gt;  3 GAAC… SeuratPro…             87               50 1              
-#&gt;  4 TGAC… SeuratPro…            127               56 0              
-#&gt;  5 AGTC… SeuratPro…            173               53 0              
-#&gt;  6 TCTG… SeuratPro…             70               48 0              
-#&gt;  7 TGGT… SeuratPro…             64               36 0              
-#&gt;  8 GCAG… SeuratPro…             72               45 0              
-#&gt;  9 GATA… SeuratPro…             52               36 0              
-#&gt; 10 AATG… SeuratPro…            100               41 0              
-#&gt; # … with 70 more rows, and 13 more variables: letter.idents &lt;fct&gt;,
-#&gt; #   groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, nCount_RNA...9 &lt;dbl&gt;,
-#&gt; #   nFeature_RNA...10 &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,
-#&gt; #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</div><div class='input'>
-</div></pre>
+#&gt; # … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
+#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
+#&gt; #   tSNE_2 &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example data set — pbmc_small • tidyseurat</title>
+<title>Create a new ggplot from a tidyseurat object — ggplot • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Example data set — pbmc_small" />
-<meta property="og:description" content="Example data set" />
+<meta property="og:title" content="Create a new ggplot from a tidyseurat object — ggplot" />
+<meta property="og:description" content="`ggplot()` initializes a ggplot object. It can be used to
+declare the input data frame for a graphic and to specify the
+set of plot aesthetics intended to be common throughout all
+subsequent layers unless specifically overridden." />
 
 
 
@@ -115,22 +118,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example data set</h1>
+    <h1>Create a new ggplot from a tidyseurat object</h1>
     
-    <div class="hidden name"><code>pbmc_small.Rd</code></div>
+    <div class="hidden name"><code>ggplot2-methods.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Example data set</p>
+    <p>`ggplot()` initializes a ggplot object. It can be used to
+declare the input data frame for a graphic and to specify the
+set of plot aesthetics intended to be common throughout all
+subsequent layers unless specifically overridden.</p>
     </div>
 
-    <pre class="usage"><span class='no'>pbmc_small</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.data</th>
+      <td><p>Default dataset to use for plot. If not already a data.frame,
+will be converted to one by [fortify()]. If not specified,
+must be supplied in each layer added to the plot.</p></td>
+    </tr>
+    <tr>
+      <th>mapping</th>
+      <td><p>Default list of aesthetic mappings to use for plot.
+If not specified, must be supplied in each layer added to the plot.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments passed on to methods. Not currently used.</p></td>
+    </tr>
+    <tr>
+      <th>environment</th>
+      <td><p>DEPRECATED. Used prior to tidy evaluation.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>Seurat</code> with 230 rows and 80 columns.</p>
+    <p>A ggplot</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>`ggplot()` is used to construct the initial plot object,
+and is almost always followed by `+` to add component to the
+plot. There are three common ways to invoke `ggplot()`:</p>
+
+<p>The first method is recommended if all layers use the same
+data and the same set of aesthetics, although this method
+can also be used to add a layer using data from another
+data frame. See the first example below. The second
+method specifies the default data frame to use for the plot,
+but no aesthetics are defined up front. This is useful when
+one data frame is used predominantly as layers are added,
+but the aesthetics may vary from one layer to another. The
+third method initializes a skeleton `ggplot` object which
+is fleshed out as layers are added. This method is useful when
+multiple data frames are used to produce different layers, as
+is often the case in complex graphics.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'># Generate some sample data, then compute mean and standard deviation
+# in each group
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
