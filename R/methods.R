@@ -1,5 +1,3 @@
-
-
 setClass("tidyseurat", contains="Seurat")
 
 #' @importFrom methods show
@@ -39,7 +37,6 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 
 #' Extract and join information for transcripts.
 #'
-#' \lifecycle{experimental}
 #'
 #' @description join_transcripts() extracts and joins information for specified transcripts
 #'

@@ -30,8 +30,6 @@ A `tbl` containing the information.for the specified transcripts
 join_transcripts() extracts and joins information for specified transcripts
 }
 \details{
-\lifecycle{experimental}
-
 This function extracts information for specified transcripts and returns the information in either long or wide format.
 }
 \examples{
