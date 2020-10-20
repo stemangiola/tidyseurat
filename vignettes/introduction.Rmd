@@ -4,7 +4,7 @@ author: "Stefano Mangiola"
 date: "`r Sys.Date()`"
 package: tidyseurat
 output:
-  BiocStyle::html_document:
+  html_vignette:
     toc_float: true
 bibliography: tidyseurat.bib
 vignette: >
