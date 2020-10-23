@@ -324,6 +324,10 @@ jobs:
           ## Required to install magick as noted at
           ## https://github.com/r-lib/usethis/commit/f1f1e0d10c1ebc75fd4c18fa7e2de4551fd9978f#diff-9bfee71065492f63457918efcd912cf2
           brew install imagemagick@6
+          
+          ## Workaround conda permissions error as noted at
+          ## https://github.com/actions/virtual-environments/issues/1003#issuecomment-638884365
+          ln -s $CONDA/bin/conda /usr/bin/conda
       
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
