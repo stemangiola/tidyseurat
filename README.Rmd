@@ -20,4 +20,4 @@ screenshot <- "man/figures/plotly.png"
 ```
 
 ```{r child="man/fragments/intro.Rmd"}
-```
+``` 
