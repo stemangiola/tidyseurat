@@ -5,7 +5,7 @@ always_allow_html: true
 ---
 
 <!-- badges: start -->
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![R build status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
+[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![R build status](https://github.com/stemangiola/tidyseurat/workflows/R_CMD_check_bioc/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
 <!-- badges: end -->
 
 ```{r echo=FALSE}
