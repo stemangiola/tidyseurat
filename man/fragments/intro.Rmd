@@ -18,6 +18,8 @@ library(knitr)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
+![visual cue](`r visual_cue`)
+
 # Introduction
 
 tidyseurat provides a bridge between the Seurat single-cell package [@butler2018integrating; @stuart2019comprehensive] and the tidyverse [@wickham2019welcome]. It creates an invisible layer that enables viewing the

@@ -22,6 +22,9 @@ vignette: >
 screenshot <- "../man/figures/plotly.png"
 
 # The chunk below uses Rmd in man/fragments to avoid duplication, as the content is shared with the vignette and README. As suggested here: https://www.garrickadenbuie.com/blog/dry-vignette-and-readme/
+
+visual_cue <- "../man/figures/logo_interaction-01.png"
+
 ```
 
 ```{r child="../man/fragments/intro.Rmd"}
