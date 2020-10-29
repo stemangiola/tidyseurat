@@ -36,8 +36,7 @@ Suggests:
     knitr,
     GGally,
     markdown,
-    SingleCellSignalR,
-    dittoSeq
+    SingleCellSignalR
 VignetteBuilder: 
     knitr
 RdMacros:
