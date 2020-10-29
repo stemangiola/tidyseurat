@@ -117,7 +117,7 @@ Set colours and theme for plots.
 if (requireNamespace("dittoSeq", quietly = TRUE)) {
       friendly_cols <- dittoSeq::dittoColors()
    } else {
-      friendly_cols <- c("red", "blue", "green", "purple")
+      friendly_cols <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", "#44AA99", "#999933", "#882255", "#661100", "#6699CC")
    }
 
 # Set theme
