@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -124,13 +124,13 @@
     <p>join_transcripts() extracts and joins information for specified transcripts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>join_transcripts</span>(
-  <span class='no'>.data</span>,
-  <span class='kw'>transcripts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>exclude_zeros</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"long"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>join_transcripts</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  transcripts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  exclude_zeros <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  shape <span class='op'>=</span> <span class='st'>"long"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,27 +166,28 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>pbmc_small</span> <span class='kw'>%&gt;%</span>
-<span class='no'>tidy</span> <span class='kw'>%&gt;%</span>
-<span class='fu'>join_transcripts</span>(<span class='kw'>transcripts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HLA-DRA"</span>, <span class='st'>"LYZ"</span>))</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; # A tibble: 160 x 18
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> 
+<span class='va'>tidy</span> <span class='op'>%&gt;%</span> 
+<span class='fu'>join_transcripts</span><span class='op'>(</span>transcripts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HLA-DRA"</span>, <span class='st'>"LYZ"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 160 x 18</span><span>
 #&gt;    cell  transcript abundance_RNA orig.ident nCount_RNA nFeature_RNA
-#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;fct&gt;           &lt;dbl&gt;        &lt;int&gt;
-#&gt;  1 ATGC… HLA-DRA             0    SeuratPro…         70           47
-#&gt;  2 ATGC… LYZ                 4.97 SeuratPro…         70           47
-#&gt;  3 CATG… HLA-DRA             4.78 SeuratPro…         85           52
-#&gt;  4 CATG… LYZ                 4.78 SeuratPro…         85           52
-#&gt;  5 GAAC… HLA-DRA             0    SeuratPro…         87           50
-#&gt;  6 GAAC… LYZ                 4.75 SeuratPro…         87           50
-#&gt;  7 TGAC… HLA-DRA             0    SeuratPro…        127           56
-#&gt;  8 TGAC… LYZ                 0    SeuratPro…        127           56
-#&gt;  9 AGTC… HLA-DRA             4.07 SeuratPro…        173           53
-#&gt; 10 AGTC… LYZ                 0    SeuratPro…        173           53
-#&gt; # … with 150 more rows, and 12 more variables: RNA_snn_res.0.8 &lt;fct&gt;,
-#&gt; #   letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,
-#&gt; #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,
-#&gt; #   tSNE_2 &lt;dbl&gt;</div><div class='input'>
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> ATGC… HLA-DRA             0    SeuratPro…         70           47
+#&gt; </span><span style='color: #555555;'> 2</span><span> ATGC… LYZ                 4.97 SeuratPro…         70           47
+#&gt; </span><span style='color: #555555;'> 3</span><span> CATG… HLA-DRA             4.78 SeuratPro…         85           52
+#&gt; </span><span style='color: #555555;'> 4</span><span> CATG… LYZ                 4.78 SeuratPro…         85           52
+#&gt; </span><span style='color: #555555;'> 5</span><span> GAAC… HLA-DRA             0    SeuratPro…         87           50
+#&gt; </span><span style='color: #555555;'> 6</span><span> GAAC… LYZ                 4.75 SeuratPro…         87           50
+#&gt; </span><span style='color: #555555;'> 7</span><span> TGAC… HLA-DRA             0    SeuratPro…        127           56
+#&gt; </span><span style='color: #555555;'> 8</span><span> TGAC… LYZ                 0    SeuratPro…        127           56
+#&gt; </span><span style='color: #555555;'> 9</span><span> AGTC… HLA-DRA             4.07 SeuratPro…        173           53
+#&gt; </span><span style='color: #555555;'>10</span><span> AGTC… LYZ                 0    SeuratPro…        173           53
+#&gt; </span><span style='color: #555555;'># … with 150 more rows, and 12 more variables: RNA_snn_res.0.8 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   letter.idents </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, groups </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, RNA_snn_res.1 </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span style='color: #555555;'>, file </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   PC_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, PC_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, tSNE_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   tSNE_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -202,7 +203,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
