@@ -5,7 +5,7 @@ tidyseurat - part of tidyTranscriptomics
 
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
-status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
+status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
 <!-- badges: end -->
 
 **Brings Seurat to the tidyverse\!**
