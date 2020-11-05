@@ -26,7 +26,7 @@ visual_cue <- "../man/figures/logo_interaction-01.png"
 
 ```
 
-```{r}
+```{r eval=FALSE}
 # Article workflow
 
 library(tidyverse)
@@ -193,11 +193,3 @@ p6 =
   )
 ```
 
-# Session Info
-
-```{r}
-sessionInfo()
-```
-
-
-# References
