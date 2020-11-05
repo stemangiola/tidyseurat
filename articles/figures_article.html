@@ -72,7 +72,8 @@
 
       
 
-      </header><script src="figures_article_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="figures_article_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="figures_article_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="figures_article_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Code for producing the figures in the article</h1>
@@ -89,8 +90,8 @@
     
 <!-- badges: start -->
 <p><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle:maturing"></a> <!-- badges: end --></p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># Article workflow</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Article workflow</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span>
@@ -125,9 +126,9 @@
       <span class="op">)</span>
   <span class="op">)</span>
 
-<span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"dev/PBMC_tidy_clean_scaled_UMAP_cluster_cell_type.rds"</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">p1</span> <span class="op">=</span> 
+<span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"dev/PBMC_tidy_clean_scaled_UMAP_cluster_cell_type.rds"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>
     <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mito.fraction</span>, <span class="va">S.Score</span>, <span class="va">G2M.Score</span><span class="op">)</span>, 
@@ -139,9 +140,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span> <span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">property</span>, scales <span class="op">=</span> <span class="st">"free_y"</span> <span class="op">)</span> <span class="op">+</span>
   <span class="va">custom_theme</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio<span class="op">=</span><span class="fl">1</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">p2</span> <span class="op">=</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p2</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">sample_n</a></span><span class="op">(</span><span class="fl">20000</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">UMAP_1</span>, <span class="va">UMAP_2</span>, color<span class="op">=</span><span class="va">seurat_clusters</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -159,9 +160,9 @@
     colors <span class="op">=</span> <span class="va">friendly_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">]</span>,sizes <span class="op">=</span> <span class="fl">50</span>, size <span class="op">=</span> <span class="fl">1</span>
   <span class="op">)</span>
 
-<span class="va">markers</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"dev/PBMC_marker_df.rds"</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">p3</span> <span class="op">=</span> 
+<span class="va">markers</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"dev/PBMC_marker_df.rds"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p3</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">first.labels</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">mutate</a></span><span class="op">(</span>seurat_clusters <span class="op">=</span> <span class="fu">fct_inorder</span><span class="op">(</span><span class="va">seurat_clusters</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -170,18 +171,18 @@
   <span class="fu">geom_density_ridges</span><span class="op">(</span>bandwidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">transcript</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="va">custom_theme</span></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># Plot heatmap</span>
+  <span class="va">custom_theme</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Plot heatmap</span>
 <span class="va">p4</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">sample_n</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/DoHeatmap.html">DoHeatmap</a></span><span class="op">(</span>
     features <span class="op">=</span> <span class="va">markers</span><span class="op">$</span><span class="va">gene</span>,
     group.colors <span class="op">=</span> <span class="va">friendly_cols</span>
-  <span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">p5</span> <span class="op">=</span> 
+  <span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p5</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">sample_n</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/join_transcripts.html">join_transcripts</a></span><span class="op">(</span>transcripts<span class="op">=</span><span class="va">markers</span><span class="op">$</span><span class="va">gene</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -203,9 +204,9 @@
     
   <span class="co"># Add annotation</span>
   <span class="fu">add_tile</span><span class="op">(</span><span class="va">sample</span>, palette <span class="op">=</span> <span class="va">friendly_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">add_point</span><span class="op">(</span><span class="va">PC_1</span><span class="op">)</span> </pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">p6</span> <span class="op">=</span> 
+  <span class="fu">add_point</span><span class="op">(</span><span class="va">PC_1</span><span class="op">)</span> </code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p6</span> <span class="op">=</span> 
   <span class="va">PBMC_tidy_clean_scaled_UMAP_cluster_cell_type</span> <span class="op">%&gt;%</span>
   <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="../reference/unnest.html">unite</a></span><span class="op">(</span><span class="st">"cluster_cell_type"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">first.labels</span>, <span class="va">seurat_clusters</span><span class="op">)</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>
@@ -241,7 +242,7 @@
     axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">10</span>, r <span class="op">=</span> <span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span>, l <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
     axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">10</span>, r <span class="op">=</span> <span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span>, l <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
     axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">30</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-  <span class="op">)</span></pre></div>
+  <span class="op">)</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
