@@ -5,7 +5,7 @@ tidyseurat - part of tidytranscriptomics
 
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![R build
-status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions)
+status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions/)
 <!-- badges: end -->
 
 **Brings Seurat to the tidyverse\!**
@@ -17,9 +17,9 @@ Please also have a look at
 
   - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
     RNA-seq analysis
-  - [nanny](https://github.com/stemangiola/nanny) for tidy high-level
+  - [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
     data analysis and manipulation
-  - [tidygate](https://github.com/stemangiola/tidygate) for adding
+  - [tidygate](https://github.com/stemangiola/tidygate/) for adding
     custom gate information to your tibble
   - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
     heatmaps produced with tidy principles
