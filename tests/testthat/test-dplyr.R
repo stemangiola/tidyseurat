@@ -5,17 +5,18 @@ tt = pbmc_small %>% tidy
 test_that("arrange",{
 
 
-  tt_pca_aranged = tt %>% arrange(nFeature_RNA) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
+  tt_pca_arranged = tt %>% arrange(nFeature_RNA) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
   tt_pca = tt %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
 
   expect_equal(
-    Seurat::VariableFeatures(tt_pca_aranged),
+    Seurat::VariableFeatures(tt_pca_arranged),
     Seurat::VariableFeatures(tt_pca)
   )
   
   expect_equal(
-    tt_pca_aranged@reductions$pca@cell.embeddings ,
-    tt_pca@reductions$pca@cell.embeddings
+    tt_pca_arranged@reductions$pca@cell.embeddings ,
+    tt_pca@reductions$pca@cell.embeddings, 
+    tollerance=0.05
   )
 
 
