@@ -203,7 +203,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
          
          
     ) %>%
-    Reduce(function(...) left_join(..., by=c("transcript", "cell")), .)
+    Reduce(function(...) full_join(..., by=c("transcript", "cell")), .)
   
 }
 
