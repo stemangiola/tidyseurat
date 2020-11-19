@@ -16,7 +16,7 @@ test_that("arrange",{
   expect_equal(
     tt_pca_arranged@reductions$pca@cell.embeddings ,
     tt_pca@reductions$pca@cell.embeddings, 
-    tollerance=0.05
+    tolerance=0.1
   )
 
 
