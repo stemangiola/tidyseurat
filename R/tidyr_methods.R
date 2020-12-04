@@ -82,7 +82,13 @@ unnest.tidyseurat_nested <- function(
         )) %>%
         pull(!!cols) 
         
-        bind_rows(list_seurat[[1]], list_seurat[2:length(list_seurat)])
+        list_seurat[[1]] %>%
+          
+          # Bind only if length list > 1
+          when(
+            length(list_seurat)>1 ~ bind_rows(., list_seurat[2:length(list_seurat)]),
+            ~ (.)
+          )
       },
       
       # Else do normal stuff

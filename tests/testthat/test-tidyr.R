@@ -18,6 +18,16 @@ test_that("nest_unnest",{
   
 })
 
+test_that("nest_unnest_slice_1",{
+  
+  tt %>%
+    nest(data = -groups) %>% 
+    slice(1) %>% 
+    unnest(data)
+  
+})
+
+
 test_that("unite separate",{
   
   un = tt %>% unite("new_col", c(orig.ident, groups)) 
