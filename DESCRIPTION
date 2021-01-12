@@ -35,7 +35,9 @@ Suggests:
     testthat,
     knitr,
     GGally,
-    markdown
+    markdown,
+    celldex,
+    SingleR
 VignetteBuilder: 
     knitr
 RdMacros:
