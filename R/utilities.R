@@ -108,14 +108,16 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
   else variable_genes = NULL
   
   # Just grub last assay
-  .data@assays %>%
-    tail(1) %>%
-    .[[1]] %>%
+  .data %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ (.)@counts[variable_genes,, drop=FALSE],
-      transcripts %>% is.null %>% `!` ~ (.)@counts[transcripts,, drop=FALSE],
+      variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
+      transcripts %>% is.null %>% `!` ~ (.)[transcripts,],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
+    `@` (assays) %>%
+    tail(1) %>%
+    .[[1]] %>%
+    `@` (counts) %>%
     as.matrix() %>%
     t %>%
     as_tibble(rownames = "cell") 
