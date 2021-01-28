@@ -215,7 +215,33 @@ pbmc_small_cluster %>%
 
 We can identify cluster markers using Seurat.
 
-```{r}
+<!-- If this is Seurat v4, comment out the v3 markers -->
+
+`r if (packageVersion("Seurat") >= package_version("4.0.0")) {"<!--"}`
+
+```{r markers_v3, eval=(packageVersion("Seurat") < package_version("4.0.0"))}
+# Identify top 10 markers per cluster
+markers <-
+  pbmc_small_cluster %>%
+  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  group_by(cluster) %>%
+  top_n(10, avg_logFC)
+
+# Plot heatmap
+pbmc_small_cluster %>%
+  DoHeatmap(
+    features = markers$gene,
+    group.colors = friendly_cols
+  )
+```
+
+`r if (packageVersion("Seurat") >= package_version("4.0.0")) {"-->"}`
+
+<!-- If this is Seurat v3, comment out the v4 markers -->
+
+`r if (packageVersion("Seurat") < package_version("4.0.0")) {"<!--"}`
+
+```{r markers_v4, eval=(packageVersion("Seurat") >= package_version("4.0.0"))}
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
@@ -230,6 +256,8 @@ pbmc_small_cluster %>%
     group.colors = friendly_cols
   )
 ```
+
+`r if (packageVersion("Seurat") < package_version("4.0.0")) {"-->"}`
 
 # Reduce dimensions
 
