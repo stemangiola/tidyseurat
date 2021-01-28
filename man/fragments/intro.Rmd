@@ -221,7 +221,7 @@ markers <-
   pbmc_small_cluster %>%
   FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
   group_by(cluster) %>%
-  top_n(10, avg_logFC)
+  top_n(10, avg_log2FC)
 
 # Plot heatmap
 pbmc_small_cluster %>%
