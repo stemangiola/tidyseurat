@@ -78,7 +78,7 @@
       <h1 data-toc-skip>Overview of the tidyseurat package</h1>
                         <h4 class="author">Stefano Mangiola</h4>
             
-            <h4 class="date">2021-01-28</h4>
+            <h4 class="date">2021-02-02</h4>
       
       
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -326,9 +326,9 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_pca</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_polished</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/SCTransform.html">SCTransform</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html">RunPCA</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/SCTransform.html">SCTransform</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">pbmc_small_pca</span></code></pre></div>
 <pre><code>## # A tibble abstraction: 80 x 19
@@ -363,8 +363,8 @@
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_cluster</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_pca</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html">FindClusters</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"igraph"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"igraph"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">pbmc_small_cluster</span></code></pre></div>
 <pre><code>## # A tibble abstraction: 80 x 21
@@ -401,22 +401,6 @@
 ## 8 g2     3                   5</code></pre>
 <p>We can identify cluster markers using Seurat.</p>
 <!-- If this is Seurat v4, comment out the v3 markers -->
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Identify top 10 markers per cluster</span>
-<span class="va">markers</span> <span class="op">&lt;-</span>
-  <span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindAllMarkers.html">FindAllMarkers</a></span><span class="op">(</span>only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, thresh.use <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/arrange.html">group_by</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">avg_logFC</span><span class="op">)</span>
-
-<span class="co"># Plot heatmap</span>
-<span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/DoHeatmap.html">DoHeatmap</a></span><span class="op">(</span>
-    features <span class="op">=</span> <span class="va">markers</span><span class="op">$</span><span class="va">gene</span>,
-    group.colors <span class="op">=</span> <span class="va">friendly_cols</span>
-  <span class="op">)</span></code></pre></div>
-<p><img src="introduction_files/figure-html/markers_v3-1.png" width="700"></p>
-<!-- If this is Seurat v3, comment out the v4 markers -->
 <!--
 
 
@@ -426,7 +410,7 @@ markers <-
   pbmc_small_cluster %>%
   FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
   group_by(cluster) %>%
-  top_n(10, avg_log2FC)
+  top_n(10, avg_logFC)
 
 # Plot heatmap
 pbmc_small_cluster %>%
@@ -437,6 +421,22 @@ pbmc_small_cluster %>%
 ```
 
 -->
+<!-- If this is Seurat v3, comment out the v4 markers -->
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Identify top 10 markers per cluster</span>
+<span class="va">markers</span> <span class="op">&lt;-</span>
+  <span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindAllMarkers.html">FindAllMarkers</a></span><span class="op">(</span>only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, thresh.use <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/arrange.html">group_by</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/top_n.html">top_n</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">avg_log2FC</span><span class="op">)</span>
+
+<span class="co"># Plot heatmap</span>
+<span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/DoHeatmap.html">DoHeatmap</a></span><span class="op">(</span>
+    features <span class="op">=</span> <span class="va">markers</span><span class="op">$</span><span class="va">gene</span>,
+    group.colors <span class="op">=</span> <span class="va">friendly_cols</span>
+  <span class="op">)</span></code></pre></div>
+<p><img src="introduction_files/figure-html/markers_v4-1.png" width="700"></p>
 </div>
 <div id="reduce-dimensions" class="section level1">
 <h1 class="hasAnchor">
@@ -445,7 +445,7 @@ pbmc_small_cluster %>%
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_UMAP</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_cluster</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, n.components <span class="op">=</span> <span class="fl">3L</span>, <span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, n.components <span class="op">=</span> <span class="fl">3L</span>, <span class="op">)</span></code></pre></div>
 <p>And we can plot them using 3D plot using plotly.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_UMAP</span> <span class="op">%&gt;%</span>
@@ -581,11 +581,11 @@ pbmc_small_cluster %>%
   <span class="va">pbmc_small_nested</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/arrange.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>
     <span class="va">data</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">%&gt;%</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunPCA.html">RunPCA</a></span><span class="op">(</span>npcs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/FindClusters.html">FindClusters</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"igraph"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/Seurat/man/RunUMAP.html">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, n.components <span class="op">=</span> <span class="fl">3L</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+      <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span>npcs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"igraph"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, n.components <span class="op">=</span> <span class="fl">3L</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
   <span class="op">)</span><span class="op">)</span>
 
 <span class="va">pbmc_small_nested_reanalysed</span></code></pre></div>
@@ -635,8 +635,9 @@ pbmc_small_cluster %>%
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tidyseurat_0.1.18 Seurat_3.2.3      ggplot2_3.3.3     magrittr_2.0.1   
-## [5] purrr_0.3.4       tidyr_1.1.2       dplyr_1.0.3       knitr_1.31       
+## [1] tidyseurat_0.1.18  SeuratObject_4.0.0 Seurat_4.0.0       ggplot2_3.3.3     
+## [5] magrittr_2.0.1     purrr_0.3.4        tidyr_1.1.2        dplyr_1.0.3       
+## [9] knitr_1.31        
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] Rtsne_0.15           colorspace_2.0-0     deldir_0.2-9        
@@ -649,31 +650,31 @@ pbmc_small_cluster %>%
 ##  [22] png_0.1-7            uwot_0.1.10          shiny_1.6.0         
 ##  [25] sctransform_0.3.2    compiler_4.0.3       httr_1.4.2          
 ##  [28] assertthat_0.2.1     Matrix_1.2-18        fastmap_1.1.0       
-##  [31] lazyeval_0.2.2       cli_2.2.0            later_1.1.0.1       
-##  [34] htmltools_0.5.1.1    tools_4.0.3          rsvd_1.0.3          
-##  [37] igraph_1.2.6         gtable_0.3.0         glue_1.4.2          
-##  [40] RANN_2.6.1           reshape2_1.4.4       Rcpp_1.0.6          
-##  [43] spatstat_1.64-1      scattermore_0.7      pkgdown_1.6.1       
-##  [46] vctrs_0.3.6          nlme_3.1-149         lmtest_0.9-38       
-##  [49] xfun_0.20            stringr_1.4.0        globals_0.14.0      
-##  [52] mime_0.9             miniUI_0.1.1.1       lifecycle_0.2.0     
-##  [55] irlba_2.3.3          goftest_1.2-2        future_1.21.0       
-##  [58] MASS_7.3-53          zoo_1.8-8            scales_1.1.1        
-##  [61] ragg_0.4.1           promises_1.1.1       spatstat.utils_2.0-0
-##  [64] parallel_4.0.3       RColorBrewer_1.1-2   yaml_2.2.1          
-##  [67] memoise_2.0.0        reticulate_1.18      pbapply_1.4-3       
-##  [70] gridExtra_2.3        rpart_4.1-15         reshape_0.8.8       
-##  [73] stringi_1.5.3        highr_0.8            desc_1.2.0          
-##  [76] rlang_0.4.10         pkgconfig_2.0.3      systemfonts_0.3.2   
-##  [79] matrixStats_0.57.0   evaluate_0.14        lattice_0.20-41     
-##  [82] ROCR_1.0-11          tensor_1.5           labeling_0.4.2      
-##  [85] patchwork_1.1.1      htmlwidgets_1.5.3    cowplot_1.1.1       
-##  [88] tidyselect_1.1.0     GGally_2.1.0         parallelly_1.23.0   
-##  [91] RcppAnnoy_0.0.18     plyr_1.8.6           R6_2.5.0            
-##  [94] generics_0.1.0       mgcv_1.8-33          pillar_1.4.7        
+##  [31] lazyeval_0.2.2       cli_2.3.0            later_1.1.0.1       
+##  [34] htmltools_0.5.1.1    tools_4.0.3          igraph_1.2.6        
+##  [37] gtable_0.3.0         glue_1.4.2           RANN_2.6.1          
+##  [40] reshape2_1.4.4       Rcpp_1.0.6           spatstat_1.64-1     
+##  [43] scattermore_0.7      pkgdown_1.6.1        vctrs_0.3.6         
+##  [46] nlme_3.1-149         lmtest_0.9-38        xfun_0.20           
+##  [49] stringr_1.4.0        globals_0.14.0       mime_0.9            
+##  [52] miniUI_0.1.1.1       lifecycle_0.2.0      irlba_2.3.3         
+##  [55] goftest_1.2-2        future_1.21.0        MASS_7.3-53         
+##  [58] zoo_1.8-8            scales_1.1.1         ragg_0.4.1          
+##  [61] promises_1.1.1       spatstat.utils_2.0-0 parallel_4.0.3      
+##  [64] RColorBrewer_1.1-2   yaml_2.2.1           memoise_2.0.0       
+##  [67] reticulate_1.18      pbapply_1.4-3        gridExtra_2.3       
+##  [70] rpart_4.1-15         reshape_0.8.8        stringi_1.5.3       
+##  [73] highr_0.8            desc_1.2.0           rlang_0.4.10        
+##  [76] pkgconfig_2.0.3      systemfonts_0.3.2    matrixStats_0.58.0  
+##  [79] evaluate_0.14        lattice_0.20-41      tensor_1.5          
+##  [82] ROCR_1.0-11          labeling_0.4.2       patchwork_1.1.1     
+##  [85] htmlwidgets_1.5.3    cowplot_1.1.1        tidyselect_1.1.0    
+##  [88] GGally_2.1.0         parallelly_1.23.0    RcppAnnoy_0.0.18    
+##  [91] plyr_1.8.6           R6_2.5.0             generics_0.1.0      
+##  [94] DBI_1.1.1            mgcv_1.8-33          pillar_1.4.7        
 ##  [97] withr_2.4.1          fitdistrplus_1.1-3   survival_3.2-7      
-## [100] abind_1.4-5          tibble_3.0.5         future.apply_1.7.0  
-## [103] crayon_1.3.4         utf8_1.1.4           KernSmooth_2.23-17  
+## [100] abind_1.4-5          tibble_3.0.6         future.apply_1.7.0  
+## [103] crayon_1.4.0         utf8_1.1.4           KernSmooth_2.23-17  
 ## [106] plotly_4.9.3         rmarkdown_2.6        grid_4.0.3          
 ## [109] data.table_1.13.6    digest_0.6.27        xtable_1.8-4        
 ## [112] httpuv_1.5.5         textshaping_0.2.1    munsell_0.5.0       
