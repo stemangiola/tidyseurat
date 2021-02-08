@@ -82,6 +82,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
   
   # Solve CRAN warnings
   . = NULL
+  assays = NULL
+  counts = NULL
   
   # Check if output would be too big without forcing
   if(
