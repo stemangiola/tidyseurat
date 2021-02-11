@@ -15,6 +15,8 @@
 #' Printing can be tweaked for a one-off call by calling `print()` explicitly
 #' and setting arguments like `n` and `width`. More persistent control is
 #' available by setting the options described below.
+#' 
+#' Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used.
 #'
 #' @inheritSection pillar::`pillar-package` Package options
 #' @section Package options:
@@ -63,7 +65,7 @@ NULL
 print.tidyseurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   
   x %>%
-    as_tibble() %>%
+    as_tibble(n_dimensions_to_return = 5) %>%
     
     # Get formatting
     tidyseurat_format_tbl(..., n = n, width = width, n_extra = n_extra) %>%

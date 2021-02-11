@@ -79,7 +79,7 @@ as_tibble.tidyseurat = function(x, ...,
       
       # Only if I have reduced dimensions and special datasets
       length(x@reductions) > 0 ~ (.) %>% left_join(
-        get_special_datasets(x) %>%
+        get_special_datasets(x, ...) %>%
           map(~ .x %>% when(
             
             # If row == 1 do a trick
