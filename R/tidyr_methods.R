@@ -77,7 +77,7 @@ unnest.tidyseurat_nested <- function(
             bind_cols_(
               
               # Attach back the columns used for nesting
-              .data_ %>% select(-!!cols) %>% slice(rep(.y, ncol(.x)))
+              .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
             )
         )) %>%
         pull(!!cols) 

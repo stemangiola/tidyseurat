@@ -1084,7 +1084,17 @@ sample_n.tidyseurat <- function(tbl, size, replace = FALSE,
   new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
-  new_obj
+  new_obj %>%
+    
+    # If replace return simple tibble because is not trivial to build 
+    # a redundant Seurat object and it would not make much sense
+    when(
+      replace ~ {
+        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+        as_tibble(.)
+      },
+      ~ (.)
+    )
   
 }
 
@@ -1106,7 +1116,17 @@ sample_frac.tidyseurat <- function(tbl, size = 1, replace = FALSE,
   new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
   
-  new_obj
+  new_obj %>%
+    
+    # If replace return simple tibble because is not trivial to build 
+    # a redundant Seurat object and it would not make much sense
+    when(
+      replace ~ {
+        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+        as_tibble(.)
+      },
+      ~ (.)
+    )
   
 }
 
