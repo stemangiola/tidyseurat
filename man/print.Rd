@@ -42,6 +42,8 @@ One of the main features of the `tbl_df` class is the printing:
 Printing can be tweaked for a one-off call by calling `print()` explicitly
 and setting arguments like `n` and `width`. More persistent control is
 available by setting the options described below.
+
+Only the first 5 reduced dimensions are displayed, while all of them are queriable (e.g. ggplot). All dimensions are returned/displayed if as_tibble is used.
 }
 \section{Package options}{
 

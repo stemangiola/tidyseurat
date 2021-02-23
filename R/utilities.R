@@ -245,9 +245,9 @@ get_special_columns = function(seurat_object){
     as.character 
 }
 
-get_special_datasets = function(seurat_object){
+get_special_datasets = function(seurat_object, n_dimensions_to_return = Inf){
   seurat_object@reductions %>%
-    map(~ .x@cell.embeddings[,1:min(5, ncol(.x@cell.embeddings)), drop=FALSE] )
+    map(~ .x@cell.embeddings[,1:min(n_dimensions_to_return, ncol(.x@cell.embeddings)), drop=FALSE] )
   
 }
 
