@@ -143,6 +143,14 @@ bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
   
   tts = flatten_if(dots_values(...), is_spliced)
   
+  # Strange error for Seurat merge
+  # GetResidualSCTModel
+  # close to a line as such
+  # slot(object = object[[assay]], name = "SCTModel.list")
+  # So I have to delete any sample of size 1 if I have calculated SCT
+  # if()
+  # object@assays$SCT@SCTModel.list %>% map(~ .x@cell.attributes %>% nrow)
+  
   # Check if cell with same name
   merge(  tts[[1]] , y = tts[[2]],  add.cell.ids = add.cell.ids) %>% tidy
   
@@ -150,7 +158,7 @@ bind_rows.tidyseurat <- function(..., .id = NULL,  add.cell.ids = NULL)
 
 bind_cols_ = function(..., .id = NULL){
   
-  tts = 	tts = flatten_if(dots_values(...), is_spliced) 
+  tts = flatten_if(dots_values(...), is_spliced) 
   
   tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]]@meta.data, tts[[2]], .id = .id) 
   
@@ -1168,6 +1176,7 @@ count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
     out <- dplyr::dplyr_reconstruct(out, x)
   }
   out}
+
 #' @export
 count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   
@@ -1176,6 +1185,33 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   x %>%
     as_tibble() %>%
     dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
+  
+}
+
+#' @export
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+  UseMethod("add_count")
+}
+
+#' @export
+#' @rdname count
+add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+ 
+  dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
+  
+}
+
+#' @export
+#' @rdname count
+add_count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+  
+  x@meta.data =
+    x %>% 
+    as_tibble %>%
+    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>% 
+    as_meta_data(x)
+  
+  x
   
 }
 

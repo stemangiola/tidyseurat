@@ -2,6 +2,8 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{count}
 \alias{count}
+\alias{add_count.default}
+\alias{add_count.tidyseurat}
 \title{Count observations by group}
 \usage{
 count(
@@ -12,6 +14,10 @@ count(
   name = NULL,
   .drop = group_by_drop_default(x)
 )
+
+\method{add_count}{default}(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
+
+\method{add_count}{tidyseurat}(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated())
 }
 \arguments{
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a
