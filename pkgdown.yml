@@ -2,7 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  code_comparison: code_comparison.html
   figures_article: figures_article.html
   introduction: introduction.html
-last_built: 2021-02-23T03:44Z
+last_built: 2021-02-24T12:27Z
 

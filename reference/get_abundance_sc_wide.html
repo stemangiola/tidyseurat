@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -94,6 +94,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
+    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -127,7 +130,12 @@
     <p>get abundance long</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_abundance_sc_wide</span><span class='op'>(</span><span class='va'>.data</span>, transcripts <span class='op'>=</span> <span class='cn'>NULL</span>, all <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_abundance_sc_wide</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  transcripts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  assay <span class='op'>=</span> <span class='va'>.data</span><span class='op'>@</span><span class='va'>active.assay</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,6 +151,10 @@
     <tr>
       <th>all</th>
       <td><p>A boolean</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Parameters to pass to join wide, i.e. assay name to extract transcript abundance from</p></td>
     </tr>
     </table>
 

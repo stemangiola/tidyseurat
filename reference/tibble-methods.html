@@ -51,7 +51,17 @@ in contrast with [tibble()], which builds a tibble from individual columns.
   that implements tibble's treatment of [rownames].
 * [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
   [`ts`][stats::ts()], [`table`][base::table()]
-* Default: Other inputs are first coerced with [base::as.data.frame()]." />
+* Default: Other inputs are first coerced with [base::as.data.frame()].
+`r lifecycle::badge(&quot;maturing&quot;)`
+`glimpse()` is like a transposed version of `print()`:
+columns run down the page, and data runs across.
+This makes it possible to see every column in a data frame.
+It's a little like [str()] applied to a data frame
+but it tries to show you as much data as possible.
+(And it always shows the underlying data, even when applied
+to a remote data source.)
+This generic will be moved to pillar, and reexported from there
+as soon as it becomes available." />
 
 
 
@@ -83,7 +93,7 @@ in contrast with [tibble()], which builds a tibble from individual columns.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -105,6 +115,9 @@ in contrast with [tibble()], which builds a tibble from individual columns.
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
+    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -147,21 +160,22 @@ in contrast with [tibble()], which builds a tibble from individual columns.
 * [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
   [`ts`][stats::ts()], [`table`][base::table()]
 * Default: Other inputs are first coerced with [base::as.data.frame()].</p>
+<p>`r lifecycle::badge("maturing")`</p>
+<p>`glimpse()` is like a transposed version of `print()`:
+columns run down the page, and data runs across.
+This makes it possible to see every column in a data frame.
+It's a little like [str()] applied to a data frame
+but it tries to show you as much data as possible.
+(And it always shows the underlying data, even when applied
+to a remote data source.)</p>
+<p>This generic will be moved to <span class="pkg">pillar</span>, and reexported from there
+as soon as it becomes available.</p>
     </div>
 
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A data frame, list, matrix, or other object that could reasonably be
-coerced to a tibble.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Unused, for extensibility.</p></td>
-    </tr>
     <tr>
       <th>rownames</th>
       <td><p>How to treat existing row names of a data frame or matrix:
@@ -176,11 +190,26 @@ Read more in [rownames].</p></td>
       <td><p>see tidyr</p>
 <p>For compatibility only, do not use for new code.</p></td>
     </tr>
+    <tr>
+      <th>x</th>
+      <td><p>An object to glimpse at.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>Width of output: defaults to the setting of the option
+`tibble.width` (if finite) or the width of the console.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Unused, for extensibility.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble</p>
+<p>x original x is (invisibly) returned, allowing `glimpse()` to be
+  used within a data pipe line.</p>
     <h2 class="hasAnchor" id="row-names"><a class="anchor" href="#row-names"></a>Row names</h2>
 
     
@@ -198,6 +227,12 @@ package's [.onLoad()]  function.</p>
 <p>Using `as_tibble()` for vectors is superseded as of version 3.0.0,
 prefer the more expressive maturing `as_tibble_row()` and
 `as_tibble_col()` variants for new code.</p>
+    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
+
+    
+
+<p>`glimpse` is an S3 generic with a customised method for `tbl`s and
+`data.frames`, and a default method that calls [str()].</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>[tibble()] constructs a tibble from individual columns. [enframe()]
@@ -223,7 +258,41 @@ prefer the more expressive maturing `as_tibble_row()` and
 #&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>glimpse</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Rows: 80
+#&gt; Columns: 30
+#&gt; $ cell            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "ATGCCAGAACGACT", "CATGGCCTGTGCAT", "GAACCTGATGAACC", …
+#&gt; $ orig.ident      </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> SeuratProject, SeuratProject, SeuratProject, SeuratPro…
+#&gt; $ nCount_RNA      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 70, 85, 87, 127, 173, 70, 64, 72, 52, 100, 62, 191, 10…
+#&gt; $ nFeature_RNA    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> 47, 52, 50, 56, 53, 48, 36, 45, 36, 41, 31, 61, 41, 26…
+#&gt; $ RNA_snn_res.0.8 </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+#&gt; $ letter.idents   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> A, A, B, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, …
+#&gt; $ groups          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "g2", "g1", "g2", "g2", "g2", "g1", "g1", "g1", "g1", …
+#&gt; $ RNA_snn_res.1   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, …
+#&gt; $ file            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> "../data/sample2/outs/filtered_feature_bc_matrix/", ".…
+#&gt; $ PC_1            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.77403708, -0.02602702, -0.45650250, -0.81163243, -0…
+#&gt; $ PC_2            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.89964608, -0.34667947, 0.17958114, -1.37953401, -0.…
+#&gt; $ PC_3            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.2493078, 0.6651668, 1.3175907, -1.0019320, -0.24930…
+#&gt; $ PC_4            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.55859480, 0.41828998, 2.01372104, 0.13905026, 0.5585…
+#&gt; $ PC_5            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.46508378, 0.58532045, -0.48188513, -1.59822320, 0.46…
+#&gt; $ PC_6            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -1.38727138, -1.17380941, 0.35757129, -0.23157629, -1.…
+#&gt; $ PC_7            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.1277598, 0.1195137, -1.3821372, 0.1396306, -0.12775…
+#&gt; $ PC_8            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.29002273, -0.21363844, -1.72040130, 0.72629941, -0.…
+#&gt; $ PC_9            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.37365607, 0.34941666, 0.81703026, 0.67584015, 0.3736…
+#&gt; $ PC_10           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.44682478, 1.20616303, 0.06372349, -0.73786224, 0.446…
+#&gt; $ PC_11           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.24265143, 0.90313003, 0.08629753, 0.79933396, -0.24…
+#&gt; $ PC_12           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.16502284, -0.39257588, -0.46815637, -0.61207526, -0…
+#&gt; $ PC_13           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.013565041, 0.803542544, -0.128876042, 0.776509775, …
+#&gt; $ PC_14           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.42514591, -1.03526716, -0.86425209, 0.34403811, -0.…
+#&gt; $ PC_15           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.14646171, 0.55604780, 0.72772498, -0.48998525, -0.1…
+#&gt; $ PC_16           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -0.394102365, 1.520806392, -0.070302297, -0.303268701,…
+#&gt; $ PC_17           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 7.561356e-02, 1.995033e-01, -6.991638e-01, 1.306050e-0…
+#&gt; $ PC_18           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.019799375, -0.880980524, 0.900604550, -0.213501542, …
+#&gt; $ PC_19           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.04491314, 0.19911188, -0.32448103, 0.06828601, 0.044…
+#&gt; $ tSNE_1          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 0.8675977, -7.3925306, -28.2064258, 16.3480689, 1.9113…
+#&gt; $ tSNE_2          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> -8.1007483, -8.7717451, 0.2410102, -11.1633255, -11.19…</div><div class='input'>
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

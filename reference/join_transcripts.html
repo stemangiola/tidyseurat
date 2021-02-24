@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -94,6 +94,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
+    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -132,7 +135,8 @@
   transcripts <span class='op'>=</span> <span class='cn'>NULL</span>,
   all <span class='op'>=</span> <span class='cn'>FALSE</span>,
   exclude_zeros <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  shape <span class='op'>=</span> <span class='st'>"long"</span>
+  shape <span class='op'>=</span> <span class='st'>"long"</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,6 +161,10 @@
     <tr>
       <th>shape</th>
       <td><p>Format of the returned table "long" or "wide"</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Parameters to pass to join wide, i.e. assay name to extract transcript abundance from</p></td>
     </tr>
     </table>
 

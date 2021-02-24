@@ -74,7 +74,7 @@ data frames into one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@ data frames into one." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
+    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -175,7 +178,8 @@ appears in any of the inputs.</p>
     <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span>
 <span class='fu'><a href='arrange.html'>bind_rows</a></span><span class='op'>(</span>    <span class='va'>tt</span>, <span class='va'>tt</span>  <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble abstraction: 160 x 9</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 160 x 9</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -195,7 +199,8 @@ appears in any of the inputs.</p>
 #&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...2</span>
 #&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...3</span>
 #&gt; <span class='message'>* nCount_RNA -&gt; nCount_RNA...9</span>
-#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...10</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble abstraction: 80 x 18</span><span>
+#&gt; <span class='message'>* nFeature_RNA -&gt; nFeature_RNA...10</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 18</span><span>
+#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA...2 nFeature_RNA...3 RNA_snn_res.0.8
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>          
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…             70               47 0              
