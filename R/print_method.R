@@ -69,9 +69,19 @@ print.tidyseurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
     
     # Get formatting
     tidyseurat_format_tbl(..., n = n, width = width, n_extra = n_extra) %>%
-    
+  
     # Hijack the tibble header
-    map_chr(~ .x %>% str_replace("A tibble:", "A tibble abstraction:")) %>%
+    map_chr(~ .x %>% str_replace("A tibble:", "A Seurat-tibble abstraction:")) %>%
+    
+    # Insert more info
+    append(sprintf(
+      "\033[90m# Transcripts=%s | Active assay=%s | Assays=%s\033[39m", 
+      GetAssayData(x) %>% nrow,
+      x@active.assay,
+      Assays(x) %>% paste(collapse=", ")
+      ), 
+      after = 1
+    ) %>%
     
     # Output
     cat_line()

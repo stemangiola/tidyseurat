@@ -100,7 +100,8 @@ We may want to extract the run/sample name out of it into a separate column. Tid
 # Create sample column
 pbmc_small_polished <-
   pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
+  tidyseurat::extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
+
 # Reorder to have sample column up front
 pbmc_small_polished %>%
   select(sample, everything())
