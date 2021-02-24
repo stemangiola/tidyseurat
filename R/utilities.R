@@ -72,13 +72,14 @@ drop_class = function(var, name) {
 #' @param .data A tidyseurat
 #' @param transcripts A character
 #' @param all A boolean
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
 #' 
 #' 
 #' @return A tidyseurat object
 #' 
 #'
 #' @export
-get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
+get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay = .data@active.assay){
   
   # Solve CRAN warnings
   . = NULL
@@ -117,8 +118,7 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE){
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
     `@` (assays) %>%
-    tail(1) %>%
-    .[[1]] %>%
+    .[[assay]] %>%
     `@` (counts) %>%
     as.matrix() %>%
     t %>%
