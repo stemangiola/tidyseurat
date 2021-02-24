@@ -3,7 +3,7 @@ tidyseurat - part of tidytranscriptomics
 
 <!-- badges: start -->
 
-[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R build
 status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions/)
 <!-- badges: end -->
@@ -149,7 +149,7 @@ into multiple columns using regular expression groups.
 # Create sample column
 pbmc_small_polished <-
   pbmc_small_tidy %>%
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
+  tidyseurat::extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
 
 # Reorder to have sample column up front
 pbmc_small_polished %>%

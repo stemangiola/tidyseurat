@@ -1189,6 +1189,7 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 }
 
 #' @export
+#' @rdname count
 add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   UseMethod("add_count")
 }

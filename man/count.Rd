@@ -2,11 +2,21 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{count}
 \alias{count}
+\alias{add_count}
 \alias{add_count.default}
 \alias{add_count.tidyseurat}
 \title{Count observations by group}
 \usage{
 count(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+)
+
+add_count(
   x,
   ...,
   wt = NULL,
