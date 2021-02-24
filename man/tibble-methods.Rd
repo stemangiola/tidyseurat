@@ -2,13 +2,9 @@
 % Please edit documentation in R/tibble_methods.R
 \name{as_tibble}
 \alias{as_tibble}
+\alias{glimpse}
 \title{Coerce lists, matrices, and more to data frames}
 \arguments{
-\item{x}{A data frame, list, matrix, or other object that could reasonably be
-coerced to a tibble.}
-
-\item{...}{Unused, for extensibility.}
-
 \item{rownames}{How to treat existing row names of a data frame or matrix:
  * `NULL`: remove row names. This is the default.
  * `NA`: keep row names.
@@ -19,9 +15,19 @@ Read more in [rownames].}
 \item{.name_repair}{see tidyr
 
   For compatibility only, do not use for new code.}
+
+\item{x}{An object to glimpse at.}
+
+\item{width}{Width of output: defaults to the setting of the option
+`tibble.width` (if finite) or the width of the console.}
+
+\item{...}{Unused, for extensibility.}
 }
 \value{
 A tibble
+
+x original x is (invisibly) returned, allowing `glimpse()` to be
+  used within a data pipe line.
 }
 \description{
 `r lifecycle::badge("maturing")`
@@ -38,6 +44,19 @@ in contrast with [tibble()], which builds a tibble from individual columns.
 * [`matrix`][methods::matrix-class], [`poly`][stats::poly()],
   [`ts`][stats::ts()], [`table`][base::table()]
 * Default: Other inputs are first coerced with [base::as.data.frame()].
+
+`r lifecycle::badge("maturing")`
+
+`glimpse()` is like a transposed version of `print()`:
+columns run down the page, and data runs across.
+This makes it possible to see every column in a data frame.
+It's a little like [str()] applied to a data frame
+but it tries to show you as much data as possible.
+(And it always shows the underlying data, even when applied
+to a remote data source.)
+
+This generic will be moved to \pkg{pillar}, and reexported from there
+as soon as it becomes available.
 }
 \section{Row names}{
 
@@ -58,8 +77,17 @@ prefer the more expressive maturing `as_tibble_row()` and
 `as_tibble_col()` variants for new code.
 }
 
+\section{S3 methods}{
+
+`glimpse` is an S3 generic with a customised method for `tbl`s and
+`data.frames`, and a default method that calls [str()].
+}
+
 \examples{
 pbmc_small \%>\% tidy \%>\% as_tibble()
+pbmc_small \%>\% tidy \%>\% glimpse()
+
+
 }
 \seealso{
 [tibble()] constructs a tibble from individual columns. [enframe()]

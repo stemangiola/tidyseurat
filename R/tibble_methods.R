@@ -100,3 +100,50 @@ as_tibble.tidyseurat = function(x, ...,
     
     
 }
+
+#' Get a glimpse of your data
+#'
+#' @description
+#' `r lifecycle::badge("maturing")`
+#'
+#' `glimpse()` is like a transposed version of `print()`:
+#' columns run down the page, and data runs across.
+#' This makes it possible to see every column in a data frame.
+#' It's a little like [str()] applied to a data frame
+#' but it tries to show you as much data as possible.
+#' (And it always shows the underlying data, even when applied
+#' to a remote data source.)
+#'
+#' This generic will be moved to \pkg{pillar}, and reexported from there
+#' as soon as it becomes available.
+#'
+#' @section S3 methods:
+#' `glimpse` is an S3 generic with a customised method for `tbl`s and
+#' `data.frames`, and a default method that calls [str()].
+#'
+#' @param x An object to glimpse at.
+#' @param width Width of output: defaults to the setting of the option
+#'   `tibble.width` (if finite) or the width of the console.
+#' @param ... Unused, for extensibility.
+#' @return x original x is (invisibly) returned, allowing `glimpse()` to be
+#'   used within a data pipe line.
+#'   
+#' @rdname tibble-methods
+#' @name glimpse
+#' 
+#' @export
+#' @examples
+#' pbmc_small %>% tidy %>% glimpse()
+#'
+#'
+NULL
+
+#' @export
+#' @importFrom tibble glimpse
+#' 
+#' 
+glimpse.tidyseurat = function(x, width = NULL, ...){
+  x %>%
+    as_tibble() %>%
+    tibble::glimpse(width = width, ...)
+}

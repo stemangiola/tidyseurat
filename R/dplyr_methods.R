@@ -1189,13 +1189,13 @@ count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 }
 
 #' @export
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   UseMethod("add_count")
 }
 
 #' @export
 #' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
  
   dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
   
@@ -1203,7 +1203,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 
 #' @export
 #' @rdname count
-add_count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.tidyseurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   
   x@meta.data =
     x %>% 
