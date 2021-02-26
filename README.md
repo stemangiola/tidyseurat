@@ -147,7 +147,7 @@ into multiple columns using regular expression groups.
 ``` r
 # Create sample column
 pbmc_small_polished <-
-  pbmc_small_
+  pbmc_small
   extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
 # Reorder to have sample column up front
 pbmc_small_polished %>%
