@@ -57,7 +57,7 @@
 #' 
 #' @export
 #' @examples
-#' pbmc_small %>% tidy %>% as_tibble()
+#' pbmc_small %>%  as_tibble()
 NULL
 
 #' @export
@@ -67,7 +67,7 @@ NULL
 #' @importFrom tibble enframe
 #' 
 #' 
-as_tibble.tidyseurat = function(x, ...,
+as_tibble.Seurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
   x@meta.data %>%

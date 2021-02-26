@@ -35,10 +35,10 @@ custom_theme <-
 
 
 
-PBMC_tidy_clean_scaled_UMAP_cluster_cell_type <- readRDS("dev/PBMC_tidy_clean_scaled_UMAP_cluster_cell_type.rds")
+PBMC_clean_scaled_UMAP_cluster_cell_type <- readRDS("dev/PBMC_clean_scaled_UMAP_cluster_cell_type.rds")
 
 p1 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   pivot_longer(
     c(mito.fraction, S.Score, G2M.Score), 
     names_to="property", 
@@ -52,14 +52,14 @@ p1 =
   theme(aspect.ratio=1)
 
 p2 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   sample_n(20000) %>%
   ggplot(aes(UMAP_1, UMAP_2, color=seurat_clusters)) +
   geom_point(size=0.05, alpha=0.2) +
   custom_theme +
   theme(aspect.ratio=1)
 
-PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   sample_n(20000) %>%
   plot_ly(
     x = ~`UMAP_1`,
@@ -72,7 +72,7 @@ PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
 markers = readRDS("dev/PBMC_marker_df.rds")
 
 p3 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   arrange(first.labels) %>%
   mutate(seurat_clusters = fct_inorder(seurat_clusters)) %>%
   join_transcripts(transcripts=c("CD3D", "HLA-DRB1")) %>%
@@ -84,7 +84,7 @@ p3 =
 
 # Plot heatmap
 p4 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   sample_n(2000) %>%
   DoHeatmap(
     features = markers$gene,
@@ -92,7 +92,7 @@ p4 =
   )
 
 p5 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   sample_n(1000) %>%
   join_transcripts(transcripts=markers$gene) %>%
   mutate(seurat_clusters = as.integer(seurat_clusters)) %>%
@@ -116,7 +116,7 @@ p5 =
   add_point(PC_1) 
   
 p6 = 
-  PBMC_tidy_clean_scaled_UMAP_cluster_cell_type %>%
+  PBMC_clean_scaled_UMAP_cluster_cell_type %>%
   tidyseurat::unite("cluster_cell_type", c(first.labels, seurat_clusters), remove=FALSE) %>%
   pivot_longer(
     c(seurat_clusters, first.labels_single),
@@ -156,7 +156,7 @@ p6 =
 ggsave("dev/summary_statistics.pdf", p1,  device = "pdf", width = 183/3, height = 50, units = "mm", useDingbats=FALSE)
 ggsave("dev/UMAP_2D.pdf", p2,  device = "pdf", width = 89, height = 100, units = "mm", useDingbats=FALSE)
 ggsave("dev/violin.pdf", p3,  device = "pdf", width = 89, height = 100, units = "mm", useDingbats=FALSE)
-save_pdf(p5, filename = "dev/UMAP_tidyheatmap.pdf", width = 183+50, height = 150, units = "mm")
+save_pdf(p5, filename = "dev/UMAPheatmap.pdf", width = 183+50, height = 150, units = "mm")
 ggsave("dev/alluvial.pdf", p6,  device = "pdf", width = 89, height = 100, units = "mm", useDingbats=FALSE)
 
 

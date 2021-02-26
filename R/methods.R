@@ -1,39 +1,20 @@
-setClass("tidyseurat", contains="Seurat")
-
-#' @importFrom methods show
-#' @import Seurat
-#' @importFrom magrittr %>%
 setMethod(
   f = "show",
-  signature = "tidyseurat",
+  signature = "Seurat",
   definition = function(object) {
-
+    if (isTRUE(x = getOption(x = "tidyseurat_restore_Seurat_show", default = FALSE))) {
+      f <- getMethod(
+        f = "show",
+        signature = "Seurat",
+        where = asNamespace(ns = "SeuratObject")
+      )
+      f(object = object)
+    } else {
       object %>%
-      print()
-    
-
+        print()
+    }
   }
 )
-
-#' tidy for seurat
-#' 
-#' @name tidy
-#' 
-#' @param object A Seurat object
-#' 
-#' @return A tidyseurat object
-#' 
-#' @export
-tidy <- function(object) {  UseMethod("tidy", object) }
-
-#' @importFrom methods as
-#' 
-#' @param object A Seurat object
-#' 
-#' @export
-tidy.Seurat <- function(object){  as(object, "tidyseurat") }
-
-
 
 #' Extract and join information for transcripts.
 #'
@@ -60,7 +41,7 @@ tidy.Seurat <- function(object){  as(object, "tidyseurat") }
 #' @examples
 #'
 #' pbmc_small %>% 
-#' tidy %>% 
+#'  
 #' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 #'
 #'
@@ -84,7 +65,7 @@ join_transcripts.default <-
     print("This function cannot be applied to this object")
   }
 #' @export
-join_transcripts.tidyseurat <-
+join_transcripts.Seurat <-
   function(.data,
            transcripts = NULL,
            all = FALSE,

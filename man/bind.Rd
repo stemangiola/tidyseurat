@@ -42,7 +42,7 @@ appears in any of the inputs.
 }
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-tt = pbmc_small \%>\% tidy
+tt = pbmc_small 
 bind_rows(    tt, tt  )
 
 tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)

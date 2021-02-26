@@ -1,13 +1,13 @@
 
-**Brings Seurat to the tidyverse!** 
+**Brings Seurat to the tidyverse!**
 
 website: [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
-Please also have a look at 
+Please also have a look at
 
-- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk RNA-seq analysis 
-- [nanny](https://github.com/stemangiola/nanny/) for tidy high-level data analysis and manipulation 
-- [tidygate](https://github.com/stemangiola/tidygate/) for adding custom gate information to your tibble 
+- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk RNA-seq analysis
+- [nanny](https://github.com/stemangiola/nanny/) for tidy high-level data analysis and manipulation
+- [tidygate](https://github.com/stemangiola/tidygate/) for adding custom gate information to your tibble
 - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for heatmaps produced with tidy principles
 
 
@@ -68,30 +68,30 @@ library(tidyseurat)
 
 ## Create `tidyseurat`, the best of both worlds!
 
-This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs. 
+This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.
 
 ```{r}
-pbmc_small_tidy <- tidyseurat::pbmc_small %>% tidy()
+pbmc_small <- tidyseurat::pbmc_small
 ```
 
 **It looks like a tibble**
 
 ```{r}
-pbmc_small_tidy
+pbmc_small
 ```
 
 **But it is a Seurat object after all**
 
 ```{r}
-pbmc_small_tidy@assays
+pbmc_small@assays
 ```
 
 # Annotation polishing
 
-We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small_tidy`.
+We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small`.
 
 ```{r}
-pbmc_small_tidy$file[1:5]
+pbmc_small$file[1:5]
 ```
 
 We may want to extract the run/sample name out of it into a separate column. Tidyverse `extract` can be used to convert a character column into multiple columns using regular expression groups.
@@ -99,7 +99,7 @@ We may want to extract the run/sample name out of it into a separate column. Tid
 ```{r}
 # Create sample column
 pbmc_small_polished <-
-  pbmc_small_tidy %>%
+  pbmc_small_
   extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
 # Reorder to have sample column up front
 pbmc_small_polished %>%
@@ -135,7 +135,7 @@ my_theme <-
   )
 ```
 
-We can treat `pbmc_small_polished` effectively as a normal tibble for plotting. 
+We can treat `pbmc_small_polished` effectively as a normal tibble for plotting.
 
 Here we plot number of transcripts per cell.
 
@@ -193,7 +193,7 @@ pbmc_small_pca %>%
   my_theme
 ```
 
-# Identify clusters 
+# Identify clusters
 
 We proceed with cluster identification with Seurat.
 
@@ -410,4 +410,3 @@ pbmc_small_nested_reanalysed %>%
   facet_wrap(~cell_class) +
   my_theme
 ```
-

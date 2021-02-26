@@ -59,7 +59,7 @@ prefer the more expressive maturing `as_tibble_row()` and
 }
 
 \examples{
-pbmc_small \%>\% tidy \%>\% as_tibble()
+pbmc_small \%>\%  as_tibble()
 }
 \seealso{
 [tibble()] constructs a tibble from individual columns. [enframe()]

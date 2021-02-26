@@ -72,14 +72,14 @@ what the default value is for this argument.}
 
 \item{tbl}{A data.frame.}
 
-\item{size}{<[`tidy-select`][dplyr_tidy_select]>
+\item{size}{<[`tidy-select`][dplyr_select]>
 For `sample_n()`, the number of rows to select.
 For `sample_frac()`, the fraction of rows to select.
 If `tbl` is grouped, `size` applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{<[`tidy-select`][dplyr_tidy_select]> Sampling weights.
+\item{weight}{<[`tidy-select`][dplyr_select]> Sampling weights.
 This must evaluate to a vector of non-negative numbers the same length as
 the input. Weights are automatically standardised to sum to 1.}
 
@@ -96,7 +96,7 @@ An object of the same type as `.data`.
 * Groups are not modified.
 * Data frame attributes are preserved.
 
-A tidyseurat object
+A Seurat object
 
 An object of the same type as `.data`.
 
@@ -151,13 +151,13 @@ A `tbl`
 
   A `tbl`
 
-A tidyseurat object
+A Seurat object
 
-A tidyseurat object
+A Seurat object
 
-A tidyseurat object
+A Seurat object
 
-A tidyseurat object
+A Seurat object
 
 An object of the same type as `.data`. The output has the following
 properties:
@@ -176,7 +176,7 @@ properties:
 * Data frame attributes are preserved.
 * Groups are maintained; you can't select off grouping variables.
 
-A tidyseurat object
+A Seurat object
 
 A vector the same size as `.data`.
 }
@@ -453,65 +453,65 @@ to renaming a set of variables with a function.
 
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% arrange(nFeature_RNA)
+pbmc_small \%>\%  arrange(nFeature_RNA)
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% distinct(groups)
+pbmc_small \%>\%  distinct(groups)
 
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% filter(groups == "g1")
+pbmc_small \%>\%  filter(groups == "g1")
 
-# Learn more in ?dplyr_tidy_eval
+# Learn more in ?dplyr_eval
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% group_by(groups)
-
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% summarise(mean(nCount_RNA))
+pbmc_small \%>\%  group_by(groups)
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% mutate(nFeature_RNA = 1)
+pbmc_small \%>\%  summarise(mean(nCount_RNA))
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% rename(s_score = nFeature_RNA) 
+pbmc_small \%>\%  mutate(nFeature_RNA = 1)
 
 `\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\%  rename(s_score = nFeature_RNA) 
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
+`\%>\%` = magrittr::`\%>\%`
+
+tt = pbmc_small 
 tt \%>\% left_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2))
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
+tt = pbmc_small 
 tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
+tt = pbmc_small 
 tt \%>\% right_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small \%>\% tidy
+tt = pbmc_small 
 tt \%>\% full_join(tibble::tibble(groups = "g1", other=1:4)) 
 
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% slice(1)
+pbmc_small \%>\%  slice(1)
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% select(cell, orig.ident )
-
-
-`\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% sample_n(50) 
-pbmc_small \%>\% tidy \%>\% sample_frac(0.1)
+pbmc_small \%>\%  select(cell, orig.ident )
 
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% pull(groups)
+pbmc_small \%>\%  sample_n(50) 
+pbmc_small \%>\%  sample_frac(0.1)
+
+
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\%  pull(groups)
 
 }
 \seealso{

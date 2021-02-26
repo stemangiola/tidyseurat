@@ -48,7 +48,7 @@
 NULL
 
 #' @export
-ggplot.tidyseurat <- function(data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+ggplot.Seurat <- function(data = NULL, mapping = aes(), ..., environment = parent.frame()) {
   data %>%
     as_tibble() %>%
     ggplot2::ggplot( mapping = mapping)

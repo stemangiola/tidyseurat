@@ -8,7 +8,7 @@
 \alias{separate}
 \title{unnest}
 \arguments{
-\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
+\item{cols}{<[`tidy-select`][tidyr_select]> Columns to unnest.
 If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
@@ -62,7 +62,7 @@ There should be one group (defined by `()`) for each element of `into`.}
   symbols do not represent actual objects is now discouraged in the
   tidyverse; we support it here for backward compatibility).}
 
-\item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to unite}
+\item{...}{<[`tidy-select`][tidyr_select]> Columns to unite}
 
 \item{na.rm}{If `TRUE`, missing values will be remove prior to uniting
 each value.}
@@ -95,15 +95,15 @@ each value.}
   * "left": fill with missing values on the left}
 }
 \value{
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 }
 \description{
 Given a regular expression with capturing groups, `extract()` turns
@@ -118,22 +118,22 @@ Given either a regular expression or a vector of character positions,
 \examples{
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data) 
+pbmc_small \%>\%  nest(data = -groups) \%>\% unnest(data) 
 
 
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% nest(data = -groups) \%>\% unnest(data) 
+pbmc_small \%>\%  nest(data = -groups) \%>\% unnest(data) 
 
 
-pbmc_small \%>\% tidy \%>\% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
+pbmc_small \%>\%  extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 
 
-pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+pbmc_small \%>\%  unite("new_col", c(orig.ident, groups)) 
 
 
 
- un = pbmc_small \%>\% tidy \%>\% unite("new_col", c(orig.ident, groups)) 
+ un = pbmc_small \%>\%  unite("new_col", c(orig.ident, groups)) 
  un \%>\% separate(col = new_col, into= c("orig.ident", "groups"))
 
 }

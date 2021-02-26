@@ -55,14 +55,14 @@
 #'   
 #' @examples
 #' library(dplyr)
-#' pbmc_small %>% tidy() %>% print()
+#' pbmc_small  %>% print()
 #' @name print
 NULL
 
 #' @rdname print
 #' @importFrom cli cat_line
 #' @export
-print.tidyseurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
+print.Seurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   
   x %>%
     as_tibble(n_dimensions_to_return = 5) %>%

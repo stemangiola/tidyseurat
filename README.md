@@ -83,13 +83,13 @@ This is a seurat object but it is evaluated as tibble. So it is fully
 compatible both with Seurat and tidyverse APIs.
 
 ``` r
-pbmc_small_tidy <- tidyseurat::pbmc_small %>% tidy()
+pbmc_small <- tidyseurat::pbmc_small 
 ```
 
 **It looks like a tibble**
 
 ``` r
-pbmc_small_tidy
+pbmc_small
 ```
 
     ## # A tibble abstraction: 80 x 16
@@ -112,7 +112,7 @@ pbmc_small_tidy
 **But it is a Seurat object after all**
 
 ``` r
-pbmc_small_tidy@assays
+pbmc_small@assays
 ```
 
     ## $RNA
@@ -123,10 +123,10 @@ pbmc_small_tidy@assays
 # Annotation polishing
 
 We may have a column that contains the directory each run was taken
-from, such as the “file” column in `pbmc_small_tidy`.
+from, such as the “file” column in `pbmc_small`.
 
 ``` r
-pbmc_small_tidy$file[1:5]
+pbmc_small$file[1:5]
 ```
 
     ##                                     ATGCCAGAACGACT 
@@ -147,7 +147,7 @@ into multiple columns using regular expression groups.
 ``` r
 # Create sample column
 pbmc_small_polished <-
-  pbmc_small_tidy %>%
+  pbmc_small_
   extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
 # Reorder to have sample column up front
 pbmc_small_polished %>%

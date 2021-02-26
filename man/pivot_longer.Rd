@@ -6,7 +6,7 @@
 \arguments{
 \item{data}{A data frame to pivot.}
 
-\item{cols}{<[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
+\item{cols}{<[`tidy-select`][tidyr_select]> Columns to pivot into
 longer format.}
 
 \item{names_to}{A string specifying the name of the column to create
@@ -72,7 +72,7 @@ a character week variable to an integer.}
 \item{...}{Additional arguments passed on to methods.}
 }
 \value{
-A tidyseurat objector a tibble depending on input
+A Seurat object or a tibble depending on input
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
@@ -93,6 +93,6 @@ under active development.
 # See vignette("pivot") for examples and explanation
 
 library(dplyr)
-pbmc_small \%>\% tidy \%>\% pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
+pbmc_small \%>\%  pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
 
 }
