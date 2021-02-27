@@ -148,7 +148,7 @@ decreasing the number of columns. The inverse transformation is
     </tr>
     <tr>
       <th>cols</th>
-      <td><p>&lt;[`tidy-select`][tidyr_tidy_select]&gt; Columns to pivot into
+      <td><p>&lt;[`tidy-select`][tidyr_select]&gt; Columns to pivot into
 longer format.</p></td>
     </tr>
     <tr>
@@ -229,7 +229,7 @@ a character week variable to an integer.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tidyseurat objector a tibble depending on input</p>
+    <p>A Seurat object or a tibble depending on input</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>`pivot_longer()` is an updated approach to [gather()], designed to be both
@@ -248,7 +248,7 @@ under active development.</p>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>"name"</span>, values_to <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span> 
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>"name"</span>, values_to <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span> 
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 160 x 30</span><span>
 #&gt;    cell      nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents RNA_snn_res.1
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        

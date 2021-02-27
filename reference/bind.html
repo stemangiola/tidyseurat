@@ -176,7 +176,7 @@ appears in any of the inputs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span>
+<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> 
 <span class='fu'><a href='arrange.html'>bind_rows</a></span><span class='op'>(</span>    <span class='va'>tt</span>, <span class='va'>tt</span>  <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 160 x 9</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>

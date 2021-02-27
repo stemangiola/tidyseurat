@@ -174,7 +174,7 @@ with group-wise counts.</p>
   .drop <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='co'># S3 method for tidyseurat</span>
+<span class='co'># S3 method for Seurat</span>
 <span class='fu'>add_count</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>...</span>,
@@ -229,7 +229,7 @@ group transiently, so the output has the same groups as the input.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>count</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;   groups     n
 #&gt; </span><span style='color: #BCBCBC;'>*</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>

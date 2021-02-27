@@ -146,7 +146,7 @@ is NA, the output will be NA.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>cols</th>
-      <td><p>&lt;[`tidy-select`][tidyr_tidy_select]&gt; Columns to unnest.
+      <td><p>&lt;[`tidy-select`][tidyr_select]&gt; Columns to unnest.
 If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).</p></td>
@@ -227,7 +227,7 @@ There should be one group (defined by `()`) for each element of `into`.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;[`tidy-select`][tidyr_tidy_select]&gt; Columns to unite</p></td>
+      <td><p>&lt;[`tidy-select`][tidyr_select]&gt; Columns to unite</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -269,11 +269,11 @@ each value.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tidyseurat objector a tibble depending on input</p>
-<p>A tidyseurat objector a tibble depending on input</p>
-<p>A tidyseurat objector a tibble depending on input</p>
-<p>A tidyseurat objector a tibble depending on input</p>
-<p>A tidyseurat objector a tibble depending on input</p>
+    <p>A Seurat object or a tibble depending on input</p>
+<p>A Seurat object or a tibble depending on input</p>
+<p>A Seurat object or a tibble depending on input</p>
+<p>A Seurat object or a tibble depending on input</p>
+<p>A Seurat object or a tibble depending on input</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>[separate()] to split up by a separator.</p>
@@ -284,7 +284,7 @@ each value.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 9</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
@@ -304,7 +304,7 @@ each value.</p></td>
 
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 9</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
@@ -322,7 +322,7 @@ each value.</p></td>
 #&gt; </span><span style='color: #949494;'># … with 70 more rows, and 3 more variables: RNA_snn_res.1 &lt;chr&gt;, file &lt;chr&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   groups &lt;chr&gt;</span><span></div><div class='input'>
 
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>extract</span><span class='op'>(</span><span class='va'>groups</span>, into <span class='op'>=</span> <span class='st'>"g"</span>, regex <span class='op'>=</span> <span class='st'>"g([0-9])"</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>extract</span><span class='op'>(</span><span class='va'>groups</span>, into <span class='op'>=</span> <span class='st'>"g"</span>, regex <span class='op'>=</span> <span class='st'>"g([0-9])"</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g
@@ -341,7 +341,7 @@ each value.</p></td>
 #&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  new_col nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
@@ -361,7 +361,7 @@ each value.</p></td>
 #&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
 
- <span class='va'>un</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
+ <span class='va'>un</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
  <span class='va'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span><span class='op'>(</span>col <span class='op'>=</span> <span class='va'>new_col</span>, into<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
 #&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>

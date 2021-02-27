@@ -188,10 +188,10 @@
 <a href="#create-tidyseurat-the-best-of-both-worlds" class="anchor"></a>Create <code>tidyseurat</code>, the best of both worlds!</h2>
 <p>This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pbmc_small_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidyseurat</span><span class="fu">::</span><span class="va"><a href="reference/pbmc_small.html">pbmc_small</a></span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pbmc_small</span> <span class="op">&lt;-</span> <span class="fu">tidyseurat</span><span class="fu">::</span><span class="va"><a href="reference/pbmc_small.html">pbmc_small</a></span> </code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pbmc_small_tidy</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pbmc_small</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">## # A Seurat-tibble abstraction: 80 x 16</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="co">## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="co">##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
@@ -211,7 +211,7 @@
 <span id="cb6-17"><a href="#cb6-17"></a><span class="co">## #   tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p><strong>But it is a Seurat object after all</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pbmc_small_tidy</span><span class="op">@</span><span class="va">assays</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pbmc_small</span><span class="op">@</span><span class="va">assays</span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">## $RNA</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="co">## Assay data with 230 features for 80 cells</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co">## Top 10 variable features:</span></span>
@@ -221,9 +221,9 @@
 <div id="annotation-polishing" class="section level1">
 <h1 class="hasAnchor">
 <a href="#annotation-polishing" class="anchor"></a>Annotation polishing</h1>
-<p>We may have a column that contains the directory each run was taken from, such as the “file” column in <code>pbmc_small_tidy</code>.</p>
+<p>We may have a column that contains the directory each run was taken from, such as the “file” column in <code>pbmc_small</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pbmc_small_tidy</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pbmc_small</span><span class="op">$</span><span class="va">file</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">##                                     ATGCCAGAACGACT </span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">## "../data/sample2/outs/filtered_feature_bc_matrix/" </span></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="co">##                                     CATGGCCTGTGCAT </span></span>
@@ -238,9 +238,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create sample column</span>
 <span class="va">pbmc_small_polished</span> <span class="op">&lt;-</span>
-  <span class="va">pbmc_small_tidy</span> <span class="op">%&gt;%</span>
-  <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="reference/unnest.html">extract</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
+  <span class="va">pbmc_small</span>
+  <span class="fu"><a href="reference/unnest.html">extract</a></span><span class="op">(</span><span class="va">file</span>, <span class="st">"sample"</span>, <span class="st">"../data/([a-z0-9]+)/outs.+"</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co"># Reorder to have sample column up front</span>
 <span class="va">pbmc_small_polished</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/arrange.html">select</a></span><span class="op">(</span><span class="va">sample</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
