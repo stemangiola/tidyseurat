@@ -1,8 +1,38 @@
+
+setClass("tidyseurat", contains="Seurat")
+
+#' tidy for seurat
+#' 
+#' @name tidy
+#' 
+#' @param object A Seurat object
+#' 
+#' @return A tidyseurat object
+#' 
+#' @export
+tidy <- function(object) {  UseMethod("tidy", object) }
+
+#' @importFrom lifecycle deprecate_warn
+#' 
+#' @param object A Seurat object
+#' 
+#' @export
+tidy.Seurat <- function(object){ 
+  
+  # DEPRECATE
+  deprecate_warn(
+    when = "0.2.0",
+    what = "tidy()",
+    details = "tidyseurat says: tidy() is not needed anymore."
+  )
+  
+}
+
 setMethod(
   f = "show",
   signature = "Seurat",
   definition = function(object) {
-    if (isTRUE(x = getOption(x = "tidyseurat_restore_Seurat_show", default = FALSE))) {
+    if (isTRUE(x = getOption(x = "restore_Seurat_show", default = FALSE))) {
       f <- getMethod(
         f = "show",
         signature = "Seurat",
