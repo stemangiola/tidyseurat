@@ -21,7 +21,7 @@ get_abundance_sc_long(
 \item{exclude_zeros}{A boolean}
 }
 \value{
-A tidyseurat object
+A Seurat object
 }
 \description{
 get abundance long

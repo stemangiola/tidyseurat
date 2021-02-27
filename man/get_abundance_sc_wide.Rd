@@ -21,7 +21,7 @@ get_abundance_sc_wide(
 \item{...}{Parameters to pass to join wide, i.e. assay name to extract transcript abundance from}
 }
 \value{
-A tidyseurat object
+A Seurat object
 }
 \description{
 get abundance long

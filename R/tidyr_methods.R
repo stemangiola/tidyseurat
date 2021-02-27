@@ -3,11 +3,11 @@
 #' @importFrom tidyr unnest
 #'
 #' @param data A tbl. (See tidyr)
-#' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to unnest.
+#' @param cols <[`tidy-select`][tidyr_select]> Columns to unnest.
 #'   If you `unnest()` multiple columns, parallel entries must be of
 #'   compatible sizes, i.e. they're either equal or length 1 (following the
 #'   standard tidyverse recycling rules).
-#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to nest, specified
+#' @param ... <[`tidy-select`][tidyr_select]> Columns to nest, specified
 #'   using name-variable pairs of the form `new_col = c(col1, col2, col3)`.
 #'   The right hand side can be any valid tidy select expression.
 #'
@@ -36,12 +36,12 @@
 #' @param sep tidyr::unnest
 #' @param .preserve See tidyr::unnest
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #' 
 #' @examples
 #'
 #' library(dplyr)
-#' pbmc_small %>% tidy %>% nest(data = -groups) %>% unnest(data) 
+#' pbmc_small %>%  nest(data = -groups) %>% unnest(data) 
 #' 
 #'
 #' @rdname tidyr-methods
@@ -68,7 +68,7 @@ unnest.tidyseurat_nested <- function(
     when(
       
       # If my only column to unnest is tidyseurat
-      pull(., !!cols) %>% .[[1]] %>% class %>% as.character() %>% eq("tidyseurat") %>% any ~  
+      pull(., !!cols) %>% .[[1]] %>% class %>% as.character() %>% eq("Seurat") %>% any ~  
       {
         # Do my trick to unnest
         list_seurat = 
@@ -109,12 +109,12 @@ unnest.tidyseurat_nested <- function(
 #' @param ... Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)
 #' @param .names_sep See tidyr::nest
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #' 
 #' @examples
 #'
 #' library(dplyr)
-#' pbmc_small %>% tidy %>% nest(data = -groups) %>% unnest(data) 
+#' pbmc_small %>%  nest(data = -groups) %>% unnest(data) 
 #' 
 #' @rdname tidyr-methods
 #' @name nest
@@ -126,7 +126,7 @@ NULL
 #' @importFrom rlang :=
 #' 
 #' @export
-nest.tidyseurat <- function (.data, ..., .names_sep = NULL)
+nest.Seurat <- function (.data, ..., .names_sep = NULL)
 {
   my_data__ = .data
   cols <- enquos(...)
@@ -187,9 +187,9 @@ nest.tidyseurat <- function (.data, ..., .names_sep = NULL)
 #' @export
 #' @examples
 #' 
-#' pbmc_small %>% tidy %>% extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
+#' pbmc_small %>%  extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #'  
 #' @importFrom tidyr extract
 #' 
@@ -200,7 +200,7 @@ nest.tidyseurat <- function (.data, ..., .names_sep = NULL)
 NULL
 
 #' @export
-extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remove = TRUE, 
+extract.Seurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remove = TRUE, 
 														convert = FALSE, ...) 
 {
 	
@@ -238,7 +238,7 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #' @importFrom tidyr pivot_longer
 #' 
 #' @param data A data frame to pivot.
-#' @param cols <[`tidy-select`][tidyr_tidy_select]> Columns to pivot into
+#' @param cols <[`tidy-select`][tidyr_select]> Columns to pivot into
 #'   longer format.
 #' @param names_to A string specifying the name of the column to create
 #'   from the data stored in the column names of `data`.
@@ -294,7 +294,7 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #'   will be the common type of the input columns used to generate them.
 #' @param ... Additional arguments passed on to methods.
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #' 
 #' @name pivot_longer
 #' 
@@ -303,12 +303,12 @@ extract.tidyseurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remo
 #' # See vignette("pivot") for examples and explanation
 #' 
 #' library(dplyr)
-#' pbmc_small %>% tidy %>% pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
+#' pbmc_small %>%  pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
 #' 
 NULL
 
 #' @export
-pivot_longer.tidyseurat <- function(data,
+pivot_longer.Seurat <- function(data,
                                   cols,
                                   names_to = "name",
                                   names_prefix = NULL,
@@ -361,14 +361,14 @@ pivot_longer.tidyseurat <- function(data,
 #'   [rlang::ensym()] (note that this kind of interface where
 #'   symbols do not represent actual objects is now discouraged in the
 #'   tidyverse; we support it here for backward compatibility).
-#' @param ... <[`tidy-select`][tidyr_tidy_select]> Columns to unite
+#' @param ... <[`tidy-select`][tidyr_select]> Columns to unite
 #' @param sep Separator to use between values.
 #' @param na.rm If `TRUE`, missing values will be remove prior to uniting
 #'   each value.
 #' @param remove If `TRUE`, remove input columns from output data frame.
 #' @seealso [separate()], the complement.
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #' 
 #' @rdname tidyr-methods
 #' @name unite
@@ -376,13 +376,14 @@ pivot_longer.tidyseurat <- function(data,
 #' @export
 #' @examples
 #' 
-#' pbmc_small %>% tidy %>% unite("new_col", c(orig.ident, groups)) 
+#' pbmc_small %>%  unite("new_col", c(orig.ident, groups)) 
 #' 
 #' 
 NULL
 
+#' @importFrom tidyr unite
 #' @export
-unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
+unite.Seurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE)
 {
   
   # Check that we are not modifying a key column
@@ -432,7 +433,7 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
 #' @seealso [unite()], the complement, [extract()] which uses regular
 #'   expression capturing groups.
 #' 
-#' @return A tidyseurat objector a tibble depending on input
+#' @return A Seurat object or a tibble depending on input
 #' 
 #' @rdname tidyr-methods
 #' @name separate
@@ -440,13 +441,13 @@ unite.tidyseurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = F
 #' @export
 #' @examples
 #' 
-#'  un = pbmc_small %>% tidy %>% unite("new_col", c(orig.ident, groups)) 
+#'  un = pbmc_small %>%  unite("new_col", c(orig.ident, groups)) 
 #'  un %>% separate(col = new_col, into= c("orig.ident", "groups"))
 #' 
 NULL
 
 #' @export
-separate.tidyseurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
+separate.Seurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRUE,
                                 convert = FALSE, extra = "warn", fill = "warn", ...)
 {
   

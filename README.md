@@ -83,17 +83,17 @@ This is a seurat object but it is evaluated as tibble. So it is fully
 compatible both with Seurat and tidyverse APIs.
 
 ``` r
-pbmc_small_tidy <- tidyseurat::pbmc_small %>% tidy()
+pbmc_small <- tidyseurat::pbmc_small 
 ```
 
 **It looks like a tibble**
 
 ``` r
-pbmc_small_tidy
+pbmc_small
 ```
 
     ## # A Seurat-tibble abstraction: 80 x 16
-    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
+    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -113,7 +113,7 @@ pbmc_small_tidy
 **But it is a Seurat object after all**
 
 ``` r
-pbmc_small_tidy@assays
+pbmc_small@assays
 ```
 
     ## $RNA
@@ -124,10 +124,10 @@ pbmc_small_tidy@assays
 # Annotation polishing
 
 We may have a column that contains the directory each run was taken
-from, such as the “file” column in `pbmc_small_tidy`.
+from, such as the “file” column in `pbmc_small`.
 
 ``` r
-pbmc_small_tidy$file[1:5]
+pbmc_small$file[1:5]
 ```
 
     ##                                     ATGCCAGAACGACT 
@@ -148,16 +148,15 @@ into multiple columns using regular expression groups.
 ``` r
 # Create sample column
 pbmc_small_polished <-
-  pbmc_small_tidy %>%
-  tidyseurat::extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
-
+  pbmc_small
+  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
 # Reorder to have sample column up front
 pbmc_small_polished %>%
   select(sample, everything())
 ```
 
     ## # A Seurat-tibble abstraction: 80 x 17
-    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
+    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
     ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
     ##    <chr> <chr>  <fct>           <dbl>        <int> <fct>           <fct>        
     ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
@@ -259,7 +258,7 @@ pbmc_small_pca
 ```
 
     ## # A Seurat-tibble abstraction: 80 x 19
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -303,7 +302,7 @@ pbmc_small_cluster
 ```
 
     ## # A Seurat-tibble abstraction: 80 x 21
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -447,7 +446,7 @@ pbmc_small_cell_type %>%
 ```
 
     ## # A Seurat-tibble abstraction: 80 x 25
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
     ##    <chr> <chr>        <fct>           <dbl>        <int> <fct>          
     ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              

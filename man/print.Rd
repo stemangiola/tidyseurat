@@ -2,10 +2,10 @@
 % Please edit documentation in R/print_method.R
 \name{print}
 \alias{print}
-\alias{print.tidyseurat}
+\alias{print.Seurat}
 \title{Printing tibbles}
 \usage{
-\method{print}{tidyseurat}(x, ..., n = NULL, width = NULL, n_extra = NULL)
+\method{print}{Seurat}(x, ..., n = NULL, width = NULL, n_extra = NULL)
 }
 \arguments{
 \item{x}{Object to format or print.}
@@ -89,5 +89,5 @@ turn off truncation of character columns.
 
 \examples{
 library(dplyr)
-pbmc_small \%>\% tidy() \%>\% print()
+pbmc_small  \%>\% print()
 }

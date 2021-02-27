@@ -13,5 +13,5 @@ tidy(object)
 A tidyseurat object
 }
 \description{
-tidy for seurat
+DEPRECATED. Not needed any more.
 }

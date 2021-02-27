@@ -75,7 +75,7 @@ drop_class = function(var, name) {
 #' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
 #' 
 #' 
-#' @return A tidyseurat object
+#' @return A Seurat object
 #' 
 #'
 #' @export
@@ -142,7 +142,7 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay =
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #' 
-#' @return A tidyseurat object
+#' @return A Seurat object
 #'
 #' @export
 get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){

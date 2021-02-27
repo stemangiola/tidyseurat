@@ -1,6 +1,6 @@
 context('dplyr test')
 
-tt = pbmc_small %>% tidy
+tt = pbmc_small 
 
 test_that("arrange",{
 
@@ -28,7 +28,7 @@ test_that("bind_rows",{
   
 
   expect_equal(
-    tt_bind %>% select(cell) %>% tidyseurat:::to_tib() %>% dplyr::count(cell) %>% dplyr::count(n) %>% nrow,
+    tt_bind %>% select(cell) %>% as_tibble() %>% dplyr::count(cell) %>% dplyr::count(n) %>% nrow,
     1
   )
   
@@ -116,7 +116,7 @@ test_that("slice",{
 
 test_that("select",{
   
-  expect_equal(   tt %>% select(cell, orig.ident ) %>% class %>% as.character,    "tidyseurat"  )
+  expect_equal(   tt %>% select(cell, orig.ident ) %>% class %>% as.character,    "Seurat"  )
 
   expect_equal(   tt %>% select( orig.ident ) %>% class %>% as.character %>% .[1],    "tbl_df"  )
   

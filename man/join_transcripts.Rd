@@ -38,7 +38,7 @@ This function extracts information for specified transcripts and returns the inf
 \examples{
 
 pbmc_small \%>\% 
-tidy \%>\% 
+ 
 join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
 
 

@@ -4,7 +4,7 @@
 \alias{count}
 \alias{add_count}
 \alias{add_count.default}
-\alias{add_count.tidyseurat}
+\alias{add_count.Seurat}
 \title{Count observations by group}
 \usage{
 count(
@@ -34,7 +34,7 @@ add_count(
   .drop = group_by_drop_default(x)
 )
 
-\method{add_count}{tidyseurat}(
+\method{add_count}{Seurat}(
   x,
   ...,
   wt = NULL,
@@ -85,7 +85,7 @@ with group-wise counts.
 \examples{
 
 `\%>\%` = magrittr::`\%>\%`
-pbmc_small \%>\% tidy \%>\% count(groups)
+pbmc_small \%>\%  count(groups)
 
 
 }
