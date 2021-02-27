@@ -7,6 +7,10 @@ setClass("tidyseurat", contains="Seurat")
 #' 
 #' @param object A Seurat object
 #' 
+#' @description 
+#' 
+#' DEPRECATED. Not needed any more.
+#' 
 #' @return A tidyseurat object
 #' 
 #' @export
@@ -25,6 +29,8 @@ tidy.Seurat <- function(object){
     what = "tidy()",
     details = "tidyseurat says: tidy() is not needed anymore."
   )
+  
+  object
   
 }
 
