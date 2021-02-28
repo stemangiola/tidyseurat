@@ -34,6 +34,7 @@ tidy.Seurat <- function(object){
   
 }
 
+#' @importFrom methods getMethod
 setMethod(
   f = "show",
   signature = "Seurat",

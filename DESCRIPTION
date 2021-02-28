@@ -30,7 +30,8 @@ Imports:
     pillar,
     stringr,
     cli,
-    fansi
+    fansi,
+    methods 
 Suggests:
     testthat,
     knitr,

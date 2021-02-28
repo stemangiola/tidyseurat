@@ -61,6 +61,9 @@ NULL
 
 #' @rdname print
 #' @importFrom cli cat_line
+#' @importFrom Seurat GetAssayData
+#' @importFrom Seurat Assays
+#' 
 #' @export
 print.Seurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
   
