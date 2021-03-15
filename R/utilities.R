@@ -68,6 +68,7 @@ drop_class = function(var, name) {
 #' 
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
+#' @importFrom Seurat GetAssayData
 #' 
 #' @param .data A tidyseurat
 #' @param transcripts A character
@@ -79,7 +80,7 @@ drop_class = function(var, name) {
 #' 
 #'
 #' @export
-get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay = .data@active.assay){
+get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay = .data@active.assay, slot = "data"){
   
   # Solve CRAN warnings
   . = NULL
@@ -117,9 +118,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay =
       transcripts %>% is.null %>% `!` ~ (.)[transcripts,],
       ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
     ) %>%
-    `@` (assays) %>%
     .[[assay]] %>%
-    `@` (counts) %>%
+    GetAssayData(slot=slot) %>%
     as.matrix() %>%
     t %>%
     as_tibble(rownames = "cell") 
