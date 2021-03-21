@@ -8,7 +8,8 @@ get_abundance_sc_wide(
   .data,
   transcripts = NULL,
   all = FALSE,
-  assay = .data@active.assay
+  assay = .data@active.assay,
+  slot = "data"
 )
 }
 \arguments{
