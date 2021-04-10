@@ -15,7 +15,7 @@
 #' @details
 #' ## Locales
 #' The sort order for character vectors will depend on the collating sequence
-#' of the locale in use: see [locales()].
+#' of the locale in use: see locales().
 #'
 #' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
@@ -29,12 +29,6 @@
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' The following methods are currently available in loaded packages:
 #' 
 #' @rdname dplyr-methods
 #' @name arrange
@@ -44,7 +38,7 @@
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
 #' @param ... <[`tidy-eval`][dplyr_eval]> Variables, or functions or
-#'   variables. Use [desc()] to sort a variable in descending order.
+#'   variables. Use desc() to sort a variable in descending order.
 #' @param .by_group If TRUE, will sort first by grouping variable. Applies to grouped data frames only.
 #' 
 #' @family single table verbs
@@ -91,7 +85,7 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #'
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see [mutate-joins].
+#'   position, see mutate-joins.
 #' @param .id Data frame identifier.
 #'
 #'   When `.id` is supplied, a new column of identifiers is
@@ -231,29 +225,11 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #'
 #' dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
-#' filtering is often considerably faster on [ungroup()]ed data.
+#' filtering is often considerably faster on ungroup()ed data.
 #' 
 #' @importFrom dplyr filter
 #' 
-#' @section Useful filter functions:
 #'
-#' * [`==`], [`>`], [`>=`] etc
-#' * [`&`], [`|`], [`!`], [xor()]
-#' * [is.na()]
-#' * [between()], [near()]
-#'
-#' @section Grouped tibbles:
-#'
-#' Because filtering expressions are computed within groups, they may
-#' yield different results on grouped tibbles. This will be the case
-#' as soon as an aggregating, lagging, or ranking function is
-#' involved. Compare this ungrouped filtering:
-#'
-#'
-#' The former keeps rows with `mass` greater than the global average
-#' whereas the latter keeps rows with `mass` greater than the gender
-#'
-#' average.
 #' @family single table verbs
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_eval]> Logical predicates defined in
@@ -274,8 +250,6 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
-#' The following methods are currently available in loaded packages:
-#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' 
 #' @rdname dplyr-methods
 #' @name filter
@@ -326,9 +300,9 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #'   This argument was previously called `add`, but that prevented
 #'   creating a new grouping variable called `add`, and conflicts with
 #'   our naming conventions.
-#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
+#' @param .drop When `.drop = TRUE`, empty groups are dropped. See group_by_drop_default() for
 #'   what the default value is for this argument.
-#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
+#' @return A grouped data frame, unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
 #' @section Methods:
@@ -373,27 +347,7 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #' 
 #' @importFrom dplyr summarise
 #' 
-#' @section Useful functions:
 #'
-#' * Center: [mean()], [median()]
-#' * Spread: [sd()], [IQR()], [mad()]
-#' * Range: [min()], [max()], [quantile()]
-#' * Position: [first()], [last()], [nth()],
-#' * Count: [n()], [n_distinct()]
-#' * Logical: [any()], [all()]
-#'
-#' @section Backend variations:
-#'
-#' The data frame backend supports creating a variable and using it in the
-#' same summary. This means that previously created summary variables can be
-#' further transformed or combined within the summary, as in [mutate()].
-#' However, it also means that summary variables with the same names as previous
-#' variables overwrite them, making those variables unavailable to later summary
-#' variables.
-#'
-#' This behaviour may not be supported in other backends. To avoid unexpected
-#' results, consider using new names for your summary variables, especially when
-#' creating multiple summaries.
 #'
 #' @export
 #' @inheritParams arrange
@@ -405,30 +359,15 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A vector of length `n`, e.g. `quantile()`.
 #'   * A data frame, to add multiple columns from a single expression.
+#'   
 #' @family single table verbs
-#' @return
-#' An object _usually_ of the same type as `.data`.
-#'
-#' * The rows come from the underlying `group_keys()`.
-#' * The columns are a combination of the grouping keys and the summary
-#'   expressions that you provide.
-#' * If `x` is grouped by more than one variable, the output will be another
-#'   [grouped_df] with the right-most group removed.
-#' * If `x` is grouped by one variable, or is not grouped, the output will
-#'   be a [tibble].
-#' * Data frame attributes are **not** preserved, because `summarise()`
-#'   fundamentally creates a new data frame.
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' The following methods are currently available in loaded packages:
+#' @return A tibble
 #' 
 #' @rdname dplyr-methods
 #' @name summarise
 #' 
 #' @examples
+#' 
 #' `%>%` = magrittr::`%>%`
 #' pbmc_small %>%  summarise(mean(nCount_RNA))
 #'
@@ -457,20 +396,6 @@ summarise.Seurat <- function (.data, ...)
 #' 
 #' @importFrom dplyr mutate
 #' 
-#' @section Useful mutate functions:
-#'
-#' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
-#'
-#' * [lead()], [lag()]
-#'
-#' * [dense_rank()], [min_rank()], [percent_rank()], [row_number()],
-#'   [cume_dist()], [ntile()]
-#'
-#' * [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]
-#'
-#' * [na_if()], [coalesce()]
-#'
-#' * [if_else()], [recode()], [case_when()]
 #'
 #' @section Grouped tibbles:
 #'
@@ -561,10 +486,6 @@ mutate.Seurat <- function(.data, ...)
 #'
 #' Rename individual variables using `new_name = old_name` syntax.
 #'
-#' @section Scoped selection and renaming:
-#'
-#' Use the three scoped variants ([rename_all()], [rename_if()], [rename_at()])
-#' to renaming a set of variables with a function.
 #' 
 #' @importFrom dplyr rename
 #' 
@@ -615,18 +536,10 @@ rename.Seurat <- function(.data, ...)
 #' Group input by rows
 #'
 #'
-#' See [this repository](https://github.com/jennybc/row-oriented-workflows)
-#' for alternative ways to perform row-wise operations.
-#'
 #' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
 #' complex operations that need to be applied to each row.
 #'
-#' Currently, rowwise grouping only works with data frames. Its
-#' main impact is to allow you to work with list-variables in
-#' [summarise()] and [mutate()] without having to
-#' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
-#' effectively equivalent to [plyr::ldply()].
 #'
 #' @importFrom dplyr rowwise
 #' 
@@ -874,14 +787,6 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' to select, remove, and duplicate rows. It is accompanied by a number of
 #' helpers for common use cases:
 #'
-#' * `slice_head()` and `slice_tail()` select the first or last rows.
-#' * `slice_sample()` randomly selects rows.
-#' * `slice_min()` and `slice_max()` select rows with highest or lowest values
-#'   of a variable.
-#'
-#' If `.data` is a [grouped_df], the operation will be performed on each group,
-#' so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
-#' each group.
 #'
 #' @importFrom dplyr slice
 #' 
@@ -900,12 +805,6 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #'
-#'   For `slice_helpers()`, these arguments are passed on to methods.
-#'
-#'
-#'   If `n` is greater than the number of rows in the group (or `prop > 1`),
-#'   the result will be silently truncated to the group size. If the
-#'   `prop`ortion of a group size is not an integer, it is rounded down.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -914,19 +813,6 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
-#' @section Methods:
-#' These function are **generic**s, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' Methods available in currently loaded packages:
-#'
-#' * `slice()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice")}.
-#' * `slice_head()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_head")}.
-#' * `slice_tail()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_tail")}.
-#' * `slice_min()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_min")}.
-#' * `slice_max()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_max")}.
-#' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' 
 #' @rdname dplyr-methods
 #' @name slice
@@ -960,14 +846,9 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #' Select (and optionally rename) variables in a data frame, using a concise
 #' mini-language that makes it easy to refer to variables based on their name
 #' (e.g. `a:f` selects all columns from `a` on the left to `f` on the
-#' right). You can also use predicate functions like [is.numeric] to select
+#' right). You can also use predicate functions like is.numeric to select
 #' variables based on their properties.
 #'
-#'
-#' ## Overview of selection features
-#'
-#' ```{r, child = "man/rmd/overview.Rmd"}
-#' ```
 #' 
 #' @importFrom dplyr select
 #' 
@@ -986,13 +867,6 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #' * Data frame attributes are preserved.
 #' * Groups are maintained; you can't select off grouping variables.
 #'
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #'
 #' @examples
 #' 
@@ -1035,24 +909,7 @@ select.Seurat <- function (.data, ...)
 #' Sample n rows from a table
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
-#' `sample_n()` and `sample_frac()` have been superseded in favour of
-#' [slice_sample()]. While they will not be deprecated in the near future,
-#' retirement means that we will only perform critical bug fixes, so we recommend
-#' moving to the newer alternative.
-#'
-#' These functions were superseded because we realised it was more convenient to
-#' have two mutually exclusive arguments to one function, rather than two
-#' separate functions. This also made it to clean up a few other smaller
-#' design issues with `sample_n()`/`sample_frac`:
-#'
-#' * The connection to `slice()` was not obvious.
-#' * The name of the first argument, `tbl`, is inconsistent with other
-#'   single table verbs which use `.data`.
-#' * The `size` argument uses tidy evaluation, which is surprising and
-#'   undocumented.
-#' * It was easier to remove the deprecated `.env` argument.
-#' * `...` was in a suboptimal position.
+#' Sample n rows from a table
 #'
 #' @importFrom dplyr sample_n
 #' 
@@ -1250,13 +1107,6 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #'   as names for a named vector. Specified in a similar manner as \code{var}.
 #' @param ... For use by methods.
 #' @return A vector the same size as `.data`.
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
-#'
-#' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 #' 
 #' @rdname dplyr-methods
 #' @name pull
