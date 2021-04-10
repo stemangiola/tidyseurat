@@ -22,9 +22,7 @@
 #' 
 #' @examples
 #'
-#' pbmc_small %>% 
-#'  
-#' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
+#' print("DEPRECATED")
 #'
 #'
 #' @export
@@ -59,7 +57,7 @@ join_transcripts.Seurat <-
     
     
     .data %>%
-      join_transcripts(transcripts = transcripts,
+      join_features(feature = transcripts,
                        all = all,
                        exclude_zeros = exclude_zeros,
                        shape = shape, ...)

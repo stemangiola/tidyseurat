@@ -37,9 +37,7 @@ DEPRECATED, please use join_features()
 }
 \examples{
 
-pbmc_small \%>\% 
- 
-join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
+print("DEPRECATED")
 
 
 }

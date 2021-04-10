@@ -1,0 +1,14 @@
+context('methods test')
+
+
+test_that("arrange",{
+
+
+  pbmc_small %>% 
+    join_features("CD3D") %>% 
+    slice(1) %>%
+    pull(abundance_RNA) %>%
+    expect_equal(6.35, tolerance=0.1)
+
+
+})
