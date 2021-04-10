@@ -16,6 +16,8 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Filtering
+
 Just as a quick example, we show how to filter cells based on sample size (number of cells) and UMAP location. You can imagine a similar example with more meaningful criteria.
 
 tidyseurat
@@ -24,31 +26,72 @@ tidyseurat
 library(dplyr)
 library(Seurat)
 library(tidyseurat)
-
-tidy_object = pbmc_small %>% tidy()
+data("pbmc_small")
 seurat_object = pbmc_small
 
 ```
 
 
-```{r}
-tidy_object %>%
+```
+{r}
+seurat_object %>%
   add_count(file) %>%
   filter(PC_1 > 0 & n > 40)
 ```
 
 Seurat
 
-```{r}
+```
+{r}
 pca_emb = Embeddings(object = seurat_object, reduction = "pca")
 cell_pca = rownames(pca_emb[pca_emb[,1]>0,])
 n =
-  seurat_object@meta.data %>%
+  seurat_object[[]] %>%
   add_count(file) %>%
   pull(n)
 seurat_object = AddMetaData( object = seurat_object, metadata = n, col.name = 'n')
 seurat_object %>%
   subset(cells = cell_pca) %>%
   subset( n < 40)
+
+```
+
+
+# Case study code comparison
+
+
+## Calculate gamma-delta signature and plot
+
+tidyseurat
+
+## Gate cells based on expression
+
+tidyseurat
+
+## Balanced sampling and UMAP plot with cell cyle and features
+
+tidyseurat
+
+```
+{r}
+
+seurat_object %>%
+  
+  # Balanced sampling
+  add_count(sample) %>%
+  mutate(min_n = min(n)) %>%
+  nest(data = -c(sample, n)) %>%
+  mutate(data = map2(data, min_n, ~ .x %>% sample_n(.y))) %>%
+  unnest(data) %>%
+  
+  # Extract features
+  join_features(c("CD3G", "LYZ", "C2", "HLA-A"), shape="wide") %>%
+  pivot_longer(c(cycle.g2, CD3G, LYZ, C2, `HLA-A`)) %>%
+  mutate_at(c(cycle.g2, CD3G, LYZ, C2, `HLA-A`), scale) %>%
+
+  # Plot
+  ggplot(aes(UMAP_1, UMAP_2, color=value)) +
+  geom_point() +
+  facet_wrap(~name)
 
 ```
