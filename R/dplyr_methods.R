@@ -197,6 +197,7 @@ bind_cols.Seurat <- bind_cols_
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  distinct(groups)
 #'
 #' @rdname dplyr-methods
@@ -258,6 +259,7 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_eval
@@ -318,6 +320,7 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  group_by(groups)
 #'
 NULL
@@ -369,6 +372,7 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  summarise(mean(nCount_RNA))
 #'
 #' @export
@@ -455,6 +459,7 @@ summarise.Seurat <- function (.data, ...)
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  mutate(nFeature_RNA = 1)
 #'
 NULL
@@ -512,6 +517,7 @@ mutate.Seurat <- function(.data, ...)
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  rename(s_score = nFeature_RNA) 
 #' 
 NULL
@@ -592,9 +598,8 @@ rowwise.Seurat <- function(data, ...)
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' 
-#' tt = pbmc_small 
-#' tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2))
+#' data("pbmc_small")
+#' pbmc_small %>% left_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2))
 #'
 NULL
 
@@ -641,8 +646,8 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' 
-#' tt = pbmc_small 
-#' tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
+#' data("pbmc_small")
+#' pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
 #' 
 #' @rdname dplyr-methods
 #' @name inner_join
@@ -692,8 +697,8 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' 
-#' tt = pbmc_small 
-#' tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
+#' data("pbmc_small")
+#' pbmc_small %>% right_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
 #' 
 #' @rdname dplyr-methods
 #' @name right_join
@@ -744,9 +749,8 @@ right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' 
-#' tt = pbmc_small 
-#' tt %>% full_join(tibble::tibble(groups = "g1", other=1:4)) 
+#' data("pbmc_small")
+#' pbmc_small %>% full_join(tibble::tibble(groups = "g1", other=1:4)) 
 #'
 #' @rdname dplyr-methods
 #' @name full_join
@@ -821,6 +825,7 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  slice(1)
 NULL
 
@@ -871,6 +876,7 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  select(cell, orig.ident )
 #'
 #' @family single table verbs
@@ -928,6 +934,7 @@ select.Seurat <- function (.data, ...)
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  sample_n(50) 
 #' pbmc_small %>%  sample_frac(0.1)
 #' 
@@ -1033,6 +1040,7 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  count(groups)
 #' 
 #' 
@@ -1115,6 +1123,7 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #' @examples
 #' 
 #' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
 #' pbmc_small %>%  pull(groups)
 #' 
 NULL

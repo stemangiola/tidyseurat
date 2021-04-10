@@ -1,5 +1,6 @@
 context('methods test')
 
+data("pbmc_small")
 
 test_that("arrange",{
 

@@ -287,62 +287,70 @@ latter normalises by the averages within gender levels.
 pbmc_small \%>\%  arrange(nFeature_RNA)
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  distinct(groups)
 
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  filter(groups == "g1")
 
 # Learn more in ?dplyr_eval
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  group_by(groups)
 
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  summarise(mean(nCount_RNA))
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  mutate(nFeature_RNA = 1)
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  rename(s_score = nFeature_RNA) 
 
 `\%>\%` = magrittr::`\%>\%`
 
 `\%>\%` = magrittr::`\%>\%`
-
-tt = pbmc_small 
-tt \%>\% left_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2))
-
-`\%>\%` = magrittr::`\%>\%`
-
-tt = pbmc_small 
-tt \%>\% inner_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
+data("pbmc_small")
+pbmc_small \%>\% left_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_column = 1:2))
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small 
-tt \%>\% right_join(tt \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
+data("pbmc_small")
+pbmc_small \%>\% inner_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 
 `\%>\%` = magrittr::`\%>\%`
 
-tt = pbmc_small 
-tt \%>\% full_join(tibble::tibble(groups = "g1", other=1:4)) 
+data("pbmc_small")
+pbmc_small \%>\% right_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
+
+`\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
+pbmc_small \%>\% full_join(tibble::tibble(groups = "g1", other=1:4)) 
 
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  slice(1)
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  select(cell, orig.ident )
 
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  sample_n(50) 
 pbmc_small \%>\%  sample_frac(0.1)
 
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  pull(groups)
 
 }

@@ -37,8 +37,8 @@ This function extracts information for specified features and returns the inform
 }
 \examples{
 
+data("pbmc_small")
 pbmc_small \%>\% 
- 
 join_features(features = c("HLA-DRA", "LYZ"))
 
 

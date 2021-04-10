@@ -1,21 +1,22 @@
 context('dplyr test')
 
-tt = pbmc_small 
+library(Seurat)
+data("pbmc_small")
 
 test_that("arrange",{
 
 
-  tt_pca_arranged = tt %>% arrange(nFeature_RNA) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
-  tt_pca = tt %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
+  pbmc_small_pca_arranged = pbmc_small %>% arrange(nFeature_RNA) %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
+  pbmc_small_pca = pbmc_small %>% Seurat::ScaleData() %>% Seurat::FindVariableFeatures() %>% Seurat::RunPCA()
 
   expect_equal(
-    Seurat::VariableFeatures(tt_pca_arranged),
-    Seurat::VariableFeatures(tt_pca)
+    Seurat::VariableFeatures(pbmc_small_pca_arranged),
+    Seurat::VariableFeatures(pbmc_small_pca)
   )
   
   expect_equal(
-    tt_pca_arranged@reductions$pca@cell.embeddings ,
-    tt_pca@reductions$pca@cell.embeddings, 
+    pbmc_small_pca_arranged@reductions$pca@cell.embeddings ,
+    pbmc_small_pca@reductions$pca@cell.embeddings, 
     tolerance=0.1
   )
 
@@ -24,11 +25,11 @@ test_that("arrange",{
 
 test_that("bind_rows",{
   
-  tt_bind = bind_rows(    tt, tt  )
+  pbmc_small_bind = bind_rows(    pbmc_small, pbmc_small  )
   
 
   expect_equal(
-    tt_bind %>% select(cell) %>% as_tibble() %>% dplyr::count(cell) %>% dplyr::count(n) %>% nrow,
+    pbmc_small_bind %>% select(cell) %>% as_tibble() %>% dplyr::count(cell) %>% dplyr::count(n) %>% nrow,
     1
   )
   
@@ -38,107 +39,108 @@ test_that("bind_rows",{
 
 test_that("bind_cols",{
   
-  tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
+  pbmc_small_bind = pbmc_small %>% select(nCount_RNA ,nFeature_RNA)
   
-  
-  expect_equal(
-    tt %>% bind_cols(tt_bind) %>% select(nCount_RNA...9 ,nFeature_RNA...10) %>% ncol,
-    2
-  )
+  pbmc_small %>%
+    bind_cols(pbmc_small_bind) %>%
+    select(nCount_RNA...2 ,nFeature_RNA...3) %>% 
+    ncol %>%
+  expect_equal( 2)
   
 })
 
 test_that("distinct",{
   
-  expect_equal(   tt %>% distinct(groups) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% distinct(groups) %>% ncol,    1  )
   
 })
 
 test_that("filter",{
   
-  expect_equal(   tt %>% filter(groups == "g1") %>% ncol,    44  )
+  expect_equal(   pbmc_small %>% filter(groups == "g1") %>% ncol,    44  )
   
 })
 
 test_that("group_by",{
   
-  expect_equal(   tt %>% group_by(groups) %>% nrow,    80  )
+  expect_equal(   pbmc_small %>% group_by(groups) %>% nrow,    80  )
   
 })
 
 test_that("summarise",{
   
-  expect_equal(   tt %>% summarise(mean(nCount_RNA)) %>% nrow,    1  )
+  expect_equal(   pbmc_small %>% summarise(mean(nCount_RNA)) %>% nrow,    1  )
   
 })
 
 test_that("mutate",{
   
-  expect_equal(   tt %>% mutate(nFeature_RNA = 1) %>% distinct(nFeature_RNA) %>% nrow,    1  )
+  expect_equal(   pbmc_small %>% mutate(nFeature_RNA = 1) %>% distinct(nFeature_RNA) %>% nrow,    1  )
   
 })
 
 test_that("rename",{
   
-  expect_equal(   tt %>% rename(s_score = nFeature_RNA) %>% select(s_score) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% rename(s_score = nFeature_RNA) %>% select(s_score) %>% ncol,    1  )
   
 })
 
 test_that("left_join",{
   
-  expect_equal(   tt %>% left_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol,    9  )
+  pbmc_small %>% left_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol %>%
+  expect_equal( 8  )
   
 })
 
 test_that("inner_join",{
   
-  expect_equal(   tt %>% inner_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
+  expect_equal(   pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
   
 })
 
 test_that("right_join",{
   
-  expect_equal(   tt %>% right_join(tt %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
+  expect_equal(   pbmc_small %>% right_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
   
 })
 
 test_that("full_join",{
   
-  expect_equal(   tt %>% full_join(tibble::tibble(groups = "g1", other=1:4)) %>% nrow,    212  )
+  expect_equal(   pbmc_small %>% full_join(tibble::tibble(groups = "g1", other=1:4)) %>% nrow,    212  )
   
 })
 
 test_that("slice",{
   
-  expect_equal(   tt %>% slice(1) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% slice(1) %>% ncol,    1  )
   
 })
 
 test_that("select",{
   
-  expect_equal(   tt %>% select(cell, orig.ident ) %>% class %>% as.character,    "Seurat"  )
+  expect_equal(   pbmc_small %>% select(cell, orig.ident ) %>% class %>% as.character,    "Seurat"  )
 
-  expect_equal(   tt %>% select( orig.ident ) %>% class %>% as.character %>% .[1],    "tbl_df"  )
+  expect_equal(   pbmc_small %>% select( orig.ident ) %>% class %>% as.character %>% .[1],    "tbl_df"  )
   
 })
 
 test_that("sample_n",{
   
-  expect_equal(   tt %>% sample_n(50) %>% ncol,   50  )
+  expect_equal(   pbmc_small %>% sample_n(50) %>% ncol,   50  )
   
 
 })
 
 test_that("sample_frac",{
   
-  expect_equal(   tt %>% sample_frac(0.1) %>% ncol,   8  )
+  expect_equal(   pbmc_small %>% sample_frac(0.1) %>% ncol,   8  )
   
   
 })
 
 test_that("count",{
   
-  expect_equal(   tt %>% count(groups) %>% nrow,   2  )
+  expect_equal(   pbmc_small %>% count(groups) %>% nrow,   2  )
   
   
 })

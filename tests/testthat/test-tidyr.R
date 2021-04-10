@@ -1,5 +1,6 @@
 context('tidyr test')
 
+data("pbmc_small")
 tt = pbmc_small@assays$RNA@counts %>% CreateSeuratObject() %>% mutate(groups = sprintf("g%s", rep(1:2, dplyr::n()/2)))
 
 test_that("nest_unnest",{

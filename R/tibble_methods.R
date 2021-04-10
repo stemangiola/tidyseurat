@@ -57,6 +57,7 @@
 #' 
 #' @export
 #' @examples
+#' data("pbmc_small")
 #' pbmc_small %>%  as_tibble()
 NULL
 
@@ -133,6 +134,7 @@ as_tibble.Seurat = function(x, ...,
 #' 
 #' @export
 #' @examples
+#' data("pbmc_small")
 #' pbmc_small %>% tidy %>% glimpse()
 #'
 #'

@@ -55,6 +55,7 @@
 #'   
 #' @examples
 #' library(dplyr)
+#' data("pbmc_small")
 #' pbmc_small  %>% print()
 #' @name print
 NULL

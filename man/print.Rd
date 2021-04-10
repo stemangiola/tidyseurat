@@ -89,5 +89,6 @@ turn off truncation of character columns.
 
 \examples{
 library(dplyr)
+data("pbmc_small")
 pbmc_small  \%>\% print()
 }
