@@ -9,9 +9,9 @@
 #' need to explicit mention grouping variables (or use  `by_group = TRUE`)
 #' in order to group by them, and functions of variables are evaluated
 #' once per data frame, not once per group.
-#' 
+#'
 #' @importFrom dplyr arrange
-#' 
+#'
 #' @details
 #' ## Locales
 #' The sort order for character vectors will depend on the collating sequence
@@ -29,10 +29,10 @@
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name arrange
-#' 
+#'
 #' @export
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
@@ -40,7 +40,7 @@
 #' @param ... <[`tidy-eval`][dplyr_eval]> Variables, or functions or
 #'   variables. Use desc() to sort a variable in descending order.
 #' @param .by_group If TRUE, will sort first by grouping variable. Applies to grouped data frames only.
-#' 
+#'
 #' @family single table verbs
 #' @examples
 #' `%>%` = magrittr::`%>%`
@@ -48,23 +48,23 @@
 NULL
 
 #' @importFrom tibble as_tibble
-#' 
+#'
 #' @export
 #' @inheritParams arrange
 arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
-  
 
-  .data@meta.data = 
-    .data %>% 
+
+  .data@meta.data =
+    .data %>%
     as_tibble() %>%
     dplyr::arrange(  ..., .by_group = .by_group  ) %>%
-    as_meta_data(.data) 
-  
+    as_meta_data(.data)
+
   .data
-  
+
 }
 
- 
+
 
 #' Efficiently bind multiple data frames by row and column
 #'
@@ -95,14 +95,14 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
 #' @param add.cell.ids from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
-#' 
+#'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' tt = pbmc_small 
+#' tt = pbmc_small
 #' bind_rows(    tt, tt  )
-#' 
+#'
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
@@ -111,9 +111,9 @@ NULL
 
 
 #' @rdname dplyr-methods
-#' 
+#'
 #' @inheritParams bind
-#' 
+#'
 #' @export
 #'
 bind_rows <- function(..., .id = NULL,  add.cell.ids = NULL) {
@@ -129,41 +129,41 @@ bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
-#' 
+#'
 #' @export
-#' 
+#'
 bind_rows.Seurat <- function(..., .id = NULL,  add.cell.ids = NULL)
 {
-  
+
   tts = flatten_if(dots_values(...), is_spliced)
-  
+
   # Strange error for Seurat merge
   # GetResidualSCTModel
   # close to a line as such
   # slot(object = object[[assay]], name = "SCTModel.list")
   # So I have to delete any sample of size 1 if I have calculated SCT
   # if()
-  # object@assays$SCT@SCTModel.list %>% map(~ .x@cell.attributes %>% nrow)
-  
+  # GetAssayData(object, slot = 'SCTModel.list', assay = "SCT") %>% map(~ .x@cell.attributes %>% nrow)
+
   # Check if cell with same name
-  merge(  tts[[1]] , y = tts[[2]],  add.cell.ids = add.cell.ids) 
-  
+  merge(  tts[[1]] , y = tts[[2]],  add.cell.ids = add.cell.ids)
+
 }
 
 bind_cols_ = function(..., .id = NULL){
-  
-  tts = flatten_if(dots_values(...), is_spliced) 
-  
-  tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]]@meta.data, tts[[2]], .id = .id) 
-  
+
+  tts = flatten_if(dots_values(...), is_spliced)
+
+  tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]][[]], tts[[2]], .id = .id)
+
   tts[[1]]
-  
+
 }
 
 #' @export
-#' 
+#'
 #' @inheritParams bind
-#' 
+#'
 #' @rdname dplyr-methods
 bind_cols <- function(..., .id = NULL) {
   UseMethod("bind_cols")
@@ -178,16 +178,16 @@ bind_cols.default <-  function(..., .id = NULL)
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
-#' 
+#'
 #' @export
-#' 
+#'
 bind_cols.Seurat <- bind_cols_
 
 
 #' distinct
-#' 
+#'
 #' @importFrom dplyr distinct
-#' 
+#'
 #' @param .data A tbl. (See dplyr)
 #' @param ... Data frames to combine (See dplyr)
 #' @param .keep_all If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)
@@ -202,7 +202,7 @@ bind_cols.Seurat <- bind_cols_
 #'
 #' @rdname dplyr-methods
 #' @name distinct
-#' 
+#'
 #' @export
 NULL
 
@@ -210,13 +210,13 @@ NULL
 distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   .data %>%
     as_tibble() %>%
     dplyr::distinct(..., .keep_all = .keep_all)
-  
+
 }
- 
+
 
 #' Subset rows using column values
 #'
@@ -227,9 +227,9 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
 #' filtering is often considerably faster on ungroup()ed data.
-#' 
+#'
 #' @importFrom dplyr filter
-#' 
+#'
 #'
 #' @family single table verbs
 #' @inheritParams arrange
@@ -251,13 +251,13 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name filter
-#' 
+#'
 #' @export
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  filter(groups == "g1")
@@ -269,20 +269,20 @@ NULL
 filter.Seurat <- function (.data, ..., .preserve = FALSE)
 {
   new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
-  
+
   # Error if size == 0
   if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-  
+
   new_obj = subset(.data,   cells = rownames(new_meta ))
   #new_obj@meta.data = new_meta
-  
+
   new_obj
-                   
+
 }
- 
+
 
 #' Group by one or more variables
-#' 
+#'
 #' @importFrom dplyr group_by_drop_default
 #' @importFrom dplyr group_by
 #'
@@ -313,10 +313,10 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name group_by
-#' 
+#'
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
@@ -329,13 +329,13 @@ NULL
 group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   .data %>%
     as_tibble() %>%
-    dplyr::group_by( ..., .add = .add, .drop = .drop) 
-  
+    dplyr::group_by( ..., .add = .add, .drop = .drop)
+
 }
- 
+
 
 #' Summarise each group to fewer rows
 #'
@@ -347,9 +347,9 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #' for each of the summary statistics that you have specified.
 #'
 #' `summarise()` and `summarize()` are synonyms.
-#' 
+#'
 #' @importFrom dplyr summarise
-#' 
+#'
 #'
 #'
 #' @export
@@ -362,15 +362,15 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A vector of length `n`, e.g. `quantile()`.
 #'   * A data frame, to add multiple columns from a single expression.
-#'   
+#'
 #' @family single table verbs
 #' @return A tibble
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name summarise
-#' 
+#'
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  summarise(mean(nCount_RNA))
@@ -381,15 +381,15 @@ NULL
 #' @export
 summarise.Seurat <- function (.data, ...)
 {
-  
+
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   .data %>%
     as_tibble() %>%
     dplyr::summarise( ...)
-  
+
 }
- 
+
 
 #' Create, modify, and delete columns
 #'
@@ -397,9 +397,9 @@ summarise.Seurat <- function (.data, ...)
 #' `transmute()` adds new variables and drops existing ones.
 #' New variables overwrite existing variables of the same name.
 #' Variables can be removed by setting their value to `NULL`.
-#' 
+#'
 #' @importFrom dplyr mutate
-#' 
+#'
 #'
 #' @section Grouped tibbles:
 #'
@@ -412,10 +412,10 @@ summarise.Seurat <- function (.data, ...)
 #'
 #' The former normalises `mass` by the global average whereas the
 #' latter normalises by the averages within gender levels.
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name mutate
-#' 
+#'
 #' @export
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_eval]> Name-value pairs.
@@ -467,33 +467,33 @@ NULL
 
 #' @importFrom dplyr mutate
 #' @importFrom rlang enquos
-#' 
+#'
 #' @export
 mutate.Seurat <- function(.data, ...)
 {
 
   # Check that we are not modifying a key column
-  cols = enquos(...) %>% names 
+  cols = enquos(...) %>% names
   if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data =
-    .data %>% 
+    .data %>%
     as_tibble %>%
-    dplyr::mutate( ...)  %>% 
+    dplyr::mutate( ...)  %>%
     as_meta_data(.data)
 
   .data
 }
 
- 
+
 #' Rename columns
 #'
 #' Rename individual variables using `new_name = old_name` syntax.
 #'
-#' 
+#'
 #' @importFrom dplyr rename
-#' 
+#'
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_select]> Use `new_name = old_name`
 #'   to rename selected variables.
@@ -510,34 +510,34 @@ mutate.Seurat <- function(.data, ...)
 #'
 #' The following methods are currently available in loaded packages:
 #' @family single table verbs
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name rename
-#' 
+#'
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
-#' pbmc_small %>%  rename(s_score = nFeature_RNA) 
-#' 
+#' pbmc_small %>%  rename(s_score = nFeature_RNA)
+#'
 NULL
 
 #' @export
 rename.Seurat <- function(.data, ...)
 {
-  
+
   # Check that we are not modifying a key column
-  cols = tidyselect::eval_select(expr(c(...)), .data@meta.data) 
+  cols = tidyselect::eval_select(expr(c(...)), .data[[]])
   if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
-  
-  .data@meta.data = dplyr::rename( .data@meta.data,  ...)
-  
+
+  .data@meta.data = dplyr::rename( .data[[]],  ...)
+
   .data
- 
-  
+
+
 }
- 
+
 
 #' Group input by rows
 #'
@@ -548,37 +548,37 @@ rename.Seurat <- function(.data, ...)
 #'
 #'
 #' @importFrom dplyr rowwise
-#' 
+#'
 #' @param .data Input data frame.
 #' @param ... See dplyr::rowwise
-#' 
+#'
 #' @return A `tbl`
 #'
 #'   A `tbl`
 #'
 #' @rdname dplyr-methods
 #' @name rowwise
-#' 
+#'
 #' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' 
+#'
 NULL
 
 #' @export
 rowwise.Seurat <- function(data, ...)
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   data %>%
     as_tibble() %>%
     dplyr::rowwise(...)
-  
+
 }
- 
+
 
 #' Left join datasets
-#' 
+#'
 #' @importFrom dplyr count
 #' @importFrom dplyr left_join
 #'
@@ -593,7 +593,7 @@ rowwise.Seurat <- function(data, ...)
 #'
 #' @rdname dplyr-methods
 #' @name left_join
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -607,30 +607,30 @@ NULL
 left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                 ...)
 {
-  
-  x %>% 
+
+  x %>%
     as_tibble() %>%
     dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
-    
+
     when(
-      
+
       # If duplicated cells returns tibble
       dplyr::count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
-      
+
       # Otherwise return updated tidyseurat
       ~ {
         x@meta.data = (.) %>% as_meta_data(x)
         x
-      } 
+      }
     )
-  
+
 }
 
 #' Inner join datasets
-#' 
+#'
 #' @importFrom dplyr pull
 #' @importFrom dplyr inner_join
 #'
@@ -645,13 +645,13 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' 
+#'
 #' data("pbmc_small")
 #' pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name inner_join
-#' 
+#'
 #' @export
 NULL
 
@@ -661,27 +661,27 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
   x %>%
     as_tibble() %>%
     dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
-    
+
     when(
-      
+
       # If duplicated cells returns tibble
       count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
-      
+
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells =  pull(., "cell"))
         new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
-      } 
+      }
     )
-  
+
 }
 
 #' Right join datasets
-#' 
+#'
 #' @importFrom dplyr pull
 #' @importFrom dplyr right_join
 #'
@@ -696,13 +696,13 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
-#' 
+#'
 #' data("pbmc_small")
 #' pbmc_small %>% right_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name right_join
-#' 
+#'
 #' @export
 NULL
 
@@ -710,31 +710,31 @@ NULL
 right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                  ...){
 
-  x %>% 
+  x %>%
     as_tibble() %>%
     dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
-    
+
     when(
-      
+
       # If duplicated cells returns tibble
       count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
-      
+
       # Otherwise return updated tidyseurat
       ~ {
         new_obj = subset(x,   cells = (.) %>% pull("cell"))
         new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
-      } 
+      }
     )
-  
+
 }
 
 
 #' Full join datasets
-#' 
+#'
 #' @importFrom dplyr pull
 #' @importFrom dplyr full_join
 #'
@@ -750,11 +750,11 @@ right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
-#' pbmc_small %>% full_join(tibble::tibble(groups = "g1", other=1:4)) 
+#' pbmc_small %>% full_join(tibble::tibble(groups = "g1", other=1:4))
 #'
 #' @rdname dplyr-methods
 #' @name full_join
-#' 
+#'
 #' @export
 NULL
 
@@ -763,25 +763,25 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
                                 ...)
 {
 
- x %>% 
+ x %>%
     as_tibble() %>%
     dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
-    
+
     when(
-      
+
       # If duplicated cells returns tibble
       count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
-      
+
       # Otherwise return updated tidyseurat
       ~ {
         x@meta.data = (.) %>% as_meta_data(x)
         x
-      } 
+      }
     )
-  
+
 }
 
 #' Subset rows using their positions
@@ -793,7 +793,7 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'
 #'
 #' @importFrom dplyr slice
-#' 
+#'
 #' @details
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
@@ -817,13 +817,13 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' * Columns are not modified.
 #' * Groups are not modified.
 #' * Data frame attributes are preserved.
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name slice
-#' 
+#'
 #' @export
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  slice(1)
@@ -832,16 +832,16 @@ NULL
 #' @export
 slice.Seurat <- function (.data, ..., .preserve = FALSE)
 {
-  new_meta = dplyr::slice(.data@meta.data, ..., .preserve = .preserve)
-  
+  new_meta = dplyr::slice(.data[[]], ..., .preserve = .preserve)
+
   # Error if size == 0
   if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-  
+
   new_obj = subset(.data,   cells = rownames(new_meta ))
   #new_obj@meta.data = new_meta
-  
+
   new_obj
-  
+
 }
 
 #' Subset columns using their names and types
@@ -854,9 +854,9 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #' right). You can also use predicate functions like is.numeric to select
 #' variables based on their properties.
 #'
-#' 
+#'
 #' @importFrom dplyr select
-#' 
+#'
 #' @inheritParams arrange
 #' @param ... <[`tidy-select`][dplyr_select]> One or more unquoted
 #'   expressions separated by commas. Variable names can be used as if they
@@ -874,41 +874,41 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #'
 #'
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  select(cell, orig.ident )
 #'
 #' @family single table verbs
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name select
-#' 
+#'
 #' @export
 NULL
 
 #' @export
 select.Seurat <- function (.data, ...)
 {
-   
+
   .data %>%
     as_tibble() %>%
     select_helper(...) %>%
     when(
-      
+
       # If key columns are missing
       (get_needed_columns() %in% colnames(.)) %>% all %>% `!` ~ {
         message("tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.")
         (.)
       },
-      
+
       # If valid seurat meta data
       ~ {
         .data@meta.data = (.) %>% as_meta_data(.data)
         .data
       }
     )
-  
+
 }
 
 
@@ -918,7 +918,7 @@ select.Seurat <- function (.data, ...)
 #' Sample n rows from a table
 #'
 #' @importFrom dplyr sample_n
-#' 
+#'
 #' @keywords internal
 #' @param tbl A data.frame.
 #' @param size <[`tidy-select`][dplyr_select]>
@@ -932,33 +932,33 @@ select.Seurat <- function (.data, ...)
 #' @param .env DEPRECATED.
 #' @param ... ignored
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
-#' pbmc_small %>%  sample_n(50) 
+#' pbmc_small %>%  sample_n(50)
 #' pbmc_small %>%  sample_frac(0.1)
-#' 
+#'
 #' @return A Seurat object
 #'
 #' @rdname dplyr-methods
 #' @name sample_n
-#' 
+#'
 #' @export
 NULL
 
 #' @export
 sample_n.Seurat <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL, ...) {
-  
+
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
-  
-  new_meta = tbl@meta.data %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...) 
+
+  new_meta = tbl[[]] %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
   new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
-  
+
   new_obj %>%
-    
-    # If replace return simple tibble because is not trivial to build 
+
+    # If replace return simple tibble because is not trivial to build
     # a redundant Seurat object and it would not make much sense
     when(
       replace ~ {
@@ -967,14 +967,14 @@ sample_n.Seurat <- function(tbl, size, replace = FALSE,
       },
       ~ (.)
     )
-  
+
 }
 
 #' @importFrom dplyr sample_frac
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name sample_frac
-#' 
+#'
 #' @export
 NULL
 
@@ -983,14 +983,14 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL, ...) {
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
-  
-  new_meta = tbl@meta.data %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...) 
+
+  new_meta = tbl[[]] %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
   new_obj = subset(tbl,   cells = rownames(new_meta ))
   new_obj@meta.data = new_meta
-  
+
   new_obj %>%
-    
-    # If replace return simple tibble because is not trivial to build 
+
+    # If replace return simple tibble because is not trivial to build
     # a redundant Seurat object and it would not make much sense
     when(
       replace ~ {
@@ -999,7 +999,7 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
       },
       ~ (.)
     )
-  
+
 }
 
 
@@ -1038,12 +1038,12 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #' group transiently, so the output has the same groups as the input.
 #' @export
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  count(groups)
-#' 
-#' 
+#'
+#'
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 UseMethod("count")
 }
@@ -1064,13 +1064,13 @@ count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
 
 #' @export
 count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  
+
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   x %>%
     as_tibble() %>%
     dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-  
+
 }
 
 #' @export
@@ -1082,9 +1082,9 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = grou
 #' @export
 #' @rdname count
 add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
- 
+
   dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-  
+
 }
 
 #' @export
@@ -1092,13 +1092,13 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
   x@meta.data =
-    x %>% 
+    x %>%
     as_tibble %>%
-    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>% 
+    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
     as_meta_data(x)
-  
+
   x
-  
+
 }
 
 #' Extract a single column
@@ -1108,36 +1108,36 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #' name the output.
 #'
 #' @importFrom dplyr pull
-#' 
+#'
 #' @inheritParams arrange
 #' @inheritParams tidyselect::vars_pull
 #' @param name An optional parameter that specifies the column to be used
 #'   as names for a named vector. Specified in a similar manner as \code{var}.
 #' @param ... For use by methods.
 #' @return A vector the same size as `.data`.
-#' 
+#'
 #' @rdname dplyr-methods
 #' @name pull
-#' 
+#'
 #' @export
 #' @examples
-#' 
+#'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  pull(groups)
-#' 
+#'
 NULL
 
 #' @export
 pull.Seurat <- function(.data, var = -1, name = NULL, ...) {
   var = enquo(var)
   name = enquo(name)
-  
+
   message("tidyseurat says: A data frame is returned for independent data analysis.")
-  
+
   .data %>%
     as_tibble() %>%
     dplyr::pull( var = !!var, name = !!name, ...)
-  
-  
+
+
 }

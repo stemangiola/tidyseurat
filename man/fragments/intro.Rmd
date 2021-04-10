@@ -274,7 +274,7 @@ blueprint <- celldex::BlueprintEncodeData()
 
 # Infer cell identities
 cell_type_df <-
-  pbmc_small_UMAP@assays[["SCT"]]@counts %>%
+  GetAssayData(pbmc_small_UMAP, slot = 'counts', assay = "SCT") %>%
   log1p() %>%
   Matrix::Matrix(sparse = TRUE) %>%
   SingleR::SingleR(

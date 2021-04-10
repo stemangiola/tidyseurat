@@ -311,7 +311,7 @@ pbmc_small \%>\%  mutate(nFeature_RNA = 1)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
-pbmc_small \%>\%  rename(s_score = nFeature_RNA) 
+pbmc_small \%>\%  rename(s_score = nFeature_RNA)
 
 `\%>\%` = magrittr::`\%>\%`
 
@@ -331,7 +331,7 @@ pbmc_small \%>\% right_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_c
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
-pbmc_small \%>\% full_join(tibble::tibble(groups = "g1", other=1:4)) 
+pbmc_small \%>\% full_join(tibble::tibble(groups = "g1", other=1:4))
 
 
 `\%>\%` = magrittr::`\%>\%`
@@ -345,7 +345,7 @@ pbmc_small \%>\%  select(cell, orig.ident )
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
-pbmc_small \%>\%  sample_n(50) 
+pbmc_small \%>\%  sample_n(50)
 pbmc_small \%>\%  sample_frac(0.1)
 
 

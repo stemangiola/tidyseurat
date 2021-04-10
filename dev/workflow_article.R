@@ -7,16 +7,16 @@ library(tidyHeatmap)
 library(tidyseurat)
 options(future.globals.maxSize = 50068 * 1024^2)
 
-PBMC <- readRDS("dev/PBMC_integrated.rds") 
+PBMC <- readRDS("dev/PBMC_integrated.rds")
 
 # Polishing
 
 PBMC_clean <-
   PBMC_
-  
+
   # Clean groups
   mutate(Phase = Phase %>% str_remove("^phase_")) %>%
-  
+
   # Extract sample
   extract(sample, "sample", "./data/seurat/outs/([a-zA-Z0-9]+)")
 
@@ -55,11 +55,11 @@ hpca <- HumanPrimaryCellAtlasData()
 
 # Infer cell identities
 cell_type_df <-
-  
+
   # extracting counts from Seurat object
-  PBMC_clean_scaled_UMAP_cluster@assays[["SCT"]]@counts %>%
+  GetAssayData(PBMC_clean_scaled_UMAP_cluster, slot = 'counts', assay = "SCT") %>%
   log1p() %>%
-  
+
   # SingleR
   SingleR(
     ref = hpca,
@@ -67,7 +67,7 @@ cell_type_df <-
     method = "cluster",
     clusters = PBMC_clean_scaled_UMAP_cluster %>% pull(seurat_clusters)
   ) %>%
-  
+
   # Formatting results
   as.data.frame() %>%
   as_tibble(rownames = "seurat_clusters") %>%
@@ -76,18 +76,18 @@ cell_type_df <-
 
 # Infer cell identities - cell wise
 cell_type_df_single <-
-  
+
   # extracting counts from Seurat object
-  PBMC_clean_scaled_UMAP_cluster@assays[["SCT"]]@counts %>%
+  GetAssayData(PBMC_clean_scaled_UMAP_cluster, slot = 'counts', assay = "SCT") %>%
   log1p() %>%
-  
+
   # SingleR
   SingleR(
     ref = hpca,
     labels = hpca$label.main,
     method = "single"
   ) %>%
-  
+
   # Formatting results
   as.data.frame() %>%
   as_tibble(rownames = "cell") %>%
@@ -97,11 +97,11 @@ cell_type_df_single <-
 PBMC_clean_scaled_UMAP_cluster_cell_type <-
   PBMC_clean_scaled_UMAP_cluster %>%
   left_join(
-    cell_type_df, 
+    cell_type_df,
     by = "seurat_clusters"
   ) %>%
   left_join(
-    cell_type_df_single, 
+    cell_type_df_single,
     by = "cell"
   )
 
@@ -116,35 +116,33 @@ PBMC_clean_scaled_UMAP_cluster_cell_type %>%
 # Nesting
 PBMC_clean_scaled_UMAP_cluster_cell_type  %>%
   sample_n(1000) %>%
-  
-  # Label lymphoid and myeloid 
+
+  # Label lymphoid and myeloid
   tidyseurat::filter(first.labels != "Platelets") %>%
-  tidyseurat::mutate(cell_class = 
+  tidyseurat::mutate(cell_class =
                        if_else(
                          `first.labels` %in% c("Macrophage", "Monocyte"),
-                         "myeloid", 
+                         "myeloid",
                          "lymphoid"
                        )
   ) %>%
-  
+
   # Nesting
   nest(data = -cell_class) %>%
-  
+
   # Identification of variable gene features
   mutate(variable_genes = map_chr(
-    data, ~ .x %>% 
+    data, ~ .x %>%
       FindVariableFeatures() %>%
       RunPCA(verbose = FALSE) %>%
       FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
-      pull(gene) %>% 
+      pull(gene) %>%
       head() %>%
       paste(collapse=", ")
-  )) 
+  ))
 
 # # Reorder columns
 # PBMC_clean_scaled_UMAP_cluster_cell_type %>%
 #   count(seurat_clusters, first.labels_cluster = first.labels)
 
 saveRDS(PBMC_clean_scaled_UMAP_cluster_cell_type, "dev/PBMC_clean_scaled_UMAP_cluster_cell_type.rds")
-
-
