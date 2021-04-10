@@ -130,7 +130,7 @@ PBMC_clean_scaled_UMAP_cluster_cell_type  %>%
   # Nesting
   nest(data = -cell_class) %>%
   
-  # Identification of variable gene transcripts
+  # Identification of variable gene features
   mutate(variable_genes = map_chr(
     data, ~ .x %>% 
       FindVariableFeatures() %>%

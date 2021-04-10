@@ -41,7 +41,7 @@ Utilities | Description
 ------------ | -------------
 `tidy` | Add `tidyseurat` invisible layer over a Seurat object
 `as_tibble` | Convert cell-wise information to a `tbl_df`
-`join_transcripts` | Add transcript-wise information, returns a `tbl_df`
+`join_features` | Add feature-wise information, returns a `tbl_df`
 
 ## Installation
 
@@ -137,7 +137,7 @@ my_theme <-
 
 We can treat `pbmc_small_polished` effectively as a normal tibble for plotting.
 
-Here we plot number of transcripts per cell.
+Here we plot number of features per cell.
 
 ```{r plot1}
 pbmc_small_polished %>%
@@ -146,7 +146,7 @@ pbmc_small_polished %>%
   my_theme
 ```
 
-Here we plot total transcripts per cell.
+Here we plot total features per cell.
 
 ```{r plot2}
 pbmc_small_polished %>%
@@ -156,11 +156,11 @@ pbmc_small_polished %>%
   my_theme
 ```
 
-Here we plot abundance of two transcripts for each group.
+Here we plot abundance of two features for each group.
 
 ```{r}
 pbmc_small_polished %>%
-  join_transcripts(transcripts = c("HLA-DRA", "LYZ")) %>%
+  join_features(features = c("HLA-DRA", "LYZ")) %>%
   ggplot(aes(groups, abundance_RNA + 1, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(aes(size = nCount_RNA), alpha = 0.5, width = 0.2) +
@@ -352,7 +352,7 @@ pbmc_small_cell_type %>%
   mutate(mitochondrial = rnorm(n())) %>%
 
   # Plot correlation
-  join_transcripts(transcripts = c("CST3", "LYZ"), shape = "wide") %>%
+  join_features(features = c("CST3", "LYZ"), shape = "wide") %>%
   ggplot(aes(CST3 + 1, LYZ + 1, color = groups, size = mitochondrial)) +
   geom_point() +
   facet_wrap(~first.labels, scales = "free") +

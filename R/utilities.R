@@ -71,16 +71,16 @@ drop_class = function(var, name) {
 #' @importFrom Seurat GetAssayData
 #' 
 #' @param .data A tidyseurat
-#' @param transcripts A character
+#' @param features A character
 #' @param all A boolean
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
 #' 
 #' 
 #' @return A Seurat object
 #' 
 #'
 #' @export
-get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay = .data@active.assay, slot = "data"){
+get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data"){
   
   # Solve CRAN warnings
   . = NULL
@@ -90,21 +90,21 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay =
   # Check if output would be too big without forcing
   if(
     length(VariableFeatures(.data)) == 0  &
-    is.null(transcripts) &
+    is.null(features) &
     all == FALSE
   ) stop("
 				 Your object do not contain variable trancript labels,
-				 transcript argument is empty and all argument is set to FALSE.
+				 feature argument is empty and all argument is set to FALSE.
 				 Either:
 				 1. use detect_variable_features() to select variable feature
-				 2. pass an array of transcripts names
+				 2. pass an array of features names
 				 3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
 				 ")
   
   # Get variable features if existing
   if(
     length(VariableFeatures(.data)) > 0  &
-    is.null(transcripts) &
+    is.null(features) &
     all == FALSE
   ) variable_genes = VariableFeatures(.data)
   
@@ -115,8 +115,8 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay =
   .data %>%
     when(
       variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
-      transcripts %>% is.null %>% `!` ~ (.)[transcripts,],
-      ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
+      features %>% is.null %>% `!` ~ (.)[features,],
+      ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
     ) %>%
     .[[assay]] %>%
     GetAssayData(slot=slot) %>%
@@ -138,14 +138,14 @@ get_abundance_sc_wide = function(.data, transcripts = NULL, all = FALSE, assay =
 #' @importFrom purrr map2
 #' 
 #' @param .data A tidyseurat
-#' @param transcripts A character
+#' @param features A character
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #' 
 #' @return A Seurat object
 #'
 #' @export
-get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude_zeros = FALSE){
+get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE){
   
   # Solve CRAN warnings
   . = NULL
@@ -153,14 +153,14 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
   # Check if output would be too big without forcing
   if(
     length(VariableFeatures(.data)) == 0  &
-    is.null(transcripts) &
+    is.null(features) &
     all == FALSE
   ) stop("
 				 Your object do not contain variable trancript labels,
-				 transcript argument is empty and all argument is set to FALSE.
+				 feature argument is empty and all argument is set to FALSE.
 				 Either:
 				 1. use detect_variable_features() to select variable feature
-				 2. pass an array of transcripts names
+				 2. pass an array of features names
 				 3. set all = TRUE (this will output a very large object, do you computer have enough RAM?)
 				 ")
   
@@ -168,7 +168,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
   # Get variable features if existing
   if(
     length(VariableFeatures(.data)) > 0  &
-    is.null(transcripts) &
+    is.null(features) &
     all == FALSE
   ) variable_genes = VariableFeatures(.data)
   
@@ -186,18 +186,18 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
          ~ .x %>%
            when(
              variable_genes %>% is.null %>% `!` ~ .x@data[variable_genes,, drop=FALSE],
-             transcripts %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(transcripts),, drop=FALSE],
+             features %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(features),, drop=FALSE],
              all  ~ .x@data,
-             ~ stop("It is not convenient to extract all genes, you should have either variable features or transcript list to extract")
+             ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
            ) %>%
            
            # Replace 0 with NA
            when(exclude_zeros ~ (.) %>% { x = (.); x[x == 0] <- NA; x }, ~ (.)) %>%
            
            data.frame(check.names = FALSE) %>%
-           as_tibble(rownames = "transcript") %>%
+           as_tibble(rownames = "feature") %>%
            tidyr::pivot_longer(
-             cols = -transcript,
+             cols = -feature,
              names_to ="cell", 
              values_to = "abundance" %>% paste(.y, sep="_"),
              values_drop_na  = TRUE
@@ -207,7 +207,7 @@ get_abundance_sc_long = function(.data, transcripts = NULL, all = FALSE, exclude
          
          
     ) %>%
-    Reduce(function(...) full_join(..., by=c("transcript", "cell")), .)
+    Reduce(function(...) full_join(..., by=c("feature", "cell")), .)
   
 }
 

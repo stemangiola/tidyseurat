@@ -53,58 +53,58 @@ setMethod(
   }
 )
 
-#' Extract and join information for transcripts.
+#' Extract and join information for features.
 #'
 #'
-#' @description join_transcripts() extracts and joins information for specified transcripts
+#' @description join_features() extracts and joins information for specified features
 #'
 #' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
 #'
-#' @name join_transcripts
-#' @rdname join_transcripts
+#' @name join_features
+#' @rdname join_features
 #'
 #' @param .data A tidyseurat object
-#' @param transcripts A vector of transcript identifiers to join
+#' @param features A vector of feature identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract transcript abundance from
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
 #'
-#' @details This function extracts information for specified transcripts and returns the information in either long or wide format.
+#' @details This function extracts information for specified features and returns the information in either long or wide format.
 #'
-#' @return A `tbl` containing the information.for the specified transcripts
+#' @return A `tbl` containing the information.for the specified features
 #' 
 #' @examples
 #'
 #' pbmc_small %>% 
 #'  
-#' join_transcripts(transcripts = c("HLA-DRA", "LYZ"))
+#' join_features(features = c("HLA-DRA", "LYZ"))
 #'
 #'
 #' @export
 #'
-join_transcripts <- function(.data,
-                              transcripts = NULL,
+join_features <- function(.data,
+                              features = NULL,
                               all = FALSE,
                               exclude_zeros = FALSE,
                               shape = "long", ...) {
-  UseMethod("join_transcripts", .data)
+  UseMethod("join_features", .data)
 }
 #' @export
-join_transcripts.default <-
+join_features.default <-
   function(.data,
-           transcripts = NULL,
+           features = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
            shape = "long", ...)
   {
-    print("This function cannot be applied to this object")
+    print("tidyseurat says: This function cannot be applied to this object")
   }
 #' @export
-join_transcripts.Seurat <-
+join_features.Seurat <-
   function(.data,
-           transcripts = NULL,
+           features = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
            shape = "long", ...)
@@ -121,19 +121,19 @@ join_transcripts.Seurat <-
       shape == "long" ~ (.) %>% left_join(
         get_abundance_sc_long(
           .data = .data,
-          transcripts = transcripts,
+          features = features,
           all = all,
           exclude_zeros = exclude_zeros
         ),
         by = "cell"
       ) %>%
-        select(cell, transcript, contains("abundance"), everything()),
+        select(cell, feature, contains("abundance"), everything()),
       
       # Shape if wide
       ~ (.) %>% left_join(
           get_abundance_sc_wide(
             .data = .data,
-            transcripts = transcripts,
+            features = features,
             all = all, ...
           ),
           by = "cell"

@@ -6,7 +6,7 @@
 \usage{
 get_abundance_sc_long(
   .data,
-  transcripts = NULL,
+  features = NULL,
   all = FALSE,
   exclude_zeros = FALSE
 )
@@ -14,7 +14,7 @@ get_abundance_sc_long(
 \arguments{
 \item{.data}{A tidyseurat}
 
-\item{transcripts}{A character}
+\item{features}{A character}
 
 \item{all}{A boolean}
 
