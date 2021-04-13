@@ -109,11 +109,8 @@ join_features.Seurat <-
            exclude_zeros = FALSE,
            shape = "long", ...)
   {
-    
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
-
     .data %>%
-      as_tibble() %>%
+      
       
       when(
         
