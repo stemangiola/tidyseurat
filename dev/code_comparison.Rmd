@@ -1,0 +1,239 @@
+---
+title: "Code comparison with Seurat"
+author: "Stefano Mangiola"
+date: "`r Sys.Date()`"
+package: tidyseurat
+output:
+  html_vignette:
+    toc_float: true
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Code comparison with Seurat}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Filtering
+
+Just as a quick example, we show how to filter cells based on sample size (number of cells) and UMAP location. You can imagine a similar example with more meaningful criteria.
+
+tidyseurat
+
+```{r}
+library(dplyr)
+library(Seurat)
+library(tidyseurat)
+data("pbmc_small")
+
+# Use colourblind-friendly colours
+friendly_cols <- dittoSeq::dittoColors()
+
+# Set theme
+custom_theme <-
+  list(
+    # scale_fill_manual(values = friendly_cols),
+    # scale_color_manual(values = friendly_cols),
+    theme_bw() +
+      theme(
+        panel.border = element_blank(),
+        axis.line = element_line(),
+        panel.grid.major = element_line(size = 0.2),
+        panel.grid.minor = element_line(size = 0.1),
+        text = element_text(size = 9),
+        legend.position = "bottom",
+        strip.background = element_blank(),
+        axis.title.x = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
+        axis.title.y = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
+        axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1)
+      )
+  )
+```
+
+
+```
+{r}
+seurat_object %>%
+  add_count(file) %>%
+  filter(PC_1 > 0 & n > 40)
+```
+
+Seurat
+
+```
+{r}
+pca_emb = Embeddings(object = seurat_object, reduction = "pca")
+cell_pca = rownames(pca_emb[pca_emb[,1]>0,])
+n =
+  seurat_object[[]] %>%
+  add_count(file) %>%
+  pull(n)
+seurat_object = AddMetaData( object = seurat_object, metadata = n, col.name = 'n')
+seurat_object %>%
+  subset(cells = cell_pca) %>%
+  subset( n < 40)
+
+```
+
+
+# Case study code comparison
+
+
+## Calculate gamma-delta signature and plot
+
+tidyseurat
+
+```{r}
+seurat_obj <- readRDS("/stornext/Bioinf/data/bioinf-data/Papenfuss_lab/projects/mangiola.s/PostDoc/oligo_breast/expanded_analyses_with_control/cancer_only_analyses/lymphoid/cancer_lymphoid_adjusted.rds")
+
+seurat_obj = 
+  seurat_obj %>%
+  RunPCA() %>% 
+  RunUMAP(dims=1:30) 
+
+```
+
+```{r}
+
+library(tidygate)
+library(ggplot2)
+library(purrr)
+library(patchwork)
+
+# Calculate gamma delta signature
+seurat_obj_sig = 
+
+	seurat_obj %>%
+	join_features(
+	  features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"), 
+	  shape = "wide", 
+	  assay = "SCT"
+	) %>%
+	
+
+	mutate(signature_score = 
+	         scales::rescale(CD3D + TRDC + TRGC1 + TRGC2, to=c(0,1)) - 
+	         scales::rescale(CD8A + CD8B, to=c(0,1))
+	) 
+
+p1 = seurat_obj_sig %>%
+  
+  
+  # Subsample
+  add_count(sample, name = "tot_cells") %>%
+  mutate(min_cells = min(tot_cells)) %>%
+  group_by(sample) %>%
+  sample_n(min_cells) %>%
+  
+  # Plot
+  pivot_longer(cols=c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B", "signature_score")) %>%
+  mutate(value = case_when(value>0 ~ value)) %>%
+  group_by(name) %>%
+  mutate(value = scale(value)) %>%
+  ggplot(aes(UMAP_1, UMAP_2, color=value)) +
+  geom_point(shape=".") +
+  facet_grid(type~name) +
+  scale_color_viridis_c() +
+  custom_theme
+
+
+ggsave("dev/summary_statistics.pdf", device = "pdf", width = 183/3, height = 50, units = "mm", useDingbats=FALSE)
+
+
+# Test differential abundance
+p2 = seurat_obj_sig %>%
+  
+  # Gating
+  mutate(gamma_delta = gate_chr(
+		UMAP_1,
+		UMAP_2, 
+		.color =  signature_score, 
+		.size=0.1
+	)) %>%
+
+  # Calculate proportions
+  add_count(sample, name = "tot_cells") %>%
+  count(sample, type, tot_cells, gamma_delta) %>%
+  mutate(frac = n/tot_cells) %>%
+  filter(gamma_delta == 1) %>%
+  
+  # Plot
+  ggplot(aes(type, frac)) + 
+  geom_boxplot() + 
+  geom_point() +
+  custom_theme
+
+p = p1 / (p2  | plot_spacer()) +  plot_layout(guides = "collect")
+
+ggsave("dev/summary_statistics.pdf", p,  device = "pdf", width = 183, height = 150, units = "mm", useDingbats=FALSE)
+
+```
+
+Seurat
+
+```{r}
+library(Seurat)
+library(gatepoints)
+
+# Calculate gamma delta signature
+signature_score_1 = 
+  seurat_obj[c("CD3D", "TRDC", "TRGC1", "TRGC2"),] %>%
+  GetAssayData(assay="SCT", slot="data") %>%
+  colSums() %>%
+  scales::rescale(to=c(0,1))
+
+signature_score_2 = 
+  seurat_obj[c("CD8A", "CD8B"),] %>%
+  GetAssayData(assay="SCT", slot="data") %>%
+  colSums() %>%
+  scales::rescale(to=c(0,1))
+seurat_obj$signature_score = signature_score_1 - signature_score_2
+
+# Subsample
+splits = colnames(seurat_obj) %>% split(seurat_obj$sample) 
+min_size = splits %>% sapply(length) %>%  min()
+cell_subset = splits %>%  lapply(function(x) sample(x, min_size)) %>%  unlist()
+seurat_obj = seurat_obj[,cell_subset]
+
+# Plot
+as.data.frame(seurat_obj[[]]) %>%
+cbind(Embeddings(seurat_obj, reduction ="umap")) %>%
+cbind(t(as.matrix(GetAssayData(seurat_obj, assay="SCT", slot="data")[c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),]))) %>%
+  
+as.data.frame() %>%
+  
+# Plot
+pivot_longer(cols=c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B", "signature_score")) %>%
+mutate(value = case_when(value>0 ~ value)) %>%
+group_by(name) %>%
+mutate(value = scale(value)) %>%
+ggplot(aes(UMAP_1, UMAP_2, color=value)) +
+geom_point() +
+facet_grid(type~name) +
+scale_color_viridis_c()
+
+
+# Gating
+seurat_obj_for_plot = Embeddings(seurat_obj, reduction ="umap") 
+plot(
+  seurat_obj_for_plot[,"UMAP_1"], 
+  seurat_obj_for_plot[,"UMAP_2"],
+  col= colorRampPalette(c('red','blue'))(10)[cut(seurat_obj$signature_score,breaks = 10)]
+)
+selectedPoints <- fhs(seurat_obj_for_plot)
+seurat_obj$within_gate = colnames(seurat_obj) %in% selectedPoints
+
+# Calculate proportions
+seurat_obj[[]] %>%
+  add_count(sample, name = "tot_cells") %>%
+  count(sample, type, tot_cells, within_gate) %>%
+  mutate(frac = n/tot_cells) %>%
+  filter(within_gate == T) %>%
+  
+  # Plot
+  ggplot(aes(type, frac)) + 
+  geom_boxplot() + 
+  geom_point()
+```
