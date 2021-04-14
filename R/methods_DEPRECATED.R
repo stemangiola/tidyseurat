@@ -57,7 +57,7 @@ join_transcripts.Seurat <-
     
     
     .data %>%
-      join_features(feature = transcripts,
+      join_features(features = transcripts,
                        all = all,
                        exclude_zeros = exclude_zeros,
                        shape = shape, ...)
