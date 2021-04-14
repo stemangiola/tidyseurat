@@ -16,68 +16,6 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Filtering
-
-Just as a quick example, we show how to filter cells based on sample size (number of cells) and UMAP location. You can imagine a similar example with more meaningful criteria.
-
-tidyseurat
-
-```{r}
-library(dplyr)
-library(Seurat)
-library(tidyseurat)
-data("pbmc_small")
-
-# Use colourblind-friendly colours
-friendly_cols <- dittoSeq::dittoColors()
-
-# Set theme
-custom_theme <-
-  list(
-    # scale_fill_manual(values = friendly_cols),
-    # scale_color_manual(values = friendly_cols),
-    theme_bw() +
-      theme(
-        panel.border = element_blank(),
-        axis.line = element_line(),
-        panel.grid.major = element_line(size = 0.2),
-        panel.grid.minor = element_line(size = 0.1),
-        text = element_text(size = 9),
-        legend.position = "bottom",
-        strip.background = element_blank(),
-        axis.title.x = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
-        axis.title.y = element_text(margin = margin(t = 10, r = 10, b = 10, l = 10)),
-        axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1)
-      )
-  )
-```
-
-
-```
-{r}
-seurat_object %>%
-  add_count(file) %>%
-  filter(PC_1 > 0 & n > 40)
-```
-
-Seurat
-
-```
-{r}
-pca_emb = Embeddings(object = seurat_object, reduction = "pca")
-cell_pca = rownames(pca_emb[pca_emb[,1]>0,])
-n =
-  seurat_object[[]] %>%
-  add_count(file) %>%
-  pull(n)
-seurat_object = AddMetaData( object = seurat_object, metadata = n, col.name = 'n')
-seurat_object %>%
-  subset(cells = cell_pca) %>%
-  subset( n < 40)
-
-```
-
-
 # Case study code comparison
 
 
@@ -86,12 +24,14 @@ seurat_object %>%
 tidyseurat
 
 ```{r}
-seurat_obj <- readRDS("/stornext/Bioinf/data/bioinf-data/Papenfuss_lab/projects/mangiola.s/PostDoc/oligo_breast/expanded_analyses_with_control/cancer_only_analyses/lymphoid/cancer_lymphoid_adjusted.rds")
+seurat_obj <- readRDS("dev/PBMC_tidy_clean_scaled_UMAP_cluster_cell_type.rds")
 
 seurat_obj = 
   seurat_obj %>%
+  filter(first.labels == "T_cells") %>%
   RunPCA() %>% 
-  RunUMAP(dims=1:30) 
+  RunUMAP(dims=1:30) %>%
+  mutate(type=case_when(sample %in% c("GSE115189", "SRR11038995", "SRR7244582") ~ "A", TRUE ~ "B"))
 
 ```
 
@@ -137,10 +77,6 @@ p1 = seurat_obj_sig %>%
   facet_grid(type~name) +
   scale_color_viridis_c() +
   custom_theme
-
-
-ggsave("dev/summary_statistics.pdf", device = "pdf", width = 183/3, height = 50, units = "mm", useDingbats=FALSE)
-
 
 # Test differential abundance
 p2 = seurat_obj_sig %>%
