@@ -63,44 +63,18 @@ for each of the summary statistics that you have specified.
 New variables overwrite existing variables of the same name.
 Variables can be removed by setting their value to `NULL`.
 Rename individual variables using `new_name = old_name` syntax.
-See [this repository](https://github.com/jennybc/row-oriented-workflows)
-for alternative ways to perform row-wise operations.
+`rowwise()` is used for the results of [do()] when you
+create list-variables. It is also useful to support arbitrary
+complex operations that need to be applied to each row.
 `slice()` lets you index rows by their (integer) locations. It allows you
 to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:
-* `slice_head()` and `slice_tail()` select the first or last rows.
-* `slice_sample()` randomly selects rows.
-* `slice_min()` and `slice_max()` select rows with highest or lowest values
-  of a variable.
-If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
-each group.
 Select (and optionally rename) variables in a data frame, using a concise
 mini-language that makes it easy to refer to variables based on their name
 (e.g. `a:f` selects all columns from `a` on the left to `f` on the
-right). You can also use predicate functions like [is.numeric] to select
+right). You can also use predicate functions like is.numeric to select
 variables based on their properties.
-
-## Overview of selection features
-```r, child = &quot;man/rmd/overview.Rmd&quot;
-```
-
-
-`sample_n()` and `sample_frac()` have been superseded in favour of
-[slice_sample()]. While they will not be deprecated in the near future,
-retirement means that we will only perform critical bug fixes, so we recommend
-moving to the newer alternative.
-These functions were superseded because we realised it was more convenient to
-have two mutually exclusive arguments to one function, rather than two
-separate functions. This also made it to clean up a few other smaller
-design issues with `sample_n()`/`sample_frac`:
-* The connection to `slice()` was not obvious.
-* The name of the first argument, `tbl`, is inconsistent with other
-  single table verbs which use `.data`.
-* The `size` argument uses tidy evaluation, which is surprising and
-  undocumented.
-* It was easier to remove the deprecated `.env` argument.
-* `...` was in a suboptimal position.
+Sample n rows from a table
 `pull()` is similar to `$`. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output." />
@@ -135,7 +109,7 @@ name the output." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -157,9 +131,6 @@ name the output." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
-    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -213,44 +184,18 @@ for each of the summary statistics that you have specified.</p>
 New variables overwrite existing variables of the same name.
 Variables can be removed by setting their value to `NULL`.</p>
 <p>Rename individual variables using `new_name = old_name` syntax.</p>
-<p>See [this repository](https://github.com/jennybc/row-oriented-workflows)
-for alternative ways to perform row-wise operations.</p>
+<p>`rowwise()` is used for the results of [do()] when you
+create list-variables. It is also useful to support arbitrary
+complex operations that need to be applied to each row.</p>
 <p>`slice()` lets you index rows by their (integer) locations. It allows you
 to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:</p>
-<p>* `slice_head()` and `slice_tail()` select the first or last rows.
-* `slice_sample()` randomly selects rows.
-* `slice_min()` and `slice_max()` select rows with highest or lowest values
-  of a variable.</p>
-<p>If `.data` is a [grouped_df], the operation will be performed on each group,
-so that (e.g.) `slice_head(df, n = 5)` will select the first five rows in
-each group.</p>
 <p>Select (and optionally rename) variables in a data frame, using a concise
 mini-language that makes it easy to refer to variables based on their name
 (e.g. `a:f` selects all columns from `a` on the left to `f` on the
-right). You can also use predicate functions like [is.numeric] to select
+right). You can also use predicate functions like is.numeric to select
 variables based on their properties.</p>
-
-<p>## Overview of selection features</p>
-<p>```r, child = "man/rmd/overview.Rmd"
-```</p>
-<p><a href='https://lifecycle.r-lib.org/articles/stages.html#superseded'><img src='figures/lifecycle-superseded.svg' alt='[Superseded]' /></a>
-
-`sample_n()` and `sample_frac()` have been superseded in favour of
-[slice_sample()]. While they will not be deprecated in the near future,
-retirement means that we will only perform critical bug fixes, so we recommend
-moving to the newer alternative.</p>
-<p>These functions were superseded because we realised it was more convenient to
-have two mutually exclusive arguments to one function, rather than two
-separate functions. This also made it to clean up a few other smaller
-design issues with `sample_n()`/`sample_frac`:</p>
-<p>* The connection to `slice()` was not obvious.
-* The name of the first argument, `tbl`, is inconsistent with other
-  single table verbs which use `.data`.
-* The `size` argument uses tidy evaluation, which is surprising and
-  undocumented.
-* It was easier to remove the deprecated `.env` argument.
-* `...` was in a suboptimal position.</p>
+<p>Sample n rows from a table</p>
 <p>`pull()` is similar to `$`. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
 name the output.</p>
@@ -305,7 +250,7 @@ is recalculated based on the resulting data, otherwise it is kept as is.</p></td
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
+      <td><p>When `.drop = TRUE`, empty groups are dropped. See group_by_drop_default() for
 what the default value is for this argument.</p></td>
     </tr>
     <tr>
@@ -377,19 +322,10 @@ as names for a named vector. Specified in a similar manner as <code>var</code>.<
 * Columns are not modified.
 * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 * Data frame attributes are preserved.</p>
-<p>A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
+<p>A grouped data frame, unless the combination of `...` and `add`
   yields a non empty set of grouping columns, a regular (ungrouped) data frame
   otherwise.</p>
-<p>An object _usually_ of the same type as `.data`.</p>
-<p>* The rows come from the underlying `group_keys()`.
-* The columns are a combination of the grouping keys and the summary
-  expressions that you provide.
-* If `x` is grouped by more than one variable, the output will be another
-  [grouped_df] with the right-most group removed.
-* If `x` is grouped by one variable, or is not grouped, the output will
-  be a [tibble].
-* Data frame attributes are **not** preserved, because `summarise()`
-  fundamentally creates a new data frame.</p>
+<p>A tibble</p>
 <p>An object of the same type as `.data`.</p>
 <p>For `mutate()`:</p>
 <p>* Rows are not affected.
@@ -435,22 +371,14 @@ properties:</p>
 
     <p>## Locales
 The sort order for character vectors will depend on the collating sequence
-of the locale in use: see [locales()].</p>
+of the locale in use: see locales().</p>
 <p>## Missing values
 Unlike base sorting with `sort()`, `NA` are:
 * always sorted to the end for local data, even when wrapped with `desc()`.
 * treated differently for remote data, depending on the backend.</p>
 <p>dplyr is not yet smart enough to optimise filtering optimisation
 on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on [ungroup()]ed data.</p>
-<p>`rowwise()` is used for the results of [do()] when you
-create list-variables. It is also useful to support arbitrary
-complex operations that need to be applied to each row.</p>
-<p>Currently, rowwise grouping only works with data frames. Its
-main impact is to allow you to work with list-variables in
-[summarise()] and [mutate()] without having to
-use <code>[[1]]</code>. This makes `summarise()` on a rowwise tbl
-effectively equivalent to [plyr::ldply()].</p>
+filtering is often considerably faster on ungroup()ed data.</p>
 <p>Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use [filter()] and [row_number()].</p>
@@ -461,12 +389,11 @@ operation, use [filter()] and [row_number()].</p>
 <p>This function is a **generic**, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:</p>
 
-<p>This function is a **generic**, which means that packages can provide
+<p>These function are **generic**s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:</p>
+<p>Methods available in currently loaded packages:</p>
 
 <p>These function are **generic**s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
@@ -477,69 +404,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:</p>
-
-<p>These function are **generic**s, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>Methods available in currently loaded packages:</p>
-
-<p>This function is a **generic**, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:</p>
-
-<p>These function are **generic**s, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>Methods available in currently loaded packages:</p>
-<p>* `slice()`: no methods found
-.
-* `slice_head()`: no methods found
-.
-* `slice_tail()`: no methods found
-.
-* `slice_min()`: no methods found
-.
-* `slice_max()`: no methods found
-.
-* `slice_sample()`: no methods found
-.</p>
-
-<p>This function is a **generic**, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:
-no methods found
-.</p>
-
-<p>This function is a **generic**, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.</p>
-<p>The following methods are currently available in loaded packages:
-no methods found
-.</p>
-    <h2 class="hasAnchor" id="useful-filter-functions"><a class="anchor" href="#useful-filter-functions"></a>Useful filter functions</h2>
-
-    
-
-
-<p>* [`==`], [`&gt;`], [`&gt;=`] etc
-* [`&amp;`], [`|`], [`!`], [xor()]
-* [is.na()]
-* [between()], [near()]</p>
     <h2 class="hasAnchor" id="grouped-tibbles"><a class="anchor" href="#grouped-tibbles"></a>Grouped tibbles</h2>
 
     
-
-
-<p>Because filtering expressions are computed within groups, they may
-yield different results on grouped tibbles. This will be the case
-as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p>
-
-<p>The former keeps rows with `mass` greater than the global average
-whereas the latter keeps rows with `mass` greater than the gender</p>
-<p>average.</p>
 
 
 <p>Because mutating expressions are computed within groups, they may
@@ -549,59 +416,12 @@ involved. Compare this ungrouped mutate:</p>
 <p>With the grouped equivalent:</p>
 <p>The former normalises `mass` by the global average whereas the
 latter normalises by the averages within gender levels.</p>
-    <h2 class="hasAnchor" id="useful-functions"><a class="anchor" href="#useful-functions"></a>Useful functions</h2>
-
-    
-
-
-<p>* Center: [mean()], [median()]
-* Spread: [sd()], [IQR()], [mad()]
-* Range: [min()], [max()], [quantile()]
-* Position: [first()], [last()], [nth()],
-* Count: [n()], [n_distinct()]
-* Logical: [any()], [all()]</p>
-    <h2 class="hasAnchor" id="backend-variations"><a class="anchor" href="#backend-variations"></a>Backend variations</h2>
-
-    
-
-
-<p>The data frame backend supports creating a variable and using it in the
-same summary. This means that previously created summary variables can be
-further transformed or combined within the summary, as in [mutate()].
-However, it also means that summary variables with the same names as previous
-variables overwrite them, making those variables unavailable to later summary
-variables.</p>
-<p>This behaviour may not be supported in other backends. To avoid unexpected
-results, consider using new names for your summary variables, especially when
-creating multiple summaries.</p>
-    <h2 class="hasAnchor" id="useful-mutate-functions"><a class="anchor" href="#useful-mutate-functions"></a>Useful mutate functions</h2>
-
-    
-
-
-<p>* [`+`], [`-`], [log()], etc., for their usual mathematical meanings</p>
-<p>* [lead()], [lag()]</p>
-<p>* [dense_rank()], [min_rank()], [percent_rank()], [row_number()],
-  [cume_dist()], [ntile()]</p>
-<p>* [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]</p>
-<p>* [na_if()], [coalesce()]</p>
-<p>* [if_else()], [recode()], [case_when()]</p>
-    <h2 class="hasAnchor" id="scoped-selection-and-renaming"><a class="anchor" href="#scoped-selection-and-renaming"></a>Scoped selection and renaming</h2>
-
-    
-
-
-<p>Use the three scoped variants ([rename_all()], [rename_if()], [rename_at()])
-to renaming a set of variables with a function.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>[filter_all()], [filter_if()] and [filter_at()].</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>nFeature_RNA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> CATG… SeuratPro…         51           26 0               A             g2    
@@ -614,10 +434,10 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GTAA… SeuratPro…         67           33 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GTCA… SeuratPro…        210           33 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TGGT… SeuratPro…         64           36 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 1</span><span>
 #&gt;   groups
@@ -626,9 +446,10 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'>2</span><span> g1    </div><div class='input'>
 
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>filter</span><span class='op'>(</span><span class='va'>groups</span> <span class='op'>==</span> <span class='st'>"g1"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 44 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 44 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> CATG… SeuratPro…         85           52 0               A             g1    
@@ -641,13 +462,13 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> CTAA… SeuratPro…        168           44 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> TTGG… SeuratPro…        135           45 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> CATC… SeuratPro…         79           43 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 34 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 34 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='co'># Learn more in ?dplyr_eval</span>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 80 x 30</span><span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 80 x 29</span><span>
 #&gt; </span><span style='color: #949494;'># Groups:   groups [2]</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -661,21 +482,24 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52           36 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 23 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 22 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>nCount_RNA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
 #&gt;   `mean(nCount_RNA)`
 #&gt;                </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>               245.</div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>mutate</span><span class='op'>(</span>nFeature_RNA <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70            1 0               A             g2    
@@ -688,13 +512,13 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72            1 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52            1 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100            1 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>rename</span><span class='op'>(</span>s_score <span class='op'>=</span> <span class='va'>nFeature_RNA</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>rename</span><span class='op'>(</span>s_score <span class='op'>=</span> <span class='va'>nFeature_RNA</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA s_score RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70      47 0               A             g2    
@@ -707,17 +531,15 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72      45 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52      36 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100      41 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-
-<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> 
-<span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 17</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -730,15 +552,15 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52           36 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   new_column &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 
-<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> 
-<span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 36 x 17</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 36 x 16</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -751,15 +573,15 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TACG… SeuratPro…         99           45 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GTAA… SeuratPro…         67           33 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TACA… SeuratPro…        109           41 0               A             g2    
-#&gt; </span><span style='color: #949494;'># … with 26 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'># … with 26 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   new_column &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 
-<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> 
-<span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 36 x 17</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>new_column <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 36 x 16</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -772,14 +594,13 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TACG… SeuratPro…         99           45 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GTAA… SeuratPro…         67           33 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TACA… SeuratPro…        109           41 0               A             g2    
-#&gt; </span><span style='color: #949494;'># … with 26 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'># … with 26 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   new_column &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-
-<span class='va'>tt</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> 
-<span class='va'>tt</span> <span class='op'>%&gt;%</span> <span class='fu'>full_join</span><span class='op'>(</span><span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>groups <span class='op'>=</span> <span class='st'>"g1"</span>, other<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; <span class='message'>tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 212 x 31</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='fu'>full_join</span><span class='op'>(</span><span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>groups <span class='op'>=</span> <span class='st'>"g1"</span>, other<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Joining, by = "groups"</span></div><div class='output co'>#&gt; <span class='message'>tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 212 x 30</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -792,25 +613,27 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> AGTC… SeuratPro…        173           53 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> TCTG… SeuratPro…         70           48 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TCTG… SeuratPro…         70           48 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 202 more rows, and 24 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, other &lt;int&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 202 more rows, and 23 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, other &lt;int&gt;</span><span></div><div class='input'>
 
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 1 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 1 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;   cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
-#&gt; </span><span style='color: #949494;'># … with 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, PC_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>select</span><span class='op'>(</span><span class='va'>cell</span>, <span class='va'>orig.ident</span> <span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 9</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell          orig.ident      PC_1   PC_2   PC_3  PC_4   PC_5  tSNE_1  tSNE_2
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGCCAGAACGA… SeuratProje… -</span><span style='color: #BB0000;'>0.774</span><span>  -</span><span style='color: #BB0000;'>0.900</span><span> -</span><span style='color: #BB0000;'>0.249</span><span> 0.559  0.465   0.868  -</span><span style='color: #BB0000;'>8.10</span><span> 
@@ -826,9 +649,10 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #949494;'># … with 70 more rows</span><span></div><div class='input'>
 
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>sample_n</span><span class='op'>(</span><span class='fl'>50</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 50 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>sample_n</span><span class='op'>(</span><span class='fl'>50</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 50 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> GATA… SeuratPro…        328           72 1               B             g1    
@@ -841,11 +665,10 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> CGTA… SeuratPro…        371           75 1               B             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> TTAC… SeuratPro…        298           65 1               B             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> ATAA… SeuratPro…         99           42 1               B             g2    
-#&gt; </span><span style='color: #949494;'># … with 40 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>sample_frac</span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 8 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+#&gt; </span><span style='color: #949494;'># … with 40 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>sample_frac</span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 8 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;   cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> GATA… SeuratPro…        328           72 1               B             g1    
@@ -856,10 +679,11 @@ to renaming a set of variables with a function.</p>
 #&gt; </span><span style='color: #BCBCBC;'>6</span><span> CATG… SeuratPro…         51           26 0               A             g2    
 #&gt; </span><span style='color: #BCBCBC;'>7</span><span> GCAC… SeuratPro…        292           71 1               B             g2    
 #&gt; </span><span style='color: #BCBCBC;'>8</span><span> CGTA… SeuratPro…        371           75 1               B             g1    
-#&gt; </span><span style='color: #949494;'># … with 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;, PC_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt;  [1] "g2" "g1" "g2" "g2" "g2" "g1" "g1" "g1" "g1" "g1" "g2" "g1" "g2" "g2" "g2"
 #&gt; [16] "g1" "g2" "g1" "g1" "g2" "g1" "g1" "g2" "g2" "g1" "g2" "g2" "g2" "g2" "g1"

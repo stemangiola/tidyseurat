@@ -77,7 +77,7 @@ Given either a regular expression or a vector of character positions,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -99,9 +99,6 @@ Given either a regular expression or a vector of character positions,
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
-    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -284,9 +281,10 @@ each value.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 9</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 8</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            
@@ -299,14 +297,14 @@ each value.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TACG… SeuratPro…         99           45 0               A            
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GTAA… SeuratPro…         67           33 0               A            
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TACA… SeuratPro…        109           41 0               A            
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 3 more variables: RNA_snn_res.1 &lt;chr&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   groups &lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</span><span></div><div class='input'>
 
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>nest</span><span class='op'>(</span>data <span class='op'>=</span> <span class='op'>-</span><span class='va'>groups</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 9</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 8</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A            
@@ -319,12 +317,12 @@ each value.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TACG… SeuratPro…         99           45 0               A            
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GTAA… SeuratPro…         67           33 0               A            
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> TACA… SeuratPro…        109           41 0               A            
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 3 more variables: RNA_snn_res.1 &lt;chr&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   groups &lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</span><span></div><div class='input'>
 
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>extract</span><span class='op'>(</span><span class='va'>groups</span>, into <span class='op'>=</span> <span class='st'>"g"</span>, regex <span class='op'>=</span> <span class='st'>"g([0-9])"</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A                 2
@@ -337,13 +335,13 @@ each value.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A                 1
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52           36 0               A                 1
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100           41 0               A                 1
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 14</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  new_col nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… Seurat…         70           47 0               A            
@@ -356,15 +354,15 @@ each value.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… Seurat…         72           45 0               A            
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… Seurat…         52           36 0               A            
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… Seurat…        100           41 0               A            
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
 
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
  <span class='va'>un</span> <span class='op'>=</span> <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"new_col"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>orig.ident</span>, <span class='va'>groups</span><span class='op'>)</span><span class='op'>)</span> 
  <span class='va'>un</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span><span class='op'>(</span>col <span class='op'>=</span> <span class='va'>new_col</span>, into<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig.ident"</span>, <span class='st'>"groups"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 16</span><span>
-#&gt; </span><span style='color: #555555;'># Transcripts=230 | Active assay=RNA | Assays=RNA</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A Seurat-tibble abstraction: 80 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># features=230 | Active assay=RNA | Assays=RNA</span><span>
 #&gt;    cell  orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>        
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro… g2             70           47 0               A            
@@ -377,9 +375,8 @@ each value.</p></td>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro… g1             72           45 0               A            
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro… g1             52           36 0               A            
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro… g1            100           41 0               A            
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 9 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

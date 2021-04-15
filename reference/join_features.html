@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Count observations by group — count • tidyseurat</title>
+<title>Extract and join information for features. — join_features • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,16 +39,8 @@
 
 
 
-<meta property="og:title" content="Count observations by group — count" />
-<meta property="og:description" content="`count()` lets you quickly count the unique values of one or more variables:
-`df 
-`df 
-`count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df 
-switching the summary from `n = n()` to `n = sum(wt)`.
-`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
-but use `mutate()` instead of `summarise()` so that they add a new column
-with group-wise counts." />
+<meta property="og:title" content="Extract and join information for features. — join_features" />
+<meta property="og:description" content="join_features() extracts and joins information for specified features" />
 
 
 
@@ -126,113 +118,84 @@ with group-wise counts." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Count observations by group</h1>
+    <h1>Extract and join information for features.</h1>
     
-    <div class="hidden name"><code>count.Rd</code></div>
+    <div class="hidden name"><code>join_features.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>`count()` lets you quickly count the unique values of one or more variables:
-`df <!-- %&gt;% count(a, b)` is roughly equivalent to -->
-`df <!-- %&gt;% group_by(a, b) %&gt;% summarise(n = n())`. -->
-`count()` is paired with `tally()`, a lower-level helper that is equivalent
-to `df <!-- %&gt;% summarise(n = n())`. Supply `wt` to perform weighted counts, -->
-switching the summary from `n = n()` to `n = sum(wt)`.</p>
-<p>`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
-but use `mutate()` instead of `summarise()` so that they add a new column
-with group-wise counts.</p>
+    <p>join_features() extracts and joins information for specified features</p>
     </div>
 
-    <pre class="usage"><span class='fu'>count</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>...</span>,
-  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .drop <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'>add_count</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>...</span>,
-  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .drop <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>add_count</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>...</span>,
-  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .drop <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for Seurat</span>
-<span class='fu'>add_count</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  <span class='va'>...</span>,
-  wt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sort <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .drop <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>join_features</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  features <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  exclude_zeros <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  shape <span class='op'>=</span> <span class='st'>"long"</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A data frame, data frame extension (e.g. a tibble), or a
-lazy data frame (e.g. from dbplyr or dtplyr).</p></td>
+      <th>.data</th>
+      <td><p>A tidyseurat object</p></td>
+    </tr>
+    <tr>
+      <th>features</th>
+      <td><p>A vector of feature identifiers to join</p></td>
+    </tr>
+    <tr>
+      <th>all</th>
+      <td><p>If TRUE return all</p></td>
+    </tr>
+    <tr>
+      <th>exclude_zeros</th>
+      <td><p>If TRUE exclude zero values</p></td>
+    </tr>
+    <tr>
+      <th>shape</th>
+      <td><p>Format of the returned table "long" or "wide"</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>&lt;[`data-masking`][dplyr_data_masking]&gt; Variables to group by.</p></td>
-    </tr>
-    <tr>
-      <th>wt</th>
-      <td><p>&lt;[`data-masking`][dplyr_data_masking]&gt; Frequency weights.
-  Can be `NULL` or a variable:</p>
-<p>* If `NULL` (the default), counts the number of rows in each group.
-  * If a variable, computes `sum(wt)` for each group.</p></td>
-    </tr>
-    <tr>
-      <th>sort</th>
-      <td><p>If `TRUE`, will show the largest groups at the top.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>The name of the new column in the output.</p>
-<p>If omitted, it will default to `n`. If there's already a column called `n`,
-  it will error, and require you to specify the name.</p></td>
-    </tr>
-    <tr>
-      <th>.drop</th>
-      <td><p>For `count()`: if `FALSE` will include counts for empty groups
-(i.e. for levels of factors that don't exist in the data). Deprecated in
-`add_count()` since it didn't actually affect the output.</p></td>
+      <td><p>Parameters to pass to join wide, i.e. assay name to extract feature abundance from</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the same type as `.data`. `count()` and `add_count()`
-group transiently, so the output has the same groups as the input.</p>
+    <p>A `tbl` containing the information.for the specified features</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function extracts information for specified features and returns the information in either long or wide format.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>count</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
-#&gt;   groups     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> g1        44
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> g2        36</div><div class='input'>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> 
+<span class='fu'>join_features</span><span class='op'>(</span>features <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HLA-DRA"</span>, <span class='st'>"LYZ"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 160 x 31</span><span>
+#&gt;    cell           feature abundance_RNA orig.ident    nCount_RNA nFeature_RNA
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGCCAGAACGACT HLA-DRA          0    SeuratProject         70           47
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ATGCCAGAACGACT LYZ              4.97 SeuratProject         70           47
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> CATGGCCTGTGCAT HLA-DRA          4.78 SeuratProject         85           52
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> CATGGCCTGTGCAT LYZ              4.78 SeuratProject         85           52
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> GAACCTGATGAACC HLA-DRA          0    SeuratProject         87           50
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> GAACCTGATGAACC LYZ              4.75 SeuratProject         87           50
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> TGACTGGATTCTCA HLA-DRA          0    SeuratProject        127           56
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TGACTGGATTCTCA LYZ              0    SeuratProject        127           56
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> AGTCAGACTGCACA HLA-DRA          4.07 SeuratProject        173           53
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> AGTCAGACTGCACA LYZ              0    SeuratProject        173           53
+#&gt; </span><span style='color: #949494;'># … with 150 more rows, and 25 more variables: RNA_snn_res.0.8 &lt;fct&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
 
 </div></span></pre>
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract and join information for transcripts. — join_transcripts • tidyseurat</title>
+<title>(DEPRECATED) Extract and join information for transcripts. — join_transcripts • tidyseurat</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Extract and join information for transcripts. — join_transcripts" />
+<meta property="og:title" content="(DEPRECATED) Extract and join information for transcripts. — join_transcripts" />
 <meta property="og:description" content="join_transcripts() extracts and joins information for specified transcripts" />
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -94,9 +94,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
-    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -121,7 +118,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract and join information for transcripts.</h1>
+    <h1>(DEPRECATED) Extract and join information for transcripts.</h1>
     
     <div class="hidden name"><code>join_transcripts.Rd</code></div>
     </div>
@@ -173,34 +170,14 @@
     <p>A `tbl` containing the information.for the specified transcripts</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function extracts information for specified transcripts and returns the information in either long or wide format.</p>
+    <p>DEPRECATED, please use join_features()</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> 
- 
-<span class='fu'>join_transcripts</span><span class='op'>(</span>transcripts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HLA-DRA"</span>, <span class='st'>"LYZ"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 160 x 32</span><span>
-#&gt;    cell           transcript abundance_RNA orig.ident    nCount_RNA nFeature_RNA
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGCCAGAACGACT HLA-DRA             0    SeuratProject         70           47
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ATGCCAGAACGACT LYZ                 4.97 SeuratProject         70           47
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> CATGGCCTGTGCAT HLA-DRA             4.78 SeuratProject         85           52
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> CATGGCCTGTGCAT LYZ                 4.78 SeuratProject         85           52
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> GAACCTGATGAACC HLA-DRA             0    SeuratProject         87           50
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> GAACCTGATGAACC LYZ                 4.75 SeuratProject         87           50
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> TGACTGGATTCTCA HLA-DRA             0    SeuratProject        127           56
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> TGACTGGATTCTCA LYZ                 0    SeuratProject        127           56
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> AGTCAGACTGCACA HLA-DRA             4.07 SeuratProject        173           53
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> AGTCAGACTGCACA LYZ                 0    SeuratProject        173           53
-#&gt; </span><span style='color: #949494;'># … with 150 more rows, and 26 more variables: RNA_snn_res.0.8 &lt;fct&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   letter.idents &lt;fct&gt;, groups &lt;chr&gt;, RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'>
+<span class='fu'><a href='print.html'>print</a></span><span class='op'>(</span><span class='st'>"DEPRECATED"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "DEPRECATED"</div><div class='input'>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

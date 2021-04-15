@@ -93,7 +93,7 @@ as soon as it becomes available." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -115,9 +115,6 @@ as soon as it becomes available." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/code_comparison.html">Code comparison with Seurat</a>
-    </li>
     <li>
       <a href="../articles/figures_article.html">Code for producing the figures in the article</a>
     </li>
@@ -240,8 +237,9 @@ prefer the more expressive maturing `as_tibble_row()` and
   values. Name repair is implemented using [vctrs::vec_as_names()].</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 80 x 30</span><span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 80 x 29</span><span>
 #&gt;    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ATGC… SeuratPro…         70           47 0               A             g2    
@@ -254,16 +252,17 @@ prefer the more expressive maturing `as_tibble_row()` and
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> GCAG… SeuratPro…         72           45 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> GATA… SeuratPro…         52           36 0               A             g1    
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> AATG… SeuratPro…        100           41 0               A             g1    
-#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 23 more variables: RNA_snn_res.1 &lt;fct&gt;, file &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>glimpse</span><span class='op'>(</span><span class='op'>)</span>
+#&gt; </span><span style='color: #949494;'># … with 70 more rows, and 22 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;,</span><span>
+#&gt; </span><span style='color: #949494;'>#   PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span><span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
+<span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span> <span class='va'>tidy</span> <span class='op'>%&gt;%</span> <span class='fu'>glimpse</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `tidy()` was deprecated in tidyseurat 0.2.0.</span>
-#&gt; <span class='warning'>tidyseurat says: tidy() is not needed anymore.</span></div><div class='output co'>#&gt; Formal class 'Seurat' [package "Seurat"] with 13 slots
+#&gt; <span class='warning'>tidyseurat says: tidy() is not needed anymore.</span></div><div class='output co'>#&gt; Formal class 'Seurat' [package "SeuratObject"] with 13 slots
 #&gt;   ..@ assays      :List of 1
-#&gt;   .. ..$ RNA:Formal class 'Assay' [package "Seurat"] with 8 slots
-#&gt;   ..@ meta.data   :'data.frame':	80 obs. of  8 variables:
+#&gt;   .. ..$ RNA:Formal class 'Assay' [package "SeuratObject"] with 8 slots
+#&gt;   ..@ meta.data   :'data.frame':	80 obs. of  7 variables:
 #&gt;   .. ..$ orig.ident     : Factor w/ 1 level "SeuratProject": 1 1 1 1 1 1 1 1 1 1 ...
 #&gt;   .. ..$ nCount_RNA     : num [1:80] 70 85 87 127 173 70 64 72 52 100 ...
 #&gt;   .. ..$ nFeature_RNA   : int [1:80] 47 52 50 56 53 48 36 45 36 41 ...
@@ -271,32 +270,31 @@ prefer the more expressive maturing `as_tibble_row()` and
 #&gt;   .. ..$ letter.idents  : Factor w/ 2 levels "A","B": 1 1 2 1 1 1 1 1 1 1 ...
 #&gt;   .. ..$ groups         : chr [1:80] "g2" "g1" "g2" "g2" ...
 #&gt;   .. ..$ RNA_snn_res.1  : Factor w/ 3 levels "0","1","2": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;   .. ..$ file           : chr [1:80] "../data/sample2/outs/filtered_feature_bc_matrix/" "../data/sample1/outs/filtered_feature_bc_matrix/" "../data/sample2/outs/filtered_feature_bc_matrix/" "../data/sample2/outs/filtered_feature_bc_matrix/" ...
 #&gt;   ..@ active.assay: chr "RNA"
 #&gt;   ..@ active.ident: Factor w/ 3 levels "0","1","2": 1 1 1 1 1 1 1 1 1 1 ...
 #&gt;   .. ..- attr(*, "names")= chr [1:80] "ATGCCAGAACGACT" "CATGGCCTGTGCAT" "GAACCTGATGAACC" "TGACTGGATTCTCA" ...
 #&gt;   ..@ graphs      :List of 1
-#&gt;   .. ..$ RNA_snn:Formal class 'Graph' [package "Seurat"] with 7 slots
+#&gt;   .. ..$ RNA_snn:Formal class 'Graph' [package "SeuratObject"] with 7 slots
 #&gt;   ..@ neighbors   : list()
 #&gt;   ..@ reductions  :List of 2
-#&gt;   .. ..$ pca :Formal class 'DimReduc' [package "Seurat"] with 9 slots
-#&gt;   .. ..$ tsne:Formal class 'DimReduc' [package "Seurat"] with 9 slots
+#&gt;   .. ..$ pca :Formal class 'DimReduc' [package "SeuratObject"] with 9 slots
+#&gt;   .. ..$ tsne:Formal class 'DimReduc' [package "SeuratObject"] with 9 slots
 #&gt;   ..@ images      : list()
 #&gt;   ..@ project.name: chr "SeuratProject"
 #&gt;   ..@ misc        : list()
 #&gt;   ..@ version     :Classes 'package_version', 'numeric_version'  hidden list of 1
-#&gt;   .. ..$ : int [1:3] 3 2 0
+#&gt;   .. ..$ : int [1:3] 4 0 0
 #&gt;   ..@ commands    :List of 10
-#&gt;   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ ScaleData.RNA           :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ RunPCA.RNA              :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ BuildSNN.RNA.pca        :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ FindClusters            :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ RunTSNE.pca             :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ JackStraw.RNA.pca       :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ ScoreJackStraw.pca      :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ ProjectDim.RNA.pca      :Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
-#&gt;   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "Seurat"] with 5 slots
+#&gt;   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ ScaleData.RNA           :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ RunPCA.RNA              :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ BuildSNN.RNA.pca        :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ FindClusters            :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ RunTSNE.pca             :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ JackStraw.RNA.pca       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ ScoreJackStraw.pca      :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ ProjectDim.RNA.pca      :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+#&gt;   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
 #&gt;   ..@ tools       : list()</div><div class='input'>
 
 </div></span></pre>
