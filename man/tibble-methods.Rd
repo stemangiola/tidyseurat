@@ -84,7 +84,9 @@ prefer the more expressive maturing `as_tibble_row()` and
 }
 
 \examples{
+data("pbmc_small")
 pbmc_small \%>\%  as_tibble()
+data("pbmc_small")
 pbmc_small \%>\% tidy \%>\% glimpse()
 
 

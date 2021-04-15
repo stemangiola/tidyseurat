@@ -57,6 +57,7 @@
 #' 
 #' @export
 #' @examples
+#' data("pbmc_small")
 #' pbmc_small %>%  as_tibble()
 NULL
 
@@ -70,7 +71,7 @@ NULL
 as_tibble.Seurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
-  x@meta.data %>%
+  x[[]] %>%
     tibble::as_tibble(rownames="cell") %>%
 
     
@@ -84,7 +85,7 @@ as_tibble.Seurat = function(x, ...,
             
             # If row == 1 do a trick
             dim(.) %>% is.null ~ {
-              (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(cell=rownames(x@meta.data))
+              (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(cell=rownames(x[[]]))
               },
             
             # Otherwise continue normally
@@ -133,6 +134,7 @@ as_tibble.Seurat = function(x, ...,
 #' 
 #' @export
 #' @examples
+#' data("pbmc_small")
 #' pbmc_small %>% tidy %>% glimpse()
 #'
 #'

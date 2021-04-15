@@ -55,6 +55,7 @@
 #'   
 #' @examples
 #' library(dplyr)
+#' data("pbmc_small")
 #' pbmc_small  %>% print()
 #' @name print
 NULL
@@ -78,7 +79,7 @@ print.Seurat <- function(x, ..., n = NULL, width = NULL, n_extra = NULL) {
     
     # Insert more info
     append(sprintf(
-      "\033[90m# Transcripts=%s | Active assay=%s | Assays=%s\033[39m", 
+      "\033[90m# features=%s | Active assay=%s | Assays=%s\033[39m", 
       GetAssayData(x) %>% nrow,
       x@active.assay,
       Assays(x) %>% paste(collapse=", ")

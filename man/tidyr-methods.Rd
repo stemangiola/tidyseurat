@@ -118,21 +118,26 @@ Given either a regular expression or a vector of character positions,
 \examples{
 
 library(dplyr)
+data("pbmc_small")
 pbmc_small \%>\%  nest(data = -groups) \%>\% unnest(data) 
 
 
 
 library(dplyr)
+data("pbmc_small")
 pbmc_small \%>\%  nest(data = -groups) \%>\% unnest(data) 
 
 
+data("pbmc_small")
 pbmc_small \%>\%  extract(groups, into = "g", regex = "g([0-9])", convert = TRUE)
 
 
+data("pbmc_small")
 pbmc_small \%>\%  unite("new_col", c(orig.ident, groups)) 
 
 
 
+data("pbmc_small")
  un = pbmc_small \%>\%  unite("new_col", c(orig.ident, groups)) 
  un \%>\% separate(col = new_col, into= c("orig.ident", "groups"))
 

@@ -14,7 +14,7 @@
 
   When column-binding, rows are matched by position, so all data
   frames must have the same number of rows. To match by value, not
-  position, see [mutate-joins].}
+  position, see mutate-joins.}
 
 \item{.id}{Data frame identifier.
 
@@ -42,7 +42,7 @@ appears in any of the inputs.
 }
 \examples{
 `\%>\%` = magrittr::`\%>\%`
-tt = pbmc_small 
+tt = pbmc_small
 bind_rows(    tt, tt  )
 
 tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)

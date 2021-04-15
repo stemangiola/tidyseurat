@@ -41,7 +41,7 @@ Utilities | Description
 ------------ | -------------
 `tidy` | Add `tidyseurat` invisible layer over a Seurat object
 `as_tibble` | Convert cell-wise information to a `tbl_df`
-`join_transcripts` | Add transcript-wise information, returns a `tbl_df`
+`join_features` | Add feature-wise information, returns a `tbl_df`
 
 ## Installation
 
@@ -71,7 +71,7 @@ library(tidyseurat)
 This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.
 
 ```{r}
-pbmc_small <- tidyseurat::pbmc_small
+data("pbmc_small")
 ```
 
 **It looks like a tibble**
@@ -84,26 +84,6 @@ pbmc_small
 
 ```{r}
 pbmc_small@assays
-```
-
-# Annotation polishing
-
-We may have a column that contains the directory each run was taken from, such as the "file" column in `pbmc_small`.
-
-```{r}
-pbmc_small$file[1:5]
-```
-
-We may want to extract the run/sample name out of it into a separate column. Tidyverse `extract` can be used to convert a character column into multiple columns using regular expression groups.
-
-```{r}
-# Create sample column
-pbmc_small_polished <-
-  pbmc_small %>%
-  tidyseurat::extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
-# Reorder to have sample column up front
-pbmc_small_polished %>%
-  select(sample, everything())
 ```
 
 # Preliminary plots
@@ -135,32 +115,32 @@ my_theme <-
   )
 ```
 
-We can treat `pbmc_small_polished` effectively as a normal tibble for plotting.
+We can treat `pbmc_small` effectively as a normal tibble for plotting.
 
-Here we plot number of transcripts per cell.
+Here we plot number of features per cell.
 
 ```{r plot1}
-pbmc_small_polished %>%
+pbmc_small %>%
   tidyseurat::ggplot(aes(nFeature_RNA, fill = groups)) +
   geom_histogram() +
   my_theme
 ```
 
-Here we plot total transcripts per cell.
+Here we plot total features per cell.
 
 ```{r plot2}
-pbmc_small_polished %>%
+pbmc_small %>%
   tidyseurat::ggplot(aes(groups, nCount_RNA, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
   my_theme
 ```
 
-Here we plot abundance of two transcripts for each group.
+Here we plot abundance of two features for each group.
 
 ```{r}
-pbmc_small_polished %>%
-  join_transcripts(transcripts = c("HLA-DRA", "LYZ")) %>%
+pbmc_small %>%
+  join_features(features = c("HLA-DRA", "LYZ")) %>%
   ggplot(aes(groups, abundance_RNA + 1, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(aes(size = nCount_RNA), alpha = 0.5, width = 0.2) +
@@ -174,7 +154,7 @@ Also you can treat the object as Seurat object and proceed with data processing.
 
 ```{r preprocess}
 pbmc_small_pca <-
-  pbmc_small_polished %>%
+  pbmc_small %>%
   SCTransform(verbose = FALSE) %>%
   FindVariableFeatures(verbose = FALSE) %>%
   RunPCA(verbose = FALSE)
@@ -294,7 +274,7 @@ blueprint <- celldex::BlueprintEncodeData()
 
 # Infer cell identities
 cell_type_df <-
-  pbmc_small_UMAP@assays[["SCT"]]@counts %>%
+  GetAssayData(pbmc_small_UMAP, slot = 'counts', assay = "SCT") %>%
   log1p() %>%
   Matrix::Matrix(sparse = TRUE) %>%
   SingleR::SingleR(
@@ -352,7 +332,7 @@ pbmc_small_cell_type %>%
   mutate(mitochondrial = rnorm(n())) %>%
 
   # Plot correlation
-  join_transcripts(transcripts = c("CST3", "LYZ"), shape = "wide") %>%
+  join_features(features = c("CST3", "LYZ"), shape = "wide") %>%
   ggplot(aes(CST3 + 1, LYZ + 1, color = groups, size = mitochondrial)) +
   geom_point() +
   facet_wrap(~first.labels, scales = "free") +

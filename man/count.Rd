@@ -85,6 +85,7 @@ with group-wise counts.
 \examples{
 
 `\%>\%` = magrittr::`\%>\%`
+data("pbmc_small")
 pbmc_small \%>\%  count(groups)
 
 
