@@ -112,6 +112,7 @@ Seurat
 ```{r}
 library(Seurat)
 library(gatepoints)
+library(dplyr)
 
 # Calculate gamma delta signature
 signature_score_1 = 
@@ -134,32 +135,19 @@ cell_subset = splits %>%  lapply(function(x) sample(x, min_size)) %>%  unlist()
 seurat_obj = seurat_obj[,cell_subset]
 
 # Plot
-as.data.frame(seurat_obj[[]]) %>%
-cbind(Embeddings(seurat_obj, reduction ="umap")) %>%
-cbind(t(as.matrix(GetAssayData(seurat_obj, assay="SCT", slot="data")[c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),]))) %>%
-  
-as.data.frame() %>%
-  
-# Plot
-pivot_longer(cols=c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B", "signature_score")) %>%
-mutate(value = case_when(value>0 ~ value)) %>%
-group_by(name) %>%
-mutate(value = scale(value)) %>%
-ggplot(aes(UMAP_1, UMAP_2, color=value)) +
-geom_point() +
-facet_grid(type~name) +
-scale_color_viridis_c()
+DefaultAssay(seurat_obj) = "SCT"
 
+seurat_obj %>%
+FeaturePlot(
+  features = c("signature_score", "CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+  split.by = "type",
+  min.cutoff = 0.1
+) 
+  
 
 # Gating
-seurat_obj_for_plot = Embeddings(seurat_obj, reduction ="umap") 
-plot(
-  seurat_obj_for_plot[,"UMAP_1"], 
-  seurat_obj_for_plot[,"UMAP_2"],
-  col= colorRampPalette(c('red','blue'))(10)[cut(seurat_obj$signature_score,breaks = 10)]
-)
-selectedPoints <- fhs(seurat_obj_for_plot)
-seurat_obj$within_gate = colnames(seurat_obj) %in% selectedPoints
+p = FeaturePlot(seurat_obj, features = "signature_score")
+seurat_obj$within_gate = colnames(seurat_obj) %in% CellSelector(plot = p)
 
 # Calculate proportions
 seurat_obj[[]] %>%
