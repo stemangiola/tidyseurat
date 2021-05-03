@@ -8,20 +8,24 @@ tidyseurat - part of tidytranscriptomics
 status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions/)
 <!-- badges: end -->
 
-**Brings Seurat to the tidyverse\!**
+**Brings Seurat to the tidyverse!**
 
 website:
-[stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
+[stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat)
 
 Please also have a look at
 
-  - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
+-   [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment)
+    for tidy single-cell RNA sequencing analysis
+-   [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment)
+    for tidy bulk RNA sequencing analysis
+-   [tidybulk](https://stemangiola.github.io/tidybulk) for tidy bulk
     RNA-seq analysis
-  - [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
+-   [nanny](https://github.com/stemangiola/nanny) for tidy high-level
     data analysis and manipulation
-  - [tidygate](https://github.com/stemangiola/tidygate/) for adding
+-   [tidygate](https://github.com/stemangiola/tidygate) for adding
     custom gate information to your tibble
-  - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
+-   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap) for
     heatmaps produced with tidy principles
 
 ![visual cue](man/figures/logo_interaction-01.png)
@@ -37,21 +41,21 @@ Seurat-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions.
 ## Functions/utilities available
 
 | Seurat-compatible Functions | Description                                            |
-| --------------------------- | ------------------------------------------------------ |
+|-----------------------------|--------------------------------------------------------|
 | `all`                       | After all `tidyseurat` is a Seurat object, just better |
 
 | tidyverse Packages | Description                          |
-| ------------------ | ------------------------------------ |
+|--------------------|--------------------------------------|
 | `dplyr`            | All `dplyr` APIs like for any tibble |
 | `tidyr`            | All `tidyr` APIs like for any tibble |
 | `ggplot2`          | `ggplot` like for any tibble         |
 | `plotly`           | `plot_ly` like for any tibble        |
 
-| Utilities          | Description                                           |
-| ------------------ | ----------------------------------------------------- |
-| `tidy`             | Add `tidyseurat` invisible layer over a Seurat object |
-| `as_tibble`        | Convert cell-wise information to a `tbl_df`           |
-| `join_transcripts` | Add transcript-wise information, returns a `tbl_df`   |
+| Utilities       | Description                                           |
+|-----------------|-------------------------------------------------------|
+| `tidy`          | Add `tidyseurat` invisible layer over a Seurat object |
+| `as_tibble`     | Convert cell-wise information to a `tbl_df`           |
+| `join_features` | Add feature-wise information, returns a `tbl_df`      |
 
 ## Installation
 
@@ -77,13 +81,13 @@ library(Seurat)
 library(tidyseurat)
 ```
 
-## Create `tidyseurat`, the best of both worlds\!
+## Create `tidyseurat`, the best of both worlds!
 
 This is a seurat object but it is evaluated as tibble. So it is fully
 compatible both with Seurat and tidyverse APIs.
 
 ``` r
-pbmc_small <- tidyseurat::pbmc_small 
+data("pbmc_small")
 ```
 
 **It looks like a tibble**
@@ -92,8 +96,8 @@ pbmc_small <- tidyseurat::pbmc_small
 pbmc_small
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 16
-    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
+    ## # A Seurat-tibble abstraction: 80 x 15
+    ## [90m# Features=230 | Active assay=RNA | Assays=RNA[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -106,9 +110,8 @@ pbmc_small
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 9 more variables: RNA_snn_res.1 <fct>, file <chr>,
-    ## #   PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>,
-    ## #   tSNE_2 <dbl>
+    ## # … with 70 more rows, and 8 more variables: RNA_snn_res.1 <fct>, PC_1 <dbl>,
+    ## #   PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 **But it is a Seurat object after all**
 
@@ -120,58 +123,6 @@ pbmc_small@assays
     ## Assay data with 230 features for 80 cells
     ## Top 10 variable features:
     ##  PPBP, IGLL5, VDAC3, CD1C, AKR1C3, PF4, MYL9, GNLY, TREML1, CA2
-
-# Annotation polishing
-
-We may have a column that contains the directory each run was taken
-from, such as the “file” column in `pbmc_small`.
-
-``` r
-pbmc_small$file[1:5]
-```
-
-    ##                                     ATGCCAGAACGACT 
-    ## "../data/sample2/outs/filtered_feature_bc_matrix/" 
-    ##                                     CATGGCCTGTGCAT 
-    ## "../data/sample1/outs/filtered_feature_bc_matrix/" 
-    ##                                     GAACCTGATGAACC 
-    ## "../data/sample2/outs/filtered_feature_bc_matrix/" 
-    ##                                     TGACTGGATTCTCA 
-    ## "../data/sample2/outs/filtered_feature_bc_matrix/" 
-    ##                                     AGTCAGACTGCACA 
-    ## "../data/sample2/outs/filtered_feature_bc_matrix/"
-
-We may want to extract the run/sample name out of it into a separate
-column. Tidyverse `extract` can be used to convert a character column
-into multiple columns using regular expression groups.
-
-``` r
-# Create sample column
-pbmc_small_polished <-
-  pbmc_small
-  extract(file, "sample", "../data/([a-z0-9]+)/outs.+", remove = FALSE)
-# Reorder to have sample column up front
-pbmc_small_polished %>%
-  select(sample, everything())
-```
-
-    ## # A Seurat-tibble abstraction: 80 x 17
-    ## [90m# Transcripts=230 | Active assay=RNA | Assays=RNA[39m
-    ##    cell  sample orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents
-    ##    <chr> <chr>  <fct>           <dbl>        <int> <fct>           <fct>        
-    ##  1 ATGC… sampl… SeuratPro…         70           47 0               A            
-    ##  2 CATG… sampl… SeuratPro…         85           52 0               A            
-    ##  3 GAAC… sampl… SeuratPro…         87           50 1               B            
-    ##  4 TGAC… sampl… SeuratPro…        127           56 0               A            
-    ##  5 AGTC… sampl… SeuratPro…        173           53 0               A            
-    ##  6 TCTG… sampl… SeuratPro…         70           48 0               A            
-    ##  7 TGGT… sampl… SeuratPro…         64           36 0               A            
-    ##  8 GCAG… sampl… SeuratPro…         72           45 0               A            
-    ##  9 GATA… sampl… SeuratPro…         52           36 0               A            
-    ## 10 AATG… sampl… SeuratPro…        100           41 0               A            
-    ## # … with 70 more rows, and 10 more variables: groups <chr>,
-    ## #   RNA_snn_res.1 <fct>, file <chr>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
-    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 # Preliminary plots
 
@@ -202,13 +153,12 @@ my_theme <-
   )
 ```
 
-We can treat `pbmc_small_polished` effectively as a normal tibble for
-plotting.
+We can treat `pbmc_small` effectively as a normal tibble for plotting.
 
-Here we plot number of transcripts per cell.
+Here we plot number of features per cell.
 
 ``` r
-pbmc_small_polished %>%
+pbmc_small %>%
   tidyseurat::ggplot(aes(nFeature_RNA, fill = groups)) +
   geom_histogram() +
   my_theme
@@ -216,10 +166,10 @@ pbmc_small_polished %>%
 
 ![](man/figures/plot1-1.png)<!-- -->
 
-Here we plot total transcripts per cell.
+Here we plot total features per cell.
 
 ``` r
-pbmc_small_polished %>%
+pbmc_small %>%
   tidyseurat::ggplot(aes(groups, nCount_RNA, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
@@ -228,11 +178,11 @@ pbmc_small_polished %>%
 
 ![](man/figures/plot2-1.png)<!-- -->
 
-Here we plot abundance of two transcripts for each group.
+Here we plot abundance of two features for each group.
 
 ``` r
-pbmc_small_polished %>%
-  join_transcripts(transcripts = c("HLA-DRA", "LYZ")) %>%
+pbmc_small %>%
+  join_features(features = c("HLA-DRA", "LYZ")) %>%
   ggplot(aes(groups, abundance_RNA + 1, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(aes(size = nCount_RNA), alpha = 0.5, width = 0.2) +
@@ -240,7 +190,7 @@ pbmc_small_polished %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/unnamed-chunk-12-1.png)<!-- -->
 
 # Preprocess the dataset
 
@@ -249,7 +199,7 @@ processing.
 
 ``` r
 pbmc_small_pca <-
-  pbmc_small_polished %>%
+  pbmc_small %>%
   SCTransform(verbose = FALSE) %>%
   FindVariableFeatures(verbose = FALSE) %>%
   RunPCA(verbose = FALSE)
@@ -257,8 +207,8 @@ pbmc_small_pca <-
 pbmc_small_pca
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 19
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## # A Seurat-tibble abstraction: 80 x 17
+    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -271,9 +221,9 @@ pbmc_small_pca
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 12 more variables: RNA_snn_res.1 <fct>, file <chr>,
-    ## #   sample <chr>, nCount_SCT <dbl>, nFeature_SCT <int>, PC_1 <dbl>, PC_2 <dbl>,
-    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # … with 70 more rows, and 10 more variables: RNA_snn_res.1 <fct>,
+    ## #   nCount_SCT <dbl>, nFeature_SCT <int>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
+    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 If a tool is not included in the tidyseurat collection, we can use
 `as_tibble` to permanently convert `tidyseurat` into tibble.
@@ -301,8 +251,8 @@ pbmc_small_cluster <-
 pbmc_small_cluster
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 21
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## # A Seurat-tibble abstraction: 80 x 19
+    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -315,8 +265,8 @@ pbmc_small_cluster
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 14 more variables: RNA_snn_res.1 <fct>, file <chr>,
-    ## #   sample <chr>, nCount_SCT <dbl>, nFeature_SCT <int>, SCT_snn_res.0.8 <fct>,
+    ## # … with 70 more rows, and 12 more variables: RNA_snn_res.1 <fct>,
+    ## #   nCount_SCT <dbl>, nFeature_SCT <int>, SCT_snn_res.0.8 <fct>,
     ## #   seurat_clusters <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>,
     ## #   PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
@@ -343,7 +293,6 @@ pbmc_small_cluster %>%
 We can identify cluster markers using Seurat.
 
 <!-- If this is Seurat v4, comment out the v3 markers -->
-
 <!--
 
 
@@ -364,7 +313,6 @@ pbmc_small_cluster %>%
 ```
 
 -->
-
 <!-- If this is Seurat v3, comment out the v4 markers -->
 
 ``` r
@@ -421,7 +369,7 @@ blueprint <- celldex::BlueprintEncodeData()
 
 # Infer cell identities
 cell_type_df <-
-  pbmc_small_UMAP@assays[["SCT"]]@counts %>%
+  GetAssayData(pbmc_small_UMAP, slot = 'counts', assay = "SCT") %>%
   log1p() %>%
   Matrix::Matrix(sparse = TRUE) %>%
   SingleR::SingleR(
@@ -445,8 +393,8 @@ pbmc_small_cell_type %>%
   tidyseurat::select(cell, first.labels, everything())
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 25
-    ## [90m# Transcripts=220 | Active assay=SCT | Assays=RNA, SCT[39m
+    ## # A Seurat-tibble abstraction: 80 x 23
+    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
     ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
     ##    <chr> <chr>        <fct>           <dbl>        <int> <fct>          
     ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              
@@ -459,12 +407,11 @@ pbmc_small_cell_type %>%
     ##  8 GCAG… CD4+ T-cells SeuratPro…         72           45 0              
     ##  9 GATA… CD4+ T-cells SeuratPro…         52           36 0              
     ## 10 AATG… CD4+ T-cells SeuratPro…        100           41 0              
-    ## # … with 70 more rows, and 19 more variables: letter.idents <fct>,
-    ## #   groups <chr>, RNA_snn_res.1 <fct>, file <chr>, sample <chr>,
-    ## #   nCount_SCT <dbl>, nFeature_SCT <int>, SCT_snn_res.0.8 <fct>,
-    ## #   seurat_clusters <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>,
-    ## #   PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>, UMAP_1 <dbl>, UMAP_2 <dbl>,
-    ## #   UMAP_3 <dbl>
+    ## # … with 70 more rows, and 17 more variables: letter.idents <fct>,
+    ## #   groups <chr>, RNA_snn_res.1 <fct>, nCount_SCT <dbl>, nFeature_SCT <int>,
+    ## #   SCT_snn_res.0.8 <fct>, seurat_clusters <fct>, PC_1 <dbl>, PC_2 <dbl>,
+    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>,
+    ## #   UMAP_1 <dbl>, UMAP_2 <dbl>, UMAP_3 <dbl>
 
 We can easily summarise the results. For example, we can see how cell
 type classification overlaps with cluster classification.
@@ -506,7 +453,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-18-1.png)<!-- -->
+![](man/figures/unnamed-chunk-16-1.png)<!-- -->
 
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
@@ -518,7 +465,7 @@ pbmc_small_cell_type %>%
   mutate(mitochondrial = rnorm(n())) %>%
 
   # Plot correlation
-  join_transcripts(transcripts = c("CST3", "LYZ"), shape = "wide") %>%
+  join_features(features = c("CST3", "LYZ"), shape = "wide") %>%
   ggplot(aes(CST3 + 1, LYZ + 1, color = groups, size = mitochondrial)) +
   geom_point() +
   facet_wrap(~first.labels, scales = "free") +
@@ -527,7 +474,7 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-19-1.png)<!-- -->
+![](man/figures/unnamed-chunk-17-1.png)<!-- -->
 
 # Nested analyses
 
@@ -547,10 +494,10 @@ pbmc_small_nested
 ```
 
     ## # A tibble: 2 x 2
-    ##   cell_class data      
-    ##   <chr>      <list>    
-    ## 1 lymphoid   <tidysert>
-    ## 2 myeloid    <tidysert>
+    ##   cell_class data         
+    ##   <chr>      <list>       
+    ## 1 lymphoid   <Seurat[,40]>
+    ## 2 myeloid    <Seurat[,31]>
 
 Now we can independently for the lymphoid and myeloid subsets (i) find
 variable features, (ii) reduce dimensions, and (iii) cluster using both
@@ -572,10 +519,10 @@ pbmc_small_nested_reanalysed
 ```
 
     ## # A tibble: 2 x 2
-    ##   cell_class data      
-    ##   <chr>      <list>    
-    ## 1 lymphoid   <tidysert>
-    ## 2 myeloid    <tidysert>
+    ##   cell_class data         
+    ##   <chr>      <list>       
+    ## 1 lymphoid   <Seurat[,40]>
+    ## 2 myeloid    <Seurat[,31]>
 
 Now we can unnest and plot the new classification.
 
@@ -596,4 +543,4 @@ pbmc_small_nested_reanalysed %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-22-1.png)<!-- -->
+![](man/figures/unnamed-chunk-20-1.png)<!-- -->
