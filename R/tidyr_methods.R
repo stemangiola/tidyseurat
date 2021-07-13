@@ -69,7 +69,7 @@ unnest.tidyseurat_nested <- function(
     when(
       
       # If my only column to unnest is tidyseurat
-      pull(., !!cols) %>% .[[1]] %>% class %>% as.character() %>% eq("Seurat") %>% any ~  
+      pull(., !!cols) %>% .[[1]] %>% is("Seurat") %>% any ~  
       {
         # Do my trick to unnest
         list_seurat = 
