@@ -110,13 +110,21 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
 
   # Else
   else variable_genes = NULL
-
+ 
+  # Eliminate unneeded assays. 
+  # This because if a gene is not in an assay I am not interested about
+  # this could cause an unneeded error
+  DefaultAssay(.data) = assay
+  for(i in Assays(.data) %>% setdiff(assay)) {
+    .data[[i]] = NULL
+  } 
+  
   # Just grub last assay
   .data %>%
     when(
       variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
       features %>% is.null %>% `!` ~ (.)[features,],
-      ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
+      ~ stop("tidyseurat says: It is not convenient to extract all genes, you should have either variable features or feature list to extract")
     ) %>%
     .[[assay]] %>%
     GetAssayData(slot=slot) %>%
