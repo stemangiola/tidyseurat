@@ -80,7 +80,7 @@ with group-wise counts." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -112,7 +112,12 @@ with group-wise counts." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/stemangiola/tidyseurat/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -127,7 +132,7 @@ with group-wise counts." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Count observations by group</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/stemangiola/tidyseurat/blob/master/R/dplyr_methods.R'><code>R/dplyr_methods.R</code></a></small>
     <div class="hidden name"><code>count.Rd</code></div>
     </div>
 
@@ -228,13 +233,13 @@ group transiently, so the output has the same groups as the input.</p>
 <span class='va'>`%&gt;%`</span> <span class='op'>=</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"pbmc_small"</span><span class='op'>)</span>
 <span class='va'>pbmc_small</span> <span class='op'>%&gt;%</span>  <span class='fu'>count</span><span class='op'>(</span><span class='va'>groups</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span><span>
+</div><div class='output co'>#&gt; <span class='message'>tidyseurat says: A data frame is returned for independent data analysis.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span>
 #&gt;   groups     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> g1        44
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> g2        36</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> g1        44
+#&gt; <span style='color: #BCBCBC;'>2</span> g2        36</div><div class='input'>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

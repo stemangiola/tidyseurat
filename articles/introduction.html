@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
       </span>
     </div>
 
@@ -62,7 +62,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/stemangiola/tidyseurat/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -78,9 +85,9 @@
       <h1 data-toc-skip>Overview of the tidyseurat package</h1>
                         <h4 class="author">Stefano Mangiola</h4>
             
-            <h4 class="date">2021-04-23</h4>
+            <h4 class="date">2021-07-13</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
 
     </div>
@@ -93,6 +100,10 @@
 <p>website: <a href="https://stemangiola.github.io/tidyseurat/">stemangiola.github.io/tidyseurat/</a></p>
 <p>Please also have a look at</p>
 <ul>
+<li>
+<a href="https://stemangiola.github.io/tidySingleCellExperiment/">tidySingleCellExperiment</a> for tidy single-cell RNA sequencing analysis</li>
+<li>
+<a href="https://stemangiola.github.io/tidySummarizedExperiment/">tidySummarizedExperiment</a> for tidy bulk RNA sequencing analysis</li>
 <li>
 <a href="https://stemangiola.github.io/tidybulk/">tidybulk</a> for tidy bulk RNA-seq analysis</li>
 <li>
@@ -187,7 +198,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tidyseurat</span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/stemangiola/tidyseurat">tidyseurat</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="create-tidyseurat-the-best-of-both-worlds" class="section level2">
 <h2 class="hasAnchor">
@@ -577,7 +588,7 @@ pbmc_small_cluster %>%
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.0.5 (2021-03-31)
+<pre><code>## R version 4.1.0 (2021-05-18)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.2 LTS
 ## 
@@ -595,51 +606,51 @@ pbmc_small_cluster %>%
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tidyseurat_0.2.1   SeuratObject_4.0.0 Seurat_4.0.1       ggplot2_3.3.3     
-## [5] magrittr_2.0.1     purrr_0.3.4        tidyr_1.1.3        dplyr_1.0.5       
-## [9] knitr_1.32        
+## [1] tidyseurat_0.2.3   SeuratObject_4.0.2 Seurat_4.0.3       ggplot2_3.3.5     
+## [5] magrittr_2.0.1     purrr_0.3.4        tidyr_1.1.3        dplyr_1.0.7       
+## [9] knitr_1.33        
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] Rtsne_0.15            colorspace_2.0-0      deldir_0.2-10        
-##   [4] ellipsis_0.3.1        ggridges_0.5.3        rprojroot_2.0.2      
-##   [7] fs_1.5.0              rstudioapi_0.13       spatstat.data_2.1-0  
-##  [10] farver_2.1.0          leiden_0.3.7          listenv_0.8.0        
-##  [13] ggrepel_0.9.1         RSpectra_0.16-0       fansi_0.4.2          
-##  [16] codetools_0.2-18      splines_4.0.5         cachem_1.0.4         
-##  [19] polyclip_1.10-0       jsonlite_1.7.2        ica_1.0-2            
-##  [22] cluster_2.1.1         png_0.1-7             uwot_0.1.10          
-##  [25] shiny_1.6.0           sctransform_0.3.2     spatstat.sparse_2.0-0
-##  [28] compiler_4.0.5        httr_1.4.2            Matrix_1.3-2         
-##  [31] fastmap_1.1.0         lazyeval_0.2.2        cli_2.4.0            
-##  [34] later_1.2.0           htmltools_0.5.1.1     tools_4.0.5          
-##  [37] igraph_1.2.6          gtable_0.3.0          glue_1.4.2           
-##  [40] RANN_2.6.1            reshape2_1.4.4        Rcpp_1.0.6           
-##  [43] scattermore_0.7       jquerylib_0.1.3       pkgdown_1.6.1        
-##  [46] vctrs_0.3.7           nlme_3.1-152          lmtest_0.9-38        
-##  [49] xfun_0.22             stringr_1.4.0         ps_1.6.0             
-##  [52] globals_0.14.0        mime_0.10             miniUI_0.1.1.1       
-##  [55] lifecycle_1.0.0       irlba_2.3.3           goftest_1.2-2        
-##  [58] future_1.21.0         MASS_7.3-53.1         zoo_1.8-9            
-##  [61] scales_1.1.1          spatstat.core_2.1-2   ragg_1.1.2           
-##  [64] promises_1.2.0.1      spatstat.utils_2.1-0  parallel_4.0.5       
-##  [67] RColorBrewer_1.1-2    yaml_2.2.1            memoise_2.0.0        
-##  [70] reticulate_1.19       pbapply_1.4-3         gridExtra_2.3        
-##  [73] sass_0.3.1            rpart_4.1-15          reshape_0.8.8        
-##  [76] stringi_1.5.3         highr_0.9             desc_1.3.0           
-##  [79] rlang_0.4.10          pkgconfig_2.0.3       systemfonts_1.0.1    
-##  [82] matrixStats_0.58.0    evaluate_0.14         lattice_0.20-41      
-##  [85] ROCR_1.0-11           tensor_1.5            labeling_0.4.2       
-##  [88] patchwork_1.1.1       htmlwidgets_1.5.3     cowplot_1.1.1        
-##  [91] tidyselect_1.1.0      GGally_2.1.1          parallelly_1.24.0    
-##  [94] RcppAnnoy_0.0.18      plyr_1.8.6            R6_2.5.0             
-##  [97] generics_0.1.0        mgcv_1.8-34           pillar_1.6.0         
-## [100] withr_2.4.2           fitdistrplus_1.1-3    survival_3.2-10      
-## [103] abind_1.4-5           tibble_3.1.1          future.apply_1.7.0   
-## [106] crayon_1.4.1          KernSmooth_2.23-18    utf8_1.2.1           
-## [109] spatstat.geom_2.1-0   plotly_4.9.3          rmarkdown_2.7        
-## [112] grid_4.0.5            data.table_1.14.0     digest_0.6.27        
-## [115] xtable_1.8-4          httpuv_1.6.0          textshaping_0.3.3    
-## [118] munsell_0.5.0         viridisLite_0.4.0     bslib_0.2.4</code></pre>
+##   [1] Rtsne_0.15            colorspace_2.0-2      deldir_0.2-10        
+##   [4] ellipsis_0.3.2        ggridges_0.5.3        rprojroot_2.0.2      
+##   [7] fs_1.5.0              spatstat.data_2.1-0   farver_2.1.0         
+##  [10] leiden_0.3.8          listenv_0.8.0         ggrepel_0.9.1        
+##  [13] RSpectra_0.16-0       fansi_0.5.0           codetools_0.2-18     
+##  [16] splines_4.1.0         cachem_1.0.5          polyclip_1.10-0      
+##  [19] jsonlite_1.7.2        ica_1.0-2             cluster_2.1.2        
+##  [22] png_0.1-7             uwot_0.1.10           shiny_1.6.0          
+##  [25] sctransform_0.3.2     spatstat.sparse_2.0-0 compiler_4.1.0       
+##  [28] httr_1.4.2            Matrix_1.3-3          fastmap_1.1.0        
+##  [31] lazyeval_0.2.2        cli_3.0.0             later_1.2.0          
+##  [34] htmltools_0.5.1.1     tools_4.1.0           igraph_1.2.6         
+##  [37] gtable_0.3.0          glue_1.4.2            RANN_2.6.1           
+##  [40] reshape2_1.4.4        Rcpp_1.0.7            scattermore_0.7      
+##  [43] jquerylib_0.1.4       pkgdown_1.6.1         vctrs_0.3.8          
+##  [46] nlme_3.1-152          lmtest_0.9-38         xfun_0.24            
+##  [49] stringr_1.4.0         globals_0.14.0        mime_0.11            
+##  [52] miniUI_0.1.1.1        lifecycle_1.0.0       irlba_2.3.3          
+##  [55] goftest_1.2-2         future_1.21.0         MASS_7.3-54          
+##  [58] zoo_1.8-9             scales_1.1.1          spatstat.core_2.2-0  
+##  [61] ragg_1.1.3            promises_1.2.0.1      spatstat.utils_2.2-0 
+##  [64] parallel_4.1.0        RColorBrewer_1.1-2    yaml_2.2.1           
+##  [67] memoise_2.0.0         reticulate_1.20       pbapply_1.4-3        
+##  [70] gridExtra_2.3         sass_0.4.0            rpart_4.1-15         
+##  [73] reshape_0.8.8         stringi_1.6.2         highr_0.9            
+##  [76] desc_1.3.0            rlang_0.4.11          pkgconfig_2.0.3      
+##  [79] systemfonts_1.0.2     matrixStats_0.59.0    evaluate_0.14        
+##  [82] lattice_0.20-44       ROCR_1.0-11           tensor_1.5           
+##  [85] labeling_0.4.2        patchwork_1.1.1       htmlwidgets_1.5.3    
+##  [88] cowplot_1.1.1         tidyselect_1.1.1      GGally_2.1.2         
+##  [91] parallelly_1.26.1     RcppAnnoy_0.0.18      plyr_1.8.6           
+##  [94] R6_2.5.0              generics_0.1.0        mgcv_1.8-35          
+##  [97] pillar_1.6.1          withr_2.4.2           fitdistrplus_1.1-5   
+## [100] survival_3.2-11       abind_1.4-5           tibble_3.1.2         
+## [103] future.apply_1.7.0    crayon_1.4.1          KernSmooth_2.23-20   
+## [106] utf8_1.2.1            spatstat.geom_2.2-2   plotly_4.9.4.1       
+## [109] rmarkdown_2.9         grid_4.1.0            data.table_1.14.0    
+## [112] digest_0.6.27         xtable_1.8-4          httpuv_1.6.1         
+## [115] textshaping_0.3.5     munsell_0.5.0         viridisLite_0.4.0    
+## [118] bslib_0.2.5.1</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
