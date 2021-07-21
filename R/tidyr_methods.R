@@ -148,6 +148,9 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
           # Subset cells
           filter(cell %in% .x$cell) %>%
           
+          # Clean empty slots
+          clean_seurat_object() %>% 
+        
           # Subset columns
           select(colnames(.x))
       )) %>%
@@ -156,6 +159,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
     add_class("tidyseurat_nested")
   
 }
+
 
 #' Extract a character column into multiple columns using regular
 #' expression groups
