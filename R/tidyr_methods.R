@@ -147,9 +147,6 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
           
           # Subset cells
           filter(cell %in% .x$cell) %>%
-          
-          # Clean empty slots
-          clean_seurat_object() %>% 
         
           # Subset columns
           select(colnames(.x))
