@@ -291,3 +291,32 @@ select_helper = function(.data, ...){
 
   dplyr::select( .data, loc)
 }
+
+clean_seurat_object = function(.data){
+  
+  if(.hasSlot(.data, "images"))
+    .data@images = 
+      map(.data@images, ~ .x %>% when((.)@coordinates %>% nrow() %>% gt(0) ~ (.))) %>% 
+      
+      # Drop NULL
+      Filter(Negate(is.null), .)
+  
+  .data@assays = 
+    .data@assays %>% 
+    map(~ {
+      my_assay = .x
+      if(.hasSlot(., "SCTModel.list"))
+        my_assay@SCTModel.list  =  
+          map(my_assay@SCTModel.list, ~ .x %>% when((.)@cell.attributes %>% nrow() %>% gt(0) ~ (.))) %>% 
+          
+          # Drop NULL
+          Filter(Negate(is.null), .)
+      
+      my_assay
+      
+    }
+    )
+  
+  .data
+  
+}

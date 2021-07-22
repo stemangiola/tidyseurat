@@ -273,9 +273,12 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
   # Error if size == 0
   if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
 
-  new_obj = subset(.data,   cells = rownames(new_meta ))
-  #new_obj@meta.data = new_meta
-
+  new_obj = 
+    subset(.data,   cells = rownames(new_meta )) %>% 
+    
+    # Clean empty slots
+    clean_seurat_object()
+  
   new_obj
 
 }
