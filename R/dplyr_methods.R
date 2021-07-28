@@ -964,7 +964,7 @@ sample_n.Seurat <- function(tbl, size, replace = FALSE,
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
     tbl %>% 
       as_tibble() %>% 
-      right_join(new_meta %>% select(cell))
+      right_join(new_meta %>% select(cell),  by = "cell")
   }  else{
     new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
     new_obj@meta.data = 
@@ -1003,7 +1003,7 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
     tbl %>% 
       as_tibble() %>% 
-      right_join(new_meta %>% select(cell))
+      right_join(new_meta %>% select(cell),  by = "cell")
   }  else{
     new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
     new_obj@meta.data = 
