@@ -69,7 +69,7 @@ setMethod(
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
 #' @param shape Format of the returned table "long" or "wide"
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
+#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"
 #'
 #' @details This function extracts information for specified features and returns the information in either long or wide format.
 #'

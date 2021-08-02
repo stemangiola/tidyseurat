@@ -24,7 +24,7 @@ join_features(
 
 \item{shape}{Format of the returned table "long" or "wide"}
 
-\item{...}{Parameters to pass to join wide, i.e. assay name to extract feature abundance from}
+\item{...}{Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"}
 }
 \value{
 A `tbl` containing the information.for the specified features

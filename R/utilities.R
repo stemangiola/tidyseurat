@@ -80,7 +80,7 @@ drop_class = function(var, name) {
 #'
 #'
 #' @export
-get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data"){
+get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data", prefix = ""){
 
   # Solve CRAN warnings
   . = NULL
@@ -130,7 +130,11 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
     GetAssayData(slot=slot) %>%
     as.matrix() %>%
     t %>%
-    as_tibble(rownames = "cell")
+    as_tibble(rownames = "cell") %>% 
+    
+    # Add prefix
+    setNames(c("cell", sprintf("%s%s", prefix, colnames(.)[-1]))) 
+    
 
 }
 
