@@ -69,6 +69,8 @@ drop_class = function(var, name) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #' @importFrom Seurat GetAssayData
+#' @importFrom SeuratObject DefaultAssay<-
+#' @importFrom stats setNames
 #'
 #' @param .data A tidyseurat
 #' @param features A character
@@ -296,7 +298,10 @@ select_helper = function(.data, ...){
   dplyr::select( .data, loc)
 }
 
+#' @importFrom methods .hasSlot
 clean_seurat_object = function(.data){
+  
+  . = NULL
   
   if(.hasSlot(.data, "images"))
     .data@images = 
