@@ -142,3 +142,72 @@ join_features.Seurat <-
   }
 
 
+#' Produces the bibliography list of your workflow
+#'
+#' `r lifecycle::badge("maturing")`
+#'
+#' @description as_pseudobulk_SummarizedExperiment() takes as input a `tidybulk`
+#'
+#' @importFrom rlang enquo
+#' @importFrom magrittr "%>%"
+#'
+#' @name as_pseudobulk_SummarizedExperiment
+#'
+#' @param .data A `tbl` (with at least three columns for sample, feature and transcript abundance) or `SummarizedExperiment` (more convenient if abstracted to tibble with library(tidySummarizedExperiment))
+#'
+#' @details This methods returns the bibliography list of your workflow from the internals of a tidybulk object (attr(., "internals"))
+#'
+#'
+#' @examples
+#'
+#' # Define tidybulk tibble
+#' df = tidybulk(tidybulk::se_mini)
+#'
+#' as_pseudobulk_SummarizedExperiment(df)
+#'
+#'
+#'
+#' @docType methods
+#' @rdname as_pseudobulk_SummarizedExperiment-methods
+#'
+#' @return A SummarizedExperiment
+#' @export
+#'
+setGeneric("as_pseudobulk_SummarizedExperiment", function(.data)
+  standardGeneric("as_pseudobulk_SummarizedExperiment"))
+
+# Set internal
+.as_pseudobulk_SummarizedExperiment = 		function(.data)
+{
+  
+  
+  default_methods = c("tidybulk", "tidyverse")
+  
+  # If there is not attributes parameter
+  my_methods =
+    .data %>%
+    when(
+      !(
+        !"internals" %in% (attributes(.) %>% names()) &&
+          !"methods_used" %in% (attr(., "internals") %>% names())
+      ) ~ 	attr(., "internals") %>% .[["methods_used"]],
+      ~ ""
+    )
+  
+  
+  my_bibliography() %>%
+    .[c(default_methods, my_methods)] %>%
+    unlist %>%
+    writeLines()
+  
+}
+
+#' as_pseudobulk_SummarizedExperiment
+#' @inheritParams as_pseudobulk_SummarizedExperiment
+#'
+#' @docType methods
+#' @rdname as_pseudobulk_SummarizedExperiment-methods
+#'
+setMethod("as_pseudobulk_SummarizedExperiment",
+          "tbl",
+          .as_pseudobulk_SummarizedExperiment)
