@@ -273,9 +273,12 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
   # Error if size == 0
   if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
 
-  new_obj = subset(.data,   cells = rownames(new_meta ))
-  #new_obj@meta.data = new_meta
-
+  new_obj = 
+    subset(.data,   cells = rownames(new_meta )) %>% 
+    
+    # Clean empty slots
+    clean_seurat_object()
+  
   new_obj
 
 }
@@ -949,24 +952,31 @@ NULL
 #' @export
 sample_n.Seurat <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL, ...) {
-
+ 
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-  new_meta = tbl[[]] %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
-  new_obj = subset(tbl,   cells = rownames(new_meta ))
-  new_obj@meta.data = new_meta
+  new_meta = tbl[[]] %>%  as_tibble(rownames = "cell") %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
+  
+  count_cells = new_meta %>% select(cell) %>% count(cell)
+  
+  # If repeted cells
+  if(count_cells$n %>% max() %>% gt(1)){
+    message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+    tbl %>% 
+      as_tibble() %>% 
+      right_join(new_meta %>% select(cell),  by = "cell")
+  }  else{
+    new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
+    new_obj@meta.data = 
+      new_meta %>% 
+      data.frame(row.names=pull(.,cell), check.names = FALSE) %>%
+      select(-cell) 
+    new_obj
+  }
+  
+  
 
-  new_obj %>%
 
-    # If replace return simple tibble because is not trivial to build
-    # a redundant Seurat object and it would not make much sense
-    when(
-      replace ~ {
-        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
-        as_tibble(.)
-      },
-      ~ (.)
-    )
 
 }
 
@@ -984,21 +994,24 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-  new_meta = tbl[[]] %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
-  new_obj = subset(tbl,   cells = rownames(new_meta ))
-  new_obj@meta.data = new_meta
-
-  new_obj %>%
-
-    # If replace return simple tibble because is not trivial to build
-    # a redundant Seurat object and it would not make much sense
-    when(
-      replace ~ {
-        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
-        as_tibble(.)
-      },
-      ~ (.)
-    )
+  new_meta = tbl[[]] %>%  as_tibble(rownames = "cell") %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
+  
+  count_cells = new_meta %>% select(cell) %>% count(cell)
+  
+  # If repeted cells
+  if(count_cells$n %>% max() %>% gt(1)){
+    message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+    tbl %>% 
+      as_tibble() %>% 
+      right_join(new_meta %>% select(cell),  by = "cell")
+  }  else{
+    new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
+    new_obj@meta.data = 
+      new_meta %>% 
+      data.frame(row.names=pull(.,cell), check.names = FALSE) %>%
+      select(-cell) 
+    new_obj
+  }
 
 }
 

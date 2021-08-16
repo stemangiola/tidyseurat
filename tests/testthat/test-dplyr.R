@@ -128,6 +128,7 @@ test_that("sample_n",{
 
   expect_equal(   pbmc_small %>% sample_n(50) %>% ncol,   50  )
 
+  expect_equal(   pbmc_small %>% sample_n(500, replace = TRUE) %>% ncol,   29  )
 
 })
 
@@ -135,7 +136,8 @@ test_that("sample_frac",{
 
   expect_equal(   pbmc_small %>% sample_frac(0.1) %>% ncol,   8  )
 
-
+  expect_equal(   pbmc_small %>% sample_frac(10, replace = TRUE) %>% ncol,   29  )
+  
 })
 
 test_that("count",{

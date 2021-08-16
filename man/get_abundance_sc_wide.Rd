@@ -9,7 +9,8 @@ get_abundance_sc_wide(
   features = NULL,
   all = FALSE,
   assay = .data@active.assay,
-  slot = "data"
+  slot = "data",
+  prefix = ""
 )
 }
 \arguments{

@@ -69,6 +69,8 @@ drop_class = function(var, name) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #' @importFrom Seurat GetAssayData
+#' @importFrom SeuratObject DefaultAssay<-
+#' @importFrom stats setNames
 #'
 #' @param .data A tidyseurat
 #' @param features A character
@@ -80,7 +82,7 @@ drop_class = function(var, name) {
 #'
 #'
 #' @export
-get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data"){
+get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data", prefix = ""){
 
   # Solve CRAN warnings
   . = NULL
@@ -130,7 +132,11 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
     GetAssayData(slot=slot) %>%
     as.matrix() %>%
     t %>%
-    as_tibble(rownames = "cell")
+    as_tibble(rownames = "cell") %>% 
+    
+    # Add prefix
+    setNames(c("cell", sprintf("%s%s", prefix, colnames(.)[-1]))) 
+    
 
 }
 
@@ -290,4 +296,36 @@ select_helper = function(.data, ...){
   loc <- tidyselect::eval_select(expr(c(...)), .data)
 
   dplyr::select( .data, loc)
+}
+
+#' @importFrom methods .hasSlot
+clean_seurat_object = function(.data){
+  
+  . = NULL
+  
+  if(.hasSlot(.data, "images"))
+    .data@images = 
+      map(.data@images, ~ .x %>% when((.)@coordinates %>% nrow() %>% gt(0) ~ (.))) %>% 
+      
+      # Drop NULL
+      Filter(Negate(is.null), .)
+  
+  .data@assays = 
+    .data@assays %>% 
+    map(~ {
+      my_assay = .x
+      if(.hasSlot(., "SCTModel.list"))
+        my_assay@SCTModel.list  =  
+          map(my_assay@SCTModel.list, ~ .x %>% when((.)@cell.attributes %>% nrow() %>% gt(0) ~ (.))) %>% 
+          
+          # Drop NULL
+          Filter(Negate(is.null), .)
+      
+      my_assay
+      
+    }
+    )
+  
+  .data
+  
 }
