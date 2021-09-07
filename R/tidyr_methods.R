@@ -51,11 +51,12 @@
 #' @export
 NULL
 
+
 #' @importFrom rlang quo_name
 #' @importFrom purrr imap
 #' 
 #' @export
-unnest.tidyseurat_nested <- function(
+unnest_seurat = function(
   data, cols, ..., keep_empty=FALSE, ptype=NULL, names_sep=NULL, 
   names_repair="check_unique", .drop, .id, .sep, .preserve
 ){
@@ -64,33 +65,33 @@ unnest.tidyseurat_nested <- function(
   .data_ = data
   
   cols <- enquo(cols)
-
+  
   .data_ %>% 
     when(
       
       # If my only column to unnest is tidyseurat
       pull(., !!cols) %>% .[[1]] %>% is("Seurat") %>% any ~  
-      {
-        # Do my trick to unnest
-        list_seurat = 
-          mutate(., !!cols := imap(
-          !!cols, ~ .x %>%
-            bind_cols_(
-              
-              # Attach back the columns used for nesting
-              .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
-            )
-        )) %>%
-        pull(!!cols) 
-        
-        list_seurat[[1]] %>%
+        {
+          # Do my trick to unnest
+          list_seurat = 
+            mutate(., !!cols := imap(
+              !!cols, ~ .x %>%
+                bind_cols_(
+                  
+                  # Attach back the columns used for nesting
+                  .data_ %>% select(-!!cols) %>% slice(rep(.y, nrow(as_tibble(.x))))
+                )
+            )) %>%
+            pull(!!cols) 
           
-          # Bind only if length list > 1
-          when(
-            length(list_seurat)>1 ~ bind_rows(., list_seurat[2:length(list_seurat)]),
-            ~ (.)
-          )
-      },
+          list_seurat[[1]] %>%
+            
+            # Bind only if length list > 1
+            when(
+              length(list_seurat)>1 ~ bind_rows(., list_seurat[2:length(list_seurat)]),
+              ~ (.)
+            )
+        },
       
       # Else do normal stuff
       ~ (.) %>% 
@@ -99,8 +100,15 @@ unnest.tidyseurat_nested <- function(
         add_class("tidyseurat_nested")
       
     )
-
+  
 }
+
+#' @importFrom rlang quo_name
+#' @importFrom purrr imap
+#' 
+#' @export
+unnest.tidyseurat_nested <- unnest_seurat
+  
 
 #' nest
 #'
