@@ -12,9 +12,9 @@ Description: It creates an invisible layer that allow to see the 'Seurat' object
 License: GPL-3
 Depends:
     R (>= 4.0.0),
-    Seurat,
     SeuratObject
 Imports:
+    Seurat,
     tibble,
     dplyr,
     magrittr,
