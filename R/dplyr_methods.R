@@ -953,6 +953,10 @@ NULL
 sample_n.Seurat <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL, ...) {
  
+  # Solve CRAN NOTES
+  cell = NULL
+  . = NULL
+  
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
   new_meta = tbl[[]] %>%  as_tibble(rownames = "cell") %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
@@ -991,6 +995,10 @@ NULL
 #' @export
 sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL, ...) {
+  
+  # Solve CRAN NOTES
+  cell = NULL
+  . = NULL
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 

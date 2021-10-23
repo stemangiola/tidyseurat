@@ -11,21 +11,21 @@ status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.sv
 **Brings Seurat to the tidyverse!**
 
 website:
-[stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat)
+[stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
 Please also have a look at
 
--   [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment)
+-   [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/)
     for tidy single-cell RNA sequencing analysis
--   [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment)
+-   [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
     for tidy bulk RNA sequencing analysis
--   [tidybulk](https://stemangiola.github.io/tidybulk) for tidy bulk
+-   [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
     RNA-seq analysis
--   [nanny](https://github.com/stemangiola/nanny) for tidy high-level
+-   [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
     data analysis and manipulation
--   [tidygate](https://github.com/stemangiola/tidygate) for adding
+-   [tidygate](https://github.com/stemangiola/tidygate/) for adding
     custom gate information to your tibble
--   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap) for
+-   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
     heatmaps produced with tidy principles
 
 ![visual cue](man/figures/logo_interaction-01.png)

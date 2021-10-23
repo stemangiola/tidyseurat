@@ -35,7 +35,7 @@ custom_theme <-
 
 
 
-PBMC_clean_scaled_UMAP_cluster_cell_type <- readRDS("dev/PBMC_clean_scaled_UMAP_cluster_cell_type.rds")
+PBMC_clean_scaled_UMAP_cluster_cell_type <- readRDS("dev/PBMC_tidy_clean_scaled_UMAP_cluster_cell_type.rds")
 
 p1 = 
   PBMC_clean_scaled_UMAP_cluster_cell_type %>%
