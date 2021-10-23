@@ -65,7 +65,7 @@ setMethod(
 #' @name join_features
 #' @rdname join_features
 #'
-#' @param .data A tidyseurat object
+#' @param .data A Seurat object
 #' @param features A vector of feature identifiers to join
 #' @param all If TRUE return all
 #' @param exclude_zeros If TRUE exclude zero values
