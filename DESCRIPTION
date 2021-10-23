@@ -12,6 +12,7 @@ Description: It creates an invisible layer that allow to see the 'Seurat' object
 License: GPL-3
 Depends:
     R (>= 4.0.0),
+    ttservice,
     SeuratObject
 Imports:
     Seurat,
@@ -37,7 +38,8 @@ Suggests:
     knitr,
     GGally,
     markdown,
-    SingleR
+    SingleR,
+    Seurat
 VignetteBuilder: 
     knitr
 RdMacros:
