@@ -1,7 +1,7 @@
 Type: Package
 Package: tidyseurat
 Title: Brings Seurat to the Tidyverse 
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")),
             person("Maria", "Doyle", email = "Maria.Doyle@petermac.org",
@@ -12,6 +12,7 @@ Description: It creates an invisible layer that allow to see the 'Seurat' object
 License: GPL-3
 Depends:
     R (>= 4.0.0),
+    ttservice,
     SeuratObject
 Imports:
     Seurat,
@@ -37,7 +38,8 @@ Suggests:
     knitr,
     GGally,
     markdown,
-    SingleR
+    SingleR,
+    Seurat
 VignetteBuilder: 
     knitr
 RdMacros:
