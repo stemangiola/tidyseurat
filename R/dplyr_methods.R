@@ -211,6 +211,14 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
+  distinct_columns = 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(.data, distinct_columns)){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   .data %>%
     as_tibble() %>%
     dplyr::distinct(..., .keep_all = .keep_all)
@@ -268,6 +276,15 @@ NULL
 #' @export
 filter.Seurat <- function (.data, ..., .preserve = FALSE)
 {
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
 
   # Error if size == 0
@@ -333,6 +350,14 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 {
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   .data %>%
     as_tibble() %>%
     dplyr::group_by( ..., .add = .add, .drop = .drop)
@@ -387,6 +412,15 @@ summarise.Seurat <- function (.data, ...)
 
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   .data %>%
     as_tibble() %>%
     dplyr::summarise( ...)
@@ -477,7 +511,16 @@ mutate.Seurat <- function(.data, ...)
 
   # Check that we are not modifying a key column
   cols = enquos(...) %>% names
-  if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
+  if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns(.data))) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data =
@@ -531,7 +574,7 @@ rename.Seurat <- function(.data, ...)
 
   # Check that we are not modifying a key column
   cols = tidyselect::eval_select(expr(c(...)), .data[[]])
-  if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns())) %>% length %>% gt(0))
+  if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns(.data))) %>% length %>% gt(0))
     stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
 
   .data@meta.data = dplyr::rename( .data[[]],  ...)
@@ -894,13 +937,21 @@ NULL
 select.Seurat <- function (.data, ...)
 {
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   .data %>%
     as_tibble() %>%
     select_helper(...) %>%
     when(
 
       # If key columns are missing
-      (get_needed_columns() %in% colnames(.)) %>% all %>% `!` ~ {
+      (get_needed_columns(.data) %in% colnames(.)) %>% all %>% `!` ~ {
         message("tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.")
         (.)
       },
@@ -1088,6 +1139,14 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    x, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
   x %>%
     as_tibble() %>%
     dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
@@ -1112,6 +1171,14 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 #' @rdname count
 add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    x, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
   x@meta.data =
     x %>%
     as_tibble %>%
@@ -1156,6 +1223,14 @@ pull.Seurat <- function(.data, var = -1, name = NULL, ...) {
 
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    quo_name(var)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
   .data %>%
     as_tibble() %>%
     dplyr::pull( var = !!var, name = !!name, ...)
