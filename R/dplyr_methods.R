@@ -654,6 +654,11 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
                                 ...)
 {
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
   x %>%
     as_tibble() %>%
     dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
@@ -704,6 +709,13 @@ NULL
 #' @export
 inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
 {
+  
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
   x %>%
     as_tibble() %>%
     dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
@@ -756,6 +768,11 @@ NULL
 right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
                                  ...){
 
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
   x %>%
     as_tibble() %>%
     dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
@@ -809,7 +826,12 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
                                 ...)
 {
 
- x %>%
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
+    x= ping_old_special_column_into_metadata(x)
+  }
+  
+  x %>%
     as_tibble() %>%
     dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
 
