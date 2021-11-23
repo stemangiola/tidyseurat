@@ -3,7 +3,7 @@
 #' @keywords internal
 #'
 #' @param .data A tidyseurat
-to_tib = function(.data){ .data[[]] %>% as_tibble(rownames = "cell") }
+to_tib = function(.data){ .data[[]] %>% as_tibble(rownames = c_(.data)$name) }
 
 # Greater than
 gt = function(a, b){	a > b }
@@ -132,10 +132,10 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
     GetAssayData(slot=slot) %>%
     as.matrix() %>%
     t %>%
-    as_tibble(rownames = "cell") %>% 
+    as_tibble(rownames = c_(.data)$name) %>% 
     
     # Add prefix
-    setNames(c("cell", sprintf("%s%s", prefix, colnames(.)[-1]))) 
+    setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1]))) 
     
 
 }
@@ -212,7 +212,7 @@ get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_ze
            as_tibble(rownames = "feature") %>%
            tidyr::pivot_longer(
              cols = -feature,
-             names_to ="cell",
+             names_to =c_(.data)$name,
              values_to = "abundance" %>% paste(.y, sep="_"),
              values_drop_na  = TRUE
            )
@@ -221,7 +221,7 @@ get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_ze
 
 
     ) %>%
-    Reduce(function(...) full_join(..., by=c("feature", "cell")), .)
+    Reduce(function(...) full_join(..., by=c("feature", c_(.data)$name)), .)
 
 }
 
@@ -243,7 +243,7 @@ as_meta_data = function(.data, seurat_object){
   .data %>%
     select_if(!colnames(.) %in% col_to_exclude) %>%
     #select(-one_of(col_to_exclude)) %>%
-    column_to_rownames("cell")
+    column_to_rownames(c_(.data)$name)
 }
 
 #' @importFrom purrr map_chr
@@ -267,7 +267,7 @@ get_special_datasets = function(seurat_object, n_dimensions_to_return = Inf){
 
 get_needed_columns = function(){
   #c("cell",  "orig.ident", "nCount_RNA", "nFeature_RNA")
-  c("cell")
+  c(".cell")
 }
 
 #' Convert array of quosure (e.g. c(col_a, col_b)) into character vector
@@ -328,4 +328,31 @@ clean_seurat_object = function(.data){
   
   .data
   
+}
+
+get_special_column_name_symbol = function(name){
+  list(name = name, symbol = as.symbol(name))
+}
+
+# Key column names
+#' @importFrom S4Vectors metadata
+#' @importFrom S4Vectors metadata<-
+ping_old_special_column_into_metadata = function(.data){
+  
+  .data@meta.data$cell__ = get_special_column_name_symbol(c_(.data)$name)
+
+  .data
+}
+
+get_special_column_name_cell = function(name){
+  list(name = name, symbol = as.symbol(name))
+}
+
+cell__ = get_special_column_name_symbol(".cell")
+
+#' @importFrom S4Vectors metadata
+c_ =  function(x){
+  # Check if old deprecated columns are used
+  if("cell__" %in% names(x@meta.data)) cell__ = x@meta.data$cell__
+  return(cell__)
 }

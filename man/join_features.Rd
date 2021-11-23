@@ -16,7 +16,7 @@
 )
 }
 \arguments{
-\item{.data}{A tidyseurat object}
+\item{.data}{A Seurat object}
 
 \item{features}{A vector of feature identifiers to join}
 

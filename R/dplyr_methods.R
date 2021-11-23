@@ -618,7 +618,7 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
     when(
 
       # If duplicated cells returns tibble
-      dplyr::count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      dplyr::count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
@@ -668,14 +668,14 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
     when(
 
       # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
 
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj = subset(x,   cells =  pull(., "cell"))
+        new_obj = subset(x,   cells =  pull(., c_(x)$name))
         new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
       }
@@ -720,14 +720,14 @@ right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
     when(
 
       # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
 
       # Otherwise return updated tidyseurat
       ~ {
-        new_obj = subset(x,   cells = (.) %>% pull("cell"))
+        new_obj = subset(x,   cells = (.) %>% pull(c_(x)$name))
         new_obj@meta.data = (.) %>% as_meta_data(new_obj)
         new_obj
       }
@@ -773,7 +773,7 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
     when(
 
       # If duplicated cells returns tibble
-      count(., cell) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+      count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
         message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
         (.)
       },
@@ -880,7 +880,7 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 #'
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
-#' pbmc_small %>%  select(cell, orig.ident )
+#' pbmc_small %>%  select(.cell, orig.ident )
 #'
 #' @family single table verbs
 #'
@@ -959,22 +959,22 @@ sample_n.Seurat <- function(tbl, size, replace = FALSE,
   
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-  new_meta = tbl[[]] %>%  as_tibble(rownames = "cell") %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
+  new_meta = tbl[[]] %>%  as_tibble(rownames = c_(tbl)$name) %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
   
-  count_cells = new_meta %>% select(cell) %>% count(cell)
+  count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
   
   # If repeted cells
   if(count_cells$n %>% max() %>% gt(1)){
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
     tbl %>% 
       as_tibble() %>% 
-      right_join(new_meta %>% select(cell),  by = "cell")
+      right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
   }  else{
-    new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
+    new_obj = subset(tbl,   cells = new_meta %>% pull(!!c_(tbl)$symbol))
     new_obj@meta.data = 
       new_meta %>% 
-      data.frame(row.names=pull(.,cell), check.names = FALSE) %>%
-      select(-cell) 
+      data.frame(row.names=pull(.,!!c_(tbl)$symbol), check.names = FALSE) %>%
+      select(- !!c_(tbl)$symbol) 
     new_obj
   }
   
@@ -1002,22 +1002,22 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 
   lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-  new_meta = tbl[[]] %>%  as_tibble(rownames = "cell") %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
+  new_meta = tbl[[]] %>%  as_tibble(rownames = c_(tbl)$name) %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
   
-  count_cells = new_meta %>% select(cell) %>% count(cell)
+  count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
   
   # If repeted cells
   if(count_cells$n %>% max() %>% gt(1)){
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
     tbl %>% 
       as_tibble() %>% 
-      right_join(new_meta %>% select(cell),  by = "cell")
+      right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
   }  else{
-    new_obj = subset(tbl,   cells = new_meta %>% pull(cell))
+    new_obj = subset(tbl,   cells = new_meta %>% pull(!!c_(tbl)$symbol))
     new_obj@meta.data = 
       new_meta %>% 
-      data.frame(row.names=pull(.,cell), check.names = FALSE) %>%
-      select(-cell) 
+      data.frame(row.names=pull(.,!!c_(tbl)$symbol), check.names = FALSE) %>%
+      select(- !!c_(tbl)$symbol) 
     new_obj
   }
 

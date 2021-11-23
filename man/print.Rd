@@ -60,33 +60,6 @@ indirectly, by `print.tbl()`.
 * `tibble.width`: Output width. Default: `NULL` (use `width` option).
 * `tibble.max_extra_cols`: Number of extra columns printed in reduced form.
   Default: 100.
-
-
-
-\itemize{
-\item \code{pillar.bold}: Use bold font, e.g. for column headers? This currently
-defaults to \code{FALSE}, because many terminal fonts have poor support for
-bold fonts.
-\item \code{pillar.subtle}: Use subtle style, e.g. for row numbers and data types?
-Default: \code{TRUE}.
-\item \code{pillar.subtle_num}: Use subtle style for insignificant digits? Default:
-\code{FALSE}, is also affected by the \code{pillar.subtle} option.
-\item \code{pillar.neg}: Highlight negative numbers? Default: \code{TRUE}.
-\item \code{pillar.sigfig}: The number of significant digits that will be printed and
-highlighted, default: \code{3}. Set the \code{pillar.subtle} option to \code{FALSE} to
-turn off highlighting of significant digits.
-\item \code{pillar.min_title_chars}: The minimum number of characters for the column
-title, default: \code{15}.  Column titles may be truncated up to that width to
-save horizontal space. Set to \code{Inf} to turn off truncation of column
-titles.
-\item \code{pillar.min_chars}: The minimum number of characters wide to
-display character columns, default: \code{0}.  Character columns may be
-truncated up to that width to save horizontal space. Set to \code{Inf} to
-turn off truncation of character columns.
-\item \code{pillar.max_dec_width}: The maximum allowed width for decimal notation,
-default 13.
-}
-
 }
 
 \examples{

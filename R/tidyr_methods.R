@@ -146,7 +146,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
         ~ my_data__ %>% 
           
           # Subset cells
-          filter(cell %in% .x$cell) %>%
+          filter(!!c_(.data)$symbol %in% pull(.x, !!c_(.data)$symbol)) %>%
         
           # Subset columns
           select(colnames(.x))
