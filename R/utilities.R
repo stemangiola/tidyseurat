@@ -341,12 +341,12 @@ is_sample_feature_deprecated_used = function(.data, user_columns, use_old_specia
       ( any(str_detect(user_columns  , regex("\\bcell\\b"))) & !any(str_detect(user_columns  , regex("\\W*(\\.cell)\\W*")))  ) |
         "cell" %in% user_columns 
     ) & 
-    !"cell" %in% .data@meta.data
+    !"cell" %in% colnames(.data@meta.data)
   
   old_standard_is_used = old_standard_is_used_for_cell
   
   if(old_standard_is_used){
-    warning("tidySummarizedExperiment says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (feature), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
+    warning("tidyseurat says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (feature), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
     
     use_old_special_names = TRUE
   }
