@@ -359,8 +359,6 @@ get_special_column_name_symbol = function(name){
 }
 
 # Key column names
-#' @importFrom S4Vectors metadata
-#' @importFrom S4Vectors metadata<-
 ping_old_special_column_into_metadata = function(.data){
   
   .data@misc$cell__ = get_special_column_name_symbol("cell")
@@ -374,7 +372,6 @@ get_special_column_name_cell = function(name){
 
 cell__ = get_special_column_name_symbol(".cell")
 
-#' @importFrom S4Vectors metadata
 c_ =  function(x){
   # Check if old deprecated columns are used
   if("cell__" %in% names(x@misc)) cell__ = x@misc$cell__
