@@ -76,7 +76,7 @@ p3 =
   arrange(first.labels) %>%
   mutate(seurat_clusters = fct_inorder(seurat_clusters)) %>%
   join_features(features=c("CD3D", "HLA-DRB1")) %>%
-  ggplot(aes(y=seurat_clusters , x=abundance_SCT, fill=first.labels)) +
+  ggplot(aes(y=seurat_clusters , x=.abundance_SCT, fill=first.labels)) +
   geom_density_ridges(bandwidth = 0.2) +
   facet_wrap(~ .feature, nrow = 2) +
   coord_flip() +
@@ -103,7 +103,7 @@ p5 =
   heatmap(
     .row = .feature,
     .column = .cell, 
-    .value = abundance_SCT, 
+    .value = .abundance_SCT, 
     palette_grouping = list(rep("black",9)), 
     palette_value = circlize::colorRamp2(c(-1.5, 0, 1.5), c("purple", "black", "yellow")),
     

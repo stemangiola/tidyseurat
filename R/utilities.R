@@ -213,7 +213,7 @@ get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_ze
            tidyr::pivot_longer(
              cols = - .feature,
              names_to =c_(.data)$name,
-             values_to = "abundance" %>% paste(.y, sep="_"),
+             values_to = ".abundance" %>% paste(.y, sep="_"),
              values_drop_na  = TRUE
            )
          #%>%
