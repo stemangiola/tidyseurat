@@ -115,7 +115,7 @@ setMethod("join_features", "Seurat",  function(.data,
         ),
         by = c_(.data)$name
       ) %>%
-        select(!!c_(.data)$symbol, feature, contains("abundance"), everything()),
+        select(!!c_(.data)$symbol, .feature, contains("abundance"), everything()),
       
       # Shape if wide
       ~ (.) %>% left_join(
