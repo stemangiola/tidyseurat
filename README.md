@@ -13,6 +13,12 @@ status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.sv
 website:
 [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
 
+Introductory seminar
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=nTQUwghvy5Q" target="_blank">
+ <img src="http://img.youtube.com/vi/nTQUwghvy5Q/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="10" />
+</a>
+
 Please also have a look at
 
 -   [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/)
