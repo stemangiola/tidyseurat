@@ -8,6 +8,10 @@ always_allow_html: true
 [![Lifecycle:maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![R build status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions/)
 <!-- badges: end -->
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=wKnyocRCvW4" target="_blank">
+ <img src="http://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10" />
+</a>
+
 ```{r echo=FALSE}
 knitr::opts_chunk$set( fig.path = "man/figures/")
 ```
