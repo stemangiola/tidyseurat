@@ -1,0 +1,532 @@
+---
+title: "use_cases_BioCAsia2021"
+author: "Stefano Mangiola"
+date: "10/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(glue)
+library(Seurat)
+library(SummarizedExperiment)
+library(colorspace)
+library(SeuratWrappers)
+```
+
+```{r}
+tibble(
+  observation = glue("observation {1:100}"),
+  variable_1 = rep("...", 100),
+  variable_2 = rep("...", 100),
+  variable_3 = map(1:100, ~ tibble(a = 1:10, b = 1:10)), 
+  variable_4 = map(1:100, ~ ggplot()),
+  variable_5 = map(1:100, ~ lm(y ~ x, data = data.frame(x=1:10, y=1:10))),
+  variable_6 = map(1:100, ~ SeuratObject::pbmc_small),
+  variable_7 = map(1:100, ~ tidySingleCellExperiment::pbmc_small)
+)
+```
+
+
+```{r}
+my_vector = seq(1, 20); 
+
+# Imperative
+my_vector_modified = c()
+for(i in 1:length(my_vector)) {
+  my_vector_modified[i] = my_vector[i] * 2L
+}
+
+# Functional
+my_vector_modified = my_vector |> map_int(~ .x * 2L)
+
+df = data.frame(a= rep("a", ncol(SeuratObject::pbmc_small)), b= rep("b", ncol(SeuratObject::pbmc_small)))
+rownames(df)  = colnames(SeuratObject::pbmc_small)
+
+info = rep(1, ncol(SeuratObject::pbmc_small))
+SeuratObject::pbmc_small |>
+  AddMetaData(info, "info")
+
+colData(tidySingleCellExperiment::pbmc_small) |> cbind()
+
+```
+
+```{r}
+library(tidyseurat)
+seurat_obj = readRDS("../dev/seurat_obj_for_BioCAsia2021.rds")
+
+seurat_obj |>
+  join_features(features = c("CD3D",  "CD8A"), shape = "wide", assay = "SCT") 
+```
+
+```
+{r}
+# Subsampling
+
+single_cell_data |>
+  add_count(sample, name = "tot_cells") |>
+  mutate(median_cells = min(tot_cells)) |>
+  nest(data = -c(sample, median_cells)) |>
+  mutate(data = map2(data, median_cells, ~ sample_n(.x, .y, replace = TRUE))) |>
+  unnest(data)
+```
+
+```
+{r}
+
+# Define cell categories for analysis plotting
+
+single_cell_data |>
+  
+  mutate(cell_differentiation = 
+           case_when(
+             curated_cell_type_pretty %in% c("B immature", "B mem") ~ "B",
+             curated_cell_type_pretty %in% c("pDC") ~ "pDC",
+             cell_differentiation == "lymphoid" ~ "T+NK",
+             cell_differentiation == "myeloid" ~ "Myeloid"
+           )
+  ) |> 
+  
+  mutate(
+    curated_cell_type_pretty = if_else(
+      curated_cell_type_pretty %in% c("T gd1",  "T gd2"), 
+      "gamma_delta" , 
+      curated_cell_type_pretty
+    )
+  ) 
+```
+
+```
+{r}
+
+seurat_obj <- readRDS("/stornext/Bioinf/data/bioinf-data/Papenfuss_lab/projects/mangiola.s/PostDoc/oligo_breast/expanded_analyses_with_control/cancer_only_analyses/lymphoid/cancer_lymphoid_cell_type_curated.rds")
+
+
+seurat_obj = seurat_obj |> RunPCA() |> select(-contains("UMAP")) |> RunUMAP(dims=1:20)
+seurat_obj = seurat_obj |> select(cell, file, 3, 8, 9,S.Score, G2M.Score , Phase , curated_cell_type , contains("UMAP"))
+
+seurat_obj |>
+  saveRDS("dev/seurat_obj_for_BioCAsia2021.rds")
+
+
+```
+
+
+```{r}
+seurat_obj = readRDS("../dev/seurat_obj_for_BioCAsia2021.rds")
+
+options("restore_Seurat_show" = TRUE) 
+```
+
+
+```{r}
+seurat_obj 
+```
+```{r}
+options("restore_Seurat_show" = FALSE) 
+```
+
+```{r}
+library(tidyseurat)
+seurat_obj 
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+  ) 
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  select(signature_score, everything())
+```
+
+
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  Seurat::FeaturePlot(features =  "signature_score", min.cutoff = 0) 
+```
+
+```{r echo=FALSE}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  mutate(signature_score = case_when(signature_score>0 ~ signature_score)) |>
+  ggplot(aes(UMAP_1, UMAP_2, color = signature_score)) +
+  geom_point(shape="." ) +
+  scale_color_continuous_sequential(palette = "Blues", na.value = "grey") + 
+  theme_bw()
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+
+  mutate( gate = tidygate::gate_int(
+    UMAP_1, UMAP_2, 
+    .size = 0.1, .color =signature_score , gate_list = readRDS("../dev/gate_for_biocasia2021.rds")
+  ))
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  mutate( gate = tidygate::gate_int(UMAP_1, UMAP_2, gate_list = readRDS("../dev/gate_for_biocasia2021.rds")) ) |> 
+  
+  filter(gate == 1) 
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  mutate( gate = tidygate::gate_int(UMAP_1, UMAP_2, gate_list = readRDS("../dev/gate_for_biocasia2021.rds")) ) |> 
+  
+  filter(gate == 1) |>
+  
+  NormalizeData(assay="RNA") |> 
+  FindVariableFeatures( nfeatures = 100, assay="RNA") |>
+
+  SplitObject(split.by = "file") |> 
+  RunFastMNN() |> 
+  RunUMAP(reduction = "mnn", dims = 1:20) 
+```
+
+```{r}
+
+seurat_obj |>
+  
+  
+  join_features(
+    features = c("CD3D", "TRDC", "TRGC1", "TRGC2", "CD8A", "CD8B"),
+    shape = "wide",
+    assay = "SCT"
+    
+  ) |>
+  
+  mutate(signature_score =
+           scales::rescale(CD3D + TRDC + TRGC1+ TRGC2, to=c(0,1)) -
+           scales::rescale(CD8A + CD8B, to=c(0,1))
+  ) |>
+  
+  mutate( gate = tidygate::gate_int(UMAP_1, UMAP_2, gate_list = readRDS("../dev/gate_for_biocasia2021.rds")) ) |> 
+  
+  filter(gate == 1) |>
+  
+  NormalizeData(assay="RNA") |> 
+  FindVariableFeatures( nfeatures = 100, assay="RNA") |>
+
+  SplitObject(split.by = "file") |> 
+  RunFastMNN() |> 
+  RunUMAP(reduction = "mnn", dims = 1:20) |> 
+  FindNeighbors( dims = 1:20, reduction = "mnn") |> 
+  FindClusters( resolution = 0.3)
+```
+
+```{r}
+
+# Quality control
+library(Seurat)
+library(purrr)
+library(tidyverse)
+library(EnsDb.Hsapiens.v86)
+library(AnnotationDbi)
+library(scuttle)
+pbmc = ismb2021tidytranscriptomics::pbmc |> as.Seurat()
+
+pbmc
+
+library(tidyseurat)
+
+pbmc
+
+pbmc |>
+  nest(seurat = -file) 
+```
+
+
+```{r eval=FALSE}
+pbmc |>
+  nest(seurat = -file) |>
+  mutate(mitochondrion_info = map(
+    seurat,
+    ~  .x |>
+        GetAssayData(slot = "counts") |>
+        <CODE FOR MITOCHONDRION STATISTICS>
+  )) |>
+  
+  # Join information to seurat object
+  mutate(seurat = map2(seurat, mitochondrion_info, ~ left_join(.x, .y))) |>
+  
+  # Unnest to a unique seurat object
+  select(file, seurat) |> 
+  unnest(seurat) |>
+  
+  # Filter alive cells
+  filter(!high_mitochondrion)
+  
+```
+
+```
+{r}
+pbmc |>
+  nest(seurat = -file) |>
+  mutate(mitochondrion_info = map(
+    seurat,
+    ~ {
+      
+      # Get mitochondrion
+      location <- AnnotationDbi::mapIds(
+        EnsDb.Hsapiens.v86,
+        keys = rownames(.x),
+        column = "SEQNAME",
+        keytype = "SYMBOL"
+      )
+      
+      # Metrics
+      .x |>
+        GetAssayData(slot = "counts") |>
+        scuttle::perCellQCMetrics(subsets = list(Mito = which(location == "MT"))) |>
+        as_tibble(rownames = "cell") |>
+
+        # Label cells with high mitochondrial content
+        mutate(high_mitochondrion = scuttle::isOutlier(subsets_Mito_percent, type = "higher"))
+    }
+  )) 
+  
+
+```
+
+```
+{r}
+pbmc |>
+  nest(seurat = -file) |>
+  mutate(mitochondrion_info = map(
+    seurat,
+    ~ {
+      
+      # Get mitochondrion
+      location <- AnnotationDbi::mapIds(
+        EnsDb.Hsapiens.v86,
+        keys = rownames(.x),
+        column = "SEQNAME",
+        keytype = "SYMBOL"
+      )
+      
+      # Metrics
+      .x |>
+        GetAssayData(slot = "counts") |>
+        scuttle::perCellQCMetrics(subsets = list(Mito = which(location == "MT"))) |>
+        as_tibble(rownames = "cell") |>
+
+        # Label cells with high mitochondrial content
+        mutate(high_mitochondrion = scuttle::isOutlier(subsets_Mito_percent, type = "higher"))
+    }
+  )) |>
+  mutate(seurat = map2(seurat, mitochondrion_info, ~ left_join(.x, .y))) |>
+  select(file, seurat) |> 
+  unnest(seurat)
+  
+
+```
+
+
+```
+{r}
+pbmc |>
+  nest(seurat = -file) |>
+  mutate(mitochondrion_info = map(
+    seurat,
+    ~ {
+      
+      # Get mitochondrion
+      location <- AnnotationDbi::mapIds(
+        EnsDb.Hsapiens.v86,
+        keys = rownames(.x),
+        column = "SEQNAME",
+        keytype = "SYMBOL"
+      )
+      
+      # Metrics
+      .x |>
+        GetAssayData(slot = "counts") |>
+        scuttle::perCellQCMetrics(subsets = list(Mito = which(location == "MT"))) |>
+        as_tibble(rownames = "cell") |>
+
+        # Label cells with high mitochondrial content
+        mutate(high_mitochondrion = scuttle::isOutlier(subsets_Mito_percent, type = "higher"))
+    }
+  )) |>
+  mutate(seurat = map2(seurat, mitochondrion_info, ~ left_join(.x, .y))) |>
+  select(file, seurat) |> 
+  unnest(seurat) |>
+  
+  filter(!high_mitochondrion)
+  
+
+```
+
+
+
+```{r}
+
+# gamma_delta_df = 
+#   readRDS("cancer_only_analyses/integrated_counts_curated.rds")  |> 
+#   #	{.x = (.); DefaultAssay(.x) = "RNA"; .x} |> 
+#   filter(curated_cell_type_pretty %in% c("T gd1",  "T gd2")) |> 
+#   
+#   {
+#     .x= (.)
+#     DefaultAssay(.x) = "RNA"
+#     .x[["SCT"]] = NULL
+#     .x[["integrated"]] = NULL
+#     .x
+#   } |> 
+#   NormalizeData() |> 
+#   FindVariableFeatures( nfeatures = 100) |> 
+#   mutate(batch_to_eliminate = sample) |> 
+#   nest(data = -batch_to_eliminate) |>
+#   pull(data) |> 
+#   RunFastMNN() |> 
+#   RunUMAP(reduction = "mnn", dims = 1:20) |> 
+#   FindNeighbors( dims = 1:20, reduction = "mnn") |> 
+#   FindClusters( resolution = 0.3) |>
+#   mutate(gate = tidygate::gate_int(UMAP_1, UMAP_2, how_many_gates = 2, gate_list = readRDS("file66175abbca44.rds"))) |> 
+#   tidysc::adjust_abundance(~ 1) |>
+#   mutate(gamma_delta = case_when(
+#     gate == 0 ~ "T gd vd2",
+#     gate == 1 ~ "T gd vd1 LGALS1",
+#     gate == 2 ~ "T gd vd1",
+#   ))
+```
+
+And we can plot the clusters as a 3D plot using plotly. This time we are colouring by estimated cluster labels to visually check the cluster labels.
+
+```{r umap plot 2, eval=FALSE}
+pbmc = rpharma2021tidytranscriptomics::pbmc
+library(scater)
+library(tidySingleCellExperiment)
+library(batchelor)
+
+pbmc |>
+
+  # Define batch
+  nest(data = -file) |>
+
+  # Normalisation
+  mutate(data = multiBatchNorm(data)) |>
+
+  # Integration
+  pull(data) |>
+  fastMNN() |>
+
+  # Join old information
+  left_join(pbmc |> as_tibble()) |>
+  runUMAP(ncomponents = 3, dimred="corrected") |> # from scater|>
+  
+  seurat_obj |>
+  runUMAP(ncomponents = 3, dims=1:20) |> 
+  plot_ly(
+    x = ~`UMAP1`,
+    y = ~`UMAP2`,
+    z = ~`UMAP3`,
+    colors = friendly_cols[1:10],
+    color = ~label,
+    size=0.5
+  )
+```
