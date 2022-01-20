@@ -340,7 +340,7 @@ pbmc_small \%>\%  slice(1)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
-pbmc_small \%>\%  select(cell, orig.ident )
+pbmc_small \%>\%  select(.cell, orig.ident )
 
 
 `\%>\%` = magrittr::`\%>\%`

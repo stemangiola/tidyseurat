@@ -72,7 +72,7 @@ as_tibble.Seurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
   x[[]] %>%
-    tibble::as_tibble(rownames="cell") %>%
+    tibble::as_tibble(rownames=c_(x)$name) %>%
 
     
     # Attach reduced dimensions
@@ -85,14 +85,14 @@ as_tibble.Seurat = function(x, ...,
             
             # If row == 1 do a trick
             dim(.) %>% is.null ~ {
-              (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(cell=rownames(x[[]]))
+              (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(!!c_(x)$symbol := rownames(x[[]]))
               },
             
             # Otherwise continue normally
-            ~  as_tibble(., rownames="cell")
+            ~  as_tibble(., rownames=c_(x)$name)
           )) %>%
-          reduce(left_join, by="cell"),
-        by = "cell"
+          reduce(left_join, by=c_(x)$name),
+        by = c_(x)$name
       ),
       
       # Otherwise skip

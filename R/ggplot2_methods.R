@@ -49,6 +49,15 @@ NULL
 
 #' @export
 ggplot.Seurat <- function(data = NULL, mapping = aes(), ..., environment = parent.frame()) {
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    data, 
+    mapping %>% unlist() %>% map(~ quo_name(.x)) %>% unlist() %>% as.character()
+  )){
+    data= ping_old_special_column_into_metadata(data)
+  }
+  
   data %>%
     as_tibble() %>%
     ggplot2::ggplot( mapping = mapping)
