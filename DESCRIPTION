@@ -40,6 +40,7 @@ Suggests:
     markdown,
     SingleR,
     Seurat,
+    RANN,
     igraph
 VignetteBuilder: 
     knitr
