@@ -16,6 +16,7 @@ library(Seurat)
 library(SummarizedExperiment)
 library(colorspace)
 library(SeuratWrappers)
+library(here)
 ```
 
 ```{r}
@@ -57,7 +58,7 @@ colData(tidySingleCellExperiment::pbmc_small) |> cbind()
 
 ```{r}
 library(tidyseurat)
-seurat_obj = readRDS("../dev/seurat_obj_for_BioCAsia2021.rds")
+seurat_obj = here("dev", "seurat_obj_for_BioCAsia2021.rds") %>% readRDS()
 
 seurat_obj |>
   join_features(features = c("CD3D",  "CD8A"), shape = "wide", assay = "SCT") 
@@ -117,7 +118,7 @@ seurat_obj |>
 
 
 ```{r}
-seurat_obj = readRDS("../dev/seurat_obj_for_BioCAsia2021.rds")
+seurat_obj = here("dev", "seurat_obj_for_BioCAsia2021.rds") %>% readRDS()
 
 options("restore_Seurat_show" = TRUE) 
 ```
@@ -275,7 +276,7 @@ seurat_obj |>
            scales::rescale(CD8A + CD8B, to=c(0,1))
   ) |>
   
-  mutate( gate = tidygate::gate_int(UMAP_1, UMAP_2, gate_list = readRDS("../dev/gate_for_biocasia2021.rds")) ) |> 
+  mutate( gate = tidygate::gate_int(UMAP_1, UMAP_2, gate_list = here("dev", "gate_for_biocasia2021.rds") %>% readRDS()) ) |> 
   
   filter(gate == 1) |>
   
@@ -283,7 +284,7 @@ seurat_obj |>
   FindVariableFeatures( nfeatures = 100, assay="RNA") |>
 
   SplitObject(split.by = "file") |> 
-  RunFastMNN() |> 
+  RunFastMNN(assay="RNA") |> 
   RunUMAP(reduction = "mnn", dims = 1:20) 
 ```
 
@@ -312,7 +313,7 @@ seurat_obj |>
   FindVariableFeatures( nfeatures = 100, assay="RNA") |>
 
   SplitObject(split.by = "file") |> 
-  RunFastMNN() |> 
+  RunFastMNN(assay="RNA") |> 
   RunUMAP(reduction = "mnn", dims = 1:20) |> 
   FindNeighbors( dims = 1:20, reduction = "mnn") |> 
   FindClusters( resolution = 0.3)
