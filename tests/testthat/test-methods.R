@@ -2,7 +2,7 @@ context('methods test')
 
 data("pbmc_small")
 
-test_that("arrange",{
+test_that("join_features",{
 
 
   pbmc_small %>% 
