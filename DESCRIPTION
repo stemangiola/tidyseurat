@@ -39,9 +39,7 @@ Suggests:
     GGally,
     markdown,
     SingleR,
-    Seurat,
-    RANN,
-    igraph
+    Seurat
 VignetteBuilder: 
     knitr
 RdMacros:
