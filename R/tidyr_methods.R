@@ -33,7 +33,7 @@
 #' @param ptype See tidyr::unnest
 #' @param .drop See tidyr::unnest
 #' @param .id tidyr::unnest
-#' @param sep tidyr::unnest
+#' @param .sep tidyr::unnest
 #' @param .preserve See tidyr::unnest
 #' 
 #' @return A Seurat object or a tibble depending on input
@@ -130,9 +130,19 @@ NULL
 #' @export
 nest.Seurat <- function (.data, ..., .names_sep = NULL)
 {
-  my_data__ = .data
+
   cols <- enquos(...)
   col_name_data  = names(cols)
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    .data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    .data= ping_old_special_column_into_metadata(.data)
+  }
+  
+  my_data__ = .data
   
   my_data__ %>%
     
@@ -146,7 +156,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
         ~ my_data__ %>% 
           
           # Subset cells
-          filter(cell %in% .x$cell) %>%
+          filter(!!c_(.data)$symbol %in% pull(.x, !!c_(.data)$symbol)) %>%
         
           # Subset columns
           select(colnames(.x))
@@ -209,6 +219,14 @@ extract.Seurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remove =
 {
 	
 	col = enquo(col)
+	
+	# Deprecation of special column names
+	if(is_sample_feature_deprecated_used(
+	  data, 
+	  c(quo_name(col), into)
+	)){
+	  data= ping_old_special_column_into_metadata(data)
+	}
 	
 	data@meta.data = 
 	  data %>%
@@ -332,6 +350,14 @@ pivot_longer.Seurat <- function(data,
   
   message("tidyseurat says: A data frame is returned for independent data analysis.")
   
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    data, 
+    c(quo_names(cols))
+  )){
+    data= ping_old_special_column_into_metadata(data)
+  }
+  
   data %>%
     as_tibble() %>%
     tidyr::pivot_longer(!!cols,
@@ -394,8 +420,17 @@ unite.Seurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE
   
   # Check that we are not modifying a key column
   cols = enquo(col) 
-  if(intersect(cols %>% quo_names, get_special_columns(data) %>% c(get_needed_columns())) %>% length %>% gt(0) & remove)
-    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    data, 
+    (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+  )){
+    data= ping_old_special_column_into_metadata(data)
+  }
+  
+  if(intersect(cols %>% quo_names, get_special_columns(data) %>% c(get_needed_columns(data))) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns(data)) %>% paste(collapse=", ")))
   
   
   data@meta.data = data %>% as_tibble() %>% tidyr::unite(!!cols, ..., sep = sep, remove = remove, na.rm = na.rm) %>% as_meta_data(data)
@@ -460,8 +495,17 @@ separate.Seurat <- function(data, col, into, sep = "[^[:alnum:]]+", remove = TRU
   
   # Check that we are not modifying a key column
   cols = enquo(col)
-  if(intersect(cols  %>% quo_names, get_special_columns(data) %>% c(get_needed_columns())) %>% length %>% gt(0) & remove)
-    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns()) %>% paste(collapse=", ")))
+  
+  # Deprecation of special column names
+  if(is_sample_feature_deprecated_used(
+    data, 
+    c(quo_names(cols))
+  )){
+    data= ping_old_special_column_into_metadata(data)
+  }
+  
+  if(intersect(cols  %>% quo_names, get_special_columns(data) %>% c(get_needed_columns(data))) %>% length %>% gt(0) & remove)
+    stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(data) %>% c(get_needed_columns(data)) %>% paste(collapse=", ")))
   
    
   data@meta.data =
