@@ -337,13 +337,13 @@ pivot_longer.Seurat <- function(data,
                                   names_prefix = NULL,
                                   names_sep = NULL,
                                   names_pattern = NULL,
-                                  names_ptypes = list(),
-                                  names_transform = list(),
+                                  names_ptypes = NULL,
+                                  names_transform = NULL,
                                   names_repair = "check_unique",
                                   values_to = "value",
                                   values_drop_na = FALSE,
-                                  values_ptypes = list(),
-                                  values_transform = list(),
+                                  values_ptypes = NULL,
+                                  values_transform = NULL,
                                   ...
 ) {
   cols <- enquo(cols) 
