@@ -15,8 +15,8 @@ website:
 
 Introductory seminar
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=wKnyocRCvW4" target="_blank">
- <img src="http://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10" />
+<a href="https://www.youtube.com/watch?feature=player_embedded&v=wKnyocRCvW4" target="_blank">
+ <img src="https://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10" />
 </a>
 
 Please also have a look at

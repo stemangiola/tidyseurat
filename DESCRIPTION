@@ -1,7 +1,7 @@
 Type: Package
 Package: tidyseurat
 Title: Brings Seurat to the Tidyverse 
-Version: 0.5.0
+Version: 0.5.1
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")),
             person("Maria", "Doyle", email = "Maria.Doyle@petermac.org",
@@ -38,8 +38,7 @@ Suggests:
     knitr,
     GGally,
     markdown,
-    SingleR,
-    Seurat
+    SingleR
 VignetteBuilder: 
     knitr
 RdMacros:
