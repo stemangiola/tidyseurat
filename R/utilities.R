@@ -121,11 +121,12 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
     .data[[i]] = NULL
   } 
   
+  
   # Just grub last assay
   .data %>%
     when(
-      variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,],
-      features %>% is.null %>% `!` ~ (.)[features,],
+      variable_genes %>% is.null %>% `!` ~   (.)[ toupper(rownames(.)) %in% toupper(variable_genes),],
+      features %>% is.null %>% `!` ~  (.)[ toupper(rownames(.)) %in% toupper(features),],
       ~ stop("tidyseurat says: It is not convenient to extract all genes, you should have either variable features or feature list to extract")
     ) %>%
     .[[assay]] %>%
