@@ -19,7 +19,7 @@ Imports:
     tibble,
     dplyr,
     magrittr,
-    tidyr,
+    tidyr (>= 1.2.0),
     ggplot2,
     rlang,
     purrr,
