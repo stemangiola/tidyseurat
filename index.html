@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -83,11 +83,10 @@
 <div class="page-header"><h1 id="tidyseurat---part-of-tidytranscriptomics">tidyseurat - part of tidytranscriptomics<a class="anchor" aria-label="anchor" href="#tidyseurat---part-of-tidytranscriptomics"></a>
 </h1></div>
 <!-- badges: start -->
-
 <p><strong>Brings Seurat to the tidyverse!</strong></p>
 <p>website: <a href="https://stemangiola.github.io/tidyseurat/" class="external-link">stemangiola.github.io/tidyseurat/</a></p>
 <p>Introductory seminar</p>
-<p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=wKnyocRCvW4" target="_blank" class="external-link"> <img src="http://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10"></a></p>
+<p><a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=wKnyocRCvW4" target="_blank" class="external-link"> <img src="https://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10"></a></p>
 <p>Please also have a look at</p>
 <ul>
 <li>
@@ -362,8 +361,7 @@
 <span id="cb19-10"><a href="#cb19-10"></a><span class="co">## 7 g2     2                   6</span></span>
 <span id="cb19-11"><a href="#cb19-11"></a><span class="co">## 8 g2     3                   5</span></span></code></pre></div>
 <p>We can identify cluster markers using Seurat.</p>
-<!-- If this is Seurat v4, comment out the v3 markers -->
-<!--
+<!-- If this is Seurat v4, comment out the v3 markers --><!--
 
 
 ```r
@@ -382,9 +380,7 @@ pbmc_small_cluster %>%
   )
 ```
 
--->
-<!-- If this is Seurat v3, comment out the v4 markers -->
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+--><!-- If this is Seurat v3, comment out the v4 markers --><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Identify top 10 markers per cluster</span>
 <span class="va">markers</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_cluster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
@@ -629,7 +625,7 @@ pbmc_small_cluster %>%
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
