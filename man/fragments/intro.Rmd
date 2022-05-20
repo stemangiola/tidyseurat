@@ -73,7 +73,7 @@ library(tidyseurat)
 This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.
 
 ```{r}
-data("pbmc_small")
+pbmc_small = SeuratObject::pbmc_small
 ```
 
 **It looks like a tibble**
@@ -205,7 +205,8 @@ We can identify cluster markers using Seurat.
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
-  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  mutate(orig.ident = seurat_clusters) %>% 
+  FindAllMarkers(only.pos = TRUE) %>%
   group_by(cluster) %>%
   top_n(10, avg_logFC)
 
@@ -223,7 +224,7 @@ pbmc_small_cluster %>%
 
 `r if (packageVersion("Seurat") < package_version("4.0.0")) {"<!--"}`
 
-```{r markers_v4, eval=(packageVersion("Seurat") >= package_version("4.0.0"))}
+```{r markers_v4, eval=FALSE}
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
@@ -245,10 +246,10 @@ pbmc_small_cluster %>%
 
 We can calculate the first 3 UMAP dimensions using the Seurat framework.
 
-```{r umap}
+```{r umap, eval=FALSE}
 pbmc_small_UMAP <-
   pbmc_small_cluster %>%
-  RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L, )
+  RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L)
 ```
 
 And we can plot them using 3D plot using plotly.
@@ -289,7 +290,7 @@ cell_type_df <-
   select(cell, first.labels)
 ```
 
-```{r}
+```{r, eval=FALSE}
 # Join UMAP and cell type info
 pbmc_small_cell_type <-
   pbmc_small_UMAP %>%
@@ -302,14 +303,14 @@ pbmc_small_cell_type %>%
 
 We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.
 
-```{r}
+```{r, eval=FALSE}
 pbmc_small_cell_type %>%
   count(seurat_clusters, first.labels)
 ```
 
 We can easily reshape the data for building information-rich faceted plots.
 
-```{r}
+```{r eval=FALSE}
 pbmc_small_cell_type %>%
 
   # Reshape and add classifier column
@@ -327,7 +328,7 @@ pbmc_small_cell_type %>%
 
 We can easily plot gene correlation per cell category, adding multi-layer annotations.
 
-```{r}
+```{r eval=FALSE}
 pbmc_small_cell_type %>%
 
   # Add some mitochondrial abundance values
@@ -347,7 +348,7 @@ pbmc_small_cell_type %>%
 
 A powerful tool we can use with tidyseurat is `nest`. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification
 
-```{r}
+```{r eval=FALSE}
 pbmc_small_nested <-
   pbmc_small_cell_type %>%
   filter(first.labels != "Erythrocytes") %>%
@@ -359,7 +360,7 @@ pbmc_small_nested
 
 Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.
 
-```{r}
+```{r eval=FALSE}
 pbmc_small_nested_reanalysed <-
   pbmc_small_nested %>%
   mutate(data = map(
@@ -376,7 +377,7 @@ pbmc_small_nested_reanalysed
 
 Now we can unnest and plot the new classification.
 
-```{r}
+```{r eval=FALSE}
 pbmc_small_nested_reanalysed %>%
 
   # Convert to tibble otherwise Seurat drops reduced dimensions when unifying data sets.
