@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@
       <h1 data-toc-skip>Overview of the tidyseurat package</h1>
                         <h4 data-toc-skip class="author">Stefano Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-05-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -201,12 +201,26 @@
 </h3>
 <p>This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pbmc_small</span> <span class="op">=</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="va"><a href="https://mojaveazure.github.io/seurat-object/reference/pbmc_small.html" class="external-link">pbmc_small</a></span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 15</span></span>
-<span class="co">## <span style="color: #555555;"># Features=230 | Active assay=RNA | Assays=RNA</span></span></code></pre>
+<span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
+<span class="co">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> ATGC… SeuratPro…         70           47 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> CATG… SeuratPro…         85           52 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> GAAC… SeuratPro…         87           50 1               B             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> TGAC… SeuratPro…        127           56 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> AGTC… SeuratPro…        173           53 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> TCTG… SeuratPro…         70           48 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> TGGT… SeuratPro…         64           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> GCAG… SeuratPro…         72           45 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> GATA… SeuratPro…         52           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> AATG… SeuratPro…        100           41 0               A             g1    </span>
+<span class="co">## <span style="color: #949494;"># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre>
 <p><strong>But it is a Seurat object after all</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small</span><span class="op">@</span><span class="va">assays</span></code></pre></div>
@@ -283,7 +297,22 @@
 
 <span class="va">pbmc_small_pca</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 17</span></span>
-<span class="co">## <span style="color: #555555;"># Features=220 | Active assay=SCT | Assays=RNA, SCT</span></span></code></pre>
+<span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT</span></span>
+<span class="co">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> ATGC… SeuratPro…         70           47 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> CATG… SeuratPro…         85           52 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> GAAC… SeuratPro…         87           50 1               B             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> TGAC… SeuratPro…        127           56 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> AGTC… SeuratPro…        173           53 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> TCTG… SeuratPro…         70           48 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> TGGT… SeuratPro…         64           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> GCAG… SeuratPro…         72           45 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> GATA… SeuratPro…         52           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> AATG… SeuratPro…        100           41 0               A             g1    </span>
+<span class="co">## <span style="color: #949494;"># … with 70 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre>
 <p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_pca</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -305,7 +334,23 @@
 
 <span class="va">pbmc_small_cluster</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 19</span></span>
-<span class="co">## <span style="color: #555555;"># Features=220 | Active assay=SCT | Assays=RNA, SCT</span></span></code></pre>
+<span class="co">## <span style="color: #949494;"># </span><span style="color: #555555;">Features=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT</span></span>
+<span class="co">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> ATGC… SeuratPro…         70           47 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> CATG… SeuratPro…         85           52 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> GAAC… SeuratPro…         87           50 1               B             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> TGAC… SeuratPro…        127           56 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> AGTC… SeuratPro…        173           53 0               A             g2    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> TCTG… SeuratPro…         70           48 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> TGGT… SeuratPro…         64           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> GCAG… SeuratPro…         72           45 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> GATA… SeuratPro…         52           36 0               A             g1    </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> AATG… SeuratPro…        100           41 0               A             g1    </span>
+<span class="co">## <span style="color: #949494;"># … with 70 more rows, and 12 more variables: RNA_snn_res.1 &lt;fct&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   seurat_clusters &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span></span>
+<span class="co">## <span style="color: #949494;">#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre>
 <p>Now we can interrogate the object as if it was a regular tibble data frame.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -330,7 +375,8 @@
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
-  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  mutate(orig.ident = seurat_clusters) %>% 
+  FindAllMarkers(only.pos = TRUE) %>%
   group_by(cluster) %>%
   top_n(10, avg_logFC)
 
@@ -358,7 +404,6 @@ pbmc_small_cluster %>%
     features <span class="op">=</span> <span class="va">markers</span><span class="op">$</span><span class="va">gene</span>,
     group.colors <span class="op">=</span> <span class="va">friendly_cols</span>
   <span class="op">)</span></code></pre></div>
-<p><img src="introduction_files/figure-html/markers_v4-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="reduce-dimensions">Reduce dimensions<a class="anchor" aria-label="anchor" href="#reduce-dimensions"></a>
@@ -367,7 +412,7 @@ pbmc_small_cluster %>%
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_UMAP</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, n.components <span class="op">=</span> <span class="fl">3L</span>, <span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html" class="external-link">RunUMAP</a></span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">"pca"</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, n.components <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></code></pre></div>
 <p>And we can plot them using 3D plot using plotly.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_UMAP</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -411,26 +456,12 @@ pbmc_small_cluster %>%
 <span class="co"># Reorder columns</span>
 <span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="../reference/dplyr-methods.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 23</span></span>
-<span class="co">## <span style="color: #555555;"># Features=220 | Active assay=SCT | Assays=RNA, SCT</span></span></code></pre>
 <p>We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">seurat_clusters</span>, <span class="va">first.labels</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 9 × 3</span></span>
-<span class="co">##   seurat_clusters first.labels     n</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> 0               CD4+ T-cells     8</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> 0               CD8+ T-cells    10</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> 0               NK cells        12</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> 1               Macrophages      1</span>
-<span class="co">## <span style="color: #BCBCBC;">5</span> 1               Monocytes       25</span>
-<span class="co">## <span style="color: #BCBCBC;">6</span> 2               B-cells         10</span>
-<span class="co">## <span style="color: #BCBCBC;">7</span> 2               Macrophages      1</span>
-<span class="co">## <span style="color: #BCBCBC;">8</span> 2               Monocytes        4</span>
-<span class="co">## <span style="color: #BCBCBC;">9</span> 3               Erythrocytes     9</span></code></pre>
 <p>We can easily reshape the data for building information-rich faceted plots.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
 
   <span class="co"># Reshape and add classifier column</span>
@@ -444,9 +475,8 @@ pbmc_small_cluster %>%
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">classifier</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">my_theme</span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>We can easily plot gene correlation per cell category, adding multi-layer annotations.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
 
   <span class="co"># Add some mitochondrial abundance values</span>
@@ -460,14 +490,13 @@ pbmc_small_cluster %>%
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">my_theme</span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="nested-analyses">Nested analyses<a class="anchor" aria-label="anchor" href="#nested-analyses"></a>
 </h2>
 <p>A powerful tool we can use with tidyseurat is <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_nested</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/dplyr-methods.html">filter</a></span><span class="op">(</span><span class="va">first.labels</span> <span class="op">!=</span> <span class="st">"Erythrocytes"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
@@ -475,13 +504,8 @@ pbmc_small_cluster %>%
   <span class="fu"><a href="../reference/tidyr-methods.html">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">cell_class</span><span class="op">)</span>
 
 <span class="va">pbmc_small_nested</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">##   cell_class data         </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> lymphoid   <span style="color: #949494;">&lt;Seurat[,40]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> myeloid    <span style="color: #949494;">&lt;Seurat[,31]&gt;</span></span></code></pre>
 <p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">&lt;-</span>
   <span class="va">pbmc_small_nested</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/dplyr-methods.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span>
@@ -494,13 +518,8 @@ pbmc_small_cluster %>%
   <span class="op">)</span><span class="op">)</span>
 
 <span class="va">pbmc_small_nested_reanalysed</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">##   cell_class data         </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> lymphoid   <span style="color: #949494;">&lt;Seurat[,40]&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> myeloid    <span style="color: #949494;">&lt;Seurat[,31]&gt;</span></span></code></pre>
 <p>Now we can unnest and plot the new classification.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pbmc_small_nested_reanalysed</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
 
   <span class="co"># Convert to tibble otherwise Seurat drops reduced dimensions when unifying data sets.</span>
@@ -515,12 +534,11 @@ pbmc_small_cluster %>%
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cell_class</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">my_theme</span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## R version 4.2.0 (2022-04-22)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
@@ -540,7 +558,7 @@ pbmc_small_cluster %>%
 <span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">##  [1] tidyseurat_0.5.2   ttservice_0.1.2    sp_1.4-7           SeuratObject_4.1.0</span>
+<span class="co">##  [1] tidyseurat_0.5.3   ttservice_0.1.2    sp_1.4-7           SeuratObject_4.1.0</span>
 <span class="co">##  [5] Seurat_4.1.1       ggplot2_3.3.6      magrittr_2.0.3     purrr_0.3.4       </span>
 <span class="co">##  [9] tidyr_1.2.0        dplyr_1.0.9        knitr_1.39        </span>
 <span class="co">## </span>
@@ -549,43 +567,42 @@ pbmc_small_cluster %>%
 <span class="co">##   [4] ellipsis_0.3.2        ggridges_0.5.3        rprojroot_2.0.3      </span>
 <span class="co">##   [7] fs_1.5.2              spatstat.data_2.2-0   farver_2.1.0         </span>
 <span class="co">##  [10] leiden_0.4.2          listenv_0.8.0         ggrepel_0.9.1        </span>
-<span class="co">##  [13] RSpectra_0.16-1       fansi_1.0.3           codetools_0.2-18     </span>
-<span class="co">##  [16] splines_4.2.0         cachem_1.0.6          polyclip_1.10-0      </span>
-<span class="co">##  [19] jsonlite_1.8.0        ica_1.0-2             cluster_2.1.3        </span>
-<span class="co">##  [22] png_0.1-7             rgeos_0.5-9           uwot_0.1.11          </span>
-<span class="co">##  [25] shiny_1.7.1           sctransform_0.3.3     spatstat.sparse_2.1-1</span>
-<span class="co">##  [28] compiler_4.2.0        httr_1.4.3            Matrix_1.4-1         </span>
-<span class="co">##  [31] fastmap_1.1.0         lazyeval_0.2.2        cli_3.3.0            </span>
-<span class="co">##  [34] later_1.3.0           htmltools_0.5.2       tools_4.2.0          </span>
-<span class="co">##  [37] igraph_1.3.1          gtable_0.3.0          glue_1.6.2           </span>
-<span class="co">##  [40] RANN_2.6.1            reshape2_1.4.4        Rcpp_1.0.8.3         </span>
-<span class="co">##  [43] scattermore_0.8       jquerylib_0.1.4       pkgdown_2.0.3        </span>
-<span class="co">##  [46] vctrs_0.4.1           nlme_3.1-157          progressr_0.10.0     </span>
-<span class="co">##  [49] lmtest_0.9-40         spatstat.random_2.2-0 xfun_0.31            </span>
-<span class="co">##  [52] stringr_1.4.0         globals_0.15.0        mime_0.12            </span>
-<span class="co">##  [55] miniUI_0.1.1.1        lifecycle_1.0.1       irlba_2.3.5          </span>
-<span class="co">##  [58] goftest_1.2-3         future_1.25.0         MASS_7.3-56          </span>
-<span class="co">##  [61] zoo_1.8-10            scales_1.2.0          spatstat.core_2.4-4  </span>
-<span class="co">##  [64] ragg_1.2.2            promises_1.2.0.1      spatstat.utils_2.3-1 </span>
-<span class="co">##  [67] parallel_4.2.0        RColorBrewer_1.1-3    yaml_2.3.5           </span>
-<span class="co">##  [70] memoise_2.0.1         reticulate_1.25       pbapply_1.5-0        </span>
-<span class="co">##  [73] gridExtra_2.3         sass_0.4.1            rpart_4.1.16         </span>
-<span class="co">##  [76] reshape_0.8.9         stringi_1.7.6         highr_0.9            </span>
-<span class="co">##  [79] desc_1.4.1            rlang_1.0.2           pkgconfig_2.0.3      </span>
-<span class="co">##  [82] systemfonts_1.0.4     matrixStats_0.62.0    evaluate_0.15        </span>
-<span class="co">##  [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          </span>
-<span class="co">##  [88] labeling_0.4.2        patchwork_1.1.1       htmlwidgets_1.5.4    </span>
-<span class="co">##  [91] cowplot_1.1.1         tidyselect_1.1.2      GGally_2.1.2         </span>
-<span class="co">##  [94] parallelly_1.31.1     RcppAnnoy_0.0.19      plyr_1.8.7           </span>
-<span class="co">##  [97] R6_2.5.1              generics_0.1.2        mgcv_1.8-40          </span>
-<span class="co">## [100] pillar_1.7.0          withr_2.5.0           fitdistrplus_1.1-8   </span>
-<span class="co">## [103] abind_1.4-5           survival_3.3-1        tibble_3.1.7         </span>
-<span class="co">## [106] future.apply_1.9.0    crayon_1.5.1          KernSmooth_2.23-20   </span>
-<span class="co">## [109] utf8_1.2.2            spatstat.geom_2.4-0   plotly_4.10.0        </span>
-<span class="co">## [112] rmarkdown_2.14        grid_4.2.0            data.table_1.14.2    </span>
-<span class="co">## [115] digest_0.6.29         xtable_1.8-4          httpuv_1.6.5         </span>
-<span class="co">## [118] textshaping_0.3.6     munsell_0.5.0         viridisLite_0.4.0    </span>
-<span class="co">## [121] bslib_0.3.1</span></code></pre>
+<span class="co">##  [13] fansi_1.0.3           codetools_0.2-18      splines_4.2.0        </span>
+<span class="co">##  [16] cachem_1.0.6          polyclip_1.10-0       jsonlite_1.8.0       </span>
+<span class="co">##  [19] ica_1.0-2             cluster_2.1.3         png_0.1-7            </span>
+<span class="co">##  [22] rgeos_0.5-9           uwot_0.1.11           shiny_1.7.1          </span>
+<span class="co">##  [25] sctransform_0.3.3     spatstat.sparse_2.1-1 compiler_4.2.0       </span>
+<span class="co">##  [28] httr_1.4.3            Matrix_1.4-1          fastmap_1.1.0        </span>
+<span class="co">##  [31] lazyeval_0.2.2        cli_3.3.0             later_1.3.0          </span>
+<span class="co">##  [34] htmltools_0.5.2       tools_4.2.0           igraph_1.3.1         </span>
+<span class="co">##  [37] gtable_0.3.0          glue_1.6.2            RANN_2.6.1           </span>
+<span class="co">##  [40] reshape2_1.4.4        Rcpp_1.0.8.3          scattermore_0.8      </span>
+<span class="co">##  [43] jquerylib_0.1.4       pkgdown_2.0.3         vctrs_0.4.1          </span>
+<span class="co">##  [46] nlme_3.1-157          progressr_0.10.0      lmtest_0.9-40        </span>
+<span class="co">##  [49] spatstat.random_2.2-0 xfun_0.31             stringr_1.4.0        </span>
+<span class="co">##  [52] globals_0.15.0        mime_0.12             miniUI_0.1.1.1       </span>
+<span class="co">##  [55] lifecycle_1.0.1       irlba_2.3.5           goftest_1.2-3        </span>
+<span class="co">##  [58] future_1.25.0         MASS_7.3-56           zoo_1.8-10           </span>
+<span class="co">##  [61] scales_1.2.0          spatstat.core_2.4-4   ragg_1.2.2           </span>
+<span class="co">##  [64] promises_1.2.0.1      spatstat.utils_2.3-1  parallel_4.2.0       </span>
+<span class="co">##  [67] RColorBrewer_1.1-3    yaml_2.3.5            memoise_2.0.1        </span>
+<span class="co">##  [70] reticulate_1.25       pbapply_1.5-0         gridExtra_2.3        </span>
+<span class="co">##  [73] sass_0.4.1            rpart_4.1.16          reshape_0.8.9        </span>
+<span class="co">##  [76] stringi_1.7.6         highr_0.9             desc_1.4.1           </span>
+<span class="co">##  [79] rlang_1.0.2           pkgconfig_2.0.3       systemfonts_1.0.4    </span>
+<span class="co">##  [82] matrixStats_0.62.0    evaluate_0.15         lattice_0.20-45      </span>
+<span class="co">##  [85] tensor_1.5            ROCR_1.0-11           labeling_0.4.2       </span>
+<span class="co">##  [88] patchwork_1.1.1       htmlwidgets_1.5.4     cowplot_1.1.1        </span>
+<span class="co">##  [91] tidyselect_1.1.2      GGally_2.1.2          parallelly_1.31.1    </span>
+<span class="co">##  [94] RcppAnnoy_0.0.19      plyr_1.8.7            R6_2.5.1             </span>
+<span class="co">##  [97] generics_0.1.2        mgcv_1.8-40           pillar_1.7.0         </span>
+<span class="co">## [100] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          </span>
+<span class="co">## [103] survival_3.3-1        tibble_3.1.7          future.apply_1.9.0   </span>
+<span class="co">## [106] crayon_1.5.1          KernSmooth_2.23-20    utf8_1.2.2           </span>
+<span class="co">## [109] spatstat.geom_2.4-0   plotly_4.10.0         rmarkdown_2.14       </span>
+<span class="co">## [112] grid_4.2.0            data.table_1.14.2     digest_0.6.29        </span>
+<span class="co">## [115] xtable_1.8-4          httpuv_1.6.5          textshaping_0.3.6    </span>
+<span class="co">## [118] munsell_0.5.0         viridisLite_0.4.0     bslib_0.3.1</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
