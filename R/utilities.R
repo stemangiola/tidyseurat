@@ -378,3 +378,19 @@ c_ =  function(x){
   if("cell__" %in% names(x@misc)) cell__ = x@misc$cell__
   return(cell__)
 }
+
+#' Add attribute to abject
+#'
+#' @keywords internal
+#' @noRd
+#'
+#'
+#' @param var A tibble
+#' @param attribute An object
+#' @param name A character name of the attribute
+#'
+#' @return A tibble with an additional attribute
+add_attr = function(var, attribute, name) {
+  attr(var, name) <- attribute
+  var
+}

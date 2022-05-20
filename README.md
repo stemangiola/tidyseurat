@@ -8,16 +8,14 @@ tidyseurat - part of tidytranscriptomics
 status](https://github.com/stemangiola/tidyseurat/workflows/R-CMD-check/badge.svg)](https://github.com/stemangiola/tidyseurat/actions/)
 <!-- badges: end -->
 
+<a href="https://www.youtube.com/watch?feature=player_embedded&v=wKnyocRCvW4" target="_blank">
+<img src="https://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10" />
+</a>
+
 **Brings Seurat to the tidyverse!**
 
 website:
 [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidyseurat/)
-
-Introductory seminar
-
-<a href="https://www.youtube.com/watch?feature=player_embedded&v=wKnyocRCvW4" target="_blank">
- <img src="https://img.youtube.com/vi/wKnyocRCvW4/mqdefault.jpg" alt="Watch the video" width="280" height="180" border="10" />
-</a>
 
 Please also have a look at
 
@@ -93,7 +91,7 @@ This is a seurat object but it is evaluated as tibble. So it is fully
 compatible both with Seurat and tidyverse APIs.
 
 ``` r
-data("pbmc_small")
+pbmc_small = SeuratObject::pbmc_small
 ```
 
 **It looks like a tibble**
@@ -102,9 +100,9 @@ data("pbmc_small")
 pbmc_small
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 15
-    ## [90m# Features=230 | Active assay=RNA | Assays=RNA[39m
-    ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+    ## # A Seurat-tibble abstraction: 80 × 15
+    ## # [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m
+    ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
     ##  2 CATG… SeuratPro…         85           52 0               A             g1    
@@ -213,9 +211,9 @@ pbmc_small_pca <-
 pbmc_small_pca
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 17
-    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
-    ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+    ## # A Seurat-tibble abstraction: 80 × 17
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
     ##  2 CATG… SeuratPro…         85           52 0               A             g1    
@@ -257,9 +255,9 @@ pbmc_small_cluster <-
 pbmc_small_cluster
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 19
-    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
-    ##    cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
+    ## # A Seurat-tibble abstraction: 80 × 19
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
     ##  2 CATG… SeuratPro…         85           52 0               A             g1    
@@ -284,17 +282,11 @@ pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
 ```
 
-    ## # A tibble: 8 x 3
+    ## # A tibble: 2 × 3
     ##   groups seurat_clusters     n
     ##   <chr>  <fct>           <int>
-    ## 1 g1     0                  17
-    ## 2 g1     1                  14
-    ## 3 g1     2                   9
-    ## 4 g1     3                   4
-    ## 5 g2     0                  13
-    ## 6 g2     1                  12
-    ## 7 g2     2                   6
-    ## 8 g2     3                   5
+    ## 1 g1     0                  44
+    ## 2 g2     0                  36
 
 We can identify cluster markers using Seurat.
 
@@ -306,7 +298,8 @@ We can identify cluster markers using Seurat.
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
-  FindAllMarkers(only.pos = TRUE, min.pct = 0.25, thresh.use = 0.25) %>%
+  mutate(orig.ident = seurat_clusters) %>% 
+  FindAllMarkers(only.pos = TRUE) %>%
   group_by(cluster) %>%
   top_n(10, avg_logFC)
 
@@ -337,8 +330,6 @@ pbmc_small_cluster %>%
   )
 ```
 
-![](man/figures/markers_v4-1.png)<!-- -->
-
 # Reduce dimensions
 
 We can calculate the first 3 UMAP dimensions using the Seurat framework.
@@ -346,7 +337,7 @@ We can calculate the first 3 UMAP dimensions using the Seurat framework.
 ``` r
 pbmc_small_UMAP <-
   pbmc_small_cluster %>%
-  RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L, )
+  RunUMAP(reduction = "pca", dims = 1:15, n.components = 3L)
 ```
 
 And we can plot them using 3D plot using plotly.
@@ -399,26 +390,6 @@ pbmc_small_cell_type %>%
   tidyseurat::select(cell, first.labels, everything())
 ```
 
-    ## # A Seurat-tibble abstraction: 80 x 23
-    ## [90m# Features=220 | Active assay=SCT | Assays=RNA, SCT[39m
-    ##    cell  first.labels orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8
-    ##    <chr> <chr>        <fct>           <dbl>        <int> <fct>          
-    ##  1 ATGC… CD4+ T-cells SeuratPro…         70           47 0              
-    ##  2 CATG… CD8+ T-cells SeuratPro…         85           52 0              
-    ##  3 GAAC… CD8+ T-cells SeuratPro…         87           50 1              
-    ##  4 TGAC… CD4+ T-cells SeuratPro…        127           56 0              
-    ##  5 AGTC… CD4+ T-cells SeuratPro…        173           53 0              
-    ##  6 TCTG… CD4+ T-cells SeuratPro…         70           48 0              
-    ##  7 TGGT… CD4+ T-cells SeuratPro…         64           36 0              
-    ##  8 GCAG… CD4+ T-cells SeuratPro…         72           45 0              
-    ##  9 GATA… CD4+ T-cells SeuratPro…         52           36 0              
-    ## 10 AATG… CD4+ T-cells SeuratPro…        100           41 0              
-    ## # … with 70 more rows, and 17 more variables: letter.idents <fct>,
-    ## #   groups <chr>, RNA_snn_res.1 <fct>, nCount_SCT <dbl>, nFeature_SCT <int>,
-    ## #   SCT_snn_res.0.8 <fct>, seurat_clusters <fct>, PC_1 <dbl>, PC_2 <dbl>,
-    ## #   PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>,
-    ## #   UMAP_1 <dbl>, UMAP_2 <dbl>, UMAP_3 <dbl>
-
 We can easily summarise the results. For example, we can see how cell
 type classification overlaps with cluster classification.
 
@@ -426,19 +397,6 @@ type classification overlaps with cluster classification.
 pbmc_small_cell_type %>%
   count(seurat_clusters, first.labels)
 ```
-
-    ## # A tibble: 9 x 3
-    ##   seurat_clusters first.labels     n
-    ##   <fct>           <chr>        <int>
-    ## 1 0               CD4+ T-cells     8
-    ## 2 0               CD8+ T-cells    10
-    ## 3 0               NK cells        12
-    ## 4 1               Macrophages      1
-    ## 5 1               Monocytes       25
-    ## 6 2               B-cells         10
-    ## 7 2               Macrophages      1
-    ## 8 2               Monocytes        4
-    ## 9 3               Erythrocytes     9
 
 We can easily reshape the data for building information-rich faceted
 plots.
@@ -459,8 +417,6 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-16-1.png)<!-- -->
-
 We can easily plot gene correlation per cell category, adding
 multi-layer annotations.
 
@@ -480,8 +436,6 @@ pbmc_small_cell_type %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-17-1.png)<!-- -->
-
 # Nested analyses
 
 A powerful tool we can use with tidyseurat is `nest`. We can easily
@@ -498,12 +452,6 @@ pbmc_small_nested <-
 
 pbmc_small_nested
 ```
-
-    ## # A tibble: 2 x 2
-    ##   cell_class data         
-    ##   <chr>      <list>       
-    ## 1 lymphoid   <Seurat[,40]>
-    ## 2 myeloid    <Seurat[,31]>
 
 Now we can independently for the lymphoid and myeloid subsets (i) find
 variable features, (ii) reduce dimensions, and (iii) cluster using both
@@ -524,12 +472,6 @@ pbmc_small_nested_reanalysed <-
 pbmc_small_nested_reanalysed
 ```
 
-    ## # A tibble: 2 x 2
-    ##   cell_class data         
-    ##   <chr>      <list>       
-    ## 1 lymphoid   <Seurat[,40]>
-    ## 2 myeloid    <Seurat[,31]>
-
 Now we can unnest and plot the new classification.
 
 ``` r
@@ -548,5 +490,3 @@ pbmc_small_nested_reanalysed %>%
   facet_wrap(~cell_class) +
   my_theme
 ```
-
-![](man/figures/unnamed-chunk-20-1.png)<!-- -->
