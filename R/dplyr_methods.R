@@ -65,7 +65,6 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 }
 
 
-
 #' Efficiently bind multiple data frames by row and column
 #'
 #' This is an efficient implementation of the common pattern of
@@ -75,6 +74,8 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' The output of `bind_rows()` will contain a column if that column
 #' appears in any of the inputs.
 #'
+#' @importFrom ttservice bind_rows
+#' 
 #' @param ... Data frames to combine.
 #'
 #'   Each argument can either be a data frame, a list that could be a data
@@ -106,29 +107,17 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
-#' @name bind
+#' @name bind_rows
 NULL
 
 
-#' @rdname dplyr-methods
-#'
-#' @inheritParams bind
-#'
-#' @export
-#'
-bind_rows <- function(..., .id = NULL,  add.cell.ids = NULL) {
-  UseMethod("bind_rows")
-}
-
-#' @export
-bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
-{
-  dplyr::bind_rows(..., .id = .id)
-}
-
+#' @importFrom ttservice bind_rows
+#' 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
+#' 
+#' @inheritParams bind_rows
 #'
 #' @export
 #'
@@ -150,6 +139,7 @@ bind_rows.Seurat <- function(..., .id = NULL,  add.cell.ids = NULL)
 
 }
 
+
 bind_cols_ = function(..., .id = NULL){
 
   tts = flatten_if(dots_values(...), is_spliced)
@@ -160,24 +150,59 @@ bind_cols_ = function(..., .id = NULL){
 
 }
 
-#' @export
+#' Efficiently bind multiple data frames by row and column
 #'
-#' @inheritParams bind
+#' This is an efficient implementation of the common pattern of
+#' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+#' data frames into one.
 #'
-#' @rdname dplyr-methods
-bind_cols <- function(..., .id = NULL) {
-  UseMethod("bind_cols")
-}
+#' The output of `bind_rows()` will contain a column if that column
+#' appears in any of the inputs.
+#'
+#' @importFrom ttservice bind_cols
+#' 
+#' @param ... Data frames to combine.
+#'
+#'   Each argument can either be a data frame, a list that could be a data
+#'   frame, or a list of data frames.
+#'
+#'   When row-binding, columns are matched by name, and any missing
+#'   columns will be filled with NA.
+#'
+#'   When column-binding, rows are matched by position, so all data
+#'   frames must have the same number of rows. To match by value, not
+#'   position, see mutate-joins.
+#' @param .id Data frame identifier.
+#'
+#'   When `.id` is supplied, a new column of identifiers is
+#'   created to link each row to its original data frame. The labels
+#'   are taken from the named arguments to `bind_rows()`. When a
+#'   list of data frames is supplied, the labels are taken from the
+#'   names of the list. If no names are found a numeric sequence is
+#'   used instead.
+#' @param add.cell.ids from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
+#'
+#' @return `bind_rows()` and `bind_cols()` return the same type as
+#'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
+#' @examples
+#' `%>%` = magrittr::`%>%`
+#' tt = pbmc_small
+#' bind_rows(    tt, tt  )
+#'
+#' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
+#' tt %>% bind_cols(tt_bind)
+#'
+#' @name bind_cols
+NULL
 
-#' @export
-bind_cols.default <-  function(..., .id = NULL)
-{
-  dplyr::bind_cols(..., .id = .id)
-}
-
+#' @importFrom ttservice bind_cols
+#' 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
+#' 
+#' @inheritParams bind_cols
+#'
 #'
 #' @export
 #'
@@ -426,7 +451,6 @@ summarise.Seurat <- function (.data, ...)
     dplyr::summarise( ...)
 
 }
-
 
 #' Create, modify, and delete columns
 #'
@@ -1136,26 +1160,15 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  count(groups)
+#' 
+#' @importFrom dplyr count
+#' @name count
 #'
 #'
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-UseMethod("count")
-}
+NULL
 
-#' @export
-count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  if (!missing(...)) {
-    out <- dplyr::group_by(x, ..., .add = TRUE, .drop = .drop)
-  }
-  else {
-    out <- x
-  }
-  out <- dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  if (is.data.frame(x)) {
-    out <- dplyr::dplyr_reconstruct(out, x)
-  }
-  out}
-
+#' @name count
+#' 
 #' @export
 count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
@@ -1175,22 +1188,57 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 
 }
 
+#' Count observations by group
+#'
+#' @description
+#' `count()` lets you quickly count the unique values of one or more variables:
+#' `df %>% count(a, b)` is roughly equivalent to
+#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `count()` is paired with `tally()`, a lower-level helper that is equivalent
+#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
+#' switching the summary from `n = n()` to `n = sum(wt)`.
+#'
+#' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
+#' but use `mutate()` instead of `summarise()` so that they add a new column
+#' with group-wise counts.
+#'
+#' @param x A data frame, data frame extension (e.g. a tibble), or a
+#'   lazy data frame (e.g. from dbplyr or dtplyr).
+#' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
+#' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
+#'   Can be `NULL` or a variable:
+#'
+#'   * If `NULL` (the default), counts the number of rows in each group.
+#'   * If a variable, computes `sum(wt)` for each group.
+#' @param sort If `TRUE`, will show the largest groups at the top.
+#' @param name The name of the new column in the output.
+#'
+#'   If omitted, it will default to `n`. If there's already a column called `n`,
+#'   it will error, and require you to specify the name.
+#' @param .drop For `count()`: if `FALSE` will include counts for empty groups
+#'   (i.e. for levels of factors that don't exist in the data). Deprecated in
+#'   `add_count()` since it didn't actually affect the output.
+#' @return
+#' An object of the same type as `.data`. `count()` and `add_count()`
+#' group transiently, so the output has the same groups as the input.
 #' @export
-#' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  UseMethod("add_count")
-}
+#' @examples
+#'
+#' `%>%` = magrittr::`%>%`
+#' data("pbmc_small")
+#' pbmc_small %>%  count(groups)
+#' 
+#' @importFrom dplyr add_count
+#' @name add_count
+#'
+#'
+NULL
 
+#' @importFrom dplyr add_count
+#' 
 #' @export
-#' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-
-  dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-
-}
-
-#' @export
-#' @rdname count
+#' 
+#' @rdname add_count
 add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
   # Deprecation of special column names

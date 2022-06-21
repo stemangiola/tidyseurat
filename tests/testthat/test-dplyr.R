@@ -144,6 +144,7 @@ test_that("sample_frac",{
 test_that("count",{
 
   expect_equal(   pbmc_small %>% count(groups) %>% nrow,   2  )
-
+  
+  expect_equal(   pbmc_small %>% add_count(groups) %>% nrow,   230  )
 
 })
