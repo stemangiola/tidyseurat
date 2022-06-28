@@ -107,6 +107,8 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
+#' @export
+#'
 #' @name bind_rows
 NULL
 
@@ -191,6 +193,8 @@ bind_cols_ = function(..., .id = NULL){
 #'
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
+#'
+#' @export
 #'
 #' @name bind_cols
 NULL
