@@ -1,4 +1,4 @@
-tidyseurat - part of tidytranscriptomics
+tidyseurat - part of tidytranscriptomics 
 ================
 
 <!-- badges: start -->
