@@ -25,7 +25,7 @@ with group-wise counts."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
       </span>
     </div>
 
@@ -79,43 +79,43 @@ with group-wise counts.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">count</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">...</span>,
-  wt <span class="op">=</span> <span class="cn">NULL</span>,
-  sort <span class="op">=</span> <span class="cn">FALSE</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">add_count</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">...</span>,
-  wt <span class="op">=</span> <span class="cn">NULL</span>,
-  sort <span class="op">=</span> <span class="cn">FALSE</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">add_count</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">...</span>,
-  wt <span class="op">=</span> <span class="cn">NULL</span>,
-  sort <span class="op">=</span> <span class="cn">FALSE</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for Seurat</span>
-<span class="fu">add_count</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">...</span>,
-  wt <span class="op">=</span> <span class="cn">NULL</span>,
-  sort <span class="op">=</span> <span class="cn">FALSE</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">count</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  wt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_count</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  wt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">add_count</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  wt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for Seurat</span></span>
+<span><span class="fu">add_count</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  wt <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .drop <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by_drop_default.html" class="external-link">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -123,44 +123,57 @@ with group-wise counts.</p>
     <dl><dt>x</dt>
 <dd><p>A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>&lt;[`data-masking`][dplyr_data_masking]&gt; Variables to group by.</p></dd>
+
+
 <dt>wt</dt>
 <dd><p>&lt;[`data-masking`][dplyr_data_masking]&gt; Frequency weights.
   Can be `NULL` or a variable:</p>
 <p>* If `NULL` (the default), counts the number of rows in each group.
   * If a variable, computes `sum(wt)` for each group.</p></dd>
+
+
 <dt>sort</dt>
 <dd><p>If `TRUE`, will show the largest groups at the top.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>The name of the new column in the output.</p>
 <p>If omitted, it will default to `n`. If there's already a column called `n`,
   it will error, and require you to specify the name.</p></dd>
+
+
 <dt>.drop</dt>
 <dd><p>For `count()`: if `FALSE` will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data). Deprecated in
 `add_count()` since it didn't actually affect the output.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of the same type as `.data`. `count()` and `add_count()`
+    
+
+<p>An object of the same type as `.data`. `count()` and `add_count()`
 group transiently, so the output has the same groups as the input.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">`%&gt;%`</span> <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">count</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">`%&gt;%`</span> <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">count</span><span class="op">(</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tidyseurat says: A data frame is returned for independent data analysis.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   groups     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> g1        44</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> g2        36</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -175,7 +188,7 @@ group transiently, so the output has the same groups as the input.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

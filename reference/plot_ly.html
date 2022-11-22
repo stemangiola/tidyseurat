@@ -22,7 +22,7 @@ some different defaults to make the interface feel more 'R-like'
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
       </span>
     </div>
 
@@ -73,51 +73,59 @@ some different defaults to make the interface feel more 'R-like'
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_ly</span><span class="op">(</span>
-  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>,
-  <span class="va">...</span>,
-  type <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  color <span class="op">=</span> <span class="cn">NULL</span>,
-  colors <span class="op">=</span> <span class="cn">NULL</span>,
-  alpha <span class="op">=</span> <span class="cn">NULL</span>,
-  stroke <span class="op">=</span> <span class="cn">NULL</span>,
-  strokes <span class="op">=</span> <span class="cn">NULL</span>,
-  alpha_stroke <span class="op">=</span> <span class="fl">1</span>,
-  size <span class="op">=</span> <span class="cn">NULL</span>,
-  sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span>,
-  span <span class="op">=</span> <span class="cn">NULL</span>,
-  spans <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span><span class="op">)</span>,
-  symbol <span class="op">=</span> <span class="cn">NULL</span>,
-  symbols <span class="op">=</span> <span class="cn">NULL</span>,
-  linetype <span class="op">=</span> <span class="cn">NULL</span>,
-  linetypes <span class="op">=</span> <span class="cn">NULL</span>,
-  split <span class="op">=</span> <span class="cn">NULL</span>,
-  frame <span class="op">=</span> <span class="cn">NULL</span>,
-  width <span class="op">=</span> <span class="cn">NULL</span>,
-  height <span class="op">=</span> <span class="cn">NULL</span>,
-  source <span class="op">=</span> <span class="st">"A"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_ly</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stroke <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  strokes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alpha_stroke <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span>,</span>
+<span>  span <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  spans <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  symbol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  symbols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  linetype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  linetypes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  split <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  frame <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  source <span class="op">=</span> <span class="st">"A"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>A data frame (optional) or [crosstalk::SharedData] object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments (i.e., attributes) passed along to the trace `type`.
 See [schema()] for a list of acceptable attributes for a given trace `type`
 (by going to `traces` -&gt; `type` -&gt; `attributes`). Note that attributes
 provided at this level may override other arguments
 (e.g. `plot_ly(x=1:10, y=1:10, color=I("red"), marker=list(color="blue"))`).</p></dd>
+
+
 <dt>type</dt>
 <dd><p>A character string specifying the trace type
   (e.g. `"scatter"`, `"bar"`, `"box"`, etc).
 If specified, it *always* creates a trace, otherwise</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Values mapped to the trace's name attribute. Since a trace can
 only have one name, this argument acts very much like `split` in that it
 creates one trace for every unique value.</p></dd>
+
+
 <dt>color</dt>
 <dd><p>Values mapped to relevant 'fill-color' attribute(s)
 (e.g. [fillcolor](https://plot.ly/r/reference#scatter-fillcolor),
@@ -127,23 +135,35 @@ The mapping from data values to color codes may be controlled using
 `colors` and `alpha`, or avoided altogether via [I()]
   (e.g., `color=I("red")`).
 Any color understood by [grDevices::col2rgb()] may be used in this way.</p></dd>
+
+
 <dt>colors</dt>
 <dd><p>Either a colorbrewer2.org palette name
   (e.g. "YlOrRd" or "Blues"),
 or a vector of colors to interpolate in hexadecimal "#RRGGBB" format,
 or a color interpolation function like `colorRamp()`.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>A number between 0 and 1 specifying the alpha channel applied to `color`.
 Defaults to 0.5 when mapping to [fillcolor](https://plot.ly/r/reference#scatter-fillcolor) and 1 otherwise.</p></dd>
+
+
 <dt>stroke</dt>
 <dd><p>Similar to `color`, but values are mapped to relevant 'stroke-color' attribute(s)
 (e.g., [marker.line.color](https://plot.ly/r/reference#scatter-marker-line-color)
  and [line.color](https://plot.ly/r/reference#scatter-line-color)
 for filled polygons). If not specified, `stroke` inherits from `color`.</p></dd>
+
+
 <dt>strokes</dt>
 <dd><p>Similar to `colors`, but controls the `stroke` mapping.</p></dd>
+
+
 <dt>alpha_stroke</dt>
 <dd><p>Similar to `alpha`, but applied to `stroke`.</p></dd>
+
+
 <dt>size</dt>
 <dd><p>(Numeric) values mapped to relevant 'fill-size' attribute(s)
 (e.g., [marker.size](https://plot.ly/r/reference#scatter-marker-size),
@@ -151,8 +171,12 @@ for filled polygons). If not specified, `stroke` inherits from `color`.</p></dd>
 and [error_x.width](https://plot.ly/r/reference#scatter-error_x-width)).
 The mapping from data values to symbols may be controlled using
 `sizes`, or avoided altogether via [I()] (e.g., `size=I(30)`).</p></dd>
+
+
 <dt>sizes</dt>
 <dd><p>A numeric vector of length 2 used to scale `size` to pixels.</p></dd>
+
+
 <dt>span</dt>
 <dd><p>(Numeric) values mapped to relevant 'stroke-size' attribute(s)
 (e.g.,
@@ -161,38 +185,61 @@ The mapping from data values to symbols may be controlled using
 and [error_x.thickness](https://plot.ly/r/reference#scatter-error_x-thickness))
 The mapping from data values to symbols may be controlled using
 `spans`, or avoided altogether via [I()] (e.g., `span=I(30)`).</p></dd>
+
+
 <dt>spans</dt>
 <dd><p>A numeric vector of length 2 used to scale `span` to pixels.</p></dd>
+
+
 <dt>symbol</dt>
 <dd><p>(Discrete) values mapped to [marker.symbol](https://plot.ly/r/reference#scatter-marker-symbol).
 The mapping from data values to symbols may be controlled using
 `symbols`, or avoided altogether via [I()] (e.g., `symbol=I("pentagon")`).
 Any [pch] value or [symbol name](https://plot.ly/r/reference#scatter-marker-symbol) may be used in this way.</p></dd>
+
+
 <dt>symbols</dt>
 <dd><p>A character vector of [pch] values or [symbol names](https://plot.ly/r/reference#scatter-marker-symbol).</p></dd>
+
+
 <dt>linetype</dt>
 <dd><p>(Discrete) values mapped to [line.dash](https://plot.ly/r/reference#scatter-line-dash).
 The mapping from data values to symbols may be controlled using
 `linetypes`, or avoided altogether via [I()] (e.g., `linetype=I("dash")`).
 Any `lty` (see [par]) value or [dash name](https://plot.ly/r/reference#scatter-line-dash) may be used in this way.</p></dd>
+
+
 <dt>linetypes</dt>
 <dd><p>A character vector of `lty` values or [dash names](https://plot.ly/r/reference#scatter-line-dash)</p></dd>
+
+
 <dt>split</dt>
 <dd><p>(Discrete) values used to create multiple traces (one trace per value).</p></dd>
+
+
 <dt>frame</dt>
 <dd><p>(Discrete) values used to create animation frames.</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Width in pixels (optional, defaults to automatic sizing).</p></dd>
+
+
 <dt>height</dt>
 <dd><p>Height in pixels (optional, defaults to automatic sizing).</p></dd>
+
+
 <dt>source</dt>
 <dd><p>a character string of length 1. Match the value of this string
 with the source argument in [event_data()] to retrieve the
 event data corresponding to a specific plot (shiny apps can have multiple plots).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A plotly</p>
+    
+
+<p>A plotly</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -228,43 +275,43 @@ help inform default axis/scale titles
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># plot_ly() tries to create a sensible plot based on the information you</span></span>
-<span class="r-in"><span class="co"># give it. If you don't provide a trace type, plot_ly() will infer one.</span></span>
-<span class="r-in"><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">pop</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span><span class="va">pop</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># plot_ly() doesn't require data frame(s), which allows one to take</span></span>
-<span class="r-in"><span class="co"># advantage of trace type(s) designed specifically for numeric matrices</span></span>
-<span class="r-in"><span class="fu">plot_ly</span><span class="op">(</span>z<span class="op">=</span><span class="op">~</span><span class="va">volcano</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot_ly</span><span class="op">(</span>z<span class="op">=</span><span class="op">~</span><span class="va">volcano</span>, type<span class="op">=</span><span class="st">"surface"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plotly has a functional interface: every plotly function takes a plotly</span></span>
-<span class="r-in"><span class="co"># object as it's first input argument and returns a modified plotly object</span></span>
-<span class="r-in"><span class="fu">add_lines</span><span class="op">(</span><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span> <span class="va">unemploy</span> <span class="op">/</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To make code more readable, plotly imports the pipe operator from magrittr</span></span>
-<span class="r-in"><span class="va">economics</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">plot_ly</span><span class="op">(</span>x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span> <span class="va">unemploy</span> <span class="op">/</span> <span class="va">pop</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">add_lines</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Attributes defined via plot_ly() set 'global' attributes that</span></span>
-<span class="r-in"><span class="co"># are carried onto subsequent traces, but those may be over-written</span></span>
-<span class="r-in"><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">add_lines</span><span class="op">(</span>y<span class="op">=</span><span class="op">~</span><span class="va">uempmed</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">add_lines</span><span class="op">(</span>y<span class="op">=</span><span class="op">~</span><span class="va">psavert</span>, color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Attributes are documented in the figure reference -&gt; https://plot.ly/r/reference</span></span>
-<span class="r-in"><span class="co"># You might notice plot_ly() has named arguments that aren't in this figure</span></span>
-<span class="r-in"><span class="co"># reference. These arguments make it easier to map abstract data values to</span></span>
-<span class="r-in"><span class="co"># visual attributes.</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">plot_ly</span><span class="op">(</span><span class="va">iris</span>, x<span class="op">=</span><span class="op">~</span><span class="va">Sepal.Width</span>, y<span class="op">=</span><span class="op">~</span><span class="va">Sepal.Length</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Petal.Length</span>, size<span class="op">=</span><span class="op">~</span><span class="va">Petal.Length</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Species</span>, colors<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, symbol<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">add_paths</span><span class="op">(</span><span class="va">p</span>, linetype<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># plot_ly() tries to create a sensible plot based on the information you</span></span></span>
+<span class="r-in"><span><span class="co"># give it. If you don't provide a trace type, plot_ly() will infer one.</span></span></span>
+<span class="r-in"><span><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">pop</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span><span class="va">pop</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># plot_ly() doesn't require data frame(s), which allows one to take</span></span></span>
+<span class="r-in"><span><span class="co"># advantage of trace type(s) designed specifically for numeric matrices</span></span></span>
+<span class="r-in"><span><span class="fu">plot_ly</span><span class="op">(</span>z<span class="op">=</span><span class="op">~</span><span class="va">volcano</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_ly</span><span class="op">(</span>z<span class="op">=</span><span class="op">~</span><span class="va">volcano</span>, type<span class="op">=</span><span class="st">"surface"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plotly has a functional interface: every plotly function takes a plotly</span></span></span>
+<span class="r-in"><span><span class="co"># object as it's first input argument and returns a modified plotly object</span></span></span>
+<span class="r-in"><span><span class="fu">add_lines</span><span class="op">(</span><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span> <span class="va">unemploy</span> <span class="op">/</span> <span class="va">pop</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To make code more readable, plotly imports the pipe operator from magrittr</span></span></span>
+<span class="r-in"><span><span class="va">economics</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">plot_ly</span><span class="op">(</span>x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, y<span class="op">=</span><span class="op">~</span> <span class="va">unemploy</span> <span class="op">/</span> <span class="va">pop</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">add_lines</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Attributes defined via plot_ly() set 'global' attributes that</span></span></span>
+<span class="r-in"><span><span class="co"># are carried onto subsequent traces, but those may be over-written</span></span></span>
+<span class="r-in"><span><span class="fu">plot_ly</span><span class="op">(</span><span class="va">economics</span>, x<span class="op">=</span><span class="op">~</span><span class="va">date</span>, color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">add_lines</span><span class="op">(</span>y<span class="op">=</span><span class="op">~</span><span class="va">uempmed</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">add_lines</span><span class="op">(</span>y<span class="op">=</span><span class="op">~</span><span class="va">psavert</span>, color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Attributes are documented in the figure reference -&gt; https://plot.ly/r/reference</span></span></span>
+<span class="r-in"><span><span class="co"># You might notice plot_ly() has named arguments that aren't in this figure</span></span></span>
+<span class="r-in"><span><span class="co"># reference. These arguments make it easier to map abstract data values to</span></span></span>
+<span class="r-in"><span><span class="co"># visual attributes.</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">plot_ly</span><span class="op">(</span><span class="va">iris</span>, x<span class="op">=</span><span class="op">~</span><span class="va">Sepal.Width</span>, y<span class="op">=</span><span class="op">~</span><span class="va">Sepal.Length</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Petal.Length</span>, size<span class="op">=</span><span class="op">~</span><span class="va">Petal.Length</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, color<span class="op">=</span><span class="op">~</span><span class="va">Species</span>, colors<span class="op">=</span><span class="st">"Set1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">add_markers</span><span class="op">(</span><span class="va">p</span>, symbol<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">add_paths</span><span class="op">(</span><span class="va">p</span>, linetype<span class="op">=</span><span class="op">~</span><span class="va">Species</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -279,7 +326,7 @@ help inform default axis/scale titles
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

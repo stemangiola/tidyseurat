@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
       </span>
     </div>
 
@@ -63,34 +63,47 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">join_transcripts</span><span class="op">(</span>
-  <span class="va">.data</span>,
-  transcripts <span class="op">=</span> <span class="cn">NULL</span>,
-  all <span class="op">=</span> <span class="cn">FALSE</span>,
-  exclude_zeros <span class="op">=</span> <span class="cn">FALSE</span>,
-  shape <span class="op">=</span> <span class="st">"long"</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">join_transcripts</span><span class="op">(</span></span>
+<span>  <span class="va">.data</span>,</span>
+<span>  transcripts <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  exclude_zeros <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  shape <span class="op">=</span> <span class="st">"long"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
 <dd><p>A tidyseurat object</p></dd>
+
+
 <dt>transcripts</dt>
 <dd><p>A vector of transcript identifiers to join</p></dd>
+
+
 <dt>all</dt>
 <dd><p>If TRUE return all</p></dd>
+
+
 <dt>exclude_zeros</dt>
 <dd><p>If TRUE exclude zero values</p></dd>
+
+
 <dt>shape</dt>
 <dd><p>Format of the returned table "long" or "wide"</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Parameters to pass to join wide, i.e. assay name to extract transcript abundance from</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A `tbl` containing the information.for the specified transcripts</p>
+    
+
+<p>A `tbl` containing the information.for the specified transcripts</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -99,11 +112,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="print.html">print</a></span><span class="op">(</span><span class="st">"DEPRECATED"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="print.html">print</a></span><span class="op">(</span><span class="st">"DEPRECATED"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "DEPRECATED"</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -118,7 +131,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

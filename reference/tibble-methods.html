@@ -38,7 +38,7 @@ as soon as it becomes available."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
       </span>
     </div>
 
@@ -114,21 +114,34 @@ as soon as it becomes available.</p>
  * A string: the name of a new column. Existing rownames are transferred
    into this column and the `row.names` attribute is deleted.
 Read more in [rownames].</p></dd>
+
+
 <dt>.name_repair</dt>
 <dd><p>see tidyr</p>
 <p>For compatibility only, do not use for new code.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>An object to glimpse at.</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Width of output: defaults to the setting of the option
 `tibble.width` (if finite) or the width of the console.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Unused, for extensibility.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble
-x original x is (invisibly) returned, allowing `glimpse()` to be
+    
+
+<p>A tibble</p>
+
+
+<p>x original x is (invisibly) returned, allowing `glimpse()` to be
   used within a data pipe line.</p>
     </div>
     <div id="row-names">
@@ -166,32 +179,31 @@ prefer the more expressive maturing `as_tibble_row()` and
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 29</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGC… SeuratPro…         70           47 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATG… SeuratPro…         85           52 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAAC… SeuratPro…         87           50 1               B             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGAC… SeuratPro…        127           56 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTC… SeuratPro…        173           53 0               A             g2    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTG… SeuratPro…         70           48 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGT… SeuratPro…         64           36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAG… SeuratPro…         72           45 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATA… SeuratPro…         52           36 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATG… SeuratPro…        100           41 0               A             g1    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 22 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="va">tidy</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell   orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ groups RNA_s…⁶    PC_1   PC_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCA… Seurat…      70      47 0       A       g2     0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGC… Seurat…      85      52 0       A       g1     0       -<span style="color: #BB0000;">0.026</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.347</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCT… Seurat…      87      50 1       B       g2     0       -<span style="color: #BB0000;">0.457</span>   0.180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTG… Seurat…     127      56 0       A       g2     0       -<span style="color: #BB0000;">0.812</span>  -<span style="color: #BB0000;">1.38</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAG… Seurat…     173      53 0       A       g2     0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGAT… Seurat…      70      48 0       A       g1     0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTAT… Seurat…      64      36 0       A       g1     0       -<span style="color: #BB0000;">0.460</span>  -<span style="color: #BB0000;">1.19</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCT… Seurat…      72      45 0       A       g1     0       -<span style="color: #BB0000;">0.900</span>  -<span style="color: #BB0000;">0.388</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATA… Seurat…      52      36 0       A       g1     0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTT… Seurat…     100      41 0       A       g1     0       -<span style="color: #BB0000;">0.488</span>  -<span style="color: #BB0000;">1.16</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, 19 more variables: PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_6 &lt;dbl&gt;, PC_7 &lt;dbl&gt;, PC_8 &lt;dbl&gt;, PC_9 &lt;dbl&gt;, PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;, PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​orig.ident, ²​nCount_RNA, ³​nFeature_RNA,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​RNA_snn_res.0.8, ⁵​letter.idents, ⁶​RNA_snn_res.1</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="va">tidy</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`tidy()` was deprecated in tidyseurat 0.2.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> tidyseurat says: tidy() is not needed anymore.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tidyseurat says: tidy() is not needed anymore.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formal class 'Seurat' [package "SeuratObject"] with 13 slots</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ assays      :List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ RNA:Formal class 'Assay' [package "SeuratObject"] with 8 slots</span>
@@ -229,8 +241,8 @@ prefer the more expressive maturing `as_tibble_row()` and
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ ProjectDim.RNA.pca      :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ tools       : list()</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -245,7 +257,7 @@ prefer the more expressive maturing `as_tibble_row()` and
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -22,7 +22,7 @@ Given either a regular expression or a vector of character positions,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
       </span>
     </div>
 
@@ -80,6 +80,8 @@ is NA, the output will be NA.</p>
 If you `unnest()` multiple columns, parallel entries must be of
 compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).</p></dd>
+
+
 <dt>names_sep</dt>
 <dd><p>If `NULL`, the default, the names will be left
   as is. In `nest()`, inner names will come from the former outer names;
@@ -89,37 +91,65 @@ standard tidyverse recycling rules).</p></dd>
   outer and the inner column names, separated by `names_sep`. In `unnest()`,
   the new inner names will have the outer names (+ `names_sep`) automatically
   stripped. This makes `names_sep` roughly symmetric between nesting and unnesting.</p></dd>
+
+
 <dt>keep_empty</dt>
 <dd><p>See tidyr::unnest</p></dd>
+
+
 <dt>names_repair</dt>
 <dd><p>See tidyr::unnest</p></dd>
+
+
 <dt>ptype</dt>
 <dd><p>See tidyr::unnest</p></dd>
+
+
 <dt>.drop</dt>
 <dd><p>See tidyr::unnest</p></dd>
+
+
 <dt>.id</dt>
 <dd><p>tidyr::unnest</p></dd>
+
+
 <dt>.sep</dt>
 <dd><p>tidyr::unnest</p></dd>
+
+
 <dt>.preserve</dt>
 <dd><p>See tidyr::unnest</p></dd>
+
+
 <dt>.data</dt>
 <dd><p>A tbl. (See tidyr)</p></dd>
+
+
 <dt>.names_sep</dt>
 <dd><p>See tidyr::nest</p></dd>
+
+
 <dt>into</dt>
 <dd><p>Names of new variables to create as character vector.
 Use `NA` to omit the variable in the output.</p></dd>
+
+
 <dt>regex</dt>
 <dd><p>a regular expression used to extract the desired values.
 There should be one group (defined by `()`) for each element of `into`.</p></dd>
+
+
 <dt>convert</dt>
 <dd><p>If `TRUE`, will run [type.convert()] with
   `as.is = TRUE` on new columns. This is useful if the component
   columns are integer, numeric or logical.</p>
 <p>NB: this will cause string `"NA"`s to be converted to `NA`s.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>A data frame.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>The name of the new column, as a string or symbol.</p>
 <p>This argument is passed by expression and supports
@@ -128,13 +158,21 @@ There should be one group (defined by `()`) for each element of `into`.</p></dd>
   [rlang::ensym()] (note that this kind of interface where
   symbols do not represent actual objects is now discouraged in the
   tidyverse; we support it here for backward compatibility).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>&lt;[`tidy-select`][tidyr_select]&gt; Columns to unite</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>If `TRUE`, missing values will be remove prior to uniting
 each value.</p></dd>
+
+
 <dt>remove</dt>
 <dd><p>If `TRUE`, remove input columns from output data frame.</p></dd>
+
+
 <dt>sep</dt>
 <dd><p>Separator between columns.</p>
 <p>If character, `sep` is interpreted as a regular expression. The default
@@ -144,26 +182,41 @@ each value.</p></dd>
   values start at 1 at the far-left of the string; negative value start at -1 at
   the far-right of the string. The length of `sep` should be one less than
   `into`.</p></dd>
+
+
 <dt>extra</dt>
 <dd><p>If `sep` is a character vector, this controls what
   happens when there are too many pieces. There are three valid options:</p>
 <p>* "warn" (the default): emit a warning and drop extra values.
   * "drop": drop any extra values without a warning.
   * "merge": only splits at most `length(into)` times</p></dd>
+
+
 <dt>fill</dt>
 <dd><p>If `sep` is a character vector, this controls what
   happens when there are not enough pieces. There are three valid options:</p>
 <p>* "warn" (the default): emit a warning and fill from the right
   * "right": fill with missing values on the right
   * "left": fill with missing values on the left</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A Seurat object or a tibble depending on input
-A Seurat object or a tibble depending on input
-A Seurat object or a tibble depending on input
-A Seurat object or a tibble depending on input
-A Seurat object or a tibble depending on input</p>
+    
+
+<p>A Seurat object or a tibble depending on input</p>
+
+
+<p>A Seurat object or a tibble depending on input</p>
+
+
+<p>A Seurat object or a tibble depending on input</p>
+
+
+<p>A Seurat object or a tibble depending on input</p>
+
+
+<p>A Seurat object or a tibble depending on input</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -175,109 +228,116 @@ A Seurat object or a tibble depending on input</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">nest</span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">nest</span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell        orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACG… SeuratPro…         70           47 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGA… SeuratPro…         87           50 1               B            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTC… SeuratPro…        127           56 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGC… SeuratPro…        173           53 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGT… SeuratPro…         62           31 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTA… SeuratPro…        101           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACG… SeuratPro…         51           26 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCC… SeuratPro…         99           45 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCA… SeuratPro…         67           33 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCT… SeuratPro…        109           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">nest</span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell          orig.ident    nCount_…¹ nFeat…² RNA_s…³ lette…⁴ RNA_s…⁵ groups</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACGACT SeuratProject        70      47 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGAACC SeuratProject        87      50 1       B       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTCTCA SeuratProject       127      56 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGCACA SeuratProject       173      53 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGTGTC SeuratProject        62      31 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTAGTG SeuratProject       101      41 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACGGGA SeuratProject        51      26 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCCGAA SeuratProject        99      45 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCATTC SeuratProject        67      33 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCTAAC SeuratProject       109      41 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and abbreviated variable names ¹​nCount_RNA,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​nFeature_RNA, ³​RNA_snn_res.0.8, ⁴​letter.idents, ⁵​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">nest</span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">groups</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">unnest</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell        orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACG… SeuratPro…         70           47 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGA… SeuratPro…         87           50 1               B            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTC… SeuratPro…        127           56 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGC… SeuratPro…        173           53 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGT… SeuratPro…         62           31 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTA… SeuratPro…        101           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACG… SeuratPro…         51           26 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCC… SeuratPro…         99           45 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCA… SeuratPro…         67           33 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCT… SeuratPro…        109           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 2 more variables: RNA_snn_res.1 &lt;chr&gt;, groups &lt;chr&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">extract</span><span class="op">(</span><span class="va">groups</span>, into <span class="op">=</span> <span class="st">"g"</span>, regex <span class="op">=</span> <span class="st">"g([0-9])"</span>, convert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell          orig.ident    nCount_…¹ nFeat…² RNA_s…³ lette…⁴ RNA_s…⁵ groups</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACGACT SeuratProject        70      47 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> GAACCTGATGAACC SeuratProject        87      50 1       B       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TGACTGGATTCTCA SeuratProject       127      56 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> AGTCAGACTGCACA SeuratProject       173      53 0       A       0       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGGTCATGAGTGTC SeuratProject        62      31 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> GGGTAACTCTAGTG SeuratProject       101      41 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> CATGAGACACGGGA SeuratProject        51      26 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TACGCCACTCCGAA SeuratProject        99      45 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GTAAGCACTCATTC SeuratProject        67      33 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TACATCACGCTAAC SeuratProject       109      41 0       A       2       g2    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and abbreviated variable names ¹​nCount_RNA,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​nFeature_RNA, ³​RNA_snn_res.0.8, ⁴​letter.idents, ⁵​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">extract</span><span class="op">(</span><span class="va">groups</span>, into <span class="op">=</span> <span class="st">"g"</span>, regex <span class="op">=</span> <span class="st">"g([0-9])"</span>, convert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell  orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents     g</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCC… SeuratPro…         70           47 0               A                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGG… SeuratPro…         85           52 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACC… SeuratPro…         87           50 1               B                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACT… SeuratPro…        127           56 0               A                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCA… SeuratPro…        173           53 0               A                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGA… SeuratPro…         70           48 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTA… SeuratPro…         64           36 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGC… SeuratPro…         72           45 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATAT… SeuratPro…         52           36 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGT… SeuratPro…        100           41 0               A                 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell    orig.…¹ nCoun…² nFeat…³ RNA_s…⁴ lette…⁵     g RNA_s…⁶    PC_1   PC_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAG… Seurat…      70      47 0       A           2 0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGCC… Seurat…      85      52 0       A           1 0       -<span style="color: #BB0000;">0.026</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.347</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCTG… Seurat…      87      50 1       B           2 0       -<span style="color: #BB0000;">0.457</span>   0.180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTGG… Seurat…     127      56 0       A           2 0       -<span style="color: #BB0000;">0.812</span>  -<span style="color: #BB0000;">1.38</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAGA… Seurat…     173      53 0       A           2 0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGATA… Seurat…      70      48 0       A           1 0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTATC… Seurat…      64      36 0       A           1 0       -<span style="color: #BB0000;">0.460</span>  -<span style="color: #BB0000;">1.19</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCTC… Seurat…      72      45 0       A           1 0       -<span style="color: #BB0000;">0.900</span>  -<span style="color: #BB0000;">0.388</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATAA… Seurat…      52      36 0       A           1 0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTTG… Seurat…     100      41 0       A           1 0       -<span style="color: #BB0000;">0.488</span>  -<span style="color: #BB0000;">1.16</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, 5 more variables: PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated variable names ¹​orig.ident,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8, ⁵​letter.idents,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell          new_col  nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCAGAACGACT SeuratP…         70           47 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGCCTGTGCAT SeuratP…         85           52 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCTGATGAACC SeuratP…         87           50 1               B            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTGGATTCTCA SeuratP…        127           56 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAGACTGCACA SeuratP…        173           53 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGATACACGTGT SeuratP…         70           48 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTATCTAAACAG SeuratP…         64           36 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCTCTGTTTCT SeuratP…         72           45 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATAACACGCAT SeuratP…         52           36 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTTGACAGTCA SeuratP…        100           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span>
-<span class="r-in"> <span class="va">un</span> <span class="op">=</span> <span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span> </span>
-<span class="r-in"> <span class="va">un</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">separate</span><span class="op">(</span>col <span class="op">=</span> <span class="va">new_col</span>, into<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"orig.ident"</span>, <span class="st">"groups"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell   new_col nCoun…¹ nFeat…² RNA_s…³ lette…⁴ RNA_s…⁵    PC_1   PC_2   PC_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCA… Seurat…      70      47 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span> -<span style="color: #BB0000;">0.249</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGC… Seurat…      85      52 0       A       0       -<span style="color: #BB0000;">0.026</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.347</span>  0.665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCT… Seurat…      87      50 1       B       0       -<span style="color: #BB0000;">0.457</span>   0.180  1.32 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTG… Seurat…     127      56 0       A       0       -<span style="color: #BB0000;">0.812</span>  -<span style="color: #BB0000;">1.38</span>  -<span style="color: #BB0000;">1.00</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAG… Seurat…     173      53 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span> -<span style="color: #BB0000;">0.249</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGAT… Seurat…      70      48 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span> -<span style="color: #BB0000;">0.249</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTAT… Seurat…      64      36 0       A       0       -<span style="color: #BB0000;">0.460</span>  -<span style="color: #BB0000;">1.19</span>  -<span style="color: #BB0000;">0.312</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCT… Seurat…      72      45 0       A       0       -<span style="color: #BB0000;">0.900</span>  -<span style="color: #BB0000;">0.388</span>  0.693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATA… Seurat…      52      36 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span> -<span style="color: #BB0000;">0.249</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTT… Seurat…     100      41 0       A       0       -<span style="color: #BB0000;">0.488</span>  -<span style="color: #BB0000;">1.16</span>  -<span style="color: #BB0000;">0.306</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, 4 more variables: PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_2 &lt;dbl&gt;, and abbreviated variable names ¹​nCount_RNA, ²​nFeature_RNA,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​RNA_snn_res.0.8, ⁴​letter.idents, ⁵​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pbmc_small"</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">un</span> <span class="op">=</span> <span class="va">pbmc_small</span> <span class="op"><a href="pipe.html">%&gt;%</a></span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"new_col"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orig.ident</span>, <span class="va">groups</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span> <span class="va">un</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">separate</span><span class="op">(</span>col <span class="op">=</span> <span class="va">new_col</span>, into<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"orig.ident"</span>, <span class="st">"groups"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A Seurat-tibble abstraction: 80 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># </span><span style="color: #555555;">Features=230 | Cells=80 | Active assay=RNA | Assays=RNA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell orig.ident groups nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGC… SeuratPro… g2             70           47 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATG… SeuratPro… g1             85           52 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAAC… SeuratPro… g2             87           50 1               B            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGAC… SeuratPro… g2            127           56 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTC… SeuratPro… g2            173           53 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTG… SeuratPro… g1             70           48 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGT… SeuratPro… g1             64           36 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAG… SeuratPro… g1             72           45 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATA… SeuratPro… g1             52           36 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATG… SeuratPro… g1            100           41 0               A            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .cell   orig.…¹ groups nCoun…² nFeat…³ RNA_s…⁴ lette…⁵ RNA_s…⁶    PC_1   PC_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> ATGCCA… Seurat… g2          70      47 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CATGGC… Seurat… g1          85      52 0       A       0       -<span style="color: #BB0000;">0.026</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.347</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> GAACCT… Seurat… g2          87      50 1       B       0       -<span style="color: #BB0000;">0.457</span>   0.180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TGACTG… Seurat… g2         127      56 0       A       0       -<span style="color: #BB0000;">0.812</span>  -<span style="color: #BB0000;">1.38</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> AGTCAG… Seurat… g2         173      53 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TCTGAT… Seurat… g1          70      48 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TGGTAT… Seurat… g1          64      36 0       A       0       -<span style="color: #BB0000;">0.460</span>  -<span style="color: #BB0000;">1.19</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> GCAGCT… Seurat… g1          72      45 0       A       0       -<span style="color: #BB0000;">0.900</span>  -<span style="color: #BB0000;">0.388</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> GATATA… Seurat… g1          52      36 0       A       0       -<span style="color: #BB0000;">0.774</span>  -<span style="color: #BB0000;">0.900</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> AATGTT… Seurat… g1         100      41 0       A       0       -<span style="color: #BB0000;">0.488</span>  -<span style="color: #BB0000;">1.16</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 70 more rows, 5 more variables: PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;, and abbreviated variable names ¹​orig.ident,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​nCount_RNA, ³​nFeature_RNA, ⁴​RNA_snn_res.0.8, ⁵​letter.idents,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​RNA_snn_res.1</span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -292,7 +352,7 @@ A Seurat object or a tibble depending on input</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
