@@ -30,7 +30,7 @@ Seurat object as a tidyverse tibble, and provides Seurat-compatible *dplyr*, *ti
 
 Seurat-compatible Functions | Description
 ------------ | -------------
-`all` | After all `tidyseurat` is a Seurat object, just better
+`all` | 
 
 tidyverse Packages | Description
 ------------ | -------------
