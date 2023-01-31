@@ -52,13 +52,13 @@ test_that("bind_cols",{
 
 test_that("distinct",{
 
-  expect_equal(   pbmc_small %>% distinct(groups) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% distinct(groups) |> ncol(),    1  )
 
 })
 
 test_that("filter",{
 
-  expect_equal(   pbmc_small %>% filter(groups == "g1") %>% ncol,    44  )
+  expect_equal(   pbmc_small %>% filter(groups == "g1") |> ncol(),    44  )
 
 })
 
@@ -82,26 +82,26 @@ test_that("mutate",{
 
 test_that("rename",{
 
-  expect_equal(   pbmc_small %>% rename(s_score = nFeature_RNA) %>% select(s_score) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% rename(s_score = nFeature_RNA) %>% select(s_score) |> ncol(),    1  )
 
 })
 
 test_that("left_join",{
 
-  pbmc_small %>% left_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) %>% ncol %>%
+  pbmc_small %>% left_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2)) %>% `@` (meta.data) |> ncol() %>%
   expect_equal( 8  )
 
 })
 
 test_that("inner_join",{
 
-  expect_equal(   pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
+  expect_equal(   pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) |> ncol(),    36  )
 
 })
 
 test_that("right_join",{
 
-  expect_equal(   pbmc_small %>% right_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) %>% ncol,    36  )
+  expect_equal(   pbmc_small %>% right_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1)) |> ncol(),    36  )
 
 })
 
@@ -113,7 +113,7 @@ test_that("full_join",{
 
 test_that("slice",{
 
-  expect_equal(   pbmc_small %>% slice(1) %>% ncol,    1  )
+  expect_equal(   pbmc_small %>% slice(1) |> ncol(),    1  )
 
 })
 
@@ -127,17 +127,27 @@ test_that("select",{
 
 test_that("sample_n",{
 
-  expect_equal(   pbmc_small %>% sample_n(50) %>% ncol,   50  )
+  expect_equal(   pbmc_small %>% sample_n(50) |> ncol(),   50  )
 
-  expect_equal(   pbmc_small %>% sample_n(500, replace = TRUE) %>% ncol,   29  )
+  expect_equal(   pbmc_small %>% sample_n(500, replace = TRUE) |> ncol(),   29  )
+
+})
+
+test_that("slice_sample",{
+  
+  pbmc_small |> 
+    slice_sample(n=50) |> 
+    ncol() |>
+    expect_equal( 50 )
+  
 
 })
 
 test_that("sample_frac",{
 
-  expect_equal(   pbmc_small %>% sample_frac(0.1) %>% ncol,   8  )
+  expect_equal(   pbmc_small %>% sample_frac(0.1) |> ncol(),   8  )
 
-  expect_equal(   pbmc_small %>% sample_frac(10, replace = TRUE) %>% ncol,   29  )
+  expect_equal(   pbmc_small %>% sample_frac(10, replace = TRUE) |> ncol(),   29  )
   
 })
 
