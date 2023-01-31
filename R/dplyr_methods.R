@@ -912,6 +912,63 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 
 }
 
+#' @export
+#' 
+#' @rdname dplyr-methods
+#' @name slice_sample 
+#' 
+#' @importFrom dplyr slice_sample
+#' 
+#' @param replace Should sampling be performed with (`TRUE`) or without
+#'   (`FALSE`, the default) replacement.
+#' @param weight_by <[`data-masking`][dplyr_data_masking]> Sampling weights.
+#'   This must evaluate to a vector of non-negative numbers the same length as
+#'   the input. Weights are automatically standardised to sum to 1.
+NULL
+
+#' @export
+slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, weight_by = NULL, replace = FALSE) {
+
+
+  # Solve CRAN NOTES
+  cell = NULL
+  . = NULL
+  
+  lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
+  
+  if(!is.null(n))
+    new_meta =
+      .data[[]] %>%  
+      as_tibble(rownames = c_(.data)$name) %>% 
+      dplyr::slice_sample(..., n = n, by = by, weight_by = weight_by, replace = replace)
+  else if(!is.null(prop))
+    new_meta =
+    .data[[]] %>%  
+    as_tibble(rownames = c_(.data)$name) %>% 
+    dplyr::slice_sample(..., prop=prop, by = by, weight_by = weight_by, replace = replace)
+  else
+    stop("tidyseurat says: you should provide `n` or `prop` arguments")
+  
+  count_cells = new_meta %>% select(!!c_(.data)$symbol) %>% count(!!c_(.data)$symbol)
+  
+  # If repeted cells
+  if(count_cells$n %>% max() %>% gt(1)){
+    message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+    .data %>% 
+      as_tibble() %>% 
+      right_join(new_meta %>% select(!!c_(.data)$symbol),  by = c_(.data)$name)
+  }  else{
+    new_obj = subset(.data,   cells = new_meta %>% pull(!!c_(.data)$symbol))
+    new_obj@meta.data = 
+      new_meta %>% 
+      data.frame(row.names=pull(.,!!c_(.data)$symbol), check.names = FALSE) %>%
+      select(- !!c_(.data)$symbol) 
+    new_obj
+  }
+  
+  
+}
+
 #' Subset columns using their names and types
 #'
 #' @description

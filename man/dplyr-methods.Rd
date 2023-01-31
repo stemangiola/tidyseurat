@@ -16,6 +16,7 @@
 \alias{right_join}
 \alias{full_join}
 \alias{slice}
+\alias{slice_sample}
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
@@ -69,6 +70,10 @@ what the default value is for this argument.}
 \item{copy}{If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)}
 
 \item{suffix}{If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)}
+
+\item{weight_by}{<[`data-masking`][dplyr_data_masking]> Sampling weights.
+This must evaluate to a vector of non-negative numbers the same length as
+the input. Weights are automatically standardised to sum to 1.}
 
 \item{tbl}{A data.frame.}
 
