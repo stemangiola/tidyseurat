@@ -1156,13 +1156,15 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 
 #' Count observations by group
 #'
+#' @importFrom dplyr count
+#'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
 #' `df %>% count(a, b)` is roughly equivalent to
-#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `df %>% group_by(a, b) %>% summarise(n=n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
-#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
-#' switching the summary from `n = n()` to `n = sum(wt)`.
+#' to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
+#' switching the summary from `n=n()` to `n=sum(wt)`.
 #'
 #' `add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
 #' but use `mutate()` instead of `summarise()` so that they add a new column
@@ -1188,30 +1190,18 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
 #' @export
+#'
+#' @rdname dplyr-methods
+#' @name count
+#'
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
-#' data("pbmc_small")
-#' pbmc_small %>%  count(groups)
 #'
+#' `%>%` <- magrittr::`%>%`
+#' pbmc_small %>%
 #'
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-UseMethod("count")
-}
-
-#' @export
-count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  if (!missing(...)) {
-    out <- dplyr::group_by(x, ..., .add = TRUE, .drop = .drop)
-  }
-  else {
-    out <- x
-  }
-  out <- dplyr::tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  if (is.data.frame(x)) {
-    out <- dplyr::dplyr_reconstruct(out, x)
-  }
-  out}
+#'     count(groups)
+NULL
 
 #' @export
 count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
@@ -1233,21 +1223,16 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 }
 
 #' @export
-#' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-  UseMethod("add_count")
-}
+#'
+#'
+#' @importFrom dplyr add_count
+#'
+#' @name add_count
+#'
+#' @rdname dplyr-methods
+NULL
 
 #' @export
-#' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
-
-  dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-
-}
-
-#' @export
-#' @rdname count
 add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
 
   # Deprecation of special column names

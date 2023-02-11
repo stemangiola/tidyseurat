@@ -20,6 +20,8 @@
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
+\alias{count}
+\alias{add_count}
 \alias{pull}
 \title{Arrange rows by column values}
 \usage{
@@ -56,12 +58,7 @@ is recalculated based on the resulting data, otherwise it is kept as is.}
   creating a new grouping variable called `add`, and conflicts with
   our naming conventions.}
 
-\item{.drop}{When `.drop = TRUE`, empty groups are dropped. See group_by_drop_default() for
-what the default value is for this argument.}
-
 \item{.data}{Input data frame.}
-
-\item{x}{tbls to join. (See dplyr)}
 
 \item{y}{tbls to join. (See dplyr)}
 
@@ -89,6 +86,21 @@ This must evaluate to a vector of non-negative numbers the same length as
 the input. Weights are automatically standardised to sum to 1.}
 
 \item{.env}{DEPRECATED.}
+
+\item{x}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr).}
+
+\item{wt}{<[`data-masking`][dplyr_data_masking]> Frequency weights.
+  Can be `NULL` or a variable:
+
+  * If `NULL` (the default), counts the number of rows in each group.
+  * If a variable, computes `sum(wt)` for each group.}
+
+\item{sort}{If `TRUE`, will show the largest groups at the top.}
+
+\item{.drop}{For `count()`: if `FALSE` will include counts for empty groups
+(i.e. for levels of factors that don't exist in the data). Deprecated in
+`add_count()` since it didn't actually affect the output.}
 
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
@@ -173,6 +185,9 @@ properties:
 
 A Seurat object
 
+An object of the same type as `.data`. `count()` and `add_count()`
+group transiently, so the output has the same groups as the input.
+
 A vector the same size as `.data`.
 }
 \description{
@@ -222,6 +237,17 @@ right). You can also use predicate functions like is.numeric to select
 variables based on their properties.
 
 Sample n rows from a table
+
+`count()` lets you quickly count the unique values of one or more variables:
+`df %>% count(a, b)` is roughly equivalent to
+`df %>% group_by(a, b) %>% summarise(n=n())`.
+`count()` is paired with `tally()`, a lower-level helper that is equivalent
+to `df %>% summarise(n=n())`. Supply `wt` to perform weighted counts,
+switching the summary from `n=n()` to `n=sum(wt)`.
+
+`add_count()` are `add_tally()` are equivalents to `count()` and `tally()`
+but use `mutate()` instead of `summarise()` so that they add a new column
+with group-wise counts.
 
 `pull()` is similar to `$`. It's mostly useful because it looks a little
 nicer in pipes, it also works with remote data frames, and it can optionally
@@ -353,6 +379,12 @@ data("pbmc_small")
 pbmc_small \%>\%  sample_n(50)
 pbmc_small \%>\%  sample_frac(0.1)
 
+
+
+`\%>\%` <- magrittr::`\%>\%`
+pbmc_small \%>\%
+
+    count(groups)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
