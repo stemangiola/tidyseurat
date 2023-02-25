@@ -1,16 +1,14 @@
 citHeader("To cite tidyseurat in publications use:")
 
-citEntry(
-  entry    = "Article",
-  title    = "Interfacing Seurat with the R tidy universe",
-  author   = "Stefano Mangiola, Maria A Doyle, Anthony T Papenfuss",
-  journal  = "Bioinformatics",
-  year     = "2021",
-  volume   = "btab404",
-  number   = "",
-  pages    = "",
-  url      = "https://doi.org/10.1093/bioinformatics/btab404",
-  textVersion = paste(
-"Stefano Mangiola, Maria A Doyle, Anthony T Papenfuss, Interfacing Seurat with the R tidy universe, Bioinformatics, 2021;, btab404, https://doi.org/10.1093/bioinformatics/btab404"
-  )
-)
+ bibentry(
+   bibtype = "Article",
+   title = "Interfacing Seurat with the R tidy universe",
+   author = as.person(" Stefano Mangiola [aut], Maria A Doyle [aut], Anthony T Papenfuss Anthony [aut]"),
+   journal  = "Bioinformatics",
+   year = "2021",
+   volume   = "btab404",
+   publisher = "Oxford Press",
+   url = "https://doi.org/10.1093/bioinformatics/btab404"
+ )
+
+

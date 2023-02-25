@@ -64,10 +64,6 @@ The default behavior is to silently remove row names.
 
 New code should explicitly convert row names to a new column using the
 `rownames` argument.
-
-For existing code that relies on the retention of row names, call
-`pkgconfig::set_config("tibble::rownames" = NA)` in your script or in your
-package's [.onLoad()]  function.
 }
 
 \section{Life cycle}{

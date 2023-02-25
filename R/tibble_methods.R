@@ -17,16 +17,13 @@
 #' * Default: Other inputs are first coerced with [base::as.data.frame()].
 #'
 #' @importFrom tibble as_tibble
-#' 
+#'
 #' @section Row names:
 #' The default behavior is to silently remove row names.
 #'
 #' New code should explicitly convert row names to a new column using the
 #' `rownames` argument.
 #'
-#' For existing code that relies on the retention of row names, call
-#' `pkgconfig::set_config("tibble::rownames" = NA)` in your script or in your
-#' package's [.onLoad()]  function.
 #'
 #' @section Life cycle:
 #' Using `as_tibble()` for vectors is superseded as of version 3.0.0,
@@ -51,10 +48,10 @@
 #'
 #'   For compatibility only, do not use for new code.
 #' @return A tibble
-#' 
+#'
 #' @rdname tibble-methods
 #' @name as_tibble
-#' 
+#'
 #' @export
 #' @examples
 #' data("pbmc_small")
@@ -66,40 +63,40 @@ NULL
 #' @importFrom purrr map
 #' @importFrom tidyr spread
 #' @importFrom tibble enframe
-#' 
-#' 
+#'
+#'
 as_tibble.Seurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
                      rownames = pkgconfig::get_config("tibble::rownames", NULL)){
   x[[]] %>%
     tibble::as_tibble(rownames=c_(x)$name) %>%
 
-    
+
     # Attach reduced dimensions
     when(
-      
+
       # Only if I have reduced dimensions and special datasets
       length(x@reductions) > 0 ~ (.) %>% left_join(
         get_special_datasets(x, ...) %>%
           map(~ .x %>% when(
-            
+
             # If row == 1 do a trick
             dim(.) %>% is.null ~ {
               (.) %>% tibble::enframe() %>% spread(name, value) %>% mutate(!!c_(x)$symbol := rownames(x[[]]))
               },
-            
+
             # Otherwise continue normally
             ~  as_tibble(., rownames=c_(x)$name)
           )) %>%
           reduce(left_join, by=c_(x)$name),
         by = c_(x)$name
       ),
-      
+
       # Otherwise skip
       ~ (.)
     )
-    
-    
+
+
 }
 
 #' Get a glimpse of your data
@@ -128,10 +125,10 @@ as_tibble.Seurat = function(x, ...,
 #' @param ... Unused, for extensibility.
 #' @return x original x is (invisibly) returned, allowing `glimpse()` to be
 #'   used within a data pipe line.
-#'   
+#'
 #' @rdname tibble-methods
 #' @name glimpse
-#' 
+#'
 #' @export
 #' @examples
 #' data("pbmc_small")
@@ -142,8 +139,8 @@ NULL
 
 #' @export
 #' @importFrom tibble glimpse
-#' 
-#' 
+#'
+#'
 glimpse.tidyseurat = function(x, width = NULL, ...){
   x %>%
     as_tibble() %>%
