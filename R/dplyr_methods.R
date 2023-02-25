@@ -1204,7 +1204,7 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 NULL
 
 #' @export
-count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
   message("tidyseurat says: A data frame is returned for independent data analysis.")
 
@@ -1218,7 +1218,7 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
   
   x %>%
     as_tibble() %>%
-    dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
+    dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name)
 
 }
 
@@ -1233,7 +1233,7 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 NULL
 
 #' @export
-add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
   # Deprecation of special column names
   if(is_sample_feature_deprecated_used(
@@ -1246,7 +1246,7 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   x@meta.data =
     x %>%
     as_tibble %>%
-    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
+    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name)  %>%
     as_meta_data(x)
 
   x
