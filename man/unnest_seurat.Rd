@@ -27,17 +27,8 @@ compatible sizes, i.e. they're either equal or length 1 (following the
 standard tidyverse recycling rules).}
 
 \item{...}{<[`tidy-select`][tidyr_tidy_select]> Columns to nest, specified
-  using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
-  The right hand side can be any valid tidy select expression.
-
-  \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
-  previously you could write `df %>% nest(x, y, z)` and `df %>%
-  unnest(x, y, z)`. Convert to `df %>% nest(data=c(x, y, z))`.
-  and `df %>% unnest(c(x, y, z))`.
-
-  If you previously created new variable in `unnest()` you'll now need to
-  do it explicitly with `mutate()`. Convert `df %>% unnest(y=fun(x, y, z))`
-  to `df %>% mutate(y=fun(x, y, z)) %>% unnest(y)`.}
+using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
+The right hand side can be any valid tidy select expression.}
 
 \item{keep_empty}{See tidyr::unnest}
 

@@ -85,14 +85,6 @@ unnest.tidyseurat_nested <- function(
 #'   using name-variable pairs of the form `new_col=c(col1, col2, col3)`.
 #'   The right hand side can be any valid tidy select expression.
 #'
-#'   \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
-#'   previously you could write `df %>% nest(x, y, z)` and `df %>%
-#'   unnest(x, y, z)`. Convert to `df %>% nest(data=c(x, y, z))`.
-#'   and `df %>% unnest(c(x, y, z))`.
-#'
-#'   If you previously created new variable in `unnest()` you'll now need to
-#'   do it explicitly with `mutate()`. Convert `df %>% unnest(y=fun(x, y, z))`
-#'   to `df %>% mutate(y=fun(x, y, z)) %>% unnest(y)`.
 #' @param names_sep If `NULL`, the default, the names will be left
 #'   as is. In `nest()`, inner names will come from the former outer names;
 #'   in `unnest()`, the new outer names will come from the inner names.
@@ -120,7 +112,7 @@ unnest.tidyseurat_nested <- function(
 #'     nest(data=-groups) %>%
 #'     unnest_seurat(data)
 #'
-#' @rdname unnest-methods
+#' @rdname unnest_seurat
 #' @name unnest_seurat
 #'
 #'
