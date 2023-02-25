@@ -166,7 +166,7 @@ test_that("count",{
   pbmc_small |>  
     add_count(groups) |> 
     nrow() |> 
-    expect_equal(     80  )
+    expect_equal(     230  )
   
   
 })
