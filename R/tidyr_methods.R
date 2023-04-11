@@ -219,7 +219,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
           filter(!!c_(.data)$symbol %in% pull(.x, !!c_(.data)$symbol)) %>%
         
           # Subset columns
-          select(colnames(.x))
+          select(all_of(colnames(.x)))
       )) %>%
     
     # Coerce to tidyseurat_nested for unnesting

@@ -17,7 +17,7 @@ Depends:
 Imports:
     Seurat,
     tibble,
-    dplyr,
+    dplyr (>= 1.1.0),
     magrittr,
     tidyr (>= 1.2.0),
     ggplot2,
