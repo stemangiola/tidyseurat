@@ -133,35 +133,31 @@ setMethod("join_features", "Seurat",  function(.data,
 })
 
 
-#' Extract and join information for features.
+#' Aggregate cells
 #'
+#' @description Combine cells into groups based on shared variables and aggregate feature counts.
 #'
-#' @description aggregate_cells() extracts and joins information for specified features
-#'
-#' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
+#' @importFrom rlang enquo
+#' @importFrom tibble enframe
+#' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
-#'
+#' 
 #' @name aggregate_cells
 #' @rdname aggregate_cells
-#'
-#' @param .data A Seurat object
-#' @param features A vector of feature identifiers to join
-#' @param all If TRUE return all
-#' @param exclude_zeros If TRUE exclude zero values
-#' @param shape Format of the returned table "long" or "wide"
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"
-#'
-#' @details This function extracts information for specified features and returns the information in either long or wide format.
-#'
-#' @return An object containing the information.for the specified features
 #' 
-#' @examples
-#'
+#' @param .data A tidySingleCellExperiment object
+#' @param .sample A vector of variables by which cells are aggregated
+#' @param slot The slot to which the function is applied
+#' @param assays The assay to which the function is applied
+#' @param aggregation_function The method of cell-feature value aggregation
+#' 
+#' @return A tibble object
+#' 
+#' @examples 
 #' data("pbmc_small")
-#' pbmc_small %>% 
-#' aggregate_cells(features = c("HLA-DRA", "LYZ"))
-#'
+#' pbmc_small |>
+#'   aggregate_cells(c(groups, ident), assays = "counts")
 #'
 #' @export
 #'
@@ -214,7 +210,6 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
       tidyseurat::unnest(data) %>%
       
       drop_class("tidyseurat_nested") 
-    
     
     
   })
