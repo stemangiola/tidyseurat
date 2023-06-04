@@ -165,6 +165,7 @@ unnest_seurat  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
 #' nest
 #'
 #' @importFrom tidyr nest
+#' @importFrom magrittr equals
 #'
 #' @param .data A tbl. (See tidyr)
 #' @param ... Name-variable pairs of the form new_col = c(col1, col2, col3) (See tidyr)
@@ -185,6 +186,7 @@ unnest_seurat  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
 NULL
 
 #' @importFrom rlang enquos
+#' @importFrom Seurat SplitObject
 #' @importFrom rlang :=
 #' 
 #' @export
@@ -204,26 +206,50 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
   
   my_data__ = .data
   
-  my_data__ %>%
-    
-    # This is needed otherwise nest goes into loop and fails
-    to_tib %>%
-    tidyr::nest(...) %>%
-    
-    mutate(
-      !!as.symbol(col_name_data) := map(
-        !!as.symbol(col_name_data),
-        ~ my_data__ %>% 
+  # This is for getting the column names
+  dummy_nested = 
+    my_data__[1,] |>
+    to_tib() %>%
+    tidyr::nest(...)
+  
+  split_by_column = 
+    dummy_nested |> 
+    select(-col_name_data) |>
+    colnames()
+  
+  # If nesting on one group use the fast split
+  if(split_by_column |> length() |> identical(1L))
+  
+    my_data__ |> 
+      SplitObject(split.by = split_by_column) |>
+      map(~ .x |> select(-split_by_column)) |> 
+      enframe(name = split_by_column, value = col_name_data) |>
+      
+      # Coerce to tidyseurat_nested for unnesting
+      add_class("tidyseurat_nested")
+  
+  # If arbitrary nest is needed use the slow one
+  else
+    my_data__ %>%
+      
+      # This is needed otherwise nest goes into loop and fails
+      to_tib %>%
+      tidyr::nest(...) %>%
+      
+      mutate(
+        !!as.symbol(col_name_data) := map(
+          !!as.symbol(col_name_data),
+          ~ my_data__ %>% 
+            
+            # Subset cells
+            filter(!!c_(.data)$symbol %in% pull(.x, !!c_(.data)$symbol)) %>%
           
-          # Subset cells
-          filter(!!c_(.data)$symbol %in% pull(.x, !!c_(.data)$symbol)) %>%
-        
-          # Subset columns
-          select(colnames(.x))
-      )) %>%
-    
-    # Coerce to tidyseurat_nested for unnesting
-    add_class("tidyseurat_nested")
+            # Subset columns
+            select(colnames(.x))
+        )) |>
+      
+      # Coerce to tidyseurat_nested for unnesting
+      add_class("tidyseurat_nested")
   
 }
 
