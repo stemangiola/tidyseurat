@@ -186,6 +186,7 @@ unnest_seurat  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
 NULL
 
 #' @importFrom rlang enquos
+#' @importFrom Seurat SplitObject
 #' @importFrom rlang :=
 #' 
 #' @export
@@ -217,7 +218,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
     colnames()
   
   # If nesting on one group use the fast split
-  if(split_by_column |> length() |> equals(1))
+  if(split_by_column |> length() |> identical(1L))
   
     my_data__ |> 
       SplitObject(split.by = split_by_column) |>
