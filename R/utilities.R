@@ -384,6 +384,7 @@ c_ =  function(x){
 #' @keywords internal
 #' @noRd
 #'
+#' @importFrom dplyr vars
 #'
 #' @param var A tibble
 #' @param attribute An object
@@ -396,7 +397,8 @@ add_attr = function(var, attribute, name) {
 }
 
 
-
+#' @importFrom dplyr distinct_at
+#' @importFrom magrittr equals
 get_specific_annotation_columns = function(.data, .col){
   
   
@@ -407,7 +409,7 @@ get_specific_annotation_columns = function(.data, .col){
   .col = enquo(.col)
   
   # x-annotation df
-  n_x = .data %>% dplyr::distinct_at(vars(!!.col)) %>% nrow
+  n_x = .data %>% distinct_at(vars(!!.col)) %>% nrow
   
   # element wise columns
   .data %>%
@@ -419,8 +421,8 @@ get_specific_annotation_columns = function(.data, .col){
         when(
           .data %>%
             distinct_at(vars(!!.col, .x)) %>%
-            nrow %>%
-            magrittr::equals(n_x) ~ (.),
+            nrow() %>%
+            equals(n_x) ~ (.),
           ~ NULL
         )
     ) %>%
@@ -431,8 +433,7 @@ get_specific_annotation_columns = function(.data, .col){
   
 }
 
-
-subset = 		function(.data,	 .column)	{
+subset_tidyseurat = 		function(.data,	 .column)	{
   # Make col names
   .column = enquo(.column)
   

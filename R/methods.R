@@ -141,6 +141,7 @@ setMethod("join_features", "Seurat",  function(.data,
 #' @importFrom rlang enquo
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
+#' @importFrom purrr map_int
 #' @importFrom ttservice aggregate_cells
 #' 
 #' @name aggregate_cells
@@ -177,13 +178,13 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                                                  aggregation_function = Matrix::rowSums){
   
     .sample = enquo(.sample)
-    
+
     # Subset only wanted assays
     if(!is.null(assays)){
       DefaultAssay(.data) = assays[1]
       .data@assays = .data@assays[assays]
     }
-    
+
     .data %>%
       
       tidyseurat::nest(data = -!!.sample) %>%
@@ -198,17 +199,19 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                             ~ GetAssayData(.x, slot = slot) %>%
                               aggregation_function(na.rm = T) %>%
                               tibble::enframe(
-                                name  = "feature",
+                                name  = ".feature",
                                 value = sprintf("%s", .y)
                               ) %>%
-                              mutate(feature = as.character(feature)) 
+                              mutate(.feature = as.character(.feature)) 
                           ) %>%
-                          Reduce(function(...) full_join(..., by=c("feature")), .)
+                          Reduce(function(...) full_join(..., by=c(".feature")), .)
                         
       )) %>%
-      left_join(.data %>% tidyseurat::as_tibble() %>% subset(!!.sample)) %>%
+      left_join(.data %>% tidyseurat::as_tibble() %>% subset_tidyseurat(!!.sample)) %>%
       tidyseurat::unnest(data) %>%
       
+      tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
+      select(.feature, .sample, names(.data@assays), everything()) |> 
       drop_class("tidyseurat_nested") 
     
     
