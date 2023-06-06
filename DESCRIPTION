@@ -34,7 +34,8 @@ Imports:
     stringr,
     cli,
     fansi,
-    pkgconfig
+    pkgconfig,
+    Matrix
 Suggests:
     testthat,
     knitr,
