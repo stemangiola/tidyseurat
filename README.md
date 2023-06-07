@@ -1,4 +1,4 @@
-tidyseurat - part of tidytranscriptomics 
+tidyseurat - part of tidytranscriptomics
 ================
 
 <!-- badges: start -->
@@ -19,18 +19,18 @@ website:
 
 Please also have a look at
 
--   [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/)
-    for tidy single-cell RNA sequencing analysis
--   [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
-    for tidy bulk RNA sequencing analysis
--   [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
-    RNA-seq analysis
--   [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
-    data analysis and manipulation
--   [tidygate](https://github.com/stemangiola/tidygate/) for adding
-    custom gate information to your tibble
--   [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for
-    heatmaps produced with tidy principles
+- [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
+  single-cell RNA sequencing analysis
+- [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
+  for tidy bulk RNA sequencing analysis
+- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
+  RNA-seq analysis
+- [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
+  data analysis and manipulation
+- [tidygate](https://github.com/stemangiola/tidygate/) for adding custom
+  gate information to your tibble
+- [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for heatmaps
+  produced with tidy principles
 
 ![visual cue](man/figures/logo_interaction-01.png)
 
@@ -44,9 +44,9 @@ Seurat-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions.
 
 ## Functions/utilities available
 
-| Seurat-compatible Functions | Description                                            |
-|-----------------------------|--------------------------------------------------------|
-| `all`                       | |
+| Seurat-compatible Functions | Description |
+|-----------------------------|-------------|
+| `all`                       |             |
 
 | tidyverse Packages | Description                          |
 |--------------------|--------------------------------------|
@@ -55,11 +55,12 @@ Seurat-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions.
 | `ggplot2`          | `ggplot` like for any tibble         |
 | `plotly`           | `plot_ly` like for any tibble        |
 
-| Utilities       | Description                                           |
-|-----------------|-------------------------------------------------------|
-| `tidy`          | Add `tidyseurat` invisible layer over a Seurat object |
-| `as_tibble`     | Convert cell-wise information to a `tbl_df`           |
-| `join_features` | Add feature-wise information, returns a `tbl_df`      |
+| Utilities         | Description                                                      |
+|-------------------|------------------------------------------------------------------|
+| `tidy`            | Add `tidyseurat` invisible layer over a Seurat object            |
+| `as_tibble`       | Convert cell-wise information to a `tbl_df`                      |
+| `join_features`   | Add feature-wise information, returns a `tbl_df`                 |
+| `aggregate_cells` | Aggregate cell gene-transcription abundance as pseudobulk tissue |
 
 ## Installation
 
@@ -114,8 +115,9 @@ pbmc_small
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 8 more variables: RNA_snn_res.1 <fct>, PC_1 <dbl>,
-    ## #   PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # ℹ 70 more rows
+    ## # ℹ 8 more variables: RNA_snn_res.1 <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
+    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 **But it is a Seurat object after all**
 
@@ -225,9 +227,10 @@ pbmc_small_pca
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 10 more variables: RNA_snn_res.1 <fct>,
-    ## #   nCount_SCT <dbl>, nFeature_SCT <int>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
-    ## #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # ℹ 70 more rows
+    ## # ℹ 10 more variables: RNA_snn_res.1 <fct>, nCount_SCT <dbl>,
+    ## #   nFeature_SCT <int>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>,
+    ## #   PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
 
 If a tool is not included in the tidyseurat collection, we can use
 `as_tibble` to permanently convert `tidyseurat` into tibble.
@@ -269,10 +272,11 @@ pbmc_small_cluster
     ##  8 GCAG… SeuratPro…         72           45 0               A             g1    
     ##  9 GATA… SeuratPro…         52           36 0               A             g1    
     ## 10 AATG… SeuratPro…        100           41 0               A             g1    
-    ## # … with 70 more rows, and 12 more variables: RNA_snn_res.1 <fct>,
-    ## #   nCount_SCT <dbl>, nFeature_SCT <int>, SCT_snn_res.0.8 <fct>,
-    ## #   seurat_clusters <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>,
-    ## #   PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
+    ## # ℹ 70 more rows
+    ## # ℹ 12 more variables: RNA_snn_res.1 <fct>, nCount_SCT <dbl>,
+    ## #   nFeature_SCT <int>, SCT_snn_res.0.8 <fct>, seurat_clusters <fct>,
+    ## #   PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>, PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>,
+    ## #   tSNE_2 <dbl>
 
 Now we can interrogate the object as if it was a regular tibble data
 frame.
@@ -282,11 +286,17 @@ pbmc_small_cluster %>%
   tidyseurat::count(groups, seurat_clusters)
 ```
 
-    ## # A tibble: 2 × 3
+    ## # A tibble: 8 × 3
     ##   groups seurat_clusters     n
     ##   <chr>  <fct>           <int>
-    ## 1 g1     0                  44
-    ## 2 g2     0                  36
+    ## 1 g1     0                  17
+    ## 2 g1     1                  14
+    ## 3 g1     2                   9
+    ## 4 g1     3                   4
+    ## 5 g2     0                  13
+    ## 6 g2     1                  12
+    ## 7 g2     2                   6
+    ## 8 g2     3                   5
 
 We can identify cluster markers using Seurat.
 
@@ -455,7 +465,7 @@ pbmc_small_nested
 
 Now we can independently for the lymphoid and myeloid subsets (i) find
 variable features, (ii) reduce dimensions, and (iii) cluster using both
-tidyverse and SingleCellExperiment seamlessly.
+tidyverse and Seurat seamlessly.
 
 ``` r
 pbmc_small_nested_reanalysed <-
@@ -490,3 +500,32 @@ pbmc_small_nested_reanalysed %>%
   facet_wrap(~cell_class) +
   my_theme
 ```
+
+# Aggregating cells
+
+Sometimes, it is necessary to aggregate the gene-transcript abundance
+from a group of cells into a single value. For example, when comparing
+groups of cells across different samples with fixed-effect models.
+
+In tidyseurat, cell aggregation can be achieved using the
+`aggregate_cells` function.
+
+``` r
+pbmc_small %>%
+  aggregate_cells(groups, assays = "RNA")
+```
+
+    ## # A tibble: 460 × 6
+    ##    .feature  .sample    RNA groups .aggregated_cells orig.ident   
+    ##    <chr>     <chr>    <dbl> <chr>              <int> <fct>        
+    ##  1 MS4A1     g2       35.5  g2                    36 SeuratProject
+    ##  2 CD79B     g2       52.8  g2                    36 SeuratProject
+    ##  3 CD79A     g2       37.2  g2                    36 SeuratProject
+    ##  4 HLA-DRA   g2      130.   g2                    36 SeuratProject
+    ##  5 TCL1A     g2       29.5  g2                    36 SeuratProject
+    ##  6 HLA-DQB1  g2       65.5  g2                    36 SeuratProject
+    ##  7 HVCN1     g2       29.8  g2                    36 SeuratProject
+    ##  8 HLA-DMB   g2       43.2  g2                    36 SeuratProject
+    ##  9 LTB       g2      111.   g2                    36 SeuratProject
+    ## 10 LINC00926 g2        9.91 g2                    36 SeuratProject
+    ## # ℹ 450 more rows

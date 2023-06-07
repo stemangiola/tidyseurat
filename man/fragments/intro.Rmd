@@ -5,7 +5,7 @@ website: [stemangiola.github.io/tidyseurat/](https://stemangiola.github.io/tidys
 
 Please also have a look at
 
-- [tidySingleCellExperiment](https://stemangiola.github.io/tidySingleCellExperiment/) for tidy single-cell RNA sequencing analysis
+- [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy single-cell RNA sequencing analysis
 - [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/) for tidy bulk RNA sequencing analysis
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk RNA-seq analysis
 - [nanny](https://github.com/stemangiola/nanny/) for tidy high-level data analysis and manipulation
@@ -44,6 +44,7 @@ Utilities | Description
 `tidy` | Add `tidyseurat` invisible layer over a Seurat object
 `as_tibble` | Convert cell-wise information to a `tbl_df`
 `join_features` | Add feature-wise information, returns a `tbl_df`
+`aggregate_cells`| Aggregate cell gene-transcription abundance as pseudobulk tissue                  |
 
 ## Installation
 
@@ -358,7 +359,7 @@ pbmc_small_nested <-
 pbmc_small_nested
 ```
 
-Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.
+Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and Seurat seamlessly.
 
 ```{r eval=FALSE}
 pbmc_small_nested_reanalysed <-
@@ -393,3 +394,17 @@ pbmc_small_nested_reanalysed %>%
   facet_wrap(~cell_class) +
   my_theme
 ```
+
+#  Aggregating cells 
+
+Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.
+
+In tidyseurat, cell aggregation can be achieved using the `aggregate_cells` function.
+ 
+ 
+```{r}
+pbmc_small %>%
+  aggregate_cells(groups, assays = "RNA")
+```
+
+   
