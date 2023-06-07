@@ -133,6 +133,89 @@ setMethod("join_features", "Seurat",  function(.data,
 })
 
 
+#' Aggregate cells
+#'
+#' @description Combine cells into groups based on shared variables and aggregate feature counts.
+#'
+#' @importFrom magrittr "%>%"
+#' @importFrom rlang enquo
+#' @importFrom tibble enframe
+#' @importFrom Matrix rowSums
+#' @importFrom purrr map_int
+#' @importFrom ttservice aggregate_cells
+#' 
+#' @name aggregate_cells
+#' @rdname aggregate_cells
+#' 
+#' @param .data A tidySingleCellExperiment object
+#' @param .sample A vector of variables by which cells are aggregated
+#' @param slot The slot to which the function is applied
+#' @param assays The assay to which the function is applied
+#' @param aggregation_function The method of cell-feature value aggregation
+#' 
+#' @return A tibble object
+#' 
+#' @examples 
+#' data("pbmc_small")
+#' pbmc_small |>
+#'   aggregate_cells(c(groups, letter.idents), assays = "RNA")
+#'
+#' @export
+#'
+NULL
+
+#' aggregate_cells
+#'
+#' @docType methods
+#' @rdname aggregate_cells
+#'
+#' @return An object containing the information.for the specified features
+#'
+setMethod("aggregate_cells", "Seurat",  function(.data,
+                                                 .sample = NULL, 
+                                                 slot = "data",
+                                                 assays = NULL, 
+                                                 aggregation_function = Matrix::rowSums){
+  
+    .sample = enquo(.sample)
+
+    # Subset only wanted assays
+    if(!is.null(assays)){
+      DefaultAssay(.data) = assays[1]
+      .data@assays = .data@assays[assays]
+    }
+
+    .data %>%
+      
+      tidyseurat::nest(data = -!!.sample) %>%
+      mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) %>% 
+      mutate(data = map(data, ~ 
+                          
+                          # loop over assays
+                          map2(
+                            .x@assays, names(.x@assays),
+                            
+                            # Get counts
+                            ~ GetAssayData(.x, slot = slot) %>%
+                              aggregation_function(na.rm = T) %>%
+                              tibble::enframe(
+                                name  = ".feature",
+                                value = sprintf("%s", .y)
+                              ) %>%
+                              mutate(.feature = as.character(.feature)) 
+                          ) %>%
+                          Reduce(function(...) full_join(..., by=c(".feature")), .)
+                        
+      )) %>%
+      left_join(.data %>% tidyseurat::as_tibble() %>% subset_tidyseurat(!!.sample)) %>%
+      tidyseurat::unnest(data) %>%
+      
+      tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
+      select(.feature, .sample, names(.data@assays), everything()) |> 
+      drop_class("tidyseurat_nested") 
+    
+    
+  })
 
 
 
