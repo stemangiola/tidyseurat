@@ -36,6 +36,6 @@ Combine cells into groups based on shared variables and aggregate feature counts
 \examples{
 data("pbmc_small")
 pbmc_small |>
-  aggregate_cells(c(groups, ident), assays = "counts")
+  aggregate_cells(c(groups, letter.idents), assays = "RNA")
 
 }
