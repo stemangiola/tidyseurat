@@ -254,21 +254,16 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' * Columns are not modified.
 #' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
 #' * Data frame attributes are preserved.
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
 #'
 #'
-#' @rdname dplyr-methods
+#' @rdname filter-methods
 #' @name filter
 #'
 #' @export
 #' @examples
 #'
-#' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
-#' pbmc_small %>%  filter(groups == "g1")
+#' pbmc_small |> filter(groups == "g1")
 #'
 #' # Learn more in ?dplyr_eval
 NULL
@@ -327,10 +322,6 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #' @return A grouped data frame, unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
-#' @section Methods:
-#' These function are **generic**s, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
 #'
@@ -487,10 +478,6 @@ summarise.Seurat <- function (.data, ...)
 #' * Column order matches order of expressions.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
-#' @section Methods:
-#' These function are **generic**s, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
 #'
@@ -549,10 +536,6 @@ mutate.Seurat <- function(.data, ...)
 #' * Column names are changed; column order is preserved
 #' * Data frame attributes are preserved.
 #' * Groups are updated to reflect new names.
-#' @section Methods:
-#' This function is a **generic**, which means that packages can provide
-#' implementations (methods) for other classes. See the documentation of
-#' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
 #' @family single table verbs

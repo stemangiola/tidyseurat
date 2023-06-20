@@ -5,7 +5,6 @@
 \alias{bind_rows}
 \alias{bind_cols}
 \alias{distinct}
-\alias{filter}
 \alias{group_by}
 \alias{summarise}
 \alias{mutate}
@@ -46,9 +45,6 @@ bind_cols(..., .id = NULL)
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to grouped data frames only.}
 
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)}
-
-\item{.preserve}{when `FALSE` (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{.add}{When `FALSE`, the default, `group_by()` will
   override existing groups. To add to the existing groups, use
@@ -114,13 +110,6 @@ An object of the same type as `.data`.
 * Data frame attributes are preserved.
 
 A Seurat object
-
-An object of the same type as `.data`.
-
-* Rows are a subset of the input, but appear in the same order.
-* Columns are not modified.
-* The number of groups may be reduced (if `.preserve` is not `TRUE`).
-* Data frame attributes are preserved.
 
 A grouped data frame, unless the combination of `...` and `add`
   yields a non empty set of grouping columns, a regular (ungrouped) data frame
@@ -199,10 +188,6 @@ need to explicit mention grouping variables (or use  `by_group = TRUE`)
 in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 
-`filter()` retains the rows where the conditions you provide a `TRUE`. Note
-that, unlike base subsetting with `[`, rows where the condition evaluates
-to `NA` are dropped.
-
 Most data operations are done on groups defined by variables.
 `group_by()` takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". `ungroup()` removes grouping.
@@ -263,20 +248,11 @@ Unlike base sorting with `sort()`, `NA` are:
 * always sorted to the end for local data, even when wrapped with `desc()`.
 * treated differently for remote data, depending on the backend.
 
-dplyr is not yet smart enough to optimise filtering optimisation
-on grouped datasets that don't need grouped calculations. For this reason,
-filtering is often considerably faster on ungroup()ed data.
-
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use [filter()] and [row_number()].
 }
 \section{Methods}{
-
-This function is a **generic**, which means that packages can provide
-implementations (methods) for other classes. See the documentation of
-individual methods for extra arguments and differences in behaviour.
-
 
 These function are **generic**s, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
@@ -321,12 +297,6 @@ pbmc_small \%>\%  arrange(nFeature_RNA)
 data("pbmc_small")
 pbmc_small \%>\%  distinct(groups)
 
-
-`\%>\%` = magrittr::`\%>\%`
-data("pbmc_small")
-pbmc_small \%>\%  filter(groups == "g1")
-
-# Learn more in ?dplyr_eval
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
 pbmc_small \%>\%  group_by(groups)
@@ -390,6 +360,25 @@ pbmc_small \%>\%
 data("pbmc_small")
 pbmc_small \%>\%  pull(groups)
 
+}
+\seealso{
+Other single table verbs: 
+\code{\link{filter}()}
+
+Other single table verbs: 
+\code{\link{filter}()}
+
+Other single table verbs: 
+\code{\link{filter}()}
+
+Other single table verbs: 
+\code{\link{filter}()}
+
+Other single table verbs: 
+\code{\link{filter}()}
+
+Other single table verbs: 
+\code{\link{filter}()}
 }
 \concept{grouping functions}
 \concept{single table verbs}
