@@ -166,6 +166,8 @@ NULL
 
 #' aggregate_cells
 #'
+#' @importFrom dplyr everything
+#' 
 #' @docType methods
 #' @rdname aggregate_cells
 #'
@@ -176,6 +178,10 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                                                  slot = "data",
                                                  assays = NULL, 
                                                  aggregation_function = Matrix::rowSums){
+  # Solve NOTE  
+  data = NULL
+  .feature = NULL
+  
   
     .sample = enquo(.sample)
 
