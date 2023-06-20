@@ -65,7 +65,6 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 }
 
 
-
 #' Efficiently bind multiple data frames by row and column
 #'
 #' This is an efficient implementation of the common pattern of
@@ -96,6 +95,8 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #'   used instead.
 #' @param add.cell.ids from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.
 #'
+#' @importFrom ttservice bind_rows
+#'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @examples
@@ -106,25 +107,10 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
-#' @name bind
+#' @export
+#' 
+#' @name bind_rows
 NULL
-
-
-#' @rdname dplyr-methods
-#'
-#' @inheritParams bind
-#'
-#' @export
-#'
-bind_rows <- function(..., .id = NULL,  add.cell.ids = NULL) {
-  UseMethod("bind_rows")
-}
-
-#' @export
-bind_rows.default <-  function(..., .id = NULL,  add.cell.ids = NULL)
-{
-  dplyr::bind_rows(..., .id = .id)
-}
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
@@ -154,7 +140,7 @@ bind_cols_ = function(..., .id = NULL){
 
   tts = flatten_if(dots_values(...), is_spliced)
 
-  tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]][[]], tts[[2]], .id = .id)
+  tts[[1]]@meta.data = bind_cols( tts[[1]][[]], tts[[2]], .id = .id)
 
   tts[[1]]
 
@@ -162,18 +148,11 @@ bind_cols_ = function(..., .id = NULL){
 
 #' @export
 #'
-#' @inheritParams bind
+#' @importFrom ttservice bind_cols
+#' @inheritParams bind_cols
 #'
 #' @rdname dplyr-methods
-bind_cols <- function(..., .id = NULL) {
-  UseMethod("bind_cols")
-}
-
-#' @export
-bind_cols.default <-  function(..., .id = NULL)
-{
-  dplyr::bind_cols(..., .id = .id)
-}
+NULL
 
 #' @importFrom rlang dots_values
 #' @importFrom rlang flatten_if
@@ -182,7 +161,6 @@ bind_cols.default <-  function(..., .id = NULL)
 #' @export
 #'
 bind_cols.Seurat <- bind_cols_
-
 
 #' distinct
 #'

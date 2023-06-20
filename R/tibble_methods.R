@@ -67,7 +67,7 @@ NULL
 #'
 as_tibble.Seurat = function(x, ...,
                      .name_repair = c("check_unique", "unique", "universal", "minimal"),
-                     rownames = pkgconfig::get_config("tibble::rownames", NULL)){
+                     rownames = NULL){
   x[[]] %>%
     tibble::as_tibble(rownames=c_(x)$name) %>%
 

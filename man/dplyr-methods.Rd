@@ -2,8 +2,6 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{arrange}
 \alias{arrange}
-\alias{bind_rows}
-\alias{bind_cols}
 \alias{distinct}
 \alias{filter}
 \alias{group_by}
@@ -24,25 +22,7 @@
 \alias{add_count}
 \alias{pull}
 \title{Arrange rows by column values}
-\usage{
-bind_rows(..., .id = NULL, add.cell.ids = NULL)
-
-bind_cols(..., .id = NULL)
-}
 \arguments{
-\item{...}{For use by methods.}
-
-\item{.id}{Data frame identifier.
-
-  When `.id` is supplied, a new column of identifiers is
-  created to link each row to its original data frame. The labels
-  are taken from the named arguments to `bind_rows()`. When a
-  list of data frames is supplied, the labels are taken from the
-  names of the list. If no names are found a numeric sequence is
-  used instead.}
-
-\item{add.cell.ids}{from Seurat 3.0 A character vector of length(x = c(x, y)). Appends the corresponding values to the start of each objects' cell names.}
-
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to grouped data frames only.}
 
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)}
@@ -104,6 +84,8 @@ lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
+
+\item{...}{For use by methods.}
 }
 \value{
 An object of the same type as `.data`.
