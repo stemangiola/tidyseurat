@@ -109,7 +109,7 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #'
 #' @export
 #' 
-#' @name bind
+#' @name bind_rows
 NULL
 
 #' @importFrom rlang dots_values
@@ -140,7 +140,7 @@ bind_cols_ = function(..., .id = NULL){
 
   tts = flatten_if(dots_values(...), is_spliced)
 
-  tts[[1]]@meta.data = dplyr::bind_cols( tts[[1]][[]], tts[[2]], .id = .id)
+  tts[[1]]@meta.data = bind_cols( tts[[1]][[]], tts[[2]], .id = .id)
 
   tts[[1]]
 
@@ -149,7 +149,7 @@ bind_cols_ = function(..., .id = NULL){
 #' @export
 #'
 #' @importFrom ttservice bind_cols
-#' @inheritParams bind
+#' @inheritParams bind_cols
 #'
 #' @rdname dplyr-methods
 NULL
