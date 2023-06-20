@@ -22,13 +22,13 @@
     <loc>/reference/add_class.html</loc>
   </url>
   <url>
-    <loc>/reference/bind.html</loc>
+    <loc>/reference/aggregate_cells.html</loc>
+  </url>
+  <url>
+    <loc>/reference/bind_rows.html</loc>
   </url>
   <url>
     <loc>/reference/cell_type_df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/count.html</loc>
   </url>
   <url>
     <loc>/reference/dplyr-methods.html</loc>
@@ -83,5 +83,8 @@
   </url>
   <url>
     <loc>/reference/tidyr-methods.html</loc>
+  </url>
+  <url>
+    <loc>/reference/unnest_seurat.html</loc>
   </url>
 </urlset>

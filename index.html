@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
 <p>Please also have a look at</p>
 <ul>
 <li>
-<a href="https://stemangiola.github.io/tidySingleCellExperiment/" class="external-link">tidySingleCellExperiment</a> for tidy single-cell RNA sequencing analysis</li>
+<a href="https://stemangiola.github.io/tidyseurat/" class="external-link">tidyseurat</a> for tidy single-cell RNA sequencing analysis</li>
 <li>
 <a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">tidySummarizedExperiment</a> for tidy bulk RNA sequencing analysis</li>
 <li>
@@ -149,6 +149,10 @@
 </tbody>
 </table>
 <table class="table">
+<colgroup>
+<col width="22%">
+<col width="77%">
+</colgroup>
 <thead><tr class="header">
 <th>Utilities</th>
 <th>Description</th>
@@ -167,6 +171,10 @@
 <td><code>join_features</code></td>
 <td>Add feature-wise information, returns a <code>tbl_df</code>
 </td>
+</tr>
+<tr class="even">
+<td><code>aggregate_cells</code></td>
+<td>Aggregate cell gene-transcription abundance as pseudobulk tissue</td>
 </tr>
 </tbody>
 </table>
@@ -212,8 +220,9 @@
 <span id="cb6-12"><a href="#cb6-12"></a><span class="co">##  8 GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
 <span id="cb6-13"><a href="#cb6-13"></a><span class="co">##  9 GATA… SeuratPro…         52           36 0               A             g1    </span></span>
 <span id="cb6-14"><a href="#cb6-14"></a><span class="co">## 10 AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">## # … with 70 more rows, and 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;,</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">## #   PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">## # ℹ 70 more rows</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">## # ℹ 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">## #   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p><strong>But it is a Seurat object after all</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span><span class="op">@</span><span class="va">assays</span></span></code></pre></div>
@@ -303,9 +312,10 @@
 <span id="cb14-12"><a href="#cb14-12"></a><span class="co">##  8 GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
 <span id="cb14-13"><a href="#cb14-13"></a><span class="co">##  9 GATA… SeuratPro…         52           36 0               A             g1    </span></span>
 <span id="cb14-14"><a href="#cb14-14"></a><span class="co">## 10 AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">## # … with 70 more rows, and 10 more variables: RNA_snn_res.1 &lt;fct&gt;,</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">## #   nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co">## #   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">## # ℹ 70 more rows</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="co">## # ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;,</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a><span class="co">## #   nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a><span class="co">## #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -340,19 +350,26 @@
 <span id="cb17-12"><a href="#cb17-12"></a><span class="co">##  8 GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
 <span id="cb17-13"><a href="#cb17-13"></a><span class="co">##  9 GATA… SeuratPro…         52           36 0               A             g1    </span></span>
 <span id="cb17-14"><a href="#cb17-14"></a><span class="co">## 10 AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb17-15"><a href="#cb17-15"></a><span class="co">## # … with 70 more rows, and 12 more variables: RNA_snn_res.1 &lt;fct&gt;,</span></span>
-<span id="cb17-16"><a href="#cb17-16"></a><span class="co">## #   nCount_SCT &lt;dbl&gt;, nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;,</span></span>
-<span id="cb17-17"><a href="#cb17-17"></a><span class="co">## #   seurat_clusters &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span></span>
-<span id="cb17-18"><a href="#cb17-18"></a><span class="co">## #   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="co">## # ℹ 70 more rows</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a><span class="co">## # ℹ 12 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;,</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="co">## #   nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;, seurat_clusters &lt;fct&gt;,</span></span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co">## #   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a><span class="co">## #   tSNE_2 &lt;dbl&gt;</span></span></code></pre></div>
 <p>Now we can interrogate the object as if it was a regular tibble data frame.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="reference/count.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">seurat_clusters</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">## # A tibble: 2 × 3</span></span>
+<span>  <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="reference/dplyr-methods.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">seurat_clusters</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">## # A tibble: 8 × 3</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="co">##   groups seurat_clusters     n</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a><span class="co">##   &lt;chr&gt;  &lt;fct&gt;           &lt;int&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="co">## 1 g1     0                  44</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a><span class="co">## 2 g2     0                  36</span></span></code></pre></div>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co">## 1 g1     0                  17</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co">## 2 g1     1                  14</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="co">## 3 g1     2                   9</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co">## 4 g1     3                   4</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co">## 5 g2     0                  13</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co">## 6 g2     1                  12</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a><span class="co">## 7 g2     2                   6</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="co">## 8 g2     3                   5</span></span></code></pre></div>
 <p>We can identify cluster markers using Seurat.</p>
 <!-- If this is Seurat v4, comment out the v3 markers --><!--
 
@@ -443,7 +460,7 @@ pbmc_small_cluster %>%
 <p>We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/count.html">count</a></span><span class="op">(</span><span class="va">seurat_clusters</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/dplyr-methods.html">count</a></span><span class="op">(</span><span class="va">seurat_clusters</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
 <p>We can easily reshape the data for building information-rich faceted plots.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -488,7 +505,7 @@ pbmc_small_cluster %>%
 <span>  <span class="fu"><a href="reference/tidyr-methods.html">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested</span></span></code></pre></div>
-<p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and SingleCellExperiment seamlessly.</p>
+<p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and Seurat seamlessly.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">pbmc_small_nested</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -518,6 +535,29 @@ pbmc_small_cluster %>%
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cell_class</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">my_theme</span></span></code></pre></div>
+</div>
+<div class="section level1">
+<h1 id="aggregating-cells">Aggregating cells<a class="anchor" aria-label="anchor" href="#aggregating-cells"></a>
+</h1>
+<p>Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.</p>
+<p>In tidyseurat, cell aggregation can be achieved using the <code>aggregate_cells</code> function.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/aggregate_cells.html">aggregate_cells</a></span><span class="op">(</span><span class="va">groups</span>, assays <span class="op">=</span> <span class="st">"RNA"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">## # A tibble: 460 × 6</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="co">##    .feature  .sample    RNA groups .aggregated_cells orig.ident   </span></span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="co">##    &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;              &lt;int&gt; &lt;fct&gt;        </span></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="co">##  1 MS4A1     g2       35.5  g2                    36 SeuratProject</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="co">##  2 CD79B     g2       52.8  g2                    36 SeuratProject</span></span>
+<span id="cb32-6"><a href="#cb32-6"></a><span class="co">##  3 CD79A     g2       37.2  g2                    36 SeuratProject</span></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="co">##  4 HLA-DRA   g2      130.   g2                    36 SeuratProject</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="co">##  5 TCL1A     g2       29.5  g2                    36 SeuratProject</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="co">##  6 HLA-DQB1  g2       65.5  g2                    36 SeuratProject</span></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="co">##  7 HVCN1     g2       29.8  g2                    36 SeuratProject</span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="co">##  8 HLA-DMB   g2       43.2  g2                    36 SeuratProject</span></span>
+<span id="cb32-12"><a href="#cb32-12"></a><span class="co">##  9 LTB       g2      111.   g2                    36 SeuratProject</span></span>
+<span id="cb32-13"><a href="#cb32-13"></a><span class="co">## 10 LINC00926 g2        9.91 g2                    36 SeuratProject</span></span>
+<span id="cb32-14"><a href="#cb32-14"></a><span class="co">## # ℹ 450 more rows</span></span></code></pre></div>
 </div>
 
   </div>
