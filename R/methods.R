@@ -83,8 +83,6 @@ setMethod(
 #' join_features(features = c("HLA-DRA", "LYZ"))
 #'
 #'
-#' @export
-#'
 NULL
 
 #' join_features
@@ -159,8 +157,6 @@ setMethod("join_features", "Seurat",  function(.data,
 #' data("pbmc_small")
 #' pbmc_small |>
 #'   aggregate_cells(c(groups, letter.idents), assays = "RNA")
-#'
-#' @export
 #'
 NULL
 
