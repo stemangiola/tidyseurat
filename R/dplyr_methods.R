@@ -33,7 +33,6 @@
 #' @rdname dplyr-methods
 #' @name arrange
 #'
-#' @export
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
@@ -107,7 +106,6 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' tt_bind = tt %>% select(nCount_RNA ,nFeature_RNA)
 #' tt %>% bind_cols(tt_bind)
 #'
-#' @export
 #' 
 #' @name bind_rows
 NULL
@@ -146,7 +144,7 @@ bind_cols_ = function(..., .id = NULL){
 
 }
 
-#' @export
+
 #'
 #' @importFrom ttservice bind_cols
 #' @inheritParams bind_cols
@@ -181,7 +179,6 @@ bind_cols.Seurat <- bind_cols_
 #' @rdname dplyr-methods
 #' @name distinct
 #'
-#' @export
 NULL
 
 #' @export
@@ -241,7 +238,6 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' @rdname dplyr-methods
 #' @name filter
 #'
-#' @export
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`
@@ -315,7 +311,6 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #' @rdname dplyr-methods
 #' @name group_by
 #'
-#' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
@@ -358,7 +353,6 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #'
 #'
 #'
-#' @export
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_eval]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
@@ -381,7 +375,6 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #' data("pbmc_small")
 #' pbmc_small %>%  summarise(mean(nCount_RNA))
 #'
-#' @export
 NULL
 
 #' @export
@@ -431,7 +424,6 @@ summarise.Seurat <- function (.data, ...)
 #' @rdname dplyr-methods
 #' @name mutate
 #'
-#' @export
 #' @inheritParams arrange
 #' @param ... <[`tidy-eval`][dplyr_eval]> Name-value pairs.
 #'   The name gives the name of the column in the output.
@@ -538,7 +530,6 @@ mutate.Seurat <- function(.data, ...)
 #' @rdname dplyr-methods
 #' @name rename
 #'
-#' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
@@ -583,7 +574,6 @@ rename.Seurat <- function(.data, ...)
 #' @rdname dplyr-methods
 #' @name rowwise
 #'
-#' @export
 #' @examples
 #' `%>%` = magrittr::`%>%`
 #'
@@ -618,7 +608,6 @@ rowwise.Seurat <- function(data, ...)
 #' @rdname dplyr-methods
 #' @name left_join
 #'
-#' @export
 #'
 #' @examples
 #' `%>%` = magrittr::`%>%`
@@ -681,7 +670,6 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @rdname dplyr-methods
 #' @name inner_join
 #'
-#' @export
 NULL
 
 #' @export
@@ -739,7 +727,6 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @rdname dplyr-methods
 #' @name right_join
 #'
-#' @export
 NULL
 
 #' @export
@@ -796,7 +783,6 @@ right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @rdname dplyr-methods
 #' @name full_join
 #'
-#' @export
 NULL
 
 #' @export
@@ -867,7 +853,6 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @rdname dplyr-methods
 #' @name slice
 #'
-#' @export
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`
@@ -890,7 +875,7 @@ slice.Seurat <- function (.data, ..., .preserve = FALSE)
 
 }
 
-#' @export
+
 #' 
 #' @rdname dplyr-methods
 #' @name slice_sample 
@@ -987,7 +972,6 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
 #' @rdname dplyr-methods
 #' @name select
 #'
-#' @export
 NULL
 
 #' @export
@@ -1054,7 +1038,6 @@ select.Seurat <- function (.data, ...)
 #' @rdname dplyr-methods
 #' @name sample_n
 #'
-#' @export
 NULL
 
 #' @export
@@ -1097,7 +1080,6 @@ sample_n.Seurat <- function(tbl, size, replace = FALSE,
 #' @rdname dplyr-methods
 #' @name sample_frac
 #'
-#' @export
 NULL
 
 #' @export
@@ -1167,7 +1149,6 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
-#' @export
 #'
 #' @rdname dplyr-methods
 #' @name count
@@ -1200,7 +1181,7 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 
 }
 
-#' @export
+
 #'
 #'
 #' @importFrom dplyr add_count
@@ -1249,7 +1230,6 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #' @rdname dplyr-methods
 #' @name pull
 #'
-#' @export
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`

@@ -52,7 +52,6 @@
 #' @rdname tibble-methods
 #' @name as_tibble
 #'
-#' @export
 #' @examples
 #' data("pbmc_small")
 #' pbmc_small %>%  as_tibble()
@@ -129,7 +128,6 @@ as_tibble.Seurat = function(x, ...,
 #' @rdname tibble-methods
 #' @name glimpse
 #'
-#' @export
 #' @examples
 #' data("pbmc_small")
 #' pbmc_small %>% tidy %>% glimpse()

@@ -41,7 +41,6 @@
 #' @rdname ggplot2-methods
 #' @name ggplot
 #' 
-#' @export
 #' @examples
 #' # Generate some sample data, then compute mean and standard deviation
 #' # in each group

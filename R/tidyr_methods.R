@@ -48,7 +48,7 @@
 #' @rdname tidyr-methods
 #' @name unnest
 #'
-#' @export
+
 NULL
 
 #' @importFrom rlang quo_name
@@ -182,7 +182,7 @@ unnest_seurat  <-  function(data, cols, ..., keep_empty=FALSE, ptype=NULL,
 #' @rdname tidyr-methods
 #' @name nest
 #'
-#' @export
+
 NULL
 
 #' @importFrom rlang enquos
@@ -283,7 +283,6 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
 #'   NB: this will cause string `"NA"`s to be converted to `NA`s.
 #' @param ... Additional arguments passed on to methods.
 #' @seealso [separate()] to split up by a separator.
-#' @export
 #' @examples
 #' 
 #' data("pbmc_small")
@@ -296,7 +295,7 @@ nest.Seurat <- function (.data, ..., .names_sep = NULL)
 #' @rdname tidyr-methods
 #' @name extract
 #' 
-#' @export
+
 NULL
 
 #' @export
@@ -406,7 +405,6 @@ extract.Seurat <- function  (data, col, into, regex = "([[:alnum:]]+)", remove =
 #' 
 #' @name pivot_longer
 #' 
-#' @export
 #' @examples
 #' # See vignette("pivot") for examples and explanation
 #' 
@@ -490,7 +488,6 @@ pivot_longer.Seurat <- function(data,
 #' @rdname tidyr-methods
 #' @name unite
 #' 
-#' @export
 #' @examples
 #' 
 #' data("pbmc_small")
@@ -565,7 +562,6 @@ unite.Seurat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FALSE
 #' @rdname tidyr-methods
 #' @name separate
 #' 
-#' @export
 #' @examples
 #' 
 #' data("pbmc_small")
