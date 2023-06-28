@@ -27,9 +27,6 @@
 
 \item{.keep_all}{If TRUE, keep all variables in .data. If a combination of ... is not distinct, this keeps the first row of values. (See dplyr)}
 
-\item{.preserve}{when `FALSE` (the default), the grouping structure
-is recalculated based on the resulting data, otherwise it is kept as is.}
-
 \item{.add}{When `FALSE`, the default, `group_by()` will
   override existing groups. To add to the existing groups, use
   `.add = TRUE`.
@@ -47,6 +44,9 @@ is recalculated based on the resulting data, otherwise it is kept as is.}
 \item{copy}{If x and y are not from the same data source, and copy is TRUE, then y will be copied into the same src as x. (See dplyr)}
 
 \item{suffix}{If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)}
+
+\item{.preserve}{when `FALSE` (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{weight_by}{<[`data-masking`][dplyr_data_masking]> Sampling weights.
 This must evaluate to a vector of non-negative numbers the same length as

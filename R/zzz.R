@@ -16,6 +16,9 @@ To restore the Seurat default display use options(\"restore_Seurat_show\" = TRUE
 ")	
 	
 	packageStartupMessage(msg)
+	
+	# Attach tidyverse
+	attached <- tidyverse_attach()
 }
 
 rv = R.Version()
