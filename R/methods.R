@@ -152,6 +152,7 @@ setMethod("join_features", "Seurat",  function(.data,
 #' @param slot The slot to which the function is applied
 #' @param assays The assay to which the function is applied
 #' @param aggregation_function The method of cell-feature value aggregation
+#' @param .metadata_columns_to_keep a column vector e.g. c(column_1, column_2), which combinqtion is unique for `.sample` to be included in the pseudobulk metadata. If NULL those columns will be automatically detected, which operation can be slow for large objects.
 #' 
 #' @return A tibble object
 #' 
@@ -167,6 +168,16 @@ NULL
 #' aggregate_cells
 #'
 #' @importFrom dplyr everything
+#' @importFrom rlang quo_is_null
+#' 
+#' @docType methods
+#' @rdname aggregate_cells
+#'
+#' @return An object containing the information.for the specified features
+#'
+#' aggregate_cells
+#'
+#' @importFrom dplyr everything
 #' 
 #' @docType methods
 #' @rdname aggregate_cells
@@ -177,51 +188,65 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                                                  .sample = NULL, 
                                                  slot = "data",
                                                  assays = NULL, 
-                                                 aggregation_function = Matrix::rowSums){
+                                                 aggregation_function = Matrix::rowSums,
+                                                 .metadata_columns_to_keep = NULL){
   # Solve NOTE  
   data = NULL
   .feature = NULL
   
   
-    .sample = enquo(.sample)
+  .sample = enquo(.sample)
+  .metadata_columns_to_keep = enquo(.metadata_columns_to_keep)
+  
+  # Subset only wanted assays
+  if(!is.null(assays)){
+    DefaultAssay(.data) = assays[1]
+    .data@assays = .data@assays[assays]
+  }
 
-    # Subset only wanted assays
-    if(!is.null(assays)){
-      DefaultAssay(.data) = assays[1]
-      .data@assays = .data@assays[assays]
-    }
+  # Use user columns if provided should be faster than infer them for huge datasets
+  if(.metadata_columns_to_keep |> quo_is_null()){
+    metadata_collapsed = 
+    .data |> tidyseurat::as_tibble() |> subset_tidyseurat(!!.sample)
+  } else{
+    metadata_collapsed = 
+      .data |> select(!!.metadata_columns_to_keep, !!.sample) |> distinct()
+    
+    # Size has to match
+    if(nrow(metadata_collapsed) >  nrow(.data |> select(!!.sample) |> distinct()))
+      stop(glue("tidyseurat says: You might have selected .metadata_columns_to_keep which is not specific for {quo_names(.sample)}"))
+  }
 
-    .data %>%
-      
-      tidyseurat::nest(data = -!!.sample) %>%
-      mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) %>% 
-      mutate(data = map(data, ~ 
-                          
-                          # loop over assays
-                          map2(
-                            .x@assays, names(.x@assays),
-                            
-                            # Get counts
-                            ~ GetAssayData(.x, slot = slot) %>%
-                              aggregation_function(na.rm = T) %>%
-                              tibble::enframe(
-                                name  = ".feature",
-                                value = sprintf("%s", .y)
-                              ) %>%
-                              mutate(.feature = as.character(.feature)) 
-                          ) %>%
-                          Reduce(function(...) full_join(..., by=c(".feature")), .)
+  .data |>
+    tidyseurat::nest(data = -!!.sample) |>
+    mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) |> 
+    mutate(data = map(data, ~ 
                         
-      )) %>%
-      left_join(.data %>% tidyseurat::as_tibble() %>% subset_tidyseurat(!!.sample)) %>%
-      tidyseurat::unnest(data) %>%
-      
-      tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
-      select(.feature, .sample, names(.data@assays), everything()) |> 
-      drop_class("tidyseurat_nested") 
+                        # loop over assays
+                        map2(
+                          .x@assays, names(.x@assays),
+                          
+                          # Get counts
+                          ~ GetAssayData(.x, slot = slot) |>
+                            aggregation_function(na.rm = T) |>
+                            tibble::enframe(
+                              name  = ".feature",
+                              value = sprintf("%s", .y)
+                            ) |>
+                            mutate(.feature = as.character(.feature)) 
+                        ) %>%
+                        Reduce(function(...) full_join(..., by=c(".feature")), .)
+                      
+    )) %>%
+    left_join(metadata_collapsed) %>%
+    tidyseurat::unnest(data) %>%
     
-    
-  })
+    tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
+    select(.feature, .sample, names(.data@assays), everything()) |> 
+    drop_class("tidyseurat_nested") 
+  
+  
+})
 
 
 
