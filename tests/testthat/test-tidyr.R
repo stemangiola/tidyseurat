@@ -35,7 +35,9 @@ test_that("nest_unnest_slice_1",{
   tt |>
     nest(data = -groups) |>
     slice(1) |>
-    unnest(data)
+    unnest(data) |> 
+    ncol() |>
+    expect_equal(40)
 
 })
 
