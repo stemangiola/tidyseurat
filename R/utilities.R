@@ -62,7 +62,7 @@ drop_class = function(var, name) {
   var
 }
 
-#' get abundance long
+#' get abundance wide
 #'
 #' @keywords internal
 #'
@@ -77,9 +77,7 @@ drop_class = function(var, name) {
 #' @param all A boolean
 #' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
 #'
-#'
 #' @return A Seurat object
-#'
 #'
 #' @export
 get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .data@active.assay, slot = "data", prefix = ""){
