@@ -122,3 +122,15 @@ test_that("count", {
     expect_equal(230)
 })
 
+test_that("rowwise", {
+  cell_rowwise_mean <-
+    pbmc_small |>  
+    rowwise() |>
+    mutate(m = mean(c(nCount_RNA, nFeature_RNA))) |>
+    purrr::pluck("m", 1)
+  cell_manual_mean <-
+    ((pbmc_small[, 1]$nCount_RNA + pbmc_small[, 1]$nFeature_RNA) / 2) |>
+    unname()
+  expect_equal(cell_rowwise_mean, cell_manual_mean)
+})
+
