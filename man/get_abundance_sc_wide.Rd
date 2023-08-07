@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{get_abundance_sc_wide}
 \alias{get_abundance_sc_wide}
-\title{get abundance long}
+\title{get abundance wide}
 \usage{
 get_abundance_sc_wide(
   .data,
@@ -26,6 +26,6 @@ get_abundance_sc_wide(
 A Seurat object
 }
 \description{
-get abundance long
+get abundance wide
 }
 \keyword{internal}
