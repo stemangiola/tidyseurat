@@ -21,15 +21,11 @@ test_that("fast_vs_slow_nest", {
 })
 
 test_that("nest_unnest_slice_1", {
-  tt |>
-    nest(data = -groups) |>
-    slice(1) |>
-    unnest(data) |> 
-    ncol() |>
-    expect_equal(40)
+  expect_equal(
+    tt |> nest(data = -groups) |> slice(1) |> unnest(data) |> ncol(),
+    sum(tt[[]]$groups == "g1")
+  )
 })
-
-
 test_that("unite separate", {
   un <- tt |> unite("new_col", c(orig.ident, groups))
   se <- un |> separate(col = new_col, into = c("orig.ident", "groups"))
