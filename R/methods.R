@@ -68,9 +68,11 @@ setMethod(
 #' @param .data A Seurat object
 #' @param features A vector of feature identifiers to join
 #' @param all If TRUE return all
-#' @param exclude_zeros If TRUE exclude zero values
+#' @param exclude_zeros If TRUE exclude zero values in long format
 #' @param shape Format of the returned table "long" or "wide"
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"
+#' @param assay assay name to extract feature abundance
+#' @param slot slot in the assay to extract feature abundance
+#' @param ... the other arguments
 #'
 #' @details This function extracts information for specified features and returns the information in either long or wide format.
 #'
@@ -81,7 +83,6 @@ setMethod(
 #' data("pbmc_small")
 #' pbmc_small %>% 
 #' join_features(features = c("HLA-DRA", "LYZ"))
-#'
 #'
 #' @export
 #'
@@ -98,7 +99,9 @@ setMethod("join_features", "Seurat",  function(.data,
                                                features = NULL,
                                                all = FALSE,
                                                exclude_zeros = FALSE,
-                                               shape = "long", ...)
+                                               shape = "long",
+                                               assay = .data@active.assay, 
+                                               slot = "data", ...)
 {
   .data %>%
     
@@ -111,7 +114,9 @@ setMethod("join_features", "Seurat",  function(.data,
           .data = .data,
           features = features,
           all = all,
-          exclude_zeros = exclude_zeros
+          exclude_zeros = exclude_zeros,
+          assay = assay,
+          slot = slot, ...
         ),
         by = c_(.data)$name
       ) %>%
@@ -122,7 +127,9 @@ setMethod("join_features", "Seurat",  function(.data,
         get_abundance_sc_wide(
           .data = .data,
           features = features,
-          all = all, ...
+          all = all,
+          assay = assay,
+          slot = slot, ...
         ),
         by = c_(.data)$name
       ) 
