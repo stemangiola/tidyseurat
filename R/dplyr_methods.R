@@ -970,6 +970,29 @@ slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
     new_obj
 }
 
+#' @export
+#' @rdname dplyr-methods
+#' @name slice_tail
+#' @importFrom dplyr slice_tail
+#' @examples
+#'
+#' # Last rows based on existing order
+#' pbmc_small |> slice_min(n = 5)
+NULL
+
+#' @export
+slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
+  new_meta = dplyr::slice_tail(.data[[]], ..., n = n, prop = prop, by = {{by}})
+
+  # Error if size == 0
+  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+
+  new_obj = subset(.data,   cells = rownames(new_meta ))
+  #new_obj@meta.data = new_meta
+
+  new_obj
+}
+
 #' Subset columns using their names and types
 #'
 #' @description

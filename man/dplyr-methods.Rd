@@ -16,6 +16,7 @@
 \alias{slice}
 \alias{slice_sample}
 \alias{slice_head}
+\alias{slice_tail}
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
@@ -354,6 +355,9 @@ pbmc_small \%>\%  slice(1)
 
 # First rows based on existing order
 pbmc_small |> slice_head(n = 5)
+
+# Last rows based on existing order
+pbmc_small |> slice_min(n = 5)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
