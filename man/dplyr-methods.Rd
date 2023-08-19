@@ -15,6 +15,7 @@
 \alias{full_join}
 \alias{slice}
 \alias{slice_sample}
+\alias{slice_head}
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
@@ -350,6 +351,9 @@ pbmc_small \%>\% full_join(tibble::tibble(groups = "g1", other=1:4))
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
 pbmc_small \%>\%  slice(1)
+
+# First rows based on existing order
+pbmc_small |> slice_head(n = 5)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
