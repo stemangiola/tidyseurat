@@ -1010,6 +1010,9 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' # Or use additional variables to break the tie:
 #' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
 #'
+#' # Use by for group-wise operations
+#' pbmc_small |> slice_min(nFeature_RNA, n = 5, by = groups)
+#'
 NULL
 
 #' @export
