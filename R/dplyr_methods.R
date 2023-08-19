@@ -867,7 +867,6 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @rdname dplyr-methods
 #' @name slice
 #'
-#' @export
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`
@@ -893,8 +892,6 @@ slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 
 }
 
-#' @export
-#'
 #' @rdname dplyr-methods
 #' @name slice_sample
 #'
@@ -950,7 +947,6 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
 
 }
 
-#' @export
 #' @rdname dplyr-methods
 #' @name slice_head
 #' @importFrom dplyr slice_head
@@ -972,7 +968,6 @@ slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
     new_obj
 }
 
-#' @export
 #' @rdname dplyr-methods
 #' @name slice_tail
 #' @importFrom dplyr slice_tail
@@ -994,7 +989,6 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
   new_obj
 }
 
-#' @export
 #' @rdname dplyr-methods
 #' @name slice_min
 #' @importFrom dplyr slice_min
@@ -1033,7 +1027,6 @@ slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
   new_obj
 }
 
-#' @export
 #' @rdname dplyr-methods
 #' @name slice_max
 #' @importFrom dplyr slice_max
