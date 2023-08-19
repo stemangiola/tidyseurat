@@ -878,13 +878,23 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 NULL
 
 #' @export
-slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
-{
+slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE) {
 
-  idx <- .data[[]] |>
-    tibble::rowid_to_column(var  = 'row_number___')  |>
-    dplyr::select(-everything(), row_number___, {{ by }}) |>
-    dplyr::slice(..., .by = {{ by }}, .preserve = .preserve) |>
+  # CRAN notes
+  .env <- NULL
+  row_number___ <- NULL
+
+  idx <- data.frame(
+    row_number___ = 1:ncol(pbmc_small)
+  )
+
+  if (!rlang::quo_is_null(rlang::enquo(.by))) { # add .by to index df
+    by_str <- rlang::englue("{{.by}}")
+    idx <- idx |> dplyr::mutate("{{.by}}" := .env$.data[[by_str]][[by_str]])
+  }
+
+  idx <- idx |>
+    dplyr::slice(..., .by = {{ .by }}, .preserve = .preserve) |>
     dplyr::pull(row_number___)
 
   # Error if size == 0
