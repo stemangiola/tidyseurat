@@ -976,7 +976,7 @@ slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' @examples
 #'
 #' # Last rows based on existing order
-#' pbmc_small |> slice_min(n = 5)
+#' pbmc_small |> slice_tail(n = 5)
 NULL
 
 #' @export
