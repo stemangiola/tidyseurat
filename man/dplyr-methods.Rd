@@ -355,6 +355,9 @@ pbmc_small \%>\% full_join(tibble::tibble(groups = "g1", other=1:4))
 data("pbmc_small")
 pbmc_small \%>\%  slice(1)
 
+# Slice group-wise using .by
+pbmc_small |> slice(1:2, .by = groups)
+
 # First rows based on existing order
 pbmc_small |> slice_head(n = 5)
 
@@ -373,6 +376,9 @@ pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
 
 # Or use additional variables to break the tie:
 pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
+
+# Use by for group-wise operations
+pbmc_small |> slice_min(nFeature_RNA, n = 5, by = groups)
 
 
 # Rows with minimum and maximum values of a metadata variable

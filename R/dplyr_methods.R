@@ -873,12 +873,15 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' `%>%` = magrittr::`%>%`
 #' data("pbmc_small")
 #' pbmc_small %>%  slice(1)
+#'
+#' # Slice group-wise using .by
+#' pbmc_small |> slice(1:2, .by = groups)
 NULL
 
 #' @export
-slice.Seurat <- function (.data, ..., .preserve = FALSE)
+slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 {
-  new_meta = dplyr::slice(.data[[]], ..., .preserve = .preserve)
+  new_meta = dplyr::slice(.data[[]], ..., .by = {{ by }}, .preserve = .preserve)
 
   # Error if size == 0
   if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
