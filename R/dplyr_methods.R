@@ -880,12 +880,17 @@ NULL
 #' @export
 slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 {
-  new_meta = dplyr::slice(.data[[]], ..., .by = {{ by }}, .preserve = .preserve)
+
+  idx <- .data[[]] |>
+    tibble::rowid_to_column(var  = 'row_number___')  |>
+    dplyr::select(-everything(), row_number___, {{ by }}) |>
+    dplyr::slice(..., .by = {{ by }}, .preserve = .preserve) |>
+    dplyr::pull(row_number___)
 
   # Error if size == 0
-  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
 
-  new_obj = subset(.data,   cells = rownames(new_meta ))
+  new_obj = subset(.data,   cells = colnames(.data)[idx])
   #new_obj@meta.data = new_meta
 
   new_obj
