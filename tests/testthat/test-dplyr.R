@@ -76,15 +76,15 @@ test_that("inner_join", {
 })
 
 test_that("right_join", {
-    expect_equal(
-      pbmc_small |> right_join(pbmc_small |> distinct(groups) |> mutate(new_column = 1:2) |> slice(1)) |> ncol(),
-      sum(pbmc_small[[]]$groups == "g2")
+  expect_equal(
+    pbmc_small |> right_join(pbmc_small |> distinct(groups) |> mutate(new_column = 1:2) |> slice(1)) |> ncol(),
+    sum(pbmc_small[[]]$groups == "g2")
   )
 })
 
 test_that("full_join", {
   expect_equal(
-    pbmc_small |> full_join(tibble::tibble(groups = "g1", other = 1:4)) |> nrow(), 
+    pbmc_small |> full_join(tibble::tibble(groups = "g1", other = 1:4)) |> nrow(),
     sum(pbmc_small[[]]$groups == "g1") * 4 + sum(pbmc_small[[]]$groups == "g2")
   )
 })
@@ -107,10 +107,43 @@ test_that("sample_n", {
 })
 
 test_that("slice_sample", {
-  pbmc_small |> 
-    slice_sample(n = 50) |> 
+  pbmc_small |>
+    slice_sample(n = 50) |>
     ncol() |>
     expect_equal(50)
+})
+
+test_that("slice_head", {
+  pbmc_small |>
+    slice_head(n = 50) |>
+    ncol() |>
+    expect_equal(50)
+  expect_equal(
+    colnames(pbmc_small) |> head(n = 50),
+    pbmc_small |> slice_head(n = 50) |> colnames()
+  )
+})
+
+test_that("slice_tail", {
+  pbmc_small |>
+    slice_tail(n = 50) |>
+    ncol() |>
+    expect_equal(50)
+  expect_equal(
+    colnames(pbmc_small) |> tail(n = 50),
+    pbmc_small |> slice_tail(n = 50) |> colnames()
+  )
+})
+
+test_that("slice_min", {
+  pbmc_small |>
+    slice_min(nFeature_RNA, n = 5) |>
+    ncol() |>
+    expect_equal(5)
+  expect_equal(
+    pbmc_small |> as_tibble() |> dplyr::arrange(nFeature_RNA) |> head(n = 5) %>% pull(.cell),
+    pbmc_small |> slice_min(nFeature_RNA, n = 5) |> colnames()
+  )
 })
 
 test_that("sample_frac", {
@@ -133,7 +166,7 @@ test_that("count", {
 
 test_that("add_count", {
   expect_equal(
-    pbmc_small |> add_count(groups) |> nrow(), 
+    pbmc_small |> add_count(groups) |> nrow(),
     pbmc_small |> rownames() |> length()
   )
 })
