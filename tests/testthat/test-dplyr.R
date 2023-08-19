@@ -146,6 +146,17 @@ test_that("slice_min", {
   )
 })
 
+test_that("slice_max", {
+  pbmc_small |>
+    slice_max(nFeature_RNA, n = 5) |>
+    ncol() |>
+    expect_equal(5)
+  expect_equal(
+    pbmc_small |> as_tibble() |> dplyr::arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
+    pbmc_small |> slice_max(nFeature_RNA, n = 5) |> colnames()
+  )
+})
+
 test_that("sample_frac", {
   expect_equal(
     pbmc_small |> sample_frac(0.1) |> ncol(),

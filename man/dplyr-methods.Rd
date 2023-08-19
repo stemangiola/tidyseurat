@@ -18,6 +18,7 @@
 \alias{slice_head}
 \alias{slice_tail}
 \alias{slice_min}
+\alias{slice_max}
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
@@ -373,6 +374,9 @@ pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
 # Or use additional variables to break the tie:
 pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
 
+
+# Rows with minimum and maximum values of a metadata variable
+pbmc_small |> slice_max(nFeature_RNA, n = 5)
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
