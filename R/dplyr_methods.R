@@ -991,6 +991,42 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
   new_obj
 }
 
+#' @export
+#' @rdname dplyr-methods
+#' @name slice_min
+#' @importFrom dplyr slice_min
+#' @examples
+#'
+#' # Rows with minimum and maximum values of a metadata variable
+#' pbmc_small |> slice_min(nFeature_RNA, n = 5)
+#'
+#' # slice_min() and slice_max() may return more rows than requested
+#' # in the presence of ties.
+#' pbmc_small |>  slice_min(nFeature_RNA, n = 2)
+#'
+#' # Use with_ties = FALSE to return exactly n matches
+#' pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
+#'
+#' # Or use additional variables to break the tie:
+#' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
+#'
+NULL
+
+#' @export
+slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+  new_meta <- dplyr::slice_min(
+    .data[[]],
+    order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
+    with_ties = with_ties, na_rm = na_rm)
+
+  # Error if size == 0
+  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+
+  new_obj <- subset(.data,   cells = rownames(new_meta ))
+
+  new_obj
+}
+
 #' Subset columns using their names and types
 #'
 #' @description

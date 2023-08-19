@@ -17,6 +17,7 @@
 \alias{slice_sample}
 \alias{slice_head}
 \alias{slice_tail}
+\alias{slice_min}
 \alias{select}
 \alias{sample_n}
 \alias{sample_frac}
@@ -357,7 +358,21 @@ pbmc_small \%>\%  slice(1)
 pbmc_small |> slice_head(n = 5)
 
 # Last rows based on existing order
-pbmc_small |> slice_min(n = 5)
+pbmc_small |> slice_tail(n = 5)
+
+# Rows with minimum and maximum values of a metadata variable
+pbmc_small |> slice_min(nFeature_RNA, n = 5)
+
+# slice_min() and slice_max() may return more rows than requested
+# in the presence of ties.
+pbmc_small |>  slice_min(nFeature_RNA, n = 2)
+
+# Use with_ties = FALSE to return exactly n matches
+pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
+
+# Or use additional variables to break the tie:
+pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
+
 
 `\%>\%` = magrittr::`\%>\%`
 data("pbmc_small")
