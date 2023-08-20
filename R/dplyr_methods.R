@@ -901,11 +901,29 @@ slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 #' @param weight_by <[`data-masking`][dplyr_data_masking]> Sampling weights.
 #'   This must evaluate to a vector of non-negative numbers the same length as
 #'   the input. Weights are automatically standardised to sum to 1.
+#'
+#'   @examples
+#'   # slice_sample() allows you to random select with or without replacement
+#'   pbmc_small |> slice_sample(n = 5)
+#'
+#'   # if using replacement, and duplicate cells are returned, a tibble will be
+#'   # returned because duplicate cells cannot exist in Seurat objects
+#'   pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
+#'   pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
+#'
+#'   # weight by a variable
+#'   pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
+#'
+#'   # sample by group
+#'   pbmc_small |> slice_sample(n = 5, by = groups)
+#'
+#'   # sample using proportions
+#'   pbmc_small |> slice_sample(prop = 0.10)
+#'
 NULL
 
 #' @export
 slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, weight_by = NULL, replace = FALSE) {
-
 
   # Solve CRAN NOTES
   cell = NULL
@@ -917,18 +935,20 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
     new_meta =
       .data[[]] %>%
       as_tibble(rownames = c_(.data)$name) %>%
-      dplyr::slice_sample(..., n = n, by = by, weight_by = weight_by, replace = replace)
+    dplyr::select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+      dplyr::slice_sample(..., n = n, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
   else if(!is.null(prop))
     new_meta =
     .data[[]] %>%
     as_tibble(rownames = c_(.data)$name) %>%
-    dplyr::slice_sample(..., prop=prop, by = by, weight_by = weight_by, replace = replace)
+    dplyr::select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
+    dplyr::slice_sample(..., prop=prop, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
   else
     stop("tidyseurat says: you should provide `n` or `prop` arguments")
 
   count_cells = new_meta %>% select(!!c_(.data)$symbol) %>% count(!!c_(.data)$symbol)
 
-  # If repeted cells
+  # If repeated cells due to replacement
   if(count_cells$n %>% max() %>% gt(1)){
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
     .data %>%
@@ -936,10 +956,6 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
       right_join(new_meta %>% select(!!c_(.data)$symbol),  by = c_(.data)$name)
   }  else{
     new_obj = subset(.data,   cells = new_meta %>% pull(!!c_(.data)$symbol))
-    new_obj@meta.data =
-      new_meta %>%
-      data.frame(row.names=pull(.,!!c_(.data)$symbol), check.names = FALSE) %>%
-      select(- !!c_(.data)$symbol)
     new_obj
   }
 
