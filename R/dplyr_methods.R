@@ -880,21 +880,15 @@ NULL
 #' @export
 slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 {
-
   idx <- .data[[]] |>
     tibble::rowid_to_column(var  = 'row_number___')  |>
-    dplyr::select(-everything(), row_number___, {{ by }}) |>
-    dplyr::slice(..., .by = {{ by }}, .preserve = .preserve) |>
+    dplyr::select(-everything(), row_number___, {{ .by }}) |>
+    dplyr::slice(..., .by = {{ .by }}, .preserve = .preserve) |>
     dplyr::pull(row_number___)
 
-  # Error if size == 0
   if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-
-  new_obj = subset(.data,   cells = colnames(.data)[idx])
-  #new_obj@meta.data = new_meta
-
+  new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
-
 }
 
 #' @rdname dplyr-methods
@@ -963,14 +957,15 @@ NULL
 
 #' @export
 slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
-    new_meta <- dplyr::slice_head(.data[[]], ..., n = n, prop = prop, by = {{by}})
+  idx <- .data[[]] |>
+    tibble::rowid_to_column(var  = 'row_number___')  |>
+    dplyr::select(-everything(), row_number___, {{ by }}) |>
+    dplyr::slice_head(..., n = n, prop = prop, by = {{ by }}) |>
+    dplyr::pull(row_number___)
 
-    # Error if size == 0
-    if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-
-    new_obj <- subset(.data,   cells = rownames(new_meta ))
-
-    new_obj
+  if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  new_obj <- subset(.data,   cells = colnames(.data)[idx])
+  new_obj
 }
 
 #' @rdname dplyr-methods
@@ -984,13 +979,14 @@ NULL
 
 #' @export
 slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
-  new_meta <- dplyr::slice_tail(.data[[]], ..., n = n, prop = prop, by = {{by}})
+  idx <- .data[[]] |>
+    tibble::rowid_to_column(var  = 'row_number___')  |>
+    dplyr::select(-everything(), row_number___, {{ by }}) |>
+    dplyr::slice_tail(..., n = n, prop = prop, by = {{ by }}) |>
+    dplyr::pull(row_number___)
 
-  # Error if size == 0
-  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-
-  new_obj <- subset(.data,   cells = rownames(new_meta ))
-
+  if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
 }
 
@@ -1019,16 +1015,17 @@ NULL
 
 #' @export
 slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
-  new_meta <- dplyr::slice_min(
-    .data[[]],
-    order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
-    with_ties = with_ties, na_rm = na_rm)
+  idx <- .data[[]] |>
+    tibble::rowid_to_column(var  = 'row_number___')  |>
+    dplyr::select(-everything(), row_number___, {{order_by}}, {{ by }}) |>
+    dplyr::slice_min(
+      order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
+      with_ties = with_ties, na_rm = na_rm
+    ) |>
+    dplyr::pull(row_number___)
 
-  # Error if size == 0
-  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-
-  new_obj <- subset(.data,   cells = rownames(new_meta ))
-
+  if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
 }
 
@@ -1043,16 +1040,17 @@ NULL
 
 #' @export
 slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
-  new_meta <- dplyr::slice_max(
-    .data[[]],
-    order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
-    with_ties = with_ties, na_rm = na_rm)
+  idx <- .data[[]] |>
+    tibble::rowid_to_column(var  = 'row_number___')  |>
+    dplyr::select(-everything(), row_number___, {{order_by}}, {{ by }}) |>
+    dplyr::slice_max(
+      order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
+      with_ties = with_ties, na_rm = na_rm
+    ) |>
+    dplyr::pull(row_number___)
 
-  # Error if size == 0
-  if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-
-  new_obj <- subset(.data,   cells = rownames(new_meta ))
-
+  if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+  new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
 }
 
