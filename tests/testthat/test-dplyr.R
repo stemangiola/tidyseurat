@@ -91,11 +91,9 @@ test_that("full_join", {
 
 test_that("slice", {
   expect_equal(pbmc_small |> slice(1) |> ncol(), 1)
-})
-
-test_that("select", {
-  expect_equal(pbmc_small |> select(cell, orig.ident) |> class() |> as.character(), "Seurat")
-  expect_equal(pbmc_small |> select(orig.ident) |> class() |> as.character() |> purrr::pluck(1), "tbl_df")
+  expect_equal(
+    pbmc_small |> slice(1:6) |> colnames(),
+    colnames(pbmc_small) |> head(6))
 })
 
 test_that("sample_n", {
@@ -155,6 +153,11 @@ test_that("slice_max", {
     pbmc_small |> as_tibble() |> dplyr::arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
     pbmc_small |> slice_max(nFeature_RNA, n = 5) |> colnames()
   )
+})
+
+test_that("select", {
+  expect_equal(pbmc_small |> select(cell, orig.ident) |> class() |> as.character(), "Seurat")
+  expect_equal(pbmc_small |> select(orig.ident) |> class() |> as.character() |> purrr::pluck(1), "tbl_df")
 })
 
 test_that("sample_frac", {
