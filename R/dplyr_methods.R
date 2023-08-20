@@ -926,36 +926,36 @@ NULL
 slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, weight_by = NULL, replace = FALSE) {
 
   # Solve CRAN NOTES
-  cell = NULL
-  . = NULL
+  cell <- NULL
+  . <- NULL
 
   lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
   if(!is.null(n))
-    new_meta =
-      .data[[]] %>%
-      as_tibble(rownames = c_(.data)$name) %>%
+    new_meta <-
+    .data[[]] |>
+    as_tibble(rownames = c_(.data)$name) |>
     dplyr::select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
-      dplyr::slice_sample(..., n = n, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
+    dplyr::slice_sample(..., n = n, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
   else if(!is.null(prop))
-    new_meta =
-    .data[[]] %>%
-    as_tibble(rownames = c_(.data)$name) %>%
+    new_meta <-
+    .data[[]] |>
+    as_tibble(rownames = c_(.data)$name) |>
     dplyr::select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
     dplyr::slice_sample(..., prop=prop, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
   else
     stop("tidyseurat says: you should provide `n` or `prop` arguments")
 
-  count_cells = new_meta %>% select(!!c_(.data)$symbol) %>% count(!!c_(.data)$symbol)
+  count_cells <- new_meta %>% select(!!c_(.data)$symbol) %>% count(!!c_(.data)$symbol)
 
   # If repeated cells due to replacement
-  if(count_cells$n %>% max() %>% gt(1)){
+  if(count_cells$n |> max() |> gt(1)){
     message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
-    .data %>%
-      as_tibble() %>%
+    .data |>
+      as_tibble()  |>
       right_join(new_meta %>% select(!!c_(.data)$symbol),  by = c_(.data)$name)
-  }  else{
-    new_obj = subset(.data,   cells = new_meta %>% pull(!!c_(.data)$symbol))
+  } else {
+    new_obj <- subset(.data,   cells = new_meta %>% pull(!!c_(.data)$symbol))
     new_obj
   }
 
