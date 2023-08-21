@@ -291,17 +291,12 @@ quo_names <- function(v) {
 #' @param args an expression
 #' @importFrom rlang enexpr
 #' @return list of symbols
-return_args <- function(args){
-
-  args_expr <- enexpr(args)
-
-  if(length(args_expr) == 1) {
-    args_vars <- as.list(args_expr)
-  } else {
-    args_vars <- as.list(args_expr)[-1]
+return_arguments_of <- function(expression){
+  variables <- enexpr(expression) |> as.list()
+  if(length(variables) > 1) {
+    variables <- variables[-1] # removes first element which is function
   }
-
-  args_vars
+  variables
 }
 
 #' @importFrom purrr when

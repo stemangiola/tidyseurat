@@ -1044,7 +1044,7 @@ NULL
 #' @export
 slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   row_number___ <- NULL
-  order_by_vars <- return_args(!!enexpr(order_by))
+  order_by_vars <- return_arguments_of(!!enexpr(order_by))
 
   idx <- .data[[]] |>
     select(-everything(), !!!order_by_vars, {{ by }}) |>
@@ -1074,7 +1074,7 @@ NULL
 slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   row_number___ <- NULL
 
-  order_by_vars <- return_args(!!enexpr(order_by))
+  order_by_vars <- return_arguments_of(!!enexpr(order_by))
 
   idx <- .data[[]] |>
     select(-everything(), !!!order_by_vars, {{ by }}) |>
