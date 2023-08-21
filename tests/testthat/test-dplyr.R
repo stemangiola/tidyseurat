@@ -139,7 +139,7 @@ test_that("slice_min", {
     ncol() |>
     expect_equal(5)
   expect_equal(
-    pbmc_small |> as_tibble() |> dplyr::arrange(nFeature_RNA) |> head(n = 5) %>% pull(.cell),
+    pbmc_small |> as_tibble() |> arrange(nFeature_RNA) |> head(n = 5) %>% pull(.cell),
     pbmc_small |> slice_min(nFeature_RNA, n = 5) |> colnames()
   )
 })
@@ -150,9 +150,20 @@ test_that("slice_max", {
     ncol() |>
     expect_equal(5)
   expect_equal(
-    pbmc_small |> as_tibble() |> dplyr::arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
+    pbmc_small |> as_tibble() |> arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
     pbmc_small |> slice_max(nFeature_RNA, n = 5) |> colnames()
   )
+})
+
+test_that("slice_min slice_max tibble input for order_by", {
+  pbmc_small |>
+    slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 5) |>
+    ncol() |>
+    expect_equal(5)
+  pbmc_small |>
+    slice_max(tibble::tibble(nFeature_RNA, nCount_RNA), n = 5) |>
+    ncol() |>
+    expect_equal(5)
 })
 
 test_that("select", {
