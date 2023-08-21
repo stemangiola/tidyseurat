@@ -885,6 +885,7 @@ NULL
 #' @export
 slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 {
+  row_number___ <- NULL
   idx <- .data[[]] |>
     select(-everything(), {{ .by }}) |>
     rowid_to_column(var  = 'row_number___')  |>
@@ -980,6 +981,7 @@ NULL
 
 #' @export
 slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
+  row_number___ <- NULL
   idx <- .data[[]] |>
     select(-everything(), {{ by }}) |>
     rowid_to_column(var  = 'row_number___')  |>
@@ -1003,6 +1005,7 @@ NULL
 
 #' @export
 slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
+  row_number___ <- NULL
   idx <- .data[[]] |>
     select(-everything(), {{ by }}) |>
     rowid_to_column(var  = 'row_number___')  |>
@@ -1040,7 +1043,7 @@ NULL
 
 #' @export
 slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
-
+  row_number___ <- NULL
   order_by_vars <- return_args(!!enexpr(order_by))
 
   idx <- .data[[]] |>
@@ -1069,6 +1072,7 @@ NULL
 
 #' @export
 slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+  row_number___ <- NULL
 
   order_by_vars <- return_args(!!enexpr(order_by))
 
@@ -1084,22 +1088,6 @@ slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
   if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
   new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
-}
-
-#' returns variables from an expression
-#' @importFrom rlang enexpr
-#' @return list of symbols
-return_args <- function(args){
-
-  args_expr <- enexpr(args)
-
-  if(length(args_expr) == 1) {
-    args_vars <- as.list(args_expr)
-  } else {
-    args_vars <- as.list(args_expr)[-1]
-  }
-
-  args_vars
 }
 
 #' Subset columns using their names and types
