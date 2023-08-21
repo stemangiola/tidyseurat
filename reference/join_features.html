@@ -70,6 +70,8 @@
 <span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  exclude_zeros <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"long"</span>,</span>
+<span>  assay <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  slot <span class="op">=</span> <span class="st">"data"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -89,15 +91,23 @@
 
 
 <dt>exclude_zeros</dt>
-<dd><p>If TRUE exclude zero values</p></dd>
+<dd><p>If TRUE exclude zero values in long format</p></dd>
 
 
 <dt>shape</dt>
 <dd><p>Format of the returned table "long" or "wide"</p></dd>
 
 
+<dt>assay</dt>
+<dd><p>assay name to extract feature abundance</p></dd>
+
+
+<dt>slot</dt>
+<dd><p>slot in the assay to extract feature abundance</p></dd>
+
+
 <dt>...</dt>
-<dd><p>Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"</p></dd>
+<dd><p>the other arguments</p></dd>
 
 </dl></div>
     <div id="value">
@@ -141,7 +151,6 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_10 &lt;dbl&gt;, PC_11 &lt;dbl&gt;, PC_12 &lt;dbl&gt;, PC_13 &lt;dbl&gt;, PC_14 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PC_15 &lt;dbl&gt;, PC_16 &lt;dbl&gt;, PC_17 &lt;dbl&gt;, PC_18 &lt;dbl&gt;, PC_19 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
