@@ -22,7 +22,7 @@ get_abundance_sc_wide(
 
 \item{assay}{assay name to extract feature abundance}
 
-\item{slot}{slot in the assay e.g., `data` and `scale.data`}
+\item{slot}{slot in the assay, e.g. `data` and `scale.data`}
 
 \item{prefix}{prefix for the feature names}
 }

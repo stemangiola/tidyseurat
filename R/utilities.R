@@ -76,7 +76,7 @@ drop_class = function(var, name) {
 #' @param features A character
 #' @param all A boolean
 #' @param assay assay name to extract feature abundance
-#' @param slot slot in the assay e.g., `data` and `scale.data`
+#' @param slot slot in the assay, e.g. `data` and `scale.data`
 #' @param prefix prefix for the feature names
 #'
 #' @return A Seurat object
@@ -157,7 +157,7 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
 #' @param all A boolean
 #' @param exclude_zeros A boolean
 #' @param assay assay name to extract feature abundance
-#' @param slot slot in the assay e.g. `data` and `scale.data`
+#' @param slot slot in the assay, e.g. `data` and `scale.data`
 #'
 #' @return A Seurat object
 #'

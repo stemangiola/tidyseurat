@@ -24,7 +24,7 @@ get_abundance_sc_long(
 
 \item{assay}{assay name to extract feature abundance}
 
-\item{slot}{slot in the assay e.g. `data` and `scale.data`}
+\item{slot}{slot in the assay, e.g. `data` and `scale.data`}
 }
 \value{
 A Seurat object
