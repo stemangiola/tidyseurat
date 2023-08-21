@@ -662,6 +662,7 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'
 #' @importFrom dplyr pull
 #' @importFrom dplyr inner_join
+#' @importFrom dplyr slice
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -676,7 +677,9 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' `%>%` = magrittr::`%>%`
 #'
 #' data("pbmc_small")
-#' pbmc_small %>% inner_join(pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
+#' pbmc_small %>%
+#'   inner_join(
+#'     pbmc_small %>% distinct(groups) %>% mutate(new_column = 1:2) %>% slice(1))
 #'
 #' @rdname dplyr-methods
 #' @name inner_join
@@ -720,6 +723,7 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #'
 #' @importFrom dplyr pull
 #' @importFrom dplyr right_join
+#' @importFrom dplyr slice
 #'
 #' @param x tbls to join. (See dplyr)
 #' @param y tbls to join. (See dplyr)
@@ -839,6 +843,7 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'
 #'
 #' @importFrom dplyr slice
+#' @importFrom tibble rowid_to_column
 #'
 #' @details
 #' Slice does not work with relational databases because they have no
@@ -866,7 +871,7 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #'
 #' @rdname dplyr-methods
 #' @name slice
-#' @importFrom tibble rowid_to_column
+#' @export
 #' @examples
 #'
 #' `%>%` = magrittr::`%>%`
@@ -895,6 +900,7 @@ slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 #' @name slice_sample
 #'
 #' @importFrom dplyr slice_sample
+#' @export
 #'
 #' @param replace Should sampling be performed with (`TRUE`) or without
 #'   (`FALSE`, the default) replacement.
@@ -964,6 +970,7 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
 #' @rdname dplyr-methods
 #' @name slice_head
 #' @importFrom dplyr slice_head
+#' @export
 #' @examples
 #'
 #' # First rows based on existing order
@@ -986,6 +993,7 @@ slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' @rdname dplyr-methods
 #' @name slice_tail
 #' @importFrom dplyr slice_tail
+#' @export
 #' @examples
 #'
 #' # Last rows based on existing order
@@ -1008,6 +1016,7 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' @rdname dplyr-methods
 #' @name slice_min
 #' @importFrom dplyr slice_min
+#' @export
 #' @examples
 #'
 #' # Rows with minimum and maximum values of a metadata variable
