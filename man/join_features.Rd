@@ -12,6 +12,8 @@
   all = FALSE,
   exclude_zeros = FALSE,
   shape = "long",
+  assay = NULL,
+  slot = "data",
   ...
 )
 }
@@ -22,11 +24,15 @@
 
 \item{all}{If TRUE return all}
 
-\item{exclude_zeros}{If TRUE exclude zero values}
+\item{exclude_zeros}{If TRUE exclude zero values in long format}
 
 \item{shape}{Format of the returned table "long" or "wide"}
 
-\item{...}{Parameters to pass to join wide, i.e. assay name to extract feature abundance from and gene prefix, for shape="wide"}
+\item{assay}{assay name to extract feature abundance}
+
+\item{slot}{slot in the assay to extract feature abundance}
+
+\item{...}{the other arguments}
 }
 \value{
 An object containing the information.for the specified features
@@ -44,6 +50,5 @@ This function extracts information for specified features and returns the inform
 data("pbmc_small")
 pbmc_small \%>\% 
 join_features(features = c("HLA-DRA", "LYZ"))
-
 
 }

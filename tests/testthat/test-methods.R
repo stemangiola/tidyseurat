@@ -2,11 +2,19 @@ context('methods test')
 
 data("pbmc_small")
 
-test_that("join_features", {
+test_that("join_features_long", {
   pbmc_small |> 
-    join_features("CD3D") |> 
+    join_features("CD3D", shape="long") |> 
     slice(1) |>
     pull(.abundance_RNA) |>
+    expect_equal(6.35, tolerance = 0.1)
+})
+
+test_that("join_features_wide", {
+  pbmc_small |> 
+    join_features("CD3D", shape="wide") |> 
+    slice(1) |>
+    pull(CD3D) |>
     expect_equal(6.35, tolerance = 0.1)
 })
 

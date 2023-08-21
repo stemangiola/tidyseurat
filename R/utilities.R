@@ -75,7 +75,9 @@ drop_class = function(var, name) {
 #' @param .data A tidyseurat
 #' @param features A character
 #' @param all A boolean
-#' @param ... Parameters to pass to join wide, i.e. assay name to extract feature abundance from
+#' @param assay assay name to extract feature abundance
+#' @param slot slot in the assay, e.g. `data` and `scale.data`
+#' @param prefix prefix for the feature names
 #'
 #' @return A Seurat object
 #'
@@ -86,6 +88,10 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
   . = NULL
   assays = NULL
   counts = NULL
+  
+  if (is.null(assay)) {
+  	assay <- .data@active.assay
+  }
 
   # Check if output would be too big without forcing
   if(
@@ -154,15 +160,21 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
 #' @param features A character
 #' @param all A boolean
 #' @param exclude_zeros A boolean
+#' @param assay assay name to extract feature abundance
+#' @param slot slot in the assay, e.g. `data` and `scale.data`
 #'
 #' @return A Seurat object
 #'
 #' @export
-get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE){
+get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assay=Assays(.data), slot = "data"){
 
   # Solve CRAN warnings
   . = NULL
-
+  
+  if (is.null(assay)) {
+  	assay <- Assays(.data)
+  }
+  
   # Check if output would be too big without forcing
   if(
     length(VariableFeatures(.data)) == 0  &
@@ -187,20 +199,16 @@ get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_ze
 
   # Else
   else variable_genes = NULL
-
-  assay_names = Assays(.data)
-
-
   .data@assays %>%
-
+  	.[assay] %>%
     # Take active assay
-    map2(assay_names,
-
+    map2(assay,
          ~ .x %>%
+           GetAssayData(slot) %>%
            when(
-             variable_genes %>% is.null %>% `!` ~ .x@data[variable_genes,, drop=FALSE],
-             features %>% is.null %>% `!` ~ .x@data[ toupper(rownames(.x@data)) %in% toupper(features),, drop=FALSE],
-             all  ~ .x@data,
+             variable_genes %>% is.null %>% `!` ~ (.)[variable_genes,, drop=FALSE],
+             features %>% is.null %>% `!` ~ (.)[ toupper(rownames((.))) %in% toupper(features),, drop=FALSE],
+             all  ~ (.),
              ~ stop("It is not convenient to extract all genes, you should have either variable features or feature list to extract")
            ) %>%
 

@@ -20,7 +20,11 @@ get_abundance_sc_wide(
 
 \item{all}{A boolean}
 
-\item{...}{Parameters to pass to join wide, i.e. assay name to extract feature abundance from}
+\item{assay}{assay name to extract feature abundance}
+
+\item{slot}{slot in the assay, e.g. `data` and `scale.data`}
+
+\item{prefix}{prefix for the feature names}
 }
 \value{
 A Seurat object
