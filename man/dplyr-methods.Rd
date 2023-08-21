@@ -53,26 +53,8 @@ is recalculated based on the resulting data, otherwise it is kept as is.}
 \item{suffix}{If there are non-joined duplicate variables in x and y, these suffixes will be added to the output to disambiguate them. Should be a character vector of length 2. (See dplyr)}
 
 \item{weight_by}{<[`data-masking`][dplyr_data_masking]> Sampling weights.
-  This must evaluate to a vector of non-negative numbers the same length as
-  the input. Weights are automatically standardised to sum to 1.
-
-  @examples
-  # slice_sample() allows you to random select with or without replacement
-  pbmc_small |> slice_sample(n = 5)
-
-  # if using replacement, and duplicate cells are returned, a tibble will be
-  # returned because duplicate cells cannot exist in Seurat objects
-  pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
-  pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
-
-  # weight by a variable
-  pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
-
-  # sample by group
-  pbmc_small |> slice_sample(n = 5, by = groups)
-
-  # sample using proportions
-  pbmc_small |> slice_sample(prop = 0.10)}
+This must evaluate to a vector of non-negative numbers the same length as
+the input. Weights are automatically standardised to sum to 1.}
 
 \item{tbl}{A data.frame.}
 
@@ -357,7 +339,9 @@ pbmc_small \%>\% left_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_co
 `\%>\%` = magrittr::`\%>\%`
 
 data("pbmc_small")
-pbmc_small \%>\% inner_join(pbmc_small \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
+pbmc_small \%>\%
+  inner_join(
+    pbmc_small \%>\% distinct(groups) \%>\% mutate(new_column = 1:2) \%>\% slice(1))
 
 `\%>\%` = magrittr::`\%>\%`
 
@@ -375,6 +359,24 @@ pbmc_small \%>\%  slice(1)
 
 # Slice group-wise using .by
 pbmc_small |> slice(1:2, .by = groups)
+
+# slice_sample() allows you to random select with or without replacement
+pbmc_small |> slice_sample(n = 5)
+
+# if using replacement, and duplicate cells are returned, a tibble will be
+# returned because duplicate cells cannot exist in Seurat objects
+pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
+pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
+
+# weight by a variable
+pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
+
+# sample by group
+pbmc_small |> slice_sample(n = 5, by = groups)
+
+# sample using proportions
+pbmc_small |> slice_sample(prop = 0.10)
+
 
 # First rows based on existing order
 pbmc_small |> slice_head(n = 5)

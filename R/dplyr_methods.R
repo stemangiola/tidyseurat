@@ -908,23 +908,24 @@ slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 #'   This must evaluate to a vector of non-negative numbers the same length as
 #'   the input. Weights are automatically standardised to sum to 1.
 #'
-#'   @examples
-#'   # slice_sample() allows you to random select with or without replacement
-#'   pbmc_small |> slice_sample(n = 5)
+#' @examples
 #'
-#'   # if using replacement, and duplicate cells are returned, a tibble will be
-#'   # returned because duplicate cells cannot exist in Seurat objects
-#'   pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
-#'   pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
+#' # slice_sample() allows you to random select with or without replacement
+#' pbmc_small |> slice_sample(n = 5)
 #'
-#'   # weight by a variable
-#'   pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
+#' # if using replacement, and duplicate cells are returned, a tibble will be
+#' # returned because duplicate cells cannot exist in Seurat objects
+#' pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
+#' pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
 #'
-#'   # sample by group
-#'   pbmc_small |> slice_sample(n = 5, by = groups)
+#' # weight by a variable
+#' pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
 #'
-#'   # sample using proportions
-#'   pbmc_small |> slice_sample(prop = 0.10)
+#' # sample by group
+#' pbmc_small |> slice_sample(n = 5, by = groups)
+#'
+#' # sample using proportions
+#' pbmc_small |> slice_sample(prop = 0.10)
 #'
 NULL
 
@@ -1039,8 +1040,11 @@ NULL
 
 #' @export
 slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+
+  order_by_vars <- return_args(!!enexpr(order_by))
+
   idx <- .data[[]] |>
-    select(-everything(), {{order_by}}, {{ by }}) |>
+    select(-everything(), !!!order_by_vars, {{ by }}) |>
     rowid_to_column(var  = 'row_number___')  |>
     slice_min(
       order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
@@ -1056,6 +1060,7 @@ slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
 #' @rdname dplyr-methods
 #' @name slice_max
 #' @importFrom dplyr slice_max
+#' @export
 #' @examples
 #'
 #' # Rows with minimum and maximum values of a metadata variable
@@ -1064,8 +1069,11 @@ NULL
 
 #' @export
 slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+
+  order_by_vars <- return_args(!!enexpr(order_by))
+
   idx <- .data[[]] |>
-    select(-everything(), {{order_by}}, {{ by }}) |>
+    select(-everything(), !!!order_by_vars, {{ by }}) |>
     rowid_to_column(var  = 'row_number___')  |>
     slice_max(
       order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
@@ -1076,6 +1084,22 @@ slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
   if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
   new_obj <- subset(.data,   cells = colnames(.data)[idx])
   new_obj
+}
+
+#' returns variables from an expression
+#' @importFrom rlang enexpr
+#' @return list of symbols
+return_args <- function(args){
+
+  args_expr <- enexpr(args)
+
+  if(length(args_expr) == 1) {
+    args_vars <- as.list(args_expr)
+  } else {
+    args_vars <- as.list(args_expr)[-1]
+  }
+
+  args_vars
 }
 
 #' Subset columns using their names and types
