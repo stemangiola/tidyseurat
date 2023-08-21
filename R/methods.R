@@ -100,7 +100,7 @@ setMethod("join_features", "Seurat",  function(.data,
                                                all = FALSE,
                                                exclude_zeros = FALSE,
                                                shape = "long",
-                                               assay = .data@active.assay, 
+                                               assay = NULL, 
                                                slot = "data", ...)
 {
   .data %>%
@@ -115,6 +115,7 @@ setMethod("join_features", "Seurat",  function(.data,
           features = features,
           all = all,
           exclude_zeros = exclude_zeros,
+          assay = assay,
           slot = slot, ...
         ),
         by = c_(.data)$name

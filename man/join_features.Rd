@@ -12,7 +12,7 @@
   all = FALSE,
   exclude_zeros = FALSE,
   shape = "long",
-  assay = .data@active.assay,
+  assay = NULL,
   slot = "data",
   ...
 )
