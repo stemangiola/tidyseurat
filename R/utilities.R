@@ -156,13 +156,12 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
 #' @param features A character
 #' @param all A boolean
 #' @param exclude_zeros A boolean
-#' @param assay assay name to extract feature abundance
 #' @param slot slot in the assay, e.g. `data` and `scale.data`
 #'
 #' @return A Seurat object
 #'
 #' @export
-get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, assay = .data@active.assay, slot = "data"){
+get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_zeros = FALSE, slot = "data"){
 
   # Solve CRAN warnings
   . = NULL
@@ -192,11 +191,6 @@ get_abundance_sc_long = function(.data, features = NULL, all = FALSE, exclude_ze
   # Else
   else variable_genes = NULL
   
-  DefaultAssay(.data) = assay
-  for(i in Assays(.data) %>% setdiff(assay)) {
-    .data[[i]] = NULL
-  }
-
   assay_names = Assays(.data)
 
   .data@assays %>%

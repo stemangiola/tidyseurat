@@ -115,7 +115,6 @@ setMethod("join_features", "Seurat",  function(.data,
           features = features,
           all = all,
           exclude_zeros = exclude_zeros,
-          assay = assay,
           slot = slot, ...
         ),
         by = c_(.data)$name

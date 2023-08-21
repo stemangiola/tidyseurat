@@ -9,7 +9,6 @@ get_abundance_sc_long(
   features = NULL,
   all = FALSE,
   exclude_zeros = FALSE,
-  assay = .data@active.assay,
   slot = "data"
 )
 }
@@ -21,8 +20,6 @@ get_abundance_sc_long(
 \item{all}{A boolean}
 
 \item{exclude_zeros}{A boolean}
-
-\item{assay}{assay name to extract feature abundance}
 
 \item{slot}{slot in the assay, e.g. `data` and `scale.data`}
 }
