@@ -7,7 +7,7 @@
 return_arguments_of(expression)
 }
 \arguments{
-\item{args}{an expression}
+\item{expression}{an expression}
 }
 \value{
 list of symbols

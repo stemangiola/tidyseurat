@@ -288,7 +288,7 @@ quo_names <- function(v) {
 
 
 #' returns variables from an expression
-#' @param args an expression
+#' @param expression an expression
 #' @importFrom rlang enexpr
 #' @return list of symbols
 return_arguments_of <- function(expression){
