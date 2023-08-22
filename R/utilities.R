@@ -116,16 +116,16 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
 
   # Else
   else variable_genes = NULL
- 
-  # Eliminate unneeded assays. 
+
+  # Eliminate unneeded assays.
   # This because if a gene is not in an assay I am not interested about
   # this could cause an unneeded error
   DefaultAssay(.data) = assay
   for(i in Assays(.data) %>% setdiff(assay)) {
     .data[[i]] = NULL
-  } 
-  
-  
+  }
+
+
   # Just grub last assay
   .data %>%
     when(
@@ -137,11 +137,11 @@ get_abundance_sc_wide = function(.data, features = NULL, all = FALSE, assay = .d
     GetAssayData(slot=slot) %>%
     as.matrix() %>%
     t %>%
-    as_tibble(rownames = c_(.data)$name) %>% 
-    
+    as_tibble(rownames = c_(.data)$name) %>%
+
     # Add prefix
-    setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1]))) 
-    
+    setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1])))
+
 
 }
 
@@ -294,6 +294,19 @@ quo_names <- function(v) {
     unlist
 }
 
+
+#' returns variables from an expression
+#' @param expression an expression
+#' @importFrom rlang enexpr
+#' @return list of symbols
+return_arguments_of <- function(expression){
+  variables <- enexpr(expression) |> as.list()
+  if(length(variables) > 1) {
+    variables <- variables[-1] # removes first element which is function
+  }
+  variables
+}
+
 #' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
@@ -306,34 +319,34 @@ select_helper = function(.data, ...){
 
 #' @importFrom methods .hasSlot
 clean_seurat_object = function(.data){
-  
+
   . = NULL
-  
+
   if(.hasSlot(.data, "images"))
-    .data@images = 
-      map(.data@images, ~ .x %>% when((.)@coordinates %>% nrow() %>% gt(0) ~ (.))) %>% 
-      
+    .data@images =
+      map(.data@images, ~ .x %>% when((.)@coordinates %>% nrow() %>% gt(0) ~ (.))) %>%
+
       # Drop NULL
       Filter(Negate(is.null), .)
-  
-  .data@assays = 
-    .data@assays %>% 
+
+  .data@assays =
+    .data@assays %>%
     map(~ {
       my_assay = .x
       if(.hasSlot(., "SCTModel.list"))
-        my_assay@SCTModel.list  =  
-          map(my_assay@SCTModel.list, ~ .x %>% when((.)@cell.attributes %>% nrow() %>% gt(0) ~ (.))) %>% 
-          
+        my_assay@SCTModel.list  =
+          map(my_assay@SCTModel.list, ~ .x %>% when((.)@cell.attributes %>% nrow() %>% gt(0) ~ (.))) %>%
+
           # Drop NULL
           Filter(Negate(is.null), .)
-      
+
       my_assay
-      
+
     }
     )
-  
+
   .data
-  
+
 }
 
 
@@ -342,22 +355,22 @@ clean_seurat_object = function(.data){
 #' @importFrom stringr str_detect
 #' @importFrom stringr regex
 is_sample_feature_deprecated_used = function(.data, user_columns, use_old_special_names = FALSE){
-  
-  old_standard_is_used_for_cell = 
+
+  old_standard_is_used_for_cell =
     (
       ( any(str_detect(user_columns  , regex("\\bcell\\b"))) & !any(str_detect(user_columns  , regex("\\W*(\\.cell)\\W*")))  ) |
-        "cell" %in% user_columns 
-    ) & 
+        "cell" %in% user_columns
+    ) &
     !"cell" %in% colnames(.data@meta.data)
-  
+
   old_standard_is_used = old_standard_is_used_for_cell
-  
+
   if(old_standard_is_used){
     warning("tidyseurat says: from version 1.3.1, the special columns including cell id (colnames(se)) has changed to \".cell\". This dataset is returned with the old-style vocabulary (cell), however we suggest to update your workflow to reflect the new vocabulary (.cell)")
-    
+
     use_old_special_names = TRUE
   }
-  
+
   use_old_special_names
 }
 
@@ -367,7 +380,7 @@ get_special_column_name_symbol = function(name){
 
 # Key column names
 ping_old_special_column_into_metadata = function(.data){
-  
+
   .data@misc$cell__ = get_special_column_name_symbol("cell")
 
   .data
@@ -406,17 +419,17 @@ add_attr = function(var, attribute, name) {
 #' @importFrom dplyr distinct_at
 #' @importFrom magrittr equals
 get_specific_annotation_columns = function(.data, .col){
-  
-  
+
+
   # Comply with CRAN NOTES
   . = NULL
-  
+
   # Make col names
   .col = enquo(.col)
-  
+
   # x-annotation df
   n_x = .data %>% distinct_at(vars(!!.col)) %>% nrow
-  
+
   # element wise columns
   .data %>%
     select(-!!.col) %>%
@@ -432,25 +445,25 @@ get_specific_annotation_columns = function(.data, .col){
           ~ NULL
         )
     ) %>%
-    
+
     # Drop NULL
     {	(.)[lengths((.)) != 0]	} %>%
     unlist
-  
+
 }
 
 subset_tidyseurat = 		function(.data,	 .column)	{
   # Make col names
   .column = enquo(.column)
-  
+
   # Check if column present
   if(quo_names(.column) %in% colnames(.data) %>% all %>% `!`)
     stop("nanny says: some of the .column specified do not exist in the input data frame.")
-  
+
   .data %>%
-    
+
     # Selecting the right columns
     select(	!!.column,	get_specific_annotation_columns(.data, !!.column)	) %>%
     distinct()
-  
+
 }
