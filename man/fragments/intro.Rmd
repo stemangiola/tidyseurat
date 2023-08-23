@@ -193,7 +193,7 @@ Now we can interrogate the object as if it was a regular tibble data frame.
 
 ```{r cluster count}
 pbmc_small_cluster %>%
-  tidyseurat::count(groups, seurat_clusters)
+  count(groups, seurat_clusters)
 ```
 
 We can identify cluster markers using Seurat.
