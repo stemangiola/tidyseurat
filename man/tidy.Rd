@@ -2,16 +2,24 @@
 % Please edit documentation in R/methods.R
 \name{tidy}
 \alias{tidy}
-\title{tidy for seurat}
+\alias{tidy.Seurat}
+\title{tidy for `Seurat`}
 \usage{
 tidy(object)
+
+\method{tidy}{Seurat}(object)
 }
 \arguments{
-\item{object}{A Seurat object}
+\item{object}{A `Seurat` object.}
 }
 \value{
-A tidyseurat object
+A `tidyseurat` object.
 }
 \description{
-DEPRECATED. Not needed any more.
+tidy for `Seurat`
+}
+\examples{
+data(pbmc_small)
+pbmc_small
+
 }
