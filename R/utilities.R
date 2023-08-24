@@ -258,6 +258,7 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
 #' @param .data A tibble
 #' @param seurat_object A tidyseurat
 #'
+#' @noRd
 as_meta_data <- function(.data, seurat_object){
 
     # Solve CRAN warnings
@@ -277,21 +278,22 @@ as_meta_data <- function(.data, seurat_object){
 #'
 #' @param seurat_object A tidyseurat
 #'
-get_special_columns = function(seurat_object){
+#' @noRd
+get_special_columns <- function(seurat_object){
     get_special_datasets(seurat_object) %>%
         map(~ .x %>% colnames  ) %>%
         unlist %>%
         as.character
 }
 
-get_special_datasets = function(seurat_object, n_dimensions_to_return = Inf){
+get_special_datasets <- function(seurat_object, n_dimensions_to_return = Inf){
     seurat_object@reductions %>%
         map(~ .x@cell.embeddings[,
             1:min(n_dimensions_to_return, ncol(.x@cell.embeddings)),
             drop=FALSE])
 }
 
-get_needed_columns = function(.data){
+get_needed_columns <- function(.data){
     c(c_(.data)$name)
 }
 
