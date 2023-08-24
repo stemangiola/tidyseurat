@@ -184,7 +184,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                                                  .sample = NULL, 
                                                  slot = "data",
                                                  assays = NULL, 
-                                                 aggregation_function = Matrix::rowSums){
+                                                 aggregation_function = Matrix::rowSums, ...){
   # Solve NOTE  
   data = NULL
   .feature = NULL
