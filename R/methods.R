@@ -140,7 +140,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
     }
 
     .data %>%
-        tidyseurat::nest(data = -!!.sample) %>%
+        nest(data = -!!.sample) %>%
         mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) %>% 
         mutate(
             data=map(data, ~ 
@@ -160,9 +160,9 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
         ) %>%
         left_join(
             .data %>%
-                tidyseurat::as_tibble() %>%
+                as_tibble() %>%
                 subset_tidyseurat(!!.sample)) %>%
-        tidyseurat::unnest(data) %>%
+        unnest(data) %>%
         tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
         select(.feature, .sample, names(.data@assays), everything()) |> 
         drop_class("tidyseurat_nested") 
