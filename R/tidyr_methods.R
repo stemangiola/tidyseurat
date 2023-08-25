@@ -98,7 +98,7 @@ unnest_seurat  <-  function(data, cols, ...,
 nest.Seurat <- function (.data, ..., .names_sep=NULL)
 {
     cols <- enquos(...)
-    col_name_data  = names(cols)
+    col_name_data  <- names(cols)
 
 
     # Deprecation of special column names
@@ -125,9 +125,9 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
     if (split_by_column |> length() |> identical(1L))
   
         my_data__ |> 
-            SplitObject(split.by = split_by_column) |>
+            SplitObject(split.by=split_by_column) |>
             map(~ .x |> select(-split_by_column)) |> 
-            enframe(name = split_by_column, value = col_name_data) |>
+            enframe(name=split_by_column, value=col_name_data) |>
             # Coerce to tidyseurat_nested for unnesting
             add_class("tidyseurat_nested")
   
@@ -172,7 +172,7 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
 extract.Seurat <- function  (data, col, into,
     regex="([[:alnum:]]+)", remove=TRUE, convert=FALSE, ...) {
 	
-    col = enquo(col)
+    col <- enquo(col)
 	
 	# Deprecation of special column names
 	if (is_sample_feature_deprecated_used(
@@ -227,12 +227,12 @@ pivot_longer.Seurat <- function(data,
   
     data %>%
         as_tibble() %>%
-        tidyr::pivot_longer(!!cols, names_to = names_to,
-            names_prefix = names_prefix, names_sep = names_sep,
-            names_pattern = names_pattern, names_ptypes = names_ptypes,
-            names_transform = names_transform, names_repair = names_repair,
-            values_to =values_to, values_drop_na = values_drop_na,
-            values_ptypes = values_ptypes, values_transform = values_transform,
+        tidyr::pivot_longer(!!cols, names_to=names_to,
+            names_prefix=names_prefix, names_sep=names_sep,
+            names_pattern=names_pattern, names_ptypes=names_ptypes,
+            names_transform=names_transform, names_repair=names_repair,
+            values_to=values_to, values_drop_na=values_drop_na,
+            values_ptypes=values_ptypes, values_transform=values_transform,
             ...)
 }
 
@@ -254,7 +254,7 @@ unite.Seurat <- function(data, col,
     ..., sep="_", remove=TRUE, na.rm=FALSE) {
   
     # Check that we are not modifying a key column
-    cols = enquo(col) 
+    cols <- enquo(col) 
   
     # Deprecation of special column names
     .cols <- enquos(..., .ignore_empty="all") %>% 
@@ -307,7 +307,7 @@ separate.Seurat <- function(data, col, into,
     extra="warn", fill="warn", ...) {
   
     # Check that we are not modifying a key column
-    cols = enquo(col)
+    cols <- enquo(col)
   
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(

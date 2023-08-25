@@ -7,7 +7,7 @@
 #' @noRd
 to_tib <- function(.data) {
     .data[[]] %>%
-        as_tibble(rownames = c_(.data)$name)
+        as_tibble(rownames=c_(.data)$name)
 }
 
 # Greater than
@@ -93,13 +93,13 @@ drop_class <- function(var, name) {
 #' @return A Seurat object
 #'
 #' @export
-get_abundance_sc_wide = function(.data, features=NULL, all=FALSE,
+get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
     assay=.data@active.assay, slot="data", prefix="") {
 
     # Solve CRAN warnings
-    . = NULL
-    assays = NULL
-    counts = NULL
+    . <- NULL
+    assays <- NULL
+    counts <- NULL
   
     if (is.null(assay)) {
   	    assay <- .data@active.assay
@@ -116,7 +116,7 @@ get_abundance_sc_wide = function(.data, features=NULL, all=FALSE,
 			 " Either:\n",
 			 " 1. use detect_variable_features() to select variable feature\n",
 			 " 2. pass an array of features names\n",
-			 " 3. set all = TRUE (this will output a very large object;",
+			 " 3. set all=TRUE (this will output a very large object;",
              " does your computer have enough RAM?)\n")
     }
 
@@ -125,16 +125,16 @@ get_abundance_sc_wide = function(.data, features=NULL, all=FALSE,
         length(VariableFeatures(.data)) > 0  &
         is.null(features) &
         all == FALSE
-    ) variable_genes = VariableFeatures(.data)
+    ) variable_genes <- VariableFeatures(.data)
     # Else
-    else variable_genes = NULL
+    else variable_genes <- NULL
 
     # Eliminate unneeded assays.
     # This because if a gene is not in an assay I am not interested about
     # this could cause an unneeded error
-    DefaultAssay(.data) = assay
+    DefaultAssay(.data) <- assay
     for(i in Assays(.data) %>% setdiff(assay)) {
-        .data[[i]] = NULL
+        .data[[i]] <- NULL
     }
 
     # Just grub last assay
@@ -152,7 +152,7 @@ get_abundance_sc_wide = function(.data, features=NULL, all=FALSE,
         GetAssayData(slot=slot) %>%
         as.matrix() %>%
         t %>%
-        as_tibble(rownames = c_(.data)$name) %>%
+        as_tibble(rownames=c_(.data)$name) %>%
 
         # Add prefix
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1])))
@@ -183,7 +183,7 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
     exclude_zeros=FALSE, assay=Assays(.data), slot="data"){
 
     # Solve CRAN warnings
-    . = NULL
+    . <- NULL
   
     if (is.null(assay)) {
   	    assay <- Assays(.data)
@@ -200,7 +200,7 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
         " Either:\n",
         " 1. use detect_variable_features() to select variable feature\n",
         " 2. pass an array of features names\n",
-        " 3. set all = TRUE (this will output a very large object;",
+        " 3. set all=TRUE (this will output a very large object;",
         " does your computer have enough RAM?)\n")
     }
 
@@ -210,9 +210,9 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
         length(VariableFeatures(.data)) > 0  &
         is.null(features) &
         all == FALSE
-    ) variable_genes = VariableFeatures(.data)
+    ) variable_genes <- VariableFeatures(.data)
     # Else
-    else variable_genes = NULL
+    else variable_genes <- NULL
 
     .data@assays %>%
   	    .[assay] %>%
@@ -235,14 +235,14 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
                 # Replace 0 with NA
                 when(exclude_zeros ~ 
                         (.) %>%
-                        { x = (.); x[x == 0] <- NA; x }, ~ (.)) %>%
-                        data.frame(check.names = FALSE) %>%
-                        as_tibble(rownames = ".feature") %>%
+                        { x=(.); x[x == 0] <- NA; x }, ~ (.)) %>%
+                        data.frame(check.names=FALSE) %>%
+                        as_tibble(rownames=".feature") %>%
                         tidyr::pivot_longer(
                             cols= - .feature,
-                            names_to =c_(.data)$name,
-                            values_to = ".abundance" %>% paste(.y, sep="_"),
-                            values_drop_na  = TRUE
+                            names_to=c_(.data)$name,
+                            values_to=".abundance" %>% paste(.y, sep="_"),
+                            values_drop_na=TRUE
                         ) #%>%
                 #mutate_if(is.character, as.factor) %>%
         ) %>%
@@ -262,9 +262,9 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
 as_meta_data <- function(.data, seurat_object){
 
     # Solve CRAN warnings
-    . = NULL
+    . <- NULL
 
-    col_to_exclude =  get_special_columns(seurat_object)
+    col_to_exclude <- get_special_columns(seurat_object)
 
     .data %>%
         select_if(!colnames(.) %in% col_to_exclude) %>%
@@ -286,7 +286,7 @@ get_special_columns <- function(seurat_object){
         as.character
 }
 
-get_special_datasets <- function(seurat_object, n_dimensions_to_return = Inf){
+get_special_datasets <- function(seurat_object, n_dimensions_to_return=Inf){
     seurat_object@reductions %>%
         map(~ .x@cell.embeddings[,
             1:min(n_dimensions_to_return, ncol(.x@cell.embeddings)),
@@ -308,7 +308,7 @@ get_needed_columns <- function(.data){
 #'
 #' @return A character vector
 quo_names <- function(v) {
-    v = quo_name(quo_squash(v))
+    v <- quo_name(quo_squash(v))
     gsub('^c\\(|`|\\)$', '', v) %>%
         strsplit(', ') %>%
         unlist
@@ -330,15 +330,24 @@ return_arguments_of <- function(expression){
 #' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
-select_helper = function(.data, ...){
+select_helper <- function(.data, ...){
     loc <- tidyselect::eval_select(expr(c(...)), .data)
     dplyr::select( .data, loc)
 }
 
-#' @importFrom methods .hasSlot
-clean_seurat_object = function(.data){
+data_frame_returned_message <- paste(
+    "tidyseurat says:",
+    "A data frame is returned for independent data analysis.")
 
-    . = NULL
+duplicated_cell_names <- paste(
+    "tidyseurat says:",
+    "This operation lead to duplicated cell names.",
+    "A data frame is returned for independent data analysis.")
+
+#' @importFrom methods .hasSlot
+clean_seurat_object <- function(.data){
+
+    . <- NULL
 
     if (.hasSlot(.data, "images"))
         .data@images <-
@@ -350,7 +359,7 @@ clean_seurat_object = function(.data){
 
         .data@assays <- .data@assays %>%
             map(~ {
-                my_assay = .x
+                my_assay=.x
                 if (.hasSlot(., "SCTModel.list"))
                     my_assay@SCTModel.list  =
                     map(my_assay@SCTModel.list,
@@ -368,7 +377,8 @@ clean_seurat_object = function(.data){
 
 
 # This function is used for the change of special sample column to .sample
-# Check if "sample" is included in the query and is not part of any other existing annotation
+# Check if "sample" is included in the query and
+# is not part of any other existing annotation
 #' @importFrom stringr str_detect
 #' @importFrom stringr regex
 is_sample_feature_deprecated_used <- function(.data, 
@@ -411,7 +421,7 @@ cell__ <- get_special_column_name_symbol(".cell")
 
 c_ <- function(x){
     # Check if old deprecated columns are used
-    if("cell__" %in% names(x@misc)) cell__ = x@misc$cell__
+    if("cell__" %in% names(x@misc)) cell__ <- x@misc$cell__
     return(cell__)
 }
 
@@ -473,7 +483,7 @@ get_specific_annotation_columns <- function(.data, .col) {
 
 subset_tidyseurat <- function(.data, .column) {
     # Make col names
-    .column = enquo(.column)
+    .column <- enquo(.column)
 
     # Check if column present
     if (quo_names(.column) %in% colnames(.data) %>% all %>% `!`)

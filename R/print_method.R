@@ -16,14 +16,14 @@
 #' @export
 tbl_format_header.tidySeurat <- function(x, setup, ...){
   
-    number_of_features = x |> attr("number_of_features")
-    assay_names = x |> attr("assay_names")
-    active_assay = x |> attr("active_assay")
+    number_of_features <- x |> attr("number_of_features")
+    assay_names <- x |> attr("assay_names")
+    active_assay <- x |> attr("active_assay")
   
     named_header <- setup$tbl_sum
   
     # Change name
-    names(named_header) = "A Seurat-tibble abstraction"
+    names(named_header) <- "A Seurat-tibble abstraction"
   
     if (all(names2(named_header) == "")) {
         header <- named_header
@@ -63,10 +63,10 @@ tbl_format_header.tidySeurat <- function(x, setup, ...){
 #' @importFrom Seurat Assays
 #' @export
 print.Seurat <- function(x, ..., n=NULL, width=NULL, n_extra=NULL) {
-  
+
     x |>
-        as_tibble(n_dimensions_to_return = 5) |>
-        new_data_frame(class = c("tidySeurat", "tbl")) %>%
+        as_tibble(n_dimensions_to_return=5) |>
+        new_data_frame(class=c("tidySeurat", "tbl")) %>%
         add_attr(GetAssayData(x) %>% nrow,  "number_of_features") %>%
         add_attr(Assays(x) , "assay_names") %>%
         add_attr(x@active.assay , "active_assay") %>%

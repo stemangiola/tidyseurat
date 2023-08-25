@@ -3,14 +3,36 @@
 \docType{data}
 \name{pbmc_small_nested_interactions}
 \alias{pbmc_small_nested_interactions}
-\title{Example data set 2}
+\title{Intercellular ligand-receptor interactions for 
+38 ligands from a single cell RNA-seq cluster.}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 100 rows and 9 columns.
+A `tibble` containing 100 rows and 9 columns.
+  Cells are a subsample of the PBMC dataset of 2,700 single cells. 
+  Cell interactions were identified with `SingleCellSignalR`.
+\describe{
+  \item{sample}{sample identifier}
+  \item{ligand}{cluster and ligand identifier}
+  \item{receptor}{cluster and receptor identifier}
+  \item{ligand.name}{ligand name}
+  \item{receptor.name}{receptor name}
+  \item{origin}{cluster containing ligand}
+  \item{destination}{cluster containing receptor}
+  \item{interaction.type}{type of interation, paracrine or autocrine}
+  \item{LRscore}{interaction score}
+}
+}
+\source{
+\url{https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html}
 }
 \usage{
-pbmc_small_nested_interactions
+data(pbmc_small_nested_interactions)
+}
+\value{
+`tibble`
 }
 \description{
-Example data set 2
+A dataset containing ligand-receptor interactions within a sample.
+There are 38 ligands from a single cell cluster versus 35 receptors 
+in 6 other clusters.
 }
 \keyword{datasets}

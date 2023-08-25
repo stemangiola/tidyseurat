@@ -11,16 +11,15 @@
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr arrange
 #' @export
-arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
-    .data@meta.data =
+arrange.Seurat <- function(.data, ..., .by_group=FALSE) {
+    .data@meta.data <-
         .data %>%
         as_tibble() %>%
-        dplyr::arrange(  ..., .by_group = .by_group  ) %>%
+        dplyr::arrange(  ..., .by_group=.by_group  ) %>%
         as_meta_data(.data)
 
     .data
 }
-
 
 #' @name bind_rows
 #' @rdname bind_rows
@@ -39,31 +38,32 @@ arrange.Seurat <- function(.data, ..., .by_group = FALSE) {
 #' @importFrom rlang is_spliced
 #' @importFrom ttservice bind_rows
 #' @export
-bind_rows.Seurat <- function(..., .id = NULL,  add.cell.ids = NULL)
+bind_rows.Seurat <- function(..., .id=NULL,  add.cell.ids=NULL)
 {
     tts <- flatten_if(dots_values(...), is_spliced)
 
     # Strange error for Seurat merge
     # GetResidualSCTModel
     # close to a line as such
-    # slot(object = object[[assay]], name = "SCTModel.list")
+    # slot(object=object[[assay]], name="SCTModel.list")
     # So I have to delete any sample of size 1 if I have calculated SCT
     # if()
-    # GetAssayData(object, slot = 'SCTModel.list', assay = "SCT") %>% map(~ .x@cell.attributes %>% nrow)
+    # GetAssayData(object, slot='SCTModel.list', assay="SCT") %>%
+    #     map(~ .x@cell.attributes %>% nrow)
 
     # Check if cell with same name
-    merge(tts[[1]], y = tts[[2]], add.cell.ids = add.cell.ids)
+    merge(tts[[1]], y=tts[[2]], add.cell.ids=add.cell.ids)
 }
 
 #' @importFrom rlang flatten_if
 #' @importFrom rlang is_spliced
 #' @importFrom rlang dots_values
 #' @importFrom ttservice bind_cols
-bind_cols_ <- function(..., .id = NULL){
+bind_cols_ <- function(..., .id=NULL){
 
     tts <- flatten_if(dots_values(...), is_spliced)
 
-    tts[[1]]@meta.data <- bind_cols(tts[[1]][[]], tts[[2]], .id = .id)
+    tts[[1]]@meta.data <- bind_cols(tts[[1]][[]], tts[[2]], .id=.id)
 
     tts[[1]]
 }
@@ -83,12 +83,12 @@ bind_cols.Seurat <- bind_cols_
 #'
 #' @importFrom dplyr distinct
 #' @export
-distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
+distinct.Seurat <- function (.data, ..., .keep_all=FALSE)
 {
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
-    distinct_columns =
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+    distinct_columns <-
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
 
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(.data, distinct_columns)){
@@ -97,10 +97,9 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 
     .data %>%
         as_tibble() %>%
-        dplyr::distinct(..., .keep_all = .keep_all)
+        dplyr::distinct(..., .keep_all=.keep_all)
 
 }
-
 
 #' @name filter
 #' @rdname filter
@@ -115,24 +114,28 @@ distinct.Seurat <- function (.data, ..., .keep_all = FALSE)
 #' @importFrom purrr map
 #' @importFrom dplyr filter
 #' @export
-filter.Seurat <- function (.data, ..., .preserve = FALSE)
+filter.Seurat <- function (.data, ..., .preserve=FALSE)
 {
 
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(
         .data,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
         .data= ping_old_special_column_into_metadata(.data)
     }
 
-    new_meta = .data %>% as_tibble() %>% dplyr::filter( ..., .preserve = .preserve) %>% as_meta_data(.data)
+    new_meta <- .data %>%
+        as_tibble() %>%
+        dplyr::filter( ..., .preserve=.preserve) %>%
+        as_meta_data(.data)
 
     # Error if size == 0
-    if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
+    if(nrow(new_meta) == 0) stop("tidyseurat says: the resulting data",
+        " container is empty. Seurat does not allow for empty containers.")
 
-    new_obj =
-        subset(.data,   cells = rownames(new_meta )) %>%
+    new_obj <-
+        subset(.data, cells=rownames(new_meta)) %>%
 
     # Clean empty slots
     clean_seurat_object()
@@ -140,7 +143,6 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
     new_obj
 
 }
-
 
 #' @name group_by
 #' @rdname group_by
@@ -153,24 +155,24 @@ filter.Seurat <- function (.data, ..., .preserve = FALSE)
 #' @importFrom dplyr group_by_drop_default
 #' @importFrom dplyr group_by
 #' @export
-group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
+group_by.Seurat <- function (.data, ..., .add=FALSE,
+    .drop=group_by_drop_default(.data))
 {
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
 
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(
         .data,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
-        .data= ping_old_special_column_into_metadata(.data)
+        .data <- ping_old_special_column_into_metadata(.data)
     }
 
     .data %>%
         as_tibble() %>%
-        dplyr::group_by( ..., .add = .add, .drop = .drop)
+        dplyr::group_by( ..., .add=.add, .drop=.drop)
 
 }
-
 
 #' @name summarise
 #' @aliases summarize
@@ -184,16 +186,13 @@ group_by.Seurat <- function (.data, ..., .add = FALSE, .drop = group_by_drop_def
 #' @importFrom dplyr summarise
 #' @importFrom purrr map
 #' @export
-summarise.Seurat <- function (.data, ...)
-{
-
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
-
+summarise.Seurat <- function (.data, ...) {
+    message(data_frame_returned_message)
 
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(
         .data,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
         .data= ping_old_special_column_into_metadata(.data)
     }
@@ -204,6 +203,11 @@ summarise.Seurat <- function (.data, ...)
 
 }
 
+#' @name summarise
+#' @rdname summarise
+#' @importFrom dplyr summarize
+#' @export
+summarize.Seurat <- summarise.Seurat
 
 #' @name mutate
 #' @rdname mutate
@@ -218,24 +222,36 @@ summarise.Seurat <- function (.data, ...)
 #' @importFrom dplyr mutate
 #' @importFrom purrr map
 #' @export
-mutate.Seurat <- function(.data, ...)
-{
+mutate.Seurat <- function(.data, ...) {
 
     # Check that we are not modifying a key column
-    cols = enquos(...) %>% names
+    cols <- enquos(...) %>% names
 
     # Deprecation of special column names
-    if(is_sample_feature_deprecated_used(
-        .data,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
-    )){
-        .data= ping_old_special_column_into_metadata(.data)
+    .cols <- enquos(..., .ignore_empty="all") %>% 
+        map(~ quo_name(.x)) %>% unlist()
+    if (is_sample_feature_deprecated_used(.data, .cols)) {
+        .data <- ping_old_special_column_into_metadata(.data)
     }
 
-    if(intersect(cols, get_special_columns(.data) %>% c(get_needed_columns(.data))) %>% length %>% gt(0))
-        stop(sprintf("tidyseurat says: you are trying to mutate a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
+    .view_only_cols <- c(
+        get_special_columns(.data),
+        get_needed_columns(.data))
+    
+    .test <- cols |>
+        intersect(.view_only_cols) |>
+        length()
 
-    .data@meta.data =
+    if (.test) {
+        stop("tidyseurat says:",
+            " you are trying to mutate a column that is view only",
+            " ", paste(.view_only_cols, collapse=", "),
+            " (it is not present in the colData).",
+            " If you want to mutate a view-only column, make a copy",
+            " (e.g. mutate(new_column=", cols[1], ")) and mutate that one.")
+    }
+
+    .data@meta.data <-
         .data %>%
         as_tibble %>%
         dplyr::mutate( ...)  %>%
@@ -260,15 +276,39 @@ rename.Seurat <- function(.data, ...)
 {
 
     # Check that we are not modifying a key column
-    cols = tidyselect::eval_select(expr(c(...)), .data[[]])
-    if(intersect(cols %>% names, get_special_columns(.data) %>% c(get_needed_columns(.data))) %>% length %>% gt(0))
-        stop(sprintf("tidyseurat says: you are trying to rename a column that is view only %s (it is not present in the meta.data). If you want to mutate a view-only column, make a copy and mutate that one.", get_special_columns(.data) %>% paste(collapse=", ")))
+    read_only_columns <- c(
+        get_needed_columns(.data),
+        get_special_columns(.data))
 
-    .data@meta.data = dplyr::rename( .data[[]],  ...)
+    # Small df to be more efficient
+    df <- .data[1, 1] |> as_tibble() 
+    
+    # What columns we are going to create
+    cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
+    
+    # What are the columns before renaming
+    original_columns <- df |> colnames()
+    
+    # What the column after renaming would be
+    new_colums <- df |> rename(...) |> colnames()
+    
+    # What column you are impacting
+    changed_columns <- original_columns |> setdiff(new_colums)
+    
+    # Check that you are not impacting any read-only columns
+    if (any(changed_columns %in% read_only_columns)) {
+        stop("tidyseurat says:",
+            " you are trying to rename a column that is view only",
+            " ", paste(changed_columns, collapse=", "),
+            " (it is not present in the colData).",
+            " If you want to rename a view-only column, make a copy",
+            " (e.g., mutate(", cols_from[1], "=",  changed_columns[1], ")).")
+    }
+
+    .data@meta.data <- dplyr::rename( .data[[]],  ...)
 
     .data
 }
-
 
 #' @name rowwise
 #' @rdname rowwise
@@ -279,16 +319,14 @@ rename.Seurat <- function(.data, ...)
 #'
 #' @importFrom dplyr rowwise
 #' @export
-rowwise.Seurat <- function(data, ...)
-{
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+rowwise.Seurat <- function(data, ...) {
+    message(data_frame_returned_message)
 
     data %>%
         as_tibble() %>%
         dplyr::rowwise(...)
 
 }
-
 
 #' @name left_join
 #' @rdname left_join
@@ -304,30 +342,30 @@ rowwise.Seurat <- function(data, ...)
 #' @importFrom dplyr left_join
 #' @importFrom dplyr count
 #' @export
-left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
+left_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
+    suffix=c(".x", ".y"), ...) {
 
-  # Deprecation of special column names
-    if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
-        x= ping_old_special_column_into_metadata(x)
+    # Deprecation of special column names
+    .cols <- if (!is.null(by)) by else colnames(y)
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
     x %>%
         as_tibble() %>%
-        dplyr::left_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
+        dplyr::left_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
         when(
 
             # If duplicated cells returns tibble
-            dplyr::count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-                message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+            count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+                message(duplicated_cell_names)
                 (.)
             },
 
             # Otherwise return updated tidyseurat
             ~ {
-                x@meta.data = (.) %>% as_meta_data(x)
+                x@meta.data <- (.) %>% as_meta_data(x)
                 x
             }
         )
@@ -349,31 +387,31 @@ left_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' @importFrom dplyr inner_join
 #' @importFrom dplyr pull
 #' @export
-inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),		 ...)
-{
+inner_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
+    suffix=c(".x", ".y"), ...) {
 
-
-  # Deprecation of special column names
-    if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
-        x= ping_old_special_column_into_metadata(x)
+    # Deprecation of special column names
+    .cols <- if (!is.null(by)) by else colnames(y)
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
     x %>%
         as_tibble() %>%
-        dplyr::inner_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
+        dplyr::inner_join( y, by=by, copy=copy, suffix=suffix, ...)  %>%
 
         when(
 
-        # If duplicated cells returns tibble
+            # If duplicated cells returns tibble
             count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-                message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                message(duplicated_cell_names)
                 (.)
             },
 
-        # Otherwise return updated tidyseurat
+            # Otherwise return updated tidyseurat
             ~ {
-                new_obj = subset(x,   cells =  pull(., c_(x)$name))
-                new_obj@meta.data = (.) %>% as_meta_data(new_obj)
+                new_obj <- subset(x, cells= pull(., c_(x)$name))
+                new_obj@meta.data <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
@@ -395,36 +433,36 @@ inner_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @importFrom dplyr right_join
 #' @importFrom dplyr pull
 #' @export
-right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                 ...){
+right_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
+    suffix=c(".x", ".y"), ...) {
 
-  # Deprecation of special column names
-    if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
-        x= ping_old_special_column_into_metadata(x)
+    # Deprecation of special column names
+    .cols <- if (!is.null(by)) by else colnames(y)
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
     x %>%
         as_tibble() %>%
-        dplyr::right_join( y, by = by, copy = copy, suffix = suffix, ...) %>%
+        dplyr::right_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
         when(
 
             # If duplicated cells returns tibble
             count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-                message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                message(duplicated_cell_names)
                 (.)
             },
 
             # Otherwise return updated tidyseurat
             ~ {
-                new_obj = subset(x,   cells = (.) %>% pull(c_(x)$name))
-                new_obj@meta.data = (.) %>% as_meta_data(new_obj)
+                new_obj <- subset(x, cells=(.) %>% pull(c_(x)$name))
+                new_obj@meta.data <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
         )
 
 }
-
 
 #' @name full_join
 #' @rdname full_join
@@ -437,30 +475,30 @@ right_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #'
 #' @importFrom dplyr full_join
 #' @export
-full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-                                ...)
-{
+full_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
+    suffix=c(".x", ".y"), ...) {
 
     # Deprecation of special column names
-    if(is_sample_feature_deprecated_used( x, when(by, !is.null(.) ~ by, ~ colnames(y)))){
-        x= ping_old_special_column_into_metadata(x)
+    .cols <- if (!is.null(by)) by else colnames(y)
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
     x %>%
         as_tibble() %>%
-        dplyr::full_join( y, by = by, copy = copy, suffix = suffix, ...)  %>%
+        dplyr::full_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
         when(
 
             # If duplicated cells returns tibble
             count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
-                message("tidyseurat says: This operation lead to duplicated cell names. A data frame is returned for independent data analysis.")
+                message(duplicated_cell_names)
                 (.)
             },
 
             # Otherwise return updated tidyseurat
             ~ {
-                x@meta.data = (.) %>% as_meta_data(x)
+                x@meta.data <- (.) %>% as_meta_data(x)
                 x
             }
         )
@@ -479,24 +517,26 @@ full_join.Seurat <- function (x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 #' pbmc_small |> slice(1)
 #' 
 #' # Slice group-wise using .by
-#' pbmc_small |> slice(1:2, .by = groups)
+#' pbmc_small |> slice(1:2, .by=groups)
 #'
 #' @importFrom dplyr slice
 #' @importFrom tibble rowid_to_column
 #' @export
-#' 
-
-slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
+slice.Seurat <- function (.data, ..., .by=NULL, .preserve=FALSE)
 {
     row_number___ <- NULL
     idx <- .data[[]] |>
         select(-everything(), {{ .by }}) |>
-        rowid_to_column(var  = 'row_number___')  |>
-        slice(..., .by = {{ .by }}, .preserve = .preserve) |>
+        rowid_to_column(var='row_number___')  |>
+        slice(..., .by={{ .by }}, .preserve=.preserve) |>
         pull(row_number___)
 
-    if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-    new_obj <- subset(.data,   cells = colnames(.data)[idx])
+    if(length(idx) == 0) {
+        stop("tidyseurat says: the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- subset(.data,   cells=colnames(.data)[idx])
     new_obj
 }
 
@@ -506,25 +546,26 @@ slice.Seurat <- function (.data, ..., .by = NULL, .preserve = FALSE)
 #' @examples
 #'
 #' # slice_sample() allows you to random select with or without replacement
-#' pbmc_small |> slice_sample(n = 5)
+#' pbmc_small |> slice_sample(n=5)
 #'
 #' # if using replacement, and duplicate cells are returned, a tibble will be
 #' # returned because duplicate cells cannot exist in Seurat objects
-#' pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
-#' pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
+#' pbmc_small |> slice_sample(n=1, replace=TRUE) # returns Seurat
+#' pbmc_small |> slice_sample(n=100, replace=TRUE) # returns tibble
 #'
 #' # weight by a variable
-#' pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
+#' pbmc_small |> slice_sample(n=5, weight_by=nCount_RNA)
 #'
 #' # sample by group
-#' pbmc_small |> slice_sample(n = 5, by = groups)
+#' pbmc_small |> slice_sample(n=5, by=groups)
 #'
 #' # sample using proportions
-#' pbmc_small |> slice_sample(prop = 0.10)
+#' pbmc_small |> slice_sample(prop=0.10)
 #'
 #' @importFrom dplyr slice_sample
 #' @export
-slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, weight_by = NULL, replace = FALSE) {
+slice_sample.Seurat <- function(.data, ..., n=NULL,
+    prop=NULL, by=NULL, weight_by=NULL, replace=FALSE) {
 
     # Solve CRAN NOTES
     cell <- NULL
@@ -535,31 +576,36 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
     if(!is.null(n))
         new_meta <-
             .data[[]] |>
-            as_tibble(rownames = c_(.data)$name) |>
+            as_tibble(rownames=c_(.data)$name) |>
             select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
-            slice_sample(..., n = n, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
+            slice_sample(..., n=n, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
     else if(!is.null(prop))
         new_meta <-
             .data[[]] |>
-            as_tibble(rownames = c_(.data)$name) |>
+            as_tibble(rownames=c_(.data)$name) |>
             select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
-            slice_sample(..., prop=prop, by = {{ by }}, weight_by = {{ weight_by }}, replace = replace)
+            slice_sample(..., prop=prop, by={{ by }},
+                weight_by={{ weight_by }}, replace=replace)
     else
         stop("tidyseurat says: you should provide `n` or `prop` arguments")
 
-    count_cells <- new_meta %>% select(!!c_(.data)$symbol) %>% count(!!c_(.data)$symbol)
+    count_cells <- new_meta %>%
+        select(!!c_(.data)$symbol) %>%
+        count(!!c_(.data)$symbol)
 
     # If repeated cells due to replacement
     if(count_cells$n |> max() |> gt(1)){
-        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+        message("tidyseurat says: When sampling with replacement",
+            " a data frame is returned for independent data analysis.")
         .data |>
             as_tibble()  |>
-            right_join(new_meta %>% select(!!c_(.data)$symbol),  by = c_(.data)$name)
+            right_join(new_meta %>% 
+                select(!!c_(.data)$symbol), by=c_(.data)$name)
     } else {
-        new_obj <- subset(.data,   cells = new_meta %>% pull(!!c_(.data)$symbol))
+        new_obj <- subset(.data, cells=new_meta %>% pull(!!c_(.data)$symbol))
         new_obj
     }
-
 }
 
 #' @name slice_head
@@ -568,24 +614,26 @@ slice_sample.Seurat <- function(.data, ..., n = NULL, prop = NULL, by = NULL, we
 #' @examples
 #'
 #' # First rows based on existing order
-#' pbmc_small |> slice_head(n = 5)
+#' pbmc_small |> slice_head(n=5)
 #' 
 #' @importFrom dplyr slice_head
 #' @importFrom tibble rowid_to_column
 #' @export
-slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
+slice_head.Seurat <- function(.data, ..., n, prop, by=NULL) {
     row_number___ <- NULL
     idx <- .data[[]] |>
         select(-everything(), {{ by }}) |>
-        rowid_to_column(var  = 'row_number___')  |>
-        slice_head(..., n = n, prop = prop, by = {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_head(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-    new_obj <- subset(.data,   cells = colnames(.data)[idx])
+    if(length(idx) == 0) {
+        stop("tidyseurat says: the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+    new_obj <- subset(.data, cells=colnames(.data)[idx])
     new_obj
 }
-
 
 #' @name slice_tail
 #' @rdname slice
@@ -593,21 +641,25 @@ slice_head.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' @examples
 #'
 #' # Last rows based on existing order
-#' pbmc_small |> slice_tail(n = 5)
+#' pbmc_small |> slice_tail(n=5)
 #' 
 #' @importFrom dplyr slice_tail
 #' @importFrom tibble rowid_to_column
 #' @export
-slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
+slice_tail.Seurat <- function(.data, ..., n, prop, by=NULL) {
     row_number___ <- NULL
     idx <- .data[[]] |>
         select(-everything(), {{ by }}) |>
-        rowid_to_column(var  = 'row_number___')  |>
-        slice_tail(..., n = n, prop = prop, by = {{ by }}) |>
+        rowid_to_column(var='row_number___')  |>
+        slice_tail(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-    new_obj <- subset(.data,   cells = colnames(.data)[idx])
+    if(length(idx) == 0) {
+        stop("tidyseurat says: the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- subset(.data, cells=colnames(.data)[idx])
     new_obj
 }
 
@@ -617,39 +669,44 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by = NULL) {
 #' @examples
 #'
 #' # Rows with minimum and maximum values of a metadata variable
-#' pbmc_small |> slice_min(nFeature_RNA, n = 5)
+#' pbmc_small |> slice_min(nFeature_RNA, n=5)
 #'
 #' # slice_min() and slice_max() may return more rows than requested
 #' # in the presence of ties.
-#' pbmc_small |>  slice_min(nFeature_RNA, n = 2)
+#' pbmc_small |>  slice_min(nFeature_RNA, n=2)
 #'
-#' # Use with_ties = FALSE to return exactly n matches
-#' pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
+#' # Use with_ties=FALSE to return exactly n matches
+#' pbmc_small |> slice_min(nFeature_RNA, n=2, with_ties=FALSE)
 #'
 #' # Or use additional variables to break the tie:
-#' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
+#' pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
 #'
 #' # Use by for group-wise operations
-#' pbmc_small |> slice_min(nFeature_RNA, n = 5, by = groups)
+#' pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
 #'
 #' @importFrom dplyr slice_min
 #' @importFrom tibble rowid_to_column
 #' @export
-slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_min.Seurat <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
     row_number___ <- NULL
     order_by_variables <- return_arguments_of(!!enexpr(order_by))
 
     idx <- .data[[]] |>
         select(-everything(), !!!order_by_variables, {{ by }}) |>
-        rowid_to_column(var  = 'row_number___')  |>
+        rowid_to_column(var ='row_number___')  |>
         slice_min(
-            order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
-            with_ties = with_ties, na_rm = na_rm
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
         ) |>
         pull(row_number___)
 
-    if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-    new_obj <- subset(.data,   cells = colnames(.data)[idx])
+    if(length(idx) == 0) {
+        stop("tidyseurat says: the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- subset(.data, cells=colnames(.data)[idx])
     new_obj
 }
 
@@ -659,27 +716,32 @@ slice_min.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
 #' @examples
 #'
 #' # Rows with minimum and maximum values of a metadata variable
-#' pbmc_small |> slice_max(nFeature_RNA, n = 5)
+#' pbmc_small |> slice_max(nFeature_RNA, n=5)
 #' 
 #' @importFrom dplyr slice_max
 #' @importFrom tibble rowid_to_column
 #' @export
-slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_max.Seurat <- function(.data, order_by, ..., n, prop,
+    by=NULL, with_ties=TRUE, na_rm=FALSE) {
     row_number___ <- NULL
 
     order_by_variables <- return_arguments_of(!!enexpr(order_by))
 
     idx <- .data[[]] |>
         select(-everything(), !!!order_by_variables, {{ by }}) |>
-        rowid_to_column(var  = 'row_number___')  |>
+        rowid_to_column(var ='row_number___')  |>
         slice_max(
-            order_by = {{ order_by }}, ..., n = n, prop = prop, by = {{ by }},
-            with_ties = with_ties, na_rm = na_rm
+            order_by={{ order_by }}, ..., n=n, prop=prop, by={{ by }},
+            with_ties=with_ties, na_rm=na_rm
         ) |>
         pull(row_number___)
 
-    if(length(idx) == 0) stop("tidyseurat says: the resulting data container is empty. Seurat does not allow for empty containers.")
-    new_obj <- subset(.data,   cells = colnames(.data)[idx])
+    if(length(idx) == 0) {
+        stop("tidyseurat says: the resulting data container is empty.",
+            " Seurat does not allow for empty containers.")
+    }
+
+    new_obj <- subset(.data, cells=colnames(.data)[idx])
     new_obj
 }
 
@@ -695,11 +757,10 @@ slice_max.Seurat <- function(.data, order_by, ..., n, prop, by = NULL, with_ties
 #' @export
 select.Seurat <- function (.data, ...)
 {
-
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(
         .data,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
         .data= ping_old_special_column_into_metadata(.data)
     }
@@ -711,19 +772,19 @@ select.Seurat <- function (.data, ...)
 
             # If key columns are missing
             (get_needed_columns(.data) %in% colnames(.)) %>% all %>% `!` ~ {
-                message("tidyseurat says: Key columns are missing. A data frame is returned for independent data analysis.")
+                message("tidyseurat says: Key columns are missing.",
+                    " A data frame is returned for independent data analysis.")
                 (.)
             },
 
             # If valid seurat meta data
             ~ {
-                .data@meta.data = (.) %>% as_meta_data(.data)
+                .data@meta.data <- (.) %>% as_meta_data(.data)
                 .data
             }
         )
 
 }
-
 
 #' @name sample_n
 #' @rdname sample_n
@@ -737,30 +798,35 @@ select.Seurat <- function (.data, ...)
 #' 
 #' @importFrom dplyr sample_n
 #' @export
-sample_n.Seurat <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL, ...) {
-
+sample_n.Seurat <- function(tbl, size, replace=FALSE,
+                                weight=NULL, .env=NULL, ...) {
     # Solve CRAN NOTES
-    cell = NULL
-    . = NULL
+    cell <- NULL
+    . <- NULL
 
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-    new_meta = tbl[[]] %>%  as_tibble(rownames = c_(tbl)$name) %>% dplyr::sample_n( size, replace = replace, weight = weight, .env = .env, ...)
+    new_meta <- tbl[[]] %>%
+        as_tibble(rownames=c_(tbl)$name) %>%
+        dplyr::sample_n(size, replace=replace, weight=weight, .env=.env, ...)
 
-    count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
+    count_cells <- new_meta %>%
+        select(!!c_(tbl)$symbol) %>%
+        count(!!c_(tbl)$symbol)
 
     # If repeted cells
     if (count_cells$n %>% max() %>% gt(1)){
-        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+        message("tidyseurat says: When sampling with replacement",
+            " a data frame is returned for independent data analysis.")
         tbl %>%
             as_tibble() %>%
-            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
+            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by=c_(tbl)$name)
     } else {
-        new_obj = subset(tbl,   cells = new_meta %>% pull(!!c_(tbl)$symbol))
-        new_obj@meta.data =
+        new_obj <- subset(tbl, cells=new_meta %>% pull(!!c_(tbl)$symbol))
+        new_obj@meta.data <-
             new_meta %>%
-            data.frame(row.names=pull(.,!!c_(tbl)$symbol), check.names = FALSE) %>%
+            data.frame(row.names=pull(.,!!c_(tbl)$symbol),
+                check.names=FALSE) %>%
             select(- !!c_(tbl)$symbol)
         new_obj
     }
@@ -769,35 +835,41 @@ sample_n.Seurat <- function(tbl, size, replace = FALSE,
 #' @rdname sample_n
 #' @importFrom dplyr sample_frac
 #' @export
-sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL, ...) {
+sample_frac.Seurat <- function(tbl, size=1, replace=FALSE,
+                                   weight=NULL, .env=NULL, ...) {
 
     # Solve CRAN NOTES
-    cell = NULL
-    . = NULL
+    cell <- NULL
+    . <- NULL
 
     lifecycle::signal_superseded("1.0.0", "sample_frac()", "slice_sample()")
 
-    new_meta = tbl[[]] %>%  as_tibble(rownames = c_(tbl)$name) %>% dplyr::sample_frac( size, replace = replace, weight = weight, .env = .env, ...)
+    new_meta <- tbl[[]] %>% 
+        as_tibble(rownames=c_(tbl)$name) %>%
+        dplyr::sample_frac(size, replace=replace,
+            weight=weight, .env=.env, ...)
 
-    count_cells = new_meta %>% select(!!c_(tbl)$symbol) %>% count(!!c_(tbl)$symbol)
+    count_cells <- new_meta %>%
+        select(!!c_(tbl)$symbol) %>%
+        count(!!c_(tbl)$symbol)
 
     # If repeted cells
     if (count_cells$n %>% max() %>% gt(1)){
-        message("tidyseurat says: When sampling with replacement a data frame is returned for independent data analysis.")
+        message("tidyseurat says: When sampling with replacement",
+            " a data frame is returned for independent data analysis.")
         tbl %>%
             as_tibble() %>%
-            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by = c_(tbl)$name)
+            right_join(new_meta %>% select(!!c_(tbl)$symbol),  by=c_(tbl)$name)
     } else {
-        new_obj = subset(tbl,   cells = new_meta %>% pull(!!c_(tbl)$symbol))
-        new_obj@meta.data =
+        new_obj <- subset(tbl, cells=new_meta %>% pull(!!c_(tbl)$symbol))
+        new_obj@meta.data <-
             new_meta %>%
-            data.frame(row.names=pull(.,!!c_(tbl)$symbol), check.names = FALSE) %>%
+            data.frame(row.names=pull(.,!!c_(tbl)$symbol),
+                check.names=FALSE) %>%
             select(- !!c_(tbl)$symbol)
         new_obj
     }
 }
-
 
 #' @name count
 #' @rdname count
@@ -809,34 +881,36 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #'     
 #' @importFrom dplyr count
 #' @export
-count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.Seurat <- function(x, ..., wt=NULL, sort=FALSE,
+    name=NULL, .drop=group_by_drop_default(x)) {
 
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+    message("tidyseurat says: A data frame is",
+        " returned for independent data analysis.")
 
     # Deprecation of special column names
     if (is_sample_feature_deprecated_used(
         x,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
         x= ping_old_special_column_into_metadata(x)
     }
 
     x %>%
         as_tibble() %>%
-        dplyr::count(  ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
-
+        dplyr::count(  ..., wt=!!enquo(wt), sort=sort, name=name, .drop=.drop)
 }
 
 #' @rdname count
 #' @aliases add_count
 #' @importFrom dplyr add_count
 #' @export
-add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count.Seurat <- function(x, ..., wt=NULL,
+    sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
 
   # Deprecation of special column names
     if (is_sample_feature_deprecated_used(
         x,
-        (enquos(..., .ignore_empty = "all") %>% map(~ quo_name(.x)) %>% unlist)
+        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
     )){
         x= ping_old_special_column_into_metadata(x)
     }
@@ -844,11 +918,11 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
     x@meta.data =
         x %>%
         as_tibble %>%
-        dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
+        dplyr::add_count(..., wt=!!enquo(wt), sort=sort,
+            name=name, .drop=.drop) %>%
         as_meta_data(x)
 
     x
-
 }
 
 #' @name pull
@@ -861,21 +935,22 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 #' 
 #' @importFrom dplyr pull
 #' @export
-pull.Seurat <- function(.data, var = -1, name = NULL, ...) {
-    var = enquo(var)
-    name = enquo(name)
+pull.Seurat <- function(.data, var=-1, name=NULL, ...) {
+    var <- enquo(var)
+    name <- enquo(name)
 
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+    message("tidyseurat says: A data frame is",
+        " returned for independent data analysis.")
 
     # Deprecation of special column names
     if(is_sample_feature_deprecated_used(
         .data,
         quo_name(var)
     )){
-        .data= ping_old_special_column_into_metadata(.data)
+        .data <- ping_old_special_column_into_metadata(.data)
     }
 
     .data %>%
         as_tibble() %>%
-        dplyr::pull( var = !!var, name = !!name, ...)
+        dplyr::pull( var=!!var, name=!!name, ...)
 }

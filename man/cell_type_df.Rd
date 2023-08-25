@@ -3,14 +3,26 @@
 \docType{data}
 \name{cell_type_df}
 \alias{cell_type_df}
-\title{Example data set 2}
+\title{Cell types of 80 PBMC single cells}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 80 rows and 2 columns.
+A tibble containing 80 rows and 2 columns.
+  Cells are a subsample of the Peripheral Blood Mononuclear Cells (PBMC) 
+  dataset of 2,700 single cell. Cell types were identified with SingleR.
+\describe{
+  \item{cell}{cell identifier, barcode}
+  \item{first.labels}{cell type}
+}
+}
+\source{
+\url{https://satijalab.org/seurat/v3.1/pbmc3k_tutorial.html}
 }
 \usage{
-cell_type_df
+data(cell_type_df)
+}
+\value{
+`tibble`
 }
 \description{
-Example data set 2
+A dataset containing the barcodes and cell types of 80 PBMC single cells.
 }
 \keyword{datasets}

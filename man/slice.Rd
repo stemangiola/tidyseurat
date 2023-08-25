@@ -247,54 +247,54 @@ data(pbmc_small)
 pbmc_small |> slice(1)
 
 # Slice group-wise using .by
-pbmc_small |> slice(1:2, .by = groups)
+pbmc_small |> slice(1:2, .by=groups)
 
 
 # slice_sample() allows you to random select with or without replacement
-pbmc_small |> slice_sample(n = 5)
+pbmc_small |> slice_sample(n=5)
 
 # if using replacement, and duplicate cells are returned, a tibble will be
 # returned because duplicate cells cannot exist in Seurat objects
-pbmc_small |> slice_sample(n = 1, replace = TRUE) # returns Seurat
-pbmc_small |> slice_sample(n = 100, replace = TRUE) # returns tibble
+pbmc_small |> slice_sample(n=1, replace=TRUE) # returns Seurat
+pbmc_small |> slice_sample(n=100, replace=TRUE) # returns tibble
 
 # weight by a variable
-pbmc_small |> slice_sample(n = 5, weight_by = nCount_RNA)
+pbmc_small |> slice_sample(n=5, weight_by=nCount_RNA)
 
 # sample by group
-pbmc_small |> slice_sample(n = 5, by = groups)
+pbmc_small |> slice_sample(n=5, by=groups)
 
 # sample using proportions
-pbmc_small |> slice_sample(prop = 0.10)
+pbmc_small |> slice_sample(prop=0.10)
 
 
 # First rows based on existing order
-pbmc_small |> slice_head(n = 5)
+pbmc_small |> slice_head(n=5)
 
 
 # Last rows based on existing order
-pbmc_small |> slice_tail(n = 5)
+pbmc_small |> slice_tail(n=5)
 
 
 # Rows with minimum and maximum values of a metadata variable
-pbmc_small |> slice_min(nFeature_RNA, n = 5)
+pbmc_small |> slice_min(nFeature_RNA, n=5)
 
 # slice_min() and slice_max() may return more rows than requested
 # in the presence of ties.
-pbmc_small |>  slice_min(nFeature_RNA, n = 2)
+pbmc_small |>  slice_min(nFeature_RNA, n=2)
 
-# Use with_ties = FALSE to return exactly n matches
-pbmc_small |> slice_min(nFeature_RNA, n = 2, with_ties = FALSE)
+# Use with_ties=FALSE to return exactly n matches
+pbmc_small |> slice_min(nFeature_RNA, n=2, with_ties=FALSE)
 
 # Or use additional variables to break the tie:
-pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n = 2)
+pbmc_small |> slice_min(tibble::tibble(nFeature_RNA, nCount_RNA), n=2)
 
 # Use by for group-wise operations
-pbmc_small |> slice_min(nFeature_RNA, n = 5, by = groups)
+pbmc_small |> slice_min(nFeature_RNA, n=5, by=groups)
 
 
 # Rows with minimum and maximum values of a metadata variable
-pbmc_small |> slice_max(nFeature_RNA, n = 5)
+pbmc_small |> slice_max(nFeature_RNA, n=5)
 
 }
 \seealso{

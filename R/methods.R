@@ -1,14 +1,14 @@
 #' @importFrom methods getMethod
 setMethod(
-    f = "show",
-    signature = "Seurat",
-    definition = function(object) {
-        if (isTRUE(x = getOption(x = "restore_Seurat_show", default = FALSE))) {
+    f="show",
+    signature="Seurat",
+    definition=function(object) {
+        if (isTRUE(x=getOption(x="restore_Seurat_show", default=FALSE))) {
             f <- getMethod(
-                f = "show",
-                signature = "Seurat",
-                where = asNamespace(ns = "SeuratObject"))
-            f(object = object)
+                f="show",
+                signature="Seurat",
+                where=asNamespace(ns="SeuratObject"))
+            f(object=object)
         } else { print(object) }
     }
 )
@@ -38,9 +38,9 @@ tidy.Seurat <- function(object){
   
     # DEPRECATE
     deprecate_warn(
-        when = "0.2.0",
-        what = "tidy()",
-        details = "tidyseurat says: tidy() is not needed anymore."
+        when="0.2.0",
+        what="tidy()",
+        details="tidyseurat says: tidy() is not needed anymore."
     )
   
     return(object)
@@ -70,7 +70,7 @@ tidy.Seurat <- function(object){
 #' @importFrom ttservice join_features
 #' @export
 setMethod("join_features", "Seurat", function(.data,
-    features=NULL, all=FALSE, exclude_zeros=FALSE, shape = "long",
+    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
     assay=NULL, slot="data", ...) {
     .data %>%
         when(
@@ -86,9 +86,10 @@ setMethod("join_features", "Seurat", function(.data,
                         slot=slot,
                         ...
                     ),
-                    by = c_(.data)$name
+                    by=c_(.data)$name
                 ) %>%
-                select(!!c_(.data)$symbol, .feature, contains(".abundance"), everything()),
+                select(!!c_(.data)$symbol, .feature,
+                    contains(".abundance"), everything()),
             # Shape if wide
             ~ (.) %>%
                 left_join(
@@ -100,7 +101,7 @@ setMethod("join_features", "Seurat", function(.data,
                         slot=slot,
                         ...
                     ),
-                    by = c_(.data)$name
+                    by=c_(.data)$name
                 ) 
             )
 })
@@ -125,35 +126,35 @@ setMethod("join_features", "Seurat", function(.data,
 #' @importFrom purrr map_int
 #' @export
 setMethod("aggregate_cells", "Seurat",  function(.data,
-    .sample = NULL, slot = "data", assays = NULL,
-    aggregation_function = Matrix::rowSums){
+    .sample=NULL, slot="data", assays=NULL,
+    aggregation_function=Matrix::rowSums){
     # Solve NOTE  
-    data = NULL
-    .feature = NULL
+    data <- NULL
+    .feature <- NULL
   
-    .sample = enquo(.sample)
+    .sample <- enquo(.sample)
 
     # Subset only wanted assays
     if(!is.null(assays)){
-        DefaultAssay(.data) = assays[1]
-        .data@assays = .data@assays[assays]
+        DefaultAssay(.data) <- assays[1]
+        .data@assays <- .data@assays[assays]
     }
 
     .data %>%
-        nest(data = -!!.sample) %>%
-        mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) %>% 
+        nest(data=-!!.sample) %>%
+        mutate(.aggregated_cells=map_int(data, ~ ncol(.x))) %>% 
         mutate(
             data=map(data, ~ 
                 # Loop over assays
                 map2(.x@assays, names(.x@assays),
                     # Get counts
-                    ~ GetAssayData(.x, slot = slot) %>%
-                        aggregation_function(na.rm = T) %>%
+                    ~ GetAssayData(.x, slot=slot) %>%
+                        aggregation_function(na.rm=T) %>%
                         tibble::enframe(
-                            name  = ".feature",
-                            value = sprintf("%s", .y)
+                            name=".feature",
+                            value=sprintf("%s", .y)
                         ) %>%
-                        mutate(.feature = as.character(.feature)) 
+                        mutate(.feature=as.character(.feature)) 
                 ) %>%
                 Reduce(function(...) full_join(..., by=c(".feature")), .)            
             )
@@ -163,7 +164,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                 as_tibble() %>%
                 subset_tidyseurat(!!.sample)) %>%
         unnest(data) %>%
-        tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
+        tidyr::unite(".sample", !!.sample,  sep="___", remove=FALSE) |> 
         select(.feature, .sample, names(.data@assays), everything()) |> 
         drop_class("tidyseurat_nested") 
 })

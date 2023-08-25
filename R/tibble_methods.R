@@ -13,9 +13,9 @@
 #' @importFrom tidyr spread
 #' @importFrom tibble enframe
 #' @export
-as_tibble.Seurat = function(x, ...,
-                     .name_repair = c("check_unique", "unique", "universal", "minimal"),
-                     rownames = NULL){
+as_tibble.Seurat <- function(x, ...,
+                     .name_repair=c("check_unique", "unique", "universal", "minimal"),
+                     rownames=NULL){
     x[[]] %>%
         tibble::as_tibble(rownames=c_(x)$name) %>%
 
@@ -38,7 +38,7 @@ as_tibble.Seurat = function(x, ...,
                         ~ as_tibble(., rownames=c_(x)$name)
                     )) %>%
                     reduce(left_join, by=c_(x)$name),
-                by = c_(x)$name
+                by=c_(x)$name
                 ),
             # Otherwise skip
             ~ (.)
@@ -55,7 +55,7 @@ as_tibble.Seurat = function(x, ...,
 #' 
 #' @importFrom tibble glimpse
 #' @export
-glimpse.tidyseurat = function(x, width = NULL, ...){
+glimpse.tidyseurat <- function(x, width=NULL, ...){
     x %>%
         as_tibble() %>%
         tibble::glimpse(width=width, ...)

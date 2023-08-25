@@ -4,9 +4,12 @@
 \alias{summarise}
 \alias{summarise.Seurat}
 \alias{summarize}
+\alias{summarize.Seurat}
 \title{Summarise each group down to one row}
 \usage{
 \method{summarise}{Seurat}(.data, ...)
+
+\method{summarize}{Seurat}(.data, ...)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
