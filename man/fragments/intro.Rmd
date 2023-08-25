@@ -124,7 +124,7 @@ Here we plot number of features per cell.
 
 ```{r plot1}
 pbmc_small %>%
-  tidyseurat::ggplot(aes(nFeature_RNA, fill = groups)) +
+  ggplot(aes(nFeature_RNA, fill = groups)) +
   geom_histogram() +
   my_theme
 ```
@@ -133,7 +133,7 @@ Here we plot total features per cell.
 
 ```{r plot2}
 pbmc_small %>%
-  tidyseurat::ggplot(aes(groups, nCount_RNA, fill = groups)) +
+  ggplot(aes(groups, nCount_RNA, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
   my_theme
@@ -193,7 +193,7 @@ Now we can interrogate the object as if it was a regular tibble data frame.
 
 ```{r cluster count}
 pbmc_small_cluster %>%
-  tidyseurat::count(groups, seurat_clusters)
+  count(groups, seurat_clusters)
 ```
 
 We can identify cluster markers using Seurat.

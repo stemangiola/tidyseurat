@@ -1,142 +1,110 @@
+#' @importFrom methods getMethod
+setMethod(
+    f="show",
+    signature="Seurat",
+    definition=function(object) {
+        if (isTRUE(x=getOption(x="restore_Seurat_show", default=FALSE))) {
+            f <- getMethod(
+                f="show",
+                signature="Seurat",
+                where=asNamespace(ns="SeuratObject"))
+            f(object=object)
+        } else { print(object) }
+    }
+)
 
 setClass("tidyseurat", contains="Seurat")
 
-#' tidy for seurat
-#' 
 #' @name tidy
-#' 
-#' @param object A Seurat object
-#' 
-#' @description 
-#' 
-#' DEPRECATED. Not needed any more.
-#' 
-#' @return A tidyseurat object
-#' 
+#' @rdname tidy
+#' @title tidy for `Seurat`
+#'
+#' @param object A `Seurat` object.
+#' @return A `tidyseurat` object.
+#'
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small
+#'
 #' @export
-tidy <- function(object) {  UseMethod("tidy", object) }
+tidy <- function(object) {
+    UseMethod("tidy", object)
+}
 
+#' @rdname tidy
 #' @importFrom lifecycle deprecate_warn
-#' 
-#' @param object A Seurat object
-#' 
 #' @export
 tidy.Seurat <- function(object){ 
   
-  # DEPRECATE
-  deprecate_warn(
-    when = "0.2.0",
-    what = "tidy()",
-    details = "tidyseurat says: tidy() is not needed anymore."
-  )
-  
-  object
-  
-}
-
-#' @importFrom methods getMethod
-setMethod(
-  f = "show",
-  signature = "Seurat",
-  definition = function(object) {
-    if (isTRUE(x = getOption(x = "restore_Seurat_show", default = FALSE))) {
-      f <- getMethod(
-        f = "show",
-        signature = "Seurat",
-        where = asNamespace(ns = "SeuratObject")
-      )
-      f(object = object)
-    } else {
-      object %>%
-        print()
-    }
-  }
-)
-
-#' Extract and join information for features.
-#'
-#'
-#' @description join_features() extracts and joins information for specified features
-#'
-#' @importFrom rlang enquo
-#' @importFrom magrittr "%>%"
-#' @importFrom ttservice join_features
-#'
-#' @name join_features
-#' @rdname join_features
-#'
-#' @param .data A Seurat object
-#' @param features A vector of feature identifiers to join
-#' @param all If TRUE return all
-#' @param exclude_zeros If TRUE exclude zero values in long format
-#' @param shape Format of the returned table "long" or "wide"
-#' @param assay assay name to extract feature abundance
-#' @param slot slot in the assay to extract feature abundance
-#' @param ... the other arguments
-#'
-#' @details This function extracts information for specified features and returns the information in either long or wide format.
-#'
-#' @return An object containing the information.for the specified features
-#' 
-#' @examples
-#'
-#' data("pbmc_small")
-#' pbmc_small %>% 
-#' join_features(features = c("HLA-DRA", "LYZ"))
-#'
-#' @export
-#'
-NULL
-
-#' join_features
-#'
-#' @docType methods
-#' @rdname join_features
-#'
-#' @return An object containing the information.for the specified features
-#'
-setMethod("join_features", "Seurat",  function(.data,
-                                               features = NULL,
-                                               all = FALSE,
-                                               exclude_zeros = FALSE,
-                                               shape = "long",
-                                               assay = NULL, 
-                                               slot = "data", ...)
-{
-  .data %>%
-    
-    
-    when(
-      
-      # Shape is long
-      shape == "long" ~ (.) %>% left_join(
-        get_abundance_sc_long(
-          .data = .data,
-          features = features,
-          all = all,
-          exclude_zeros = exclude_zeros,
-          assay = assay,
-          slot = slot, ...
-        ),
-        by = c_(.data)$name
-      ) %>%
-        select(!!c_(.data)$symbol, .feature, contains(".abundance"), everything()),
-      
-      # Shape if wide
-      ~ (.) %>% left_join(
-        get_abundance_sc_wide(
-          .data = .data,
-          features = features,
-          all = all,
-          assay = assay,
-          slot = slot, ...
-        ),
-        by = c_(.data)$name
-      ) 
+    # DEPRECATE
+    deprecate_warn(
+        when="0.2.0",
+        what="tidy()",
+        details="tidyseurat says: tidy() is not needed anymore."
     )
   
-  
-  
+    return(object)
+}
+
+
+
+#' @name join_features
+#' @rdname join_features
+#' @inherit ttservice::join_features
+#' @aliases join_features,Seurat-method
+#'
+#' @param .data A tidyseurat object
+#' @param assay assay name to extract feature abundance
+#' @param slot slot name to extract feature abundance
+#' 
+#' @return A `tidyseurat` object
+#'   containing information for the specified features.
+#'
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>% join_features(
+#'   features=c("HLA-DRA", "LYZ"))
+#'
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr contains
+#' @importFrom dplyr everything
+#' @importFrom ttservice join_features
+#' @export
+setMethod("join_features", "Seurat", function(.data,
+    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
+    assay=NULL, slot="data", ...) {
+    .data %>%
+        when(
+            # Shape is long
+            shape == "long" ~ (.) %>%
+                left_join(
+                    get_abundance_sc_long(
+                        .data=.data,
+                        features=features,
+                        all=all,
+                        exclude_zeros=exclude_zeros,
+                        assay=assay,
+                        slot=slot,
+                        ...
+                    ),
+                    by=c_(.data)$name
+                ) %>%
+                select(!!c_(.data)$symbol, .feature,
+                    contains(".abundance"), everything()),
+            # Shape if wide
+            ~ (.) %>%
+                left_join(
+                    get_abundance_sc_wide(
+                        .data=.data,
+                        features=features,
+                        all=all,
+                        assay=assay,
+                        slot=slot,
+                        ...
+                    ),
+                    by=c_(.data)$name
+                ) 
+            )
 })
 
 
@@ -145,71 +113,61 @@ setMethod("join_features", "Seurat",  function(.data,
 #' @inherit ttservice::aggregate_cells
 #' @aliases aggregate_cells,Seurat-method
 #' 
+#' @param .data A tidyseurat object
+#' 
 #' @examples 
 #' data(pbmc_small)
-#' pbmc_small |>
-#'   aggregate_cells(c(groups, letter.idents), assays = "RNA")
+#' pbmc_small_pseudo_bulk <- pbmc_small |>
+#'   aggregate_cells(c(groups, letter.idents), assays="RNA")
 #'
 #' @importFrom rlang enquo
 #' @importFrom magrittr "%>%"
 #' @importFrom tibble enframe
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
-#' @importFrom dplyr everything
+#' @importFrom SeuratObject DefaultAssay
 #' @importFrom purrr map_int
-#' 
 #' @export
-#'
 setMethod("aggregate_cells", "Seurat",  function(.data,
-                                                 .sample = NULL, 
-                                                 slot = "data",
-                                                 assays = NULL, 
-                                                 aggregation_function = Matrix::rowSums, ...){
-  # Solve NOTE  
-  data = NULL
-  .feature = NULL
+    .sample=NULL, slot="data", assays=NULL,
+    aggregation_function=Matrix::rowSums, ...){
+    # Solve NOTE  
+    data <- NULL
+    .feature <- NULL
   
-  
-    .sample = enquo(.sample)
+    .sample <- enquo(.sample)
 
     # Subset only wanted assays
     if(!is.null(assays)){
-      DefaultAssay(.data) = assays[1]
-      .data@assays = .data@assays[assays]
+        DefaultAssay(.data) <- assays[1]
+        .data@assays <- .data@assays[assays]
     }
 
     .data %>%
-      
-      tidyseurat::nest(data = -!!.sample) %>%
-      mutate(.aggregated_cells = map_int(data, ~ ncol(.x))) %>% 
-      mutate(data = map(data, ~ 
-                          
-                          # loop over assays
-                          map2(
-                            .x@assays, names(.x@assays),
-                            
-                            # Get counts
-                            ~ GetAssayData(.x, slot = slot) %>%
-                              aggregation_function(na.rm = T) %>%
-                              tibble::enframe(
-                                name  = ".feature",
-                                value = sprintf("%s", .y)
-                              ) %>%
-                              mutate(.feature = as.character(.feature)) 
-                          ) %>%
-                          Reduce(function(...) full_join(..., by=c(".feature")), .)
-                        
-      )) %>%
-      left_join(.data %>% tidyseurat::as_tibble() %>% subset_tidyseurat(!!.sample)) %>%
-      tidyseurat::unnest(data) %>%
-      
-      tidyr::unite(".sample", !!.sample,  sep="___", remove = FALSE) |> 
-      select(.feature, .sample, names(.data@assays), everything()) |> 
-      drop_class("tidyseurat_nested") 
-    
-    
-  })
-
-
-
-
+        nest(data=-!!.sample) %>%
+        mutate(.aggregated_cells=map_int(data, ~ ncol(.x))) %>% 
+        mutate(
+            data=map(data, ~ 
+                # Loop over assays
+                map2(.x@assays, names(.x@assays),
+                    # Get counts
+                    ~ GetAssayData(.x, slot=slot) %>%
+                        aggregation_function(na.rm=T) %>%
+                        tibble::enframe(
+                            name=".feature",
+                            value=sprintf("%s", .y)
+                        ) %>%
+                        mutate(.feature=as.character(.feature)) 
+                ) %>%
+                Reduce(function(...) full_join(..., by=c(".feature")), .)            
+            )
+        ) %>%
+        left_join(
+            .data %>%
+                as_tibble() %>%
+                subset_tidyseurat(!!.sample)) %>%
+        unnest(data) %>%
+        tidyr::unite(".sample", !!.sample,  sep="___", remove=FALSE) |> 
+        select(.feature, .sample, names(.data@assays), everything()) |> 
+        drop_class("tidyseurat_nested") 
+})

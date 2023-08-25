@@ -15,7 +15,7 @@
 )
 }
 \arguments{
-\item{.data}{A tidySingleCellExperiment object}
+\item{.data}{A tidyseurat object}
 
 \item{.sample}{A vector of variables by which cells are aggregated}
 
@@ -35,7 +35,7 @@ Combine cells into groups based on shared variables and aggregate feature counts
 }
 \examples{
 data(pbmc_small)
-pbmc_small |>
-  aggregate_cells(c(groups, letter.idents), assays = "RNA")
+pbmc_small_pseudo_bulk <- pbmc_small |>
+  aggregate_cells(c(groups, letter.idents), assays="RNA")
 
 }

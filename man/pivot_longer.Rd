@@ -2,98 +2,126 @@
 % Please edit documentation in R/tidyr_methods.R
 \name{pivot_longer}
 \alias{pivot_longer}
+\alias{pivot_longer.Seurat}
 \title{Pivot data from wide to long}
+\usage{
+\method{pivot_longer}{Seurat}(
+  data,
+  cols,
+  names_to = "name",
+  names_prefix = NULL,
+  names_sep = NULL,
+  names_pattern = NULL,
+  names_ptypes = NULL,
+  names_transform = NULL,
+  names_repair = "check_unique",
+  values_to = "value",
+  values_drop_na = FALSE,
+  values_ptypes = NULL,
+  values_transform = NULL,
+  ...
+)
+}
 \arguments{
 \item{data}{A data frame to pivot.}
 
-\item{cols}{<[`tidy-select`][tidyr_select]> Columns to pivot into
+\item{cols}{<\code{\link[tidyr:tidyr_tidy_select]{tidy-select}}> Columns to pivot into
 longer format.}
 
-\item{names_to}{A string specifying the name of the column to create
-  from the data stored in the column names of `data`.
-
-  Can be a character vector, creating multiple columns, if `names_sep`
-  or `names_pattern` is provided. In this case, there are two special
-  values you can take advantage of:
-
-  * `NA` will discard that component of the name.
-  * `.value` indicates that component of the name defines the name of the
-    column containing the cell values, overriding `values_to`.}
+\item{names_to}{A character vector specifying the new column or columns to
+create from the information stored in the column names of \code{data} specified
+by \code{cols}.
+\itemize{
+\item If length 0, or if \code{NULL} is supplied, no columns will be created.
+\item If length 1, a single column will be created which will contain the
+column names specified by \code{cols}.
+\item If length >1, multiple columns will be created. In this case, one of
+\code{names_sep} or \code{names_pattern} must be supplied to specify how the
+column names should be split. There are also two additional character
+values you can take advantage of:
+\itemize{
+\item \code{NA} will discard the corresponding component of the column name.
+\item \code{".value"} indicates that the corresponding component of the column
+name defines the name of the output column containing the cell values,
+overriding \code{values_to} entirely.
+}
+}}
 
 \item{names_prefix}{A regular expression used to remove matching text
 from the start of each variable name.}
 
-\item{names_sep, names_pattern}{If `names_to` contains multiple values,
-  these arguments control how the column name is broken up.
+\item{names_sep, names_pattern}{If \code{names_to} contains multiple values,
+these arguments control how the column name is broken up.
 
-  `names_sep` takes the same specification as [separate()], and can either
-  be a numeric vector (specifying positions to break on), or a single string
-  (specifying a regular expression to split on).
+\code{names_sep} takes the same specification as \code{\link[tidyr:separate]{separate()}}, and can either
+be a numeric vector (specifying positions to break on), or a single string
+(specifying a regular expression to split on).
 
-  `names_pattern` takes the same specification as [extract()], a regular
-  expression containing matching groups (`()`).
+\code{names_pattern} takes the same specification as \code{\link[tidyr:extract]{extract()}}, a regular
+expression containing matching groups (\verb{()}).
 
-  If these arguments do not give you enough control, use
-  `pivot_longer_spec()` to create a spec object and process manually as
-  needed.}
+If these arguments do not give you enough control, use
+\code{pivot_longer_spec()} to create a spec object and process manually as
+needed.}
+
+\item{names_ptypes, values_ptypes}{Optionally, a list of column name-prototype
+pairs. Alternatively, a single empty prototype can be supplied, which will
+be applied to all columns. A prototype (or ptype for short) is a
+zero-length vector (like \code{integer()} or \code{numeric()}) that defines the type,
+class, and attributes of a vector. Use these arguments if you want to
+confirm that the created columns are the types that you expect. Note that
+if you want to change (instead of confirm) the types of specific columns,
+you should use \code{names_transform} or \code{values_transform} instead.}
+
+\item{names_transform, values_transform}{Optionally, a list of column
+name-function pairs. Alternatively, a single function can be supplied,
+which will be applied to all columns. Use these arguments if you need to
+change the types of specific columns. For example, \code{names_transform = list(week = as.integer)} would convert a character variable called \code{week}
+to an integer.
+
+If not specified, the type of the columns generated from \code{names_to} will
+be character, and the type of the variables generated from \code{values_to}
+will be the common type of the input columns used to generate them.}
 
 \item{names_repair}{What happens if the output has invalid column names?
-The default, `"check_unique"` is to error if the columns are duplicated.
-Use `"minimal"` to allow duplicates in the output, or `"unique"` to
-de-duplicated by adding numeric suffixes. See [vctrs::vec_as_names()]
+The default, \code{"check_unique"} is to error if the columns are duplicated.
+Use \code{"minimal"} to allow duplicates in the output, or \code{"unique"} to
+de-duplicated by adding numeric suffixes. See \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}}
 for more options.}
 
 \item{values_to}{A string specifying the name of the column to create
-from the data stored in cell values. If `names_to` is a character
-containing the special `.value` sentinel, this value will be ignored,
+from the data stored in cell values. If \code{names_to} is a character
+containing the special \code{.value} sentinel, this value will be ignored,
 and the name of the value column will be derived from part of the
 existing column names.}
 
-\item{values_drop_na}{If `TRUE`, will drop rows that contain only `NA`s
-in the `value_to` column. This effectively converts explicit missing values
+\item{values_drop_na}{If \code{TRUE}, will drop rows that contain only \code{NA}s
+in the \code{value_to} column. This effectively converts explicit missing values
 to implicit missing values, and should generally be used only when missing
-values in `data` were created by its structure.}
-
-\item{names_transform, values_transform}{A list of column name-function pairs.
-Use these arguments if you need to change the type of specific columns.
-For example, `names_transform = list(week = as.integer)` would convert
-a character week variable to an integer.}
-
-\item{names_ptypes, values_ptypes}{A list of column name-prototype pairs.
-  A prototype (or ptype for short) is a zero-length vector (like `integer()`
-  or `numeric()`) that defines the type, class, and attributes of a vector.
-  Use these arguments to confirm that the created columns are the types that
-  you expect.
-
-  If not specified, the type of the columns generated from `names_to` will
-  be character, and the type of the variables generated from `values_to`
-  will be the common type of the input columns used to generate them.}
+values in \code{data} were created by its structure.}
 
 \item{...}{Additional arguments passed on to methods.}
 }
 \value{
-A Seurat object or a tibble depending on input
+`tidyseurat`
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("maturing")}
-
-`pivot_longer()` "lengthens" data, increasing the number of rows and
+\code{pivot_longer()} "lengthens" data, increasing the number of rows and
 decreasing the number of columns. The inverse transformation is
-[pivot_wider()]
+\code{\link[tidyr:pivot_wider]{pivot_wider()}}
 
-Learn more in `vignette("pivot")`.
+Learn more in \code{vignette("pivot")}.
 }
 \details{
-`pivot_longer()` is an updated approach to [gather()], designed to be both
+\code{pivot_longer()} is an updated approach to \code{\link[tidyr:gather]{gather()}}, designed to be both
 simpler to use and to handle more use cases. We recommend you use
-`pivot_longer()` for new code; `gather()` isn't going away but is no longer
+\code{pivot_longer()} for new code; \code{gather()} isn't going away but is no longer
 under active development.
 }
 \examples{
-# See vignette("pivot") for examples and explanation
-
-library(dplyr)
-data("pbmc_small")
-pbmc_small \%>\%  pivot_longer(c(orig.ident, groups), names_to = "name", values_to = "value") 
+data(pbmc_small)
+pbmc_small |> pivot_longer(
+  cols=c(orig.ident, groups),
+  names_to="name", values_to="value")
 
 }

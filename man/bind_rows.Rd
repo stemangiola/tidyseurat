@@ -2,7 +2,15 @@
 % Please edit documentation in R/dplyr_methods.R
 \name{bind_rows}
 \alias{bind_rows}
-\title{Efficiently bind multiple data frames by row and column}
+\alias{bind_rows.Seurat}
+\alias{bind_cols.Seurat}
+\alias{bind_cols}
+\title{#' Efficiently bind multiple data frames by row and column}
+\usage{
+\method{bind_rows}{Seurat}(..., .id = NULL, add.cell.ids = NULL)
+
+\method{bind_cols}{Seurat}(..., .id = NULL)
+}
 \arguments{
 \item{...}{Data frames to combine.
 
@@ -30,8 +38,15 @@
 \value{
 `bind_rows()` and `bind_cols()` return the same type as
   the first input, either a data frame, `tbl_df`, or `grouped_df`.
+
+`bind_rows()` and `bind_cols()` return the same type as
+  the first input, either a data frame, `tbl_df`, or `grouped_df`.
 }
 \description{
+This is an efficient implementation of the common pattern of
+`do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+data frames into one.
+
 This is an efficient implementation of the common pattern of
 `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
 data frames into one.
@@ -39,13 +54,16 @@ data frames into one.
 \details{
 The output of `bind_rows()` will contain a column if that column
 appears in any of the inputs.
+
+The output of `bind_rows()` will contain a column if that column
+appears in any of the inputs.
 }
 \examples{
-`\%>\%` = magrittr::`\%>\%`
-tt = pbmc_small
-bind_rows(    tt, tt  )
+data(pbmc_small)
+tt <- pbmc_small
+ttservice::bind_rows(tt, tt)
 
-tt_bind = tt \%>\% select(nCount_RNA ,nFeature_RNA)
-tt \%>\% bind_cols(tt_bind)
+tt_bind <- tt |> select(nCount_RNA ,nFeature_RNA)
+tt |> ttservice::bind_cols(tt_bind)
 
 }
