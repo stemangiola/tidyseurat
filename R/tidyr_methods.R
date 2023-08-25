@@ -1,8 +1,8 @@
 #' @name unnest
 #' @rdname unnest
 #' @inherit tidyr::unnest
-#' @aliases unnest_single_cell_experiment
-#' @return `tidySingleCellExperiment`
+#' @aliases unnest_seurat
+#' @return `tidyseurat`
 #' 
 #' @examples
 #' data(pbmc_small)
@@ -81,7 +81,7 @@ unnest_seurat  <-  function(data, cols, ...,
 #' @name nest
 #' @rdname nest
 #' @inherit tidyr::nest
-#' @return `tidySingleCellExperiment_nested`
+#' @return `tidyseurat_nested`
 #'
 #' @examples
 #' data(pbmc_small)
@@ -195,7 +195,7 @@ extract.Seurat <- function  (data, col, into,
 #' @name pivot_longer
 #' @rdname pivot_longer
 #' @inherit tidyr::pivot_longer
-#' @return `tidySingleCellExperiment`
+#' @return `tidyseurat`
 #' 
 #' @export
 #' @examples
@@ -239,7 +239,7 @@ pivot_longer.Seurat <- function(data,
 #' @name unite
 #' @rdname unite
 #' @inherit tidyr::unite
-#' @return `tidySingleCellExperiment`
+#' @return `tidyseurat`
 #' 
 #' @examples
 #' data(pbmc_small)

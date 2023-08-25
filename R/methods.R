@@ -53,6 +53,7 @@ tidy.Seurat <- function(object){
 #' @inherit ttservice::join_features
 #' @aliases join_features,Seurat-method
 #'
+#' @param .data A tidyseurat object
 #' @param assay assay name to extract feature abundance
 #' @param slot slot name to extract feature abundance
 #' 
@@ -111,6 +112,8 @@ setMethod("join_features", "Seurat", function(.data,
 #' @rdname aggregate_cells
 #' @inherit ttservice::aggregate_cells
 #' @aliases aggregate_cells,Seurat-method
+#' 
+#' @param .data A tidyseurat object
 #' 
 #' @examples 
 #' data(pbmc_small)

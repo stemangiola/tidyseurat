@@ -3,7 +3,6 @@
 \name{unnest}
 \alias{unnest}
 \alias{unnest.tidyseurat_nested}
-\alias{unnest_single_cell_experiment}
 \alias{unnest_seurat}
 \title{Unnest a list-column of data frames into rows and columns}
 \usage{
@@ -93,7 +92,7 @@ convert \code{df \%>\% unnest(x, .id = "id")} to \verb{df \%>\% mutate(id = name
 use \code{names_sep} instead.}
 }
 \value{
-`tidySingleCellExperiment`
+`tidyseurat`
 }
 \description{
 Unnest expands a list-column containing data frames into rows and columns.

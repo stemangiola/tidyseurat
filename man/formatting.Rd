@@ -27,7 +27,7 @@ will print information about at most `tibble.max_extra_cols` extra columns.}
 }
 \value{
 Prints a message to the console describing
-  the contents of the `tidySingleCellExperiment`.
+  the contents of the `tidyseurat`.
 }
 \description{
 One of the main features of the \code{tbl_df} class is the printing:

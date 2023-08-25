@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{.data}{A tidy SingleCellExperiment object}
+\item{.data}{A tidyseurat object}
 
 \item{features}{A vector of feature identifiers to join}
 

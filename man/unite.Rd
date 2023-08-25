@@ -29,7 +29,7 @@ tidyverse; we support it here for backward compatibility).}
 each value.}
 }
 \value{
-`tidySingleCellExperiment`
+`tidyseurat`
 }
 \description{
 Convenience function to paste together multiple columns into one.

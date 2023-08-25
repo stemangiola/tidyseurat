@@ -103,7 +103,7 @@ values in \code{data} were created by its structure.}
 \item{...}{Additional arguments passed on to methods.}
 }
 \value{
-`tidySingleCellExperiment`
+`tidyseurat`
 }
 \description{
 \code{pivot_longer()} "lengthens" data, increasing the number of rows and

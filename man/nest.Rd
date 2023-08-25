@@ -30,7 +30,7 @@ outer names with \code{names_sep} automatically stripped. This makes
 \code{names_sep} roughly symmetric between nesting and unnesting.}
 }
 \value{
-`tidySingleCellExperiment_nested`
+`tidyseurat_nested`
 }
 \description{
 Nesting creates a list-column of data frames; unnesting flattens it back out

@@ -14,7 +14,7 @@
 )
 }
 \arguments{
-\item{.data}{A tidySingleCellExperiment object}
+\item{.data}{A tidyseurat object}
 
 \item{.sample}{A vector of variables by which cells are aggregated}
 
