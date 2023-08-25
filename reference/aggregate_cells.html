@@ -77,7 +77,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>.data</dt>
-<dd><p>A tidySingleCellExperiment object</p></dd>
+<dd><p>A tidyseurat object</p></dd>
 
 
 <dt>.sample</dt>
@@ -110,24 +110,9 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">pbmc_small</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">pbmc_small</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">aggregate_cells</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">letter.idents</span><span class="op">)</span>, assays <span class="op">=</span> <span class="st">"RNA"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pbmc_small_pseudo_bulk</span> <span class="op">&lt;-</span> <span class="va">pbmc_small</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">aggregate_cells</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">letter.idents</span><span class="op">)</span>, assays<span class="op">=</span><span class="st">"RNA"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(letter.idents, groups)`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 920 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .feature  .sample   RNA letter.idents groups .aggregated_cells orig.ident   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> MS4A1     g2___A  35.5  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CD79B     g2___A  39.3  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> CD79A     g2___A  29.5  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> HLA-DRA   g2___A  73.9  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> TCL1A     g2___A  29.5  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> HLA-DQB1  g2___A  37.6  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> HVCN1     g2___A  22.4  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> HLA-DMB   g2___A  24.7  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> LTB       g2___A  91.9  A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> LINC00926 g2___A   9.91 A             g2                    23 SeuratProject</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 910 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: RNA_snn_res.0.8 &lt;fct&gt;</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
