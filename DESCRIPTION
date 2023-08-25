@@ -1,7 +1,7 @@
 Type: Package
 Package: tidyseurat
 Title: Brings Seurat to the Tidyverse 
-Version: 0.6.1
+Version: 0.7.2
 Authors@R: c(person("Stefano", "Mangiola", email = "mangiolastefano@gmail.com",
                   role = c("aut", "cre")),
             person("Maria", "Doyle", email = "Maria.Doyle@petermac.org",
@@ -12,7 +12,7 @@ Description: It creates an invisible layer that allow to see the 'Seurat' object
 License: GPL-3
 Depends:
     R (>= 4.1.0),
-    ttservice (>= 0.3.5),
+    ttservice (>= 0.3.8),
     SeuratObject
 Imports:
     Seurat,
