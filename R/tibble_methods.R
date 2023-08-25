@@ -14,11 +14,11 @@
 #' @importFrom tibble enframe
 #' @export
 as_tibble.Seurat <- function(x, ...,
-                     .name_repair=c("check_unique", "unique", "universal", "minimal"),
-                     rownames=NULL){
+    .name_repair=c("check_unique", "unique", "universal", "minimal"),
+    rownames=NULL){
+
     x[[]] %>%
         tibble::as_tibble(rownames=c_(x)$name) %>%
-
 
         # Attach reduced dimensions
         when(

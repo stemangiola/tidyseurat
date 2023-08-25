@@ -531,7 +531,7 @@ slice.Seurat <- function (.data, ..., .by=NULL, .preserve=FALSE)
         slice(..., .by={{ .by }}, .preserve=.preserve) |>
         pull(row_number___)
 
-    if(length(idx) == 0) {
+    if (length(idx) == 0) {
         stop("tidyseurat says: the resulting data container is empty.",
             " Seurat does not allow for empty containers.")
     }
@@ -573,14 +573,14 @@ slice_sample.Seurat <- function(.data, ..., n=NULL,
 
     lifecycle::signal_superseded("1.0.0", "sample_n()", "slice_sample()")
 
-    if(!is.null(n))
+    if (!is.null(n))
         new_meta <-
             .data[[]] |>
             as_tibble(rownames=c_(.data)$name) |>
             select(-everything(), c_(.data)$name, {{ by }}, {{ weight_by }}) |>
             slice_sample(..., n=n, by={{ by }},
                 weight_by={{ weight_by }}, replace=replace)
-    else if(!is.null(prop))
+    else if (!is.null(prop))
         new_meta <-
             .data[[]] |>
             as_tibble(rownames=c_(.data)$name) |>
@@ -595,7 +595,7 @@ slice_sample.Seurat <- function(.data, ..., n=NULL,
         count(!!c_(.data)$symbol)
 
     # If repeated cells due to replacement
-    if(count_cells$n |> max() |> gt(1)){
+    if (count_cells$n |> max() |> gt(1)){
         message("tidyseurat says: When sampling with replacement",
             " a data frame is returned for independent data analysis.")
         .data |>
@@ -627,7 +627,7 @@ slice_head.Seurat <- function(.data, ..., n, prop, by=NULL) {
         slice_head(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if(length(idx) == 0) {
+    if (length(idx) == 0) {
         stop("tidyseurat says: the resulting data container is empty.",
             " Seurat does not allow for empty containers.")
     }
@@ -654,7 +654,7 @@ slice_tail.Seurat <- function(.data, ..., n, prop, by=NULL) {
         slice_tail(..., n=n, prop=prop, by={{ by }}) |>
         pull(row_number___)
 
-    if(length(idx) == 0) {
+    if (length(idx) == 0) {
         stop("tidyseurat says: the resulting data container is empty.",
             " Seurat does not allow for empty containers.")
     }
@@ -701,7 +701,7 @@ slice_min.Seurat <- function(.data, order_by, ..., n, prop,
         ) |>
         pull(row_number___)
 
-    if(length(idx) == 0) {
+    if (length(idx) == 0) {
         stop("tidyseurat says: the resulting data container is empty.",
             " Seurat does not allow for empty containers.")
     }
@@ -736,7 +736,7 @@ slice_max.Seurat <- function(.data, order_by, ..., n, prop,
         ) |>
         pull(row_number___)
 
-    if(length(idx) == 0) {
+    if (length(idx) == 0) {
         stop("tidyseurat says: the resulting data container is empty.",
             " Seurat does not allow for empty containers.")
     }
@@ -758,11 +758,10 @@ slice_max.Seurat <- function(.data, order_by, ..., n, prop,
 select.Seurat <- function (.data, ...)
 {
     # Deprecation of special column names
-    if(is_sample_feature_deprecated_used(
-        .data,
-        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
-    )){
-        .data= ping_old_special_column_into_metadata(.data)
+    .cols <- enquos(..., .ignore_empty="all") %>% 
+        map(~ quo_name(.x)) %>% unlist()
+    if (is_sample_feature_deprecated_used(.data, .cols)) {
+        .data <- ping_old_special_column_into_metadata(.data)
     }
 
     .data %>%
@@ -888,11 +887,10 @@ count.Seurat <- function(x, ..., wt=NULL, sort=FALSE,
         " returned for independent data analysis.")
 
     # Deprecation of special column names
-    if (is_sample_feature_deprecated_used(
-        x,
-        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
-    )){
-        x= ping_old_special_column_into_metadata(x)
+    .cols <- enquos(..., .ignore_empty="all") %>% 
+        map(~ quo_name(.x)) %>% unlist()
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
     x %>%
@@ -907,15 +905,14 @@ count.Seurat <- function(x, ..., wt=NULL, sort=FALSE,
 add_count.Seurat <- function(x, ..., wt=NULL,
     sort=FALSE, name=NULL, .drop=group_by_drop_default(x)) {
 
-  # Deprecation of special column names
-    if (is_sample_feature_deprecated_used(
-        x,
-        (enquos(..., .ignore_empty="all") %>% map(~ quo_name(.x)) %>% unlist)
-    )){
-        x= ping_old_special_column_into_metadata(x)
+    # Deprecation of special column names
+    .cols <- enquos(..., .ignore_empty="all") %>% 
+        map(~ quo_name(.x)) %>% unlist()
+    if (is_sample_feature_deprecated_used(x, .cols)) {
+        x <- ping_old_special_column_into_metadata(x)
     }
 
-    x@meta.data =
+    x@meta.data <-
         x %>%
         as_tibble %>%
         dplyr::add_count(..., wt=!!enquo(wt), sort=sort,

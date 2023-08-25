@@ -55,7 +55,7 @@ plot_ly.Seurat <- function(data=data.frame(), ..., type=NULL, name=NULL,
     span=NULL, spans=c(1, 20),
     symbol=NULL, symbols=NULL,
     linetype=NULL, linetypes=NULL,
-    split= NULL, frame= NULL, 
+    split=NULL, frame=NULL, 
     width=NULL, height=NULL, source="A") {
   
     data %>%

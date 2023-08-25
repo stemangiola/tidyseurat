@@ -58,14 +58,13 @@ unnest_seurat  <-  function(data, cols, ...,
                             )
                         )) %>%
                     pull(!!cols)
-            list_seurat[[1]] %>%
-            
-                # Bind only if length list > 1
-                when(
-                    length(list_seurat)>1 ~ bind_rows(.,
-                        list_seurat[2:length(list_seurat)]),
-                    ~ (.)
-                )
+                list_seurat[[1]] %>%
+                    # Bind only if length list > 1
+                    when(
+                        length(list_seurat)>1 ~ bind_rows(.,
+                            list_seurat[2:length(list_seurat)]),
+                        ~ (.)
+                    )
             },
       
             # Else do normal stuff
@@ -99,7 +98,6 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
 {
     cols <- enquos(...)
     col_name_data  <- names(cols)
-
 
     # Deprecation of special column names
     .cols <- enquos(..., .ignore_empty="all") %>%
@@ -152,7 +150,6 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
             # Coerce to tidyseurat_nested for unnesting
             add_class("tidyseurat_nested")
 }
-
 
 #' @name extract
 #' @rdname extract
@@ -215,7 +212,7 @@ pivot_longer.Seurat <- function(data,
     values_ptypes=NULL, values_transform=NULL, ...) {
     cols <- enquo(cols) 
   
-    message("tidyseurat says: A data frame is returned for independent data analysis.")
+    message(data_frame_returned_message)
   
     # Deprecation of special column names
     if (is_sample_feature_deprecated_used(
