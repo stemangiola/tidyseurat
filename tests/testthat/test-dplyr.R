@@ -110,8 +110,9 @@ test_that("slice_sample", {
         ncol() |>
         expect_equal(50)
     pbmc_small |>
-        slice_sample(n=0) |>
-        expect_error()
+      slice_sample(n=0) |>
+      expect_error() |>
+      expect_no_warning()
 })
 
 test_that("slice_head", {
