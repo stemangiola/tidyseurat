@@ -593,9 +593,10 @@ slice_sample.Seurat <- function(.data, ..., n=NULL,
     count_cells <- new_meta %>%
         select(!!c_(.data)$symbol) %>%
         count(!!c_(.data)$symbol)
+    .max_cell_count <- ifelse(nrow(count_cells)==0, 0, max(count_cells$n))
 
     # If repeated cells due to replacement
-    if (count_cells$n |> max() |> gt(1)){
+    if (.max_cell_count |> gt(1)){
         message("tidyseurat says: When sampling with replacement",
             " a data frame is returned for independent data analysis.")
         .data |>
