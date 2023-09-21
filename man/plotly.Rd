@@ -191,7 +191,8 @@ help inform default axis/scale titles
 (e.g., \code{plot_ly(x = mtcars$wt)} vs \code{plot_ly(x = ~mtcars$wt)})
 }
 \examples{
-# TODO
+data(pbmc_small)
+plot_ly(pbmc_small)
 
 }
 \references{
