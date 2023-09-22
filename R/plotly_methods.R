@@ -4,7 +4,8 @@
 #' @return `plotly`
 #' 
 #' @examples
-#' # TODO
+#' data(pbmc_small)
+#' plot_ly(pbmc_small)
 #' 
 #' @importFrom plotly plot_ly
 #' @export
