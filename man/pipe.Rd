@@ -12,4 +12,8 @@ void
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 }
+\examples{
+data(pbmc_small)
+pbmc_small \%>\% print()
+}
 \keyword{internal}
