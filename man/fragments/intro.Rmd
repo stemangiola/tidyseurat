@@ -402,7 +402,7 @@ Sometimes, it is necessary to aggregate the gene-transcript abundance from a gro
 In tidyseurat, cell aggregation can be achieved using the `aggregate_cells` function.
  
  
-```{r}
+```{r, eval=FALSE}
 pbmc_small %>%
   aggregate_cells(groups, assays = "RNA")
 ```
