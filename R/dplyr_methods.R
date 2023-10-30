@@ -269,6 +269,7 @@ mutate.Seurat <- function(.data, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> rename(s_score=nFeature_RNA)
 #'
+#' @importFrom Seurat DietSeurat
 #' @importFrom tidyselect eval_select
 #' @importFrom dplyr rename
 #' @export
@@ -281,7 +282,10 @@ rename.Seurat <- function(.data, ...)
         get_special_columns(.data))
 
     # Small df to be more efficient
-    df <- .data[1, 1] |> as_tibble() 
+    df <- 
+      DietSeurat(.data, features = rownames(.data)[1])[,1]  |>
+      suppressWarnings() |> 
+      as_tibble() 
     
     # What columns we are going to create
     cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()

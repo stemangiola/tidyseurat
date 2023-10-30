@@ -73,38 +73,37 @@ tidy.Seurat <- function(object){
 setMethod("join_features", "Seurat", function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
     assay=NULL, slot="data", ...) {
-    .data %>%
-        when(
-            # Shape is long
-            shape == "long" ~ (.) %>%
-                left_join(
-                    get_abundance_sc_long(
-                        .data=.data,
-                        features=features,
-                        all=all,
-                        exclude_zeros=exclude_zeros,
-                        assay=assay,
-                        slot=slot,
-                        ...
-                    ),
-                    by=c_(.data)$name
-                ) %>%
-                select(!!c_(.data)$symbol, .feature,
-                    contains(".abundance"), everything()),
-            # Shape if wide
-            ~ (.) %>%
-                left_join(
-                    get_abundance_sc_wide(
-                        .data=.data,
-                        features=features,
-                        all=all,
-                        assay=assay,
-                        slot=slot,
-                        ...
-                    ),
-                    by=c_(.data)$name
-                ) 
-            )
+  
+  if(shape == "long")
+    .data |> 
+    left_join(
+      get_abundance_sc_long(
+        .data=.data,
+        features=features,
+        all=all,
+        exclude_zeros=exclude_zeros,
+        assay=assay,
+        slot=slot,
+        ...
+      ),
+      by=c_(.data)$name
+    ) %>%
+    select(!!c_(.data)$symbol, .feature,
+           contains(".abundance"), everything())
+  else
+    .data |> 
+    left_join(
+      get_abundance_sc_wide(
+        .data=.data,
+        features=features,
+        all=all,
+        assay=assay,
+        slot=slot,
+        ...
+      ),
+      by=c_(.data)$name
+    ) 
+
 })
 
 

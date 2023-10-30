@@ -23,6 +23,7 @@ test_that("aggregate_cells() returns expected values", {
   pbmc_pseudo_bulk <-
     pbmc_small |>
     aggregate_cells(c(groups, letter.idents), assays = "RNA")
+  
   # Check row length is unchanged
   pbmc_pseudo_bulk |>
     distinct(.feature) |> 
