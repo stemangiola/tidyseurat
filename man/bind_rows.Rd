@@ -5,7 +5,7 @@
 \alias{bind_rows.Seurat}
 \alias{bind_cols.Seurat}
 \alias{bind_cols}
-\title{#' Efficiently bind multiple data frames by row and column}
+\title{Efficiently bind multiple data frames by row and column}
 \usage{
 \method{bind_rows}{Seurat}(..., .id = NULL, add.cell.ids = NULL)
 
