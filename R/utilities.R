@@ -91,6 +91,10 @@ drop_class <- function(var, name) {
 #' @param prefix prefix for the feature names
 #'
 #' @return A Seurat object
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>%
+#'   get_abundance_sc_wide(features=c("HLA-DRA", "LYZ"))
 #'
 #' @export
 get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
@@ -177,6 +181,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
 #' @param slot slot in the assay, e.g. `data` and `scale.data`
 #'
 #' @return A Seurat object
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>%
+#'   get_abundance_sc_long(features=c("HLA-DRA", "LYZ"))
 #'
 #' @export
 get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,

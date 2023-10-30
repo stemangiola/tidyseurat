@@ -32,4 +32,10 @@ A Seurat object
 \description{
 get abundance long
 }
+\examples{
+data(pbmc_small)
+pbmc_small \%>\%
+  get_abundance_sc_long(features=c("HLA-DRA", "LYZ"))
+
+}
 \keyword{internal}
