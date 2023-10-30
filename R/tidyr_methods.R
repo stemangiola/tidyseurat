@@ -92,6 +92,7 @@ unnest_seurat  <-  function(data, cols, ...,
 #' @importFrom magrittr equals
 #' @importFrom rlang enquos
 #' @importFrom Seurat SplitObject
+#' @importFrom Seurat DietSeurat
 #' @importFrom rlang :=
 #' @export
 nest.Seurat <- function (.data, ..., .names_sep=NULL)
@@ -110,7 +111,8 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
   
     # This is for getting the column names
     dummy_nested <- 
-        my_data__[1,] |>
+        my_data__ |> 
+        DietSeurat(features = rownames(my_data__)[1]) |>
         to_tib() %>%
         tidyr::nest(...)
   

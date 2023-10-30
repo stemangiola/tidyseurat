@@ -5,12 +5,17 @@ data("pbmc_small")
 set.seed(42)
 
 test_that("arrange", {
-  pbmc_small_pca_arranged <- pbmc_small |> arrange(nFeature_RNA) |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
-  pbmc_small_pca <- pbmc_small |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
-  expect_equal(
-    Seurat::VariableFeatures(pbmc_small_pca_arranged),
-    Seurat::VariableFeatures(pbmc_small_pca)
-  )
+  
+  pbmc_small |> 
+    arrange(nFeature_RNA) |> 
+    expect_warning("arrange() is temporarly deprected")
+  
+  # pbmc_small_pca_arranged <- pbmc_small |> arrange(nFeature_RNA) |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
+  # pbmc_small_pca <- pbmc_small |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
+  # expect_equal(
+  #   Seurat::VariableFeatures(pbmc_small_pca_arranged),
+  #   Seurat::VariableFeatures(pbmc_small_pca)
+  # )
   
   # # Failing only for ATLAS CRAN, but succeding for the rest
   # expect_equal(

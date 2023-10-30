@@ -12,13 +12,23 @@
 #' @importFrom dplyr arrange
 #' @export
 arrange.Seurat <- function(.data, ..., .by_group=FALSE) {
-    .data@meta.data <-
-        .data %>%
-        as_tibble() %>%
-        dplyr::arrange(  ..., .by_group=.by_group  ) %>%
-        as_meta_data(.data)
-
-    .data
+  
+  # DEPRECATE
+  deprecate_warn(
+    when="0.7.5",
+    what="arrange()",
+    details="tidyseurat says: arrange() is temporarly deprected as it is not clear that Seurat allows reordering of cells."
+  )
+  
+    # .cell_ordered <-
+    #     .data %>%
+    #     as_tibble() %>%
+    #     dplyr::arrange(  ..., .by_group=.by_group  ) %>%
+    #    pull(!!c_(.data)$symbol)
+    # 
+    # .data[,.cell_ordered]
+  
+  .data
 }
 
 #' @name bind_rows
