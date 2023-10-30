@@ -15,7 +15,7 @@ Depends:
     ttservice (>= 0.3.8),
     SeuratObject
 Imports:
-    Seurat,
+    Seurat (>= 4.3.0),
     tibble,
     dplyr,
     magrittr,

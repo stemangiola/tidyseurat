@@ -126,6 +126,7 @@ setMethod("join_features", "Seurat", function(.data,
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
 #' @importFrom SeuratObject DefaultAssay
+#' @importFrom Seurat DietSeurat
 #' @importFrom purrr map_int
 #' @export
 setMethod("aggregate_cells", "Seurat",  function(.data,
@@ -140,7 +141,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
     # Subset only wanted assays
     if(!is.null(assays)){
         DefaultAssay(.data) <- assays[1]
-        .data@assays <- .data@assays[assays]
+        .data = .data |> DietSeurat(assays = assays)
     }
 
     .data %>%
@@ -159,9 +160,9 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                         ) %>%
                         mutate(.feature=as.character(.feature)) 
                 ) %>%
-                Reduce(function(...) full_join(..., by=c(".feature")), .)            
-            )
-        ) %>%
+                Reduce(function(...) full_join(..., by=c(".feature")), .), 
+                .progress = TRUE          
+        )) %>%
         left_join(
             .data %>%
                 as_tibble() %>%
