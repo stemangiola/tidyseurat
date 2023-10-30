@@ -112,7 +112,8 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
     # This is for getting the column names
     dummy_nested <- 
         my_data__ |> 
-        DietSeurat(features = rownames(my_data__)[1]) |>
+        DietSeurat(features = rownames(my_data__)[1], assays = DefaultAssay(my_data__)) |>
+        suppressWarnings() |> 
         to_tib() %>%
         tidyr::nest(...)
   
