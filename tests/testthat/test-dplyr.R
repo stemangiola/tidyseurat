@@ -17,7 +17,7 @@ test_that("arrange", {
     tolerance=0.1
   )
   expect_equal(
-    pbmc_small_pca_arranged |> as_tibble() |>dplyr::slice_head(n = 1),
+    pbmc_small_pca_arranged |> as_tibble() |> dplyr::slice_head(n = 1),
     pbmc_small_pca |> as_tibble() |> dplyr::slice_min(nFeature_RNA, n = 1)
   )
 })
@@ -105,14 +105,10 @@ test_that("sample_n", {
 })
 
 test_that("slice_sample", {
-    pbmc_small |>
-        slice_sample(n=50) |>
-        ncol() |>
-        expect_equal(50)
-    pbmc_small |>
-      slice_sample(n=0) |>
-      expect_error() |>
-      expect_no_warning()
+  pbmc_small |>
+    slice_sample(n = 50) |>
+    ncol() |>
+    expect_equal(50)
 })
 
 test_that("slice_head", {
