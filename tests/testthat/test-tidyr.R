@@ -1,7 +1,7 @@
 context('tidyr test')
 
 data("pbmc_small")
-tt <- GetAssayData(pbmc_small, slot = 'counts', assay = "RNA") |> CreateSeuratObject() |> mutate(groups = sprintf("g%s", rep(1:2, dplyr::n()/2)))
+tt <- GetAssayData(pbmc_small, layer = 'counts', assay = "RNA") |> CreateSeuratObject() |> mutate(groups = sprintf("g%s", rep(1:2, dplyr::n()/2)))
 
 test_that("nest_unnest", {
   col_names <- colnames(tt[[]]) |> c("cell")

@@ -58,7 +58,7 @@ bind_rows.Seurat <- function(..., .id=NULL,  add.cell.ids=NULL)
     # slot(object=object[[assay]], name="SCTModel.list")
     # So I have to delete any sample of size 1 if I have calculated SCT
     # if()
-    # GetAssayData(object, slot='SCTModel.list', assay="SCT") %>%
+    # GetAssayData(object, layer='SCTModel.list', assay="SCT") %>%
     #     map(~ .x@cell.attributes %>% nrow)
 
     # Check if cell with same name

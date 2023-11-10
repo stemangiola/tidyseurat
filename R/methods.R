@@ -151,7 +151,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                 # Loop over assays
                 map2(.x@assays, names(.x@assays),
                     # Get counts
-                    ~ GetAssayData(.x, slot=slot) %>%
+                    ~ GetAssayData(.x, layer=slot) %>%
                         aggregation_function(na.rm=T) %>%
                         tibble::enframe(
                             name=".feature",
