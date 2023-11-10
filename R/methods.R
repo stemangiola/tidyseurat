@@ -74,6 +74,8 @@ setMethod("join_features", "Seurat", function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
     assay=NULL, slot="data", ...) {
   
+  .feature = NULL
+  
   if(shape == "long")
     .data |> 
     left_join(
