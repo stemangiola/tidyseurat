@@ -107,12 +107,12 @@ nest.Seurat <- function (.data, ..., .names_sep=NULL)
         .data <- ping_old_special_column_into_metadata(.data)
     }
   
-    my_data__ <- .data
+    my_data__ <- .data 
   
     # This is for getting the column names
     dummy_nested <- 
         my_data__ |> 
-        DietSeurat(features = rownames(my_data__)[1], assays = DefaultAssay(my_data__)) |>
+        DietSeurat(features = rownames(my_data__)[1:2], assays = DefaultAssay(my_data__)) |>
         suppressWarnings() |> 
         to_tib() %>%
         tidyr::nest(...)

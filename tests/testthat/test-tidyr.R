@@ -5,8 +5,8 @@ tt <- GetAssayData(pbmc_small, layer = 'counts', assay = "RNA") |> CreateSeuratO
 
 test_that("nest_unnest", {
   col_names <- colnames(tt[[]]) |> c("cell")
-  x <- tt |> nest(data = -groups) |> unnest(data) |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
-  y <- tt |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
+  x <- tt |> nest(data = -groups) |> unnest(data) |> Seurat::NormalizeData() |>  Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
+  y <- tt |> Seurat::NormalizeData() |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
   expect_equal(
     x[["pca"]]@cell.embeddings |> as_tibble(rownames = "cell") |> arrange(cell) |> pull(PC_1),
     y[["pca"]]@cell.embeddings |> as_tibble(rownames = "cell") |> arrange(cell) |> pull(PC_1)
