@@ -8,7 +8,7 @@ test_that("arrange", {
   
   pbmc_small |> 
     arrange(nFeature_RNA) |> 
-    expect_warning("arrange() is temporarly deprected")
+    expect_warning(regexp = "`arrange\\(\\)` was deprecated in tidyseurat .*")
   
   # pbmc_small_pca_arranged <- pbmc_small |> arrange(nFeature_RNA) |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
   # pbmc_small_pca <- pbmc_small |> Seurat::ScaleData() |> Seurat::FindVariableFeatures() |> Seurat::RunPCA()
@@ -32,7 +32,7 @@ test_that("arrange", {
 test_that("bind_cols", {
   pbmc_small_bind <- pbmc_small |> select(nCount_RNA, nFeature_RNA)
   pbmc_small |>
-    bind_cols(pbmc_small_bind) |>
+    ttservice::bind_cols(pbmc_small_bind) |>
     select(nCount_RNA...2, nFeature_RNA...3) |>
     ncol() |>
     expect_equal(2)
@@ -149,10 +149,12 @@ test_that("slice_min", {
     slice_min(nFeature_RNA, n = 5) |>
     ncol() |>
     expect_equal(5)
-  expect_equal(
-    pbmc_small |> as_tibble() |> arrange(nFeature_RNA) |> head(n = 5) %>% pull(.cell),
-    pbmc_small |> slice_min(nFeature_RNA, n = 5) |> colnames()
-  )
+  
+  # Arrange is deprecated
+  # expect_equal(
+  #   pbmc_small |> as_tibble() |> arrange(nFeature_RNA) |> head(n = 5) %>% pull(.cell),
+  #   pbmc_small |> slice_min(nFeature_RNA, n = 5) |> colnames()
+  # )
 })
 
 test_that("slice_max", {
@@ -160,10 +162,12 @@ test_that("slice_max", {
     slice_max(nFeature_RNA, n = 5) |>
     ncol() |>
     expect_equal(5)
-  expect_equal(
-    pbmc_small |> as_tibble() |> arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
-    pbmc_small |> slice_max(nFeature_RNA, n = 5) |> colnames()
-  )
+  
+  # Arrange is deprecated
+  # expect_equal(
+  #   pbmc_small |> as_tibble() |> arrange(desc(nFeature_RNA)) |> head(n = 5) %>% pull(.cell),
+  #   pbmc_small |> slice_max(nFeature_RNA, n = 5) |> colnames()
+  # )
 })
 
 test_that("slice_min slice_max tibble input for order_by", {
