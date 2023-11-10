@@ -74,6 +74,8 @@ setMethod("join_features", "Seurat", function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
     assay=NULL, slot="data", ...) {
   
+  .feature = NULL
+  
   if(shape == "long")
     .data |> 
     left_join(
@@ -151,7 +153,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                 # Loop over assays
                 map2(.x@assays, names(.x@assays),
                     # Get counts
-                    ~ GetAssayData(.x, slot=slot) %>%
+                    ~ GetAssayData(.x, layer=slot) %>%
                         aggregation_function(na.rm=T) %>%
                         tibble::enframe(
                             name=".feature",

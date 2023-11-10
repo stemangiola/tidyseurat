@@ -57,7 +57,7 @@ hpca <- HumanPrimaryCellAtlasData()
 cell_type_df <-
 
   # extracting counts from Seurat object
-  GetAssayData(PBMC_clean_scaled_UMAP_cluster, slot = 'counts', assay = "SCT") %>%
+  GetAssayData(PBMC_clean_scaled_UMAP_cluster, layer = 'counts', assay = "SCT") %>%
   log1p() %>%
 
   # SingleR
@@ -78,7 +78,7 @@ cell_type_df <-
 cell_type_df_single <-
 
   # extracting counts from Seurat object
-  GetAssayData(PBMC_clean_scaled_UMAP_cluster, slot = 'counts', assay = "SCT") %>%
+  GetAssayData(PBMC_clean_scaled_UMAP_cluster, layer = 'counts', assay = "SCT") %>%
   log1p() %>%
 
   # SingleR

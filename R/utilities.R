@@ -142,7 +142,7 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
 
     # Just grub last assay
     .data |> 
-      GetAssayData(assay = assay, slot=slot) %>% 
+      GetAssayData(assay = assay, layer=slot) %>% 
         when(
             variable_genes %>% is.null %>% `!` ~ 
                 (.)[ toupper(rownames(.)) %in% toupper(variable_genes),,drop=FALSE],
@@ -225,7 +225,7 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
         # Take active assay
         map2(assay,
             ~ .x %>%
-                GetAssayData(slot) %>%
+                GetAssayData(layer = slot) %>%
                 when(
                     variable_genes %>% is.null %>% `!` ~
                         (.)[variable_genes,, drop=FALSE],
