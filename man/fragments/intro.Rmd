@@ -299,7 +299,7 @@ pbmc_small_cell_type <-
 
 # Reorder columns
 pbmc_small_cell_type %>%
-  tidyseurat::select(cell, first.labels, everything())
+  select(cell, first.labels, everything())
 ```
 
 We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.
