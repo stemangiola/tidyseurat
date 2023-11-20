@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.8</span>
       </span>
     </div>
 
@@ -75,13 +75,15 @@
 
       
 
-      </header><script src="figures_article_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Code for producing the figures in the article</h1>
-                        <h4 data-toc-skip class="author">Stefano Mangiola</h4>
+      <h1 data-toc-skip>Code for producing the figures in the
+article</h1>
+                        <h4 data-toc-skip class="author">Stefano
+Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2023-08-31</h4>
+            <h4 data-toc-skip class="date">2023-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/HEAD/vignettes/figures_article.Rmd" class="external-link"><code>vignettes/figures_article.Rmd</code></a></small>
       <div class="hidden name"><code>figures_article.Rmd</code></div>
@@ -210,7 +212,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p6</span> <span class="op">=</span> </span>
 <span>  <span class="va">PBMC_clean_scaled_UMAP_cluster_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="../reference/unite.html">unite</a></span><span class="op">(</span><span class="st">"cluster_cell_type"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">first.labels</span>, <span class="va">seurat_clusters</span><span class="op">)</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/unite.html">unite</a></span><span class="op">(</span><span class="st">"cluster_cell_type"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">first.labels</span>, <span class="va">seurat_clusters</span><span class="op">)</span>, remove<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">seurat_clusters</span>, <span class="va">first.labels_single</span><span class="op">)</span>,</span>
 <span>    names_to <span class="op">=</span> <span class="st">"classification"</span>, values_to <span class="op">=</span> <span class="st">"value"</span></span>

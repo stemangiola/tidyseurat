@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.8</span>
       </span>
     </div>
 
@@ -75,13 +75,14 @@
 
       
 
-      </header><script src="introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of the tidyseurat package</h1>
-                        <h4 data-toc-skip class="author">Stefano Mangiola</h4>
+                        <h4 data-toc-skip class="author">Stefano
+Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2023-08-31</h4>
+            <h4 data-toc-skip class="date">2023-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/HEAD/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -97,25 +98,36 @@
 <p>Please also have a look at</p>
 <ul>
 <li>
-<a href="https://stemangiola.github.io/tidyseurat/" class="external-link">tidyseurat</a> for tidy single-cell RNA sequencing analysis</li>
+<a href="https://stemangiola.github.io/tidyseurat/" class="external-link">tidyseurat</a>
+for tidy single-cell RNA sequencing analysis</li>
 <li>
-<a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">tidySummarizedExperiment</a> for tidy bulk RNA sequencing analysis</li>
+<a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">tidySummarizedExperiment</a>
+for tidy bulk RNA sequencing analysis</li>
 <li>
-<a href="https://stemangiola.github.io/tidybulk/" class="external-link">tidybulk</a> for tidy bulk RNA-seq analysis</li>
+<a href="https://stemangiola.github.io/tidybulk/" class="external-link">tidybulk</a> for
+tidy bulk RNA-seq analysis</li>
 <li>
-<a href="https://github.com/stemangiola/nanny/" class="external-link">nanny</a> for tidy high-level data analysis and manipulation</li>
+<a href="https://github.com/stemangiola/nanny/" class="external-link">nanny</a> for tidy
+high-level data analysis and manipulation</li>
 <li>
-<a href="https://github.com/stemangiola/tidygate/" class="external-link">tidygate</a> for adding custom gate information to your tibble</li>
+<a href="https://github.com/stemangiola/tidygate/" class="external-link">tidygate</a> for
+adding custom gate information to your tibble</li>
 <li>
-<a href="https://stemangiola.github.io/tidyHeatmap/" class="external-link">tidyHeatmap</a> for heatmaps produced with tidy principles</li>
+<a href="https://stemangiola.github.io/tidyHeatmap/" class="external-link">tidyHeatmap</a>
+for heatmaps produced with tidy principles</li>
 </ul>
-<div class="figure">
-<img src="../reference/figures/logo_interaction-01.png" alt=""><p class="caption">visual cue</p>
+<div class="float">
+<img src="../reference/figures/logo_interaction-01.png" alt="visual cue"><div class="figcaption">visual cue</div>
 </div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>tidyseurat provides a bridge between the Seurat single-cell package <span class="citation">(Butler et al. 2018; Stuart et al. 2019)</span> and the tidyverse <span class="citation">(Wickham et al. 2019)</span>. It creates an invisible layer that enables viewing the Seurat object as a tidyverse tibble, and provides Seurat-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions.</p>
+<p>tidyseurat provides a bridge between the Seurat single-cell package
+<span class="citation">(Butler et al. 2018; Stuart et al. 2019)</span>
+and the tidyverse <span class="citation">(Wickham et al. 2019)</span>.
+It creates an invisible layer that enables viewing the Seurat object as
+a tidyverse tibble, and provides Seurat-compatible <em>dplyr</em>,
+<em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions.</p>
 <div class="section level3">
 <h3 id="functionsutilities-available">Functions/utilities available<a class="anchor" aria-label="anchor" href="#functionsutilities-available"></a>
 </h3>
@@ -167,7 +179,8 @@
 <tbody>
 <tr class="odd">
 <td><code>tidy</code></td>
-<td>Add <code>tidyseurat</code> invisible layer over a Seurat object</td>
+<td>Add <code>tidyseurat</code> invisible layer over a Seurat
+object</td>
 </tr>
 <tr class="even">
 <td><code>as_tibble</code></td>
@@ -181,7 +194,8 @@
 </tr>
 <tr class="even">
 <td><code>aggregate_cells</code></td>
-<td>Aggregate cell gene-transcription abundance as pseudobulk tissue</td>
+<td>Aggregate cell gene-transcription abundance as pseudobulk
+tissue</td>
 </tr>
 </tbody>
 </table>
@@ -194,7 +208,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tidyseurat"</span><span class="op">)</span></span></code></pre></div>
 <p>From Github (development)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"stemangiola/tidyseurat"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"stemangiola/tidyseurat"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
@@ -207,7 +221,8 @@
 <div class="section level3">
 <h3 id="create-tidyseurat-the-best-of-both-worlds">Create <code>tidyseurat</code>, the best of both worlds!<a class="anchor" aria-label="anchor" href="#create-tidyseurat-the-best-of-both-worlds"></a>
 </h3>
-<p>This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.</p>
+<p>This is a seurat object but it is evaluated as tibble. So it is fully
+compatible both with Seurat and tidyverse APIs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op">=</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="va"><a href="https://mojaveazure.github.io/seurat-object/reference/pbmc_small.html" class="external-link">pbmc_small</a></span></span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
@@ -266,7 +281,8 @@
 <span>        axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">10</span>, r <span class="op">=</span> <span class="fl">10</span>, b <span class="op">=</span> <span class="fl">10</span>, l <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>We can treat <code>pbmc_small</code> effectively as a normal tibble for plotting.</p>
+<p>We can treat <code>pbmc_small</code> effectively as a normal tibble
+for plotting.</p>
 <p>Here we plot number of features per cell.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -291,12 +307,13 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">nCount_RNA</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">my_theme</span></span></code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="preprocess-the-dataset">Preprocess the dataset<a class="anchor" aria-label="anchor" href="#preprocess-the-dataset"></a>
 </h2>
-<p>Also you can treat the object as Seurat object and proceed with data processing.</p>
+<p>Also you can treat the object as Seurat object and proceed with data
+processing.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">pbmc_small</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -323,7 +340,9 @@
 <span><span class="co">## <span style="color: #949494;"># ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;</span></span></span></code></pre>
-<p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble.</p>
+<p>If a tool is not included in the tidyseurat collection, we can use
+<code>as_tibble</code> to permanently convert <code>tidyseurat</code>
+into tibble.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -362,21 +381,20 @@
 <span><span class="co">## <span style="color: #949494;">#   nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;, seurat_clusters &lt;fct&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   tSNE_2 &lt;dbl&gt;</span></span></span></code></pre>
-<p>Now we can interrogate the object as if it was a regular tibble data frame.</p>
+<p>Now we can interrogate the object as if it was a regular tibble data
+frame.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">seurat_clusters</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">##   groups seurat_clusters     n</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> g1     0                  17</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> g1     1                  14</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> g1     2                   9</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> g1     3                   4</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> g2     0                  13</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> g2     1                  12</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> g2     2                   6</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">8</span> g2     3                   5</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> g1     0                  23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> g1     1                  17</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> g1     2                   4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> g2     0                  17</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> g2     1                  13</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> g2     2                   6</span></span></code></pre>
 <p>We can identify cluster markers using Seurat.</p>
 <!-- If this is Seurat v4, comment out the v3 markers -->
 <!--
@@ -419,7 +437,8 @@ pbmc_small_cluster %>%
 <div class="section level2">
 <h2 id="reduce-dimensions">Reduce dimensions<a class="anchor" aria-label="anchor" href="#reduce-dimensions"></a>
 </h2>
-<p>We can calculate the first 3 UMAP dimensions using the Seurat framework.</p>
+<p>We can calculate the first 3 UMAP dimensions using the Seurat
+framework.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_UMAP</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">pbmc_small_cluster</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -434,13 +453,14 @@ pbmc_small_cluster %>%
 <span>    color <span class="op">=</span> <span class="op">~</span><span class="va">seurat_clusters</span>,</span>
 <span>    colors <span class="op">=</span> <span class="va">friendly_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="../reference/figures/plotly.png" alt=""><p class="caption">screenshot plotly</p>
+<div class="float">
+<img src="../reference/figures/plotly.png" alt="screenshot plotly"><div class="figcaption">screenshot plotly</div>
 </div>
 <div class="section level3">
 <h3 id="cell-type-prediction">Cell type prediction<a class="anchor" aria-label="anchor" href="#cell-type-prediction"></a>
 </h3>
-<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(Aran et al. 2019)</span> and manipulate the output using tidyverse.</p>
+<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(Aran et al. 2019)</span> and manipulate the output
+using tidyverse.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get cell type reference data</span></span>
 <span><span class="va">blueprint</span> <span class="op">&lt;-</span> <span class="fu">celldex</span><span class="fu">::</span><span class="fu">BlueprintEncodeData</span><span class="op">(</span><span class="op">)</span></span>
@@ -466,12 +486,14 @@ pbmc_small_cluster %>%
 <span></span>
 <span><span class="co"># Reorder columns</span></span>
 <span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">tidyseurat</span><span class="fu">::</span><span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.</p>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">cell</span>, <span class="va">first.labels</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can easily summarise the results. For example, we can see how cell
+type classification overlaps with cluster classification.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">seurat_clusters</span>, <span class="va">first.labels</span><span class="op">)</span></span></code></pre></div>
-<p>We can easily reshape the data for building information-rich faceted plots.</p>
+<p>We can easily reshape the data for building information-rich faceted
+plots.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span></span>
@@ -486,7 +508,8 @@ pbmc_small_cluster %>%
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">classifier</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">my_theme</span></span></code></pre></div>
-<p>We can easily plot gene correlation per cell category, adding multi-layer annotations.</p>
+<p>We can easily plot gene correlation per cell category, adding
+multi-layer annotations.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span></span>
@@ -506,7 +529,10 @@ pbmc_small_cluster %>%
 <div class="section level2">
 <h2 id="nested-analyses">Nested analyses<a class="anchor" aria-label="anchor" href="#nested-analyses"></a>
 </h2>
-<p>A powerful tool we can use with tidyseurat is <code>nest</code>. We can easily perform independent analyses on subsets of the dataset. First we classify cell types in lymphoid and myeloid; then, nest based on the new classification</p>
+<p>A powerful tool we can use with tidyseurat is <code>nest</code>. We
+can easily perform independent analyses on subsets of the dataset. First
+we classify cell types in lymphoid and myeloid; then, nest based on the
+new classification</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">pbmc_small_cell_type</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -515,7 +541,9 @@ pbmc_small_cluster %>%
 <span>  <span class="fu"><a href="../reference/nest.html">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="op">-</span><span class="va">cell_class</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_nested</span></span></code></pre></div>
-<p>Now we can independently for the lymphoid and myeloid subsets (i) find variable features, (ii) reduce dimensions, and (iii) cluster using both tidyverse and Seurat seamlessly.</p>
+<p>Now we can independently for the lymphoid and myeloid subsets (i)
+find variable features, (ii) reduce dimensions, and (iii) cluster using
+both tidyverse and Seurat seamlessly.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_nested_reanalysed</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">pbmc_small_nested</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -549,44 +577,35 @@ pbmc_small_cluster %>%
 <div class="section level2">
 <h2 id="aggregating-cells">Aggregating cells<a class="anchor" aria-label="anchor" href="#aggregating-cells"></a>
 </h2>
-<p>Sometimes, it is necessary to aggregate the gene-transcript abundance from a group of cells into a single value. For example, when comparing groups of cells across different samples with fixed-effect models.</p>
-<p>In tidyseurat, cell aggregation can be achieved using the <code>aggregate_cells</code> function.</p>
+<p>Sometimes, it is necessary to aggregate the gene-transcript abundance
+from a group of cells into a single value. For example, when comparing
+groups of cells across different samples with fixed-effect models.</p>
+<p>In tidyseurat, cell aggregation can be achieved using the
+<code>aggregate_cells</code> function.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/aggregate_cells.html">aggregate_cells</a></span><span class="op">(</span><span class="va">groups</span>, assays <span class="op">=</span> <span class="st">"RNA"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 460 × 6</span></span></span>
-<span><span class="co">##    .feature  .sample    RNA groups .aggregated_cells orig.ident   </span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> MS4A1     g2       35.5  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> CD79B     g2       52.8  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> CD79A     g2       37.2  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> HLA-DRA   g2      130.   g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TCL1A     g2       29.5  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> HLA-DQB1  g2       65.5  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> HVCN1     g2       29.8  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> HLA-DMB   g2       43.2  g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> LTB       g2      111.   g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> LINC00926 g2        9.91 g2                    36 SeuratProject</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 450 more rows</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
-<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 20.04.6 LTS</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2023-11-14 r85524)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
-<span><span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
-<span><span class="co">##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
-<span><span class="co">##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
-<span><span class="co">## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## time zone: UTC</span></span>
 <span><span class="co">## tzcode source: system (glibc)</span></span>
@@ -595,66 +614,80 @@ pbmc_small_cluster %>%
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] tidyseurat_0.7.2   ttservice_0.3.8    SeuratObject_4.1.3 Seurat_4.3.0.1    </span></span>
-<span><span class="co">##  [5] ggplot2_3.4.3      magrittr_2.0.3     purrr_1.0.2        tidyr_1.3.0       </span></span>
-<span><span class="co">##  [9] dplyr_1.1.2        knitr_1.43        </span></span>
+<span><span class="co">##  [1] tidyseurat_0.7.8   ttservice_0.4.0    Seurat_5.0.1       SeuratObject_5.0.1</span></span>
+<span><span class="co">##  [5] sp_2.1-1           ggplot2_3.4.4      magrittr_2.0.3     purrr_1.0.2       </span></span>
+<span><span class="co">##  [9] tidyr_1.3.0        dplyr_1.1.4        knitr_1.45        </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] RColorBrewer_1.1-3     jsonlite_1.8.7         spatstat.utils_3.0-3  </span></span>
-<span><span class="co">##   [4] farver_2.1.1           rmarkdown_2.24         fs_1.6.3              </span></span>
-<span><span class="co">##   [7] ragg_1.2.5             vctrs_0.6.3            ROCR_1.0-11           </span></span>
-<span><span class="co">##  [10] memoise_2.0.1          spatstat.explore_3.2-1 htmltools_0.5.6       </span></span>
-<span><span class="co">##  [13] sass_0.4.7             sctransform_0.3.5      parallelly_1.36.0     </span></span>
-<span><span class="co">##  [16] KernSmooth_2.23-21     bslib_0.5.1            htmlwidgets_1.6.2     </span></span>
-<span><span class="co">##  [19] desc_1.4.2             ica_1.0-3              plyr_1.8.8            </span></span>
-<span><span class="co">##  [22] plotly_4.10.2          zoo_1.8-12             cachem_1.0.8          </span></span>
-<span><span class="co">##  [25] igraph_1.5.1           mime_0.12              lifecycle_1.0.3       </span></span>
-<span><span class="co">##  [28] pkgconfig_2.0.3        Matrix_1.5-4.1         R6_2.5.1              </span></span>
+<span><span class="co">##   [1] RColorBrewer_1.1-3     jsonlite_1.8.7         spatstat.utils_3.0-4  </span></span>
+<span><span class="co">##   [4] farver_2.1.1           rmarkdown_2.25         fs_1.6.3              </span></span>
+<span><span class="co">##   [7] ragg_1.2.6             vctrs_0.6.4            ROCR_1.0-11           </span></span>
+<span><span class="co">##  [10] memoise_2.0.1          spatstat.explore_3.2-5 htmltools_0.5.7       </span></span>
+<span><span class="co">##  [13] sass_0.4.7             sctransform_0.4.1      parallelly_1.36.0     </span></span>
+<span><span class="co">##  [16] KernSmooth_2.23-22     bslib_0.5.1            htmlwidgets_1.6.2     </span></span>
+<span><span class="co">##  [19] desc_1.4.2             ica_1.0-3              plyr_1.8.9            </span></span>
+<span><span class="co">##  [22] plotly_4.10.3          zoo_1.8-12             cachem_1.0.8          </span></span>
+<span><span class="co">##  [25] igraph_1.5.1           mime_0.12              lifecycle_1.0.4       </span></span>
+<span><span class="co">##  [28] pkgconfig_2.0.3        Matrix_1.6-3           R6_2.5.1              </span></span>
 <span><span class="co">##  [31] fastmap_1.1.1          fitdistrplus_1.1-11    future_1.33.0         </span></span>
-<span><span class="co">##  [34] shiny_1.7.5            digest_0.6.33          reshape_0.8.9         </span></span>
+<span><span class="co">##  [34] shiny_1.8.0            digest_0.6.33          reshape_0.8.9         </span></span>
 <span><span class="co">##  [37] GGally_2.1.2           colorspace_2.1-0       patchwork_1.1.3       </span></span>
-<span><span class="co">##  [40] rprojroot_2.0.3        tensor_1.5             irlba_2.3.5.1         </span></span>
-<span><span class="co">##  [43] textshaping_0.3.6      labeling_0.4.3         progressr_0.14.0      </span></span>
-<span><span class="co">##  [46] fansi_1.0.4            spatstat.sparse_3.0-2  httr_1.4.7            </span></span>
-<span><span class="co">##  [49] polyclip_1.10-4        abind_1.4-5            compiler_4.3.1        </span></span>
-<span><span class="co">##  [52] withr_2.5.0            highr_0.10             MASS_7.3-60           </span></span>
-<span><span class="co">##  [55] tools_4.3.1            lmtest_0.9-40          httpuv_1.6.11         </span></span>
-<span><span class="co">##  [58] future.apply_1.11.0    goftest_1.2-3          glue_1.6.2            </span></span>
-<span><span class="co">##  [61] nlme_3.1-162           promises_1.2.1         grid_4.3.1            </span></span>
-<span><span class="co">##  [64] Rtsne_0.16             cluster_2.1.4          reshape2_1.4.4        </span></span>
-<span><span class="co">##  [67] generics_0.1.3         gtable_0.3.4           spatstat.data_3.0-1   </span></span>
-<span><span class="co">##  [70] data.table_1.14.8      sp_2.0-0               utf8_1.2.3            </span></span>
-<span><span class="co">##  [73] spatstat.geom_3.2-4    RcppAnnoy_0.0.21       ggrepel_0.9.3         </span></span>
-<span><span class="co">##  [76] RANN_2.6.1             pillar_1.9.0           stringr_1.5.0         </span></span>
-<span><span class="co">##  [79] later_1.3.1            splines_4.3.1          lattice_0.21-8        </span></span>
-<span><span class="co">##  [82] survival_3.5-5         deldir_1.0-9           tidyselect_1.2.0      </span></span>
-<span><span class="co">##  [85] miniUI_0.1.1.1         pbapply_1.7-2          gridExtra_2.3         </span></span>
-<span><span class="co">##  [88] scattermore_1.2        xfun_0.40              matrixStats_1.0.0     </span></span>
-<span><span class="co">##  [91] stringi_1.7.12         lazyeval_0.2.2         yaml_2.3.7            </span></span>
-<span><span class="co">##  [94] evaluate_0.21          codetools_0.2-19       tibble_3.2.1          </span></span>
-<span><span class="co">##  [97] cli_3.6.1              uwot_0.1.16            xtable_1.8-4          </span></span>
-<span><span class="co">## [100] reticulate_1.31        systemfonts_1.0.4      munsell_0.5.0         </span></span>
-<span><span class="co">## [103] jquerylib_0.1.4        Rcpp_1.0.11            globals_0.16.2        </span></span>
-<span><span class="co">## [106] spatstat.random_3.1-5  png_0.1-8              parallel_4.3.1        </span></span>
-<span><span class="co">## [109] ellipsis_0.3.2         pkgdown_2.0.7          listenv_0.9.0         </span></span>
-<span><span class="co">## [112] viridisLite_0.4.2      scales_1.2.1           ggridges_0.5.4        </span></span>
-<span><span class="co">## [115] leiden_0.4.3           rlang_1.1.1            cowplot_1.1.1</span></span></code></pre>
+<span><span class="co">##  [40] rprojroot_2.0.4        tensor_1.5             RSpectra_0.16-1       </span></span>
+<span><span class="co">##  [43] irlba_2.3.5.1          textshaping_0.3.7      labeling_0.4.3        </span></span>
+<span><span class="co">##  [46] progressr_0.14.0       fansi_1.0.5            spatstat.sparse_3.0-3 </span></span>
+<span><span class="co">##  [49] httr_1.4.7             polyclip_1.10-6        abind_1.4-5           </span></span>
+<span><span class="co">##  [52] compiler_4.4.0         withr_2.5.2            fastDummies_1.7.3     </span></span>
+<span><span class="co">##  [55] highr_0.10             MASS_7.3-60.1          tools_4.4.0           </span></span>
+<span><span class="co">##  [58] lmtest_0.9-40          httpuv_1.6.12          future.apply_1.11.0   </span></span>
+<span><span class="co">##  [61] goftest_1.2-3          glue_1.6.2             nlme_3.1-163          </span></span>
+<span><span class="co">##  [64] promises_1.2.1         grid_4.4.0             Rtsne_0.16            </span></span>
+<span><span class="co">##  [67] cluster_2.1.4          reshape2_1.4.4         generics_0.1.3        </span></span>
+<span><span class="co">##  [70] gtable_0.3.4           spatstat.data_3.0-3    data.table_1.14.8     </span></span>
+<span><span class="co">##  [73] utf8_1.2.4             spatstat.geom_3.2-7    RcppAnnoy_0.0.21      </span></span>
+<span><span class="co">##  [76] ggrepel_0.9.4          RANN_2.6.1             pillar_1.9.0          </span></span>
+<span><span class="co">##  [79] stringr_1.5.1          spam_2.10-0            RcppHNSW_0.5.0        </span></span>
+<span><span class="co">##  [82] later_1.3.1            splines_4.4.0          lattice_0.22-5        </span></span>
+<span><span class="co">##  [85] survival_3.5-7         deldir_1.0-9           tidyselect_1.2.0      </span></span>
+<span><span class="co">##  [88] miniUI_0.1.1.1         pbapply_1.7-2          gridExtra_2.3         </span></span>
+<span><span class="co">##  [91] scattermore_1.2        xfun_0.41              matrixStats_1.1.0     </span></span>
+<span><span class="co">##  [94] stringi_1.8.1          lazyeval_0.2.2         yaml_2.3.7            </span></span>
+<span><span class="co">##  [97] evaluate_0.23          codetools_0.2-19       tibble_3.2.1          </span></span>
+<span><span class="co">## [100] cli_3.6.1              uwot_0.1.16            xtable_1.8-4          </span></span>
+<span><span class="co">## [103] reticulate_1.34.0      systemfonts_1.0.5      munsell_0.5.0         </span></span>
+<span><span class="co">## [106] jquerylib_0.1.4        Rcpp_1.0.11            globals_0.16.2        </span></span>
+<span><span class="co">## [109] spatstat.random_3.2-1  png_0.1-8              parallel_4.4.0        </span></span>
+<span><span class="co">## [112] ellipsis_0.3.2         pkgdown_2.0.7          dotCall64_1.1-0       </span></span>
+<span><span class="co">## [115] listenv_0.9.0          viridisLite_0.4.2      scales_1.2.1          </span></span>
+<span><span class="co">## [118] ggridges_0.5.4         leiden_0.4.3.1         rlang_1.1.2           </span></span>
+<span><span class="co">## [121] cowplot_1.1.1</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-aran2019reference">
-<p>Aran, Dvir, Agnieszka P Looney, Leqian Liu, Esther Wu, Valerie Fong, Austin Hsu, Suzanna Chak, et al. 2019. “Reference-Based Analysis of Lung Single-Cell Sequencing Reveals a Transitional Profibrotic Macrophage.” <em>Nature Immunology</em> 20 (2): 163–72.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-aran2019reference" class="csl-entry">
+Aran, Dvir, Agnieszka P Looney, Leqian Liu, Esther Wu, Valerie Fong,
+Austin Hsu, Suzanna Chak, et al. 2019. <span>“Reference-Based Analysis
+of Lung Single-Cell Sequencing Reveals a Transitional Profibrotic
+Macrophage.”</span> <em>Nature Immunology</em> 20 (2): 163–72.
 </div>
-<div id="ref-butler2018integrating">
-<p>Butler, Andrew, Paul Hoffman, Peter Smibert, Efthymia Papalexi, and Rahul Satija. 2018. “Integrating Single-Cell Transcriptomic Data Across Different Conditions, Technologies, and Species.” <em>Nature Biotechnology</em> 36 (5): 411–20.</p>
+<div id="ref-butler2018integrating" class="csl-entry">
+Butler, Andrew, Paul Hoffman, Peter Smibert, Efthymia Papalexi, and
+Rahul Satija. 2018. <span>“Integrating Single-Cell Transcriptomic Data
+Across Different Conditions, Technologies, and Species.”</span>
+<em>Nature Biotechnology</em> 36 (5): 411–20.
 </div>
-<div id="ref-stuart2019comprehensive">
-<p>Stuart, Tim, Andrew Butler, Paul Hoffman, Christoph Hafemeister, Efthymia Papalexi, William M Mauck III, Yuhan Hao, Marlon Stoeckius, Peter Smibert, and Rahul Satija. 2019. “Comprehensive Integration of Single-Cell Data.” <em>Cell</em> 177 (7): 1888–1902.</p>
+<div id="ref-stuart2019comprehensive" class="csl-entry">
+Stuart, Tim, Andrew Butler, Paul Hoffman, Christoph Hafemeister,
+Efthymia Papalexi, William M Mauck III, Yuhan Hao, Marlon Stoeckius,
+Peter Smibert, and Rahul Satija. 2019. <span>“Comprehensive Integration
+of Single-Cell Data.”</span> <em>Cell</em> 177 (7): 1888–1902.
 </div>
-<div id="ref-wickham2019welcome">
-<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the Tidyverse.” <em>Journal of Open Source Software</em> 4 (43): 1686.</p>
+<div id="ref-wickham2019welcome" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+<span>“Welcome to the Tidyverse.”</span> <em>Journal of Open Source
+Software</em> 4 (43): 1686.
 </div>
 </div>
 </div>

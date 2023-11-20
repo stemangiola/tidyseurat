@@ -21,7 +21,7 @@ the row will be dropped, unlike base subsetting with [."><!-- mathjax --><script
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.8</span>
       </span>
     </div>
 
@@ -137,9 +137,9 @@ expressions used to filter the data:</p><ul><li><p><code><a href="https://rdrr.i
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped filtering:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>starwars <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mass <span class="sc">&gt;</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre><p></p></div>
 <p>With the grouped equivalent:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(gender) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>starwars <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mass <span class="sc">&gt;</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre><p></p></div>
 <p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
 the global average (taken over the whole data set), keeping only the rows with
 <code>mass</code> greater than this global average. In contrast, the grouped version calculates
