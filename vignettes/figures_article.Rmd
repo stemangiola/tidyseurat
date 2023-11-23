@@ -156,7 +156,7 @@ p5 =
 ```{r eval=FALSE}
 p6 = 
   PBMC_clean_scaled_UMAP_cluster_cell_type %>%
-  tidyseurat::unite("cluster_cell_type", c(first.labels, seurat_clusters), remove=FALSE) %>%
+  unite("cluster_cell_type", c(first.labels, seurat_clusters), remove=FALSE) %>%
   pivot_longer(
     c(seurat_clusters, first.labels_single),
     names_to = "classification", values_to = "value"

@@ -32,7 +32,10 @@ Please also have a look at
 - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for heatmaps
   produced with tidy principles
 
-![visual cue](man/figures/logo_interaction-01.png)
+<figure>
+<img src="man/figures/logo_interaction-01.png" alt="visual cue" />
+<figcaption aria-hidden="true">visual cue</figcaption>
+</figure>
 
 # Introduction
 
@@ -165,7 +168,7 @@ Here we plot number of features per cell.
 
 ``` r
 pbmc_small %>%
-  tidyseurat::ggplot(aes(nFeature_RNA, fill = groups)) +
+  ggplot(aes(nFeature_RNA, fill = groups)) +
   geom_histogram() +
   my_theme
 ```
@@ -176,7 +179,7 @@ Here we plot total features per cell.
 
 ``` r
 pbmc_small %>%
-  tidyseurat::ggplot(aes(groups, nCount_RNA, fill = groups)) +
+  ggplot(aes(groups, nCount_RNA, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.1) +
   my_theme
@@ -196,7 +199,7 @@ pbmc_small %>%
   my_theme
 ```
 
-![](man/figures/unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/unnamed-chunk-15-1.png)<!-- -->
 
 # Preprocess the dataset
 
@@ -283,27 +286,24 @@ frame.
 
 ``` r
 pbmc_small_cluster %>%
-  tidyseurat::count(groups, seurat_clusters)
+  count(groups, seurat_clusters)
 ```
 
-    ## # A tibble: 8 × 3
+    ## # A tibble: 6 × 3
     ##   groups seurat_clusters     n
     ##   <chr>  <fct>           <int>
-    ## 1 g1     0                  17
-    ## 2 g1     1                  14
-    ## 3 g1     2                   9
-    ## 4 g1     3                   4
-    ## 5 g2     0                  13
-    ## 6 g2     1                  12
-    ## 7 g2     2                   6
-    ## 8 g2     3                   5
+    ## 1 g1     0                  23
+    ## 2 g1     1                  17
+    ## 3 g1     2                   4
+    ## 4 g2     0                  17
+    ## 5 g2     1                  13
+    ## 6 g2     2                   6
 
 We can identify cluster markers using Seurat.
 
 <!-- If this is Seurat v4, comment out the v3 markers -->
 <!--
-
-
+&#10;
 ```r
 # Identify top 10 markers per cluster
 markers <-
@@ -312,16 +312,14 @@ markers <-
   FindAllMarkers(only.pos = TRUE) %>%
   group_by(cluster) %>%
   top_n(10, avg_logFC)
-
-# Plot heatmap
+&#10;# Plot heatmap
 pbmc_small_cluster %>%
   DoHeatmap(
     features = markers$gene,
     group.colors = friendly_cols
   )
 ```
-
--->
+&#10;-->
 <!-- If this is Seurat v3, comment out the v4 markers -->
 
 ``` r
@@ -363,7 +361,10 @@ pbmc_small_UMAP %>%
   )
 ```
 
-![screenshot plotly](man/figures/plotly.png)
+<figure>
+<img src="man/figures/plotly.png" alt="screenshot plotly" />
+<figcaption aria-hidden="true">screenshot plotly</figcaption>
+</figure>
 
 ## Cell type prediction
 
@@ -397,7 +398,7 @@ pbmc_small_cell_type <-
 
 # Reorder columns
 pbmc_small_cell_type %>%
-  tidyseurat::select(cell, first.labels, everything())
+  select(cell, first.labels, everything())
 ```
 
 We can easily summarise the results. For example, we can see how cell
@@ -514,18 +515,3 @@ In tidyseurat, cell aggregation can be achieved using the
 pbmc_small %>%
   aggregate_cells(groups, assays = "RNA")
 ```
-
-    ## # A tibble: 460 × 6
-    ##    .feature  .sample    RNA groups .aggregated_cells orig.ident   
-    ##    <chr>     <chr>    <dbl> <chr>              <int> <fct>        
-    ##  1 MS4A1     g2       35.5  g2                    36 SeuratProject
-    ##  2 CD79B     g2       52.8  g2                    36 SeuratProject
-    ##  3 CD79A     g2       37.2  g2                    36 SeuratProject
-    ##  4 HLA-DRA   g2      130.   g2                    36 SeuratProject
-    ##  5 TCL1A     g2       29.5  g2                    36 SeuratProject
-    ##  6 HLA-DQB1  g2       65.5  g2                    36 SeuratProject
-    ##  7 HVCN1     g2       29.8  g2                    36 SeuratProject
-    ##  8 HLA-DMB   g2       43.2  g2                    36 SeuratProject
-    ##  9 LTB       g2      111.   g2                    36 SeuratProject
-    ## 10 LINC00926 g2        9.91 g2                    36 SeuratProject
-    ## # ℹ 450 more rows

@@ -299,7 +299,7 @@ pbmc_small_cell_type <-
 
 # Reorder columns
 pbmc_small_cell_type %>%
-  tidyseurat::select(cell, first.labels, everything())
+  select(cell, first.labels, everything())
 ```
 
 We can easily summarise the results. For example, we can see how cell type classification overlaps with cluster classification.
@@ -402,7 +402,7 @@ Sometimes, it is necessary to aggregate the gene-transcript abundance from a gro
 In tidyseurat, cell aggregation can be achieved using the `aggregate_cells` function.
  
  
-```{r}
+```{r, eval=FALSE}
 pbmc_small %>%
   aggregate_cells(groups, assays = "RNA")
 ```

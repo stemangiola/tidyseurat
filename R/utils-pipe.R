@@ -8,6 +8,8 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
-#' 
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>% print()
 #' @return void
 NULL

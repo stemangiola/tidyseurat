@@ -23,11 +23,13 @@ test_that("aggregate_cells() returns expected values", {
   pbmc_pseudo_bulk <-
     pbmc_small |>
     aggregate_cells(c(groups, letter.idents), assays = "RNA")
+  
   # Check row length is unchanged
   pbmc_pseudo_bulk |>
     distinct(.feature) |> 
     nrow() |>
     expect_equal(pbmc_small |> nrow())
+  
   # Check column length is correctly modified
   pbmc_pseudo_bulk |> 
     distinct(.sample) |> 
@@ -44,10 +46,11 @@ test_that("aggregate_cells() returns expected values", {
     select(RNA) |> 
     as.numeric() |> 
     expect_equal(
-      Assays(pbmc_small, "RNA")["ACAP1", pbmc_small |>
+      Seurat::DietSeurat(pbmc_small, assays = "RNA", features = "ACAP1")[, pbmc_small |>
                                   as_tibble() |>
                                   filter(groups == "g1", letter.idents == "A") |>
                                   pull(.cell)] |>
+        LayerData() |> 
         sum())
 })
 

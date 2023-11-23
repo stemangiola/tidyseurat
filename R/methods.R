@@ -73,38 +73,39 @@ tidy.Seurat <- function(object){
 setMethod("join_features", "Seurat", function(.data,
     features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
     assay=NULL, slot="data", ...) {
-    .data %>%
-        when(
-            # Shape is long
-            shape == "long" ~ (.) %>%
-                left_join(
-                    get_abundance_sc_long(
-                        .data=.data,
-                        features=features,
-                        all=all,
-                        exclude_zeros=exclude_zeros,
-                        assay=assay,
-                        slot=slot,
-                        ...
-                    ),
-                    by=c_(.data)$name
-                ) %>%
-                select(!!c_(.data)$symbol, .feature,
-                    contains(".abundance"), everything()),
-            # Shape if wide
-            ~ (.) %>%
-                left_join(
-                    get_abundance_sc_wide(
-                        .data=.data,
-                        features=features,
-                        all=all,
-                        assay=assay,
-                        slot=slot,
-                        ...
-                    ),
-                    by=c_(.data)$name
-                ) 
-            )
+  
+  .feature = NULL
+  
+  if(shape == "long")
+    .data |> 
+    left_join(
+      get_abundance_sc_long(
+        .data=.data,
+        features=features,
+        all=all,
+        exclude_zeros=exclude_zeros,
+        assay=assay,
+        slot=slot,
+        ...
+      ),
+      by=c_(.data)$name
+    ) %>%
+    select(!!c_(.data)$symbol, .feature,
+           contains(".abundance"), everything())
+  else
+    .data |> 
+    left_join(
+      get_abundance_sc_wide(
+        .data=.data,
+        features=features,
+        all=all,
+        assay=assay,
+        slot=slot,
+        ...
+      ),
+      by=c_(.data)$name
+    ) 
+
 })
 
 
@@ -126,6 +127,7 @@ setMethod("join_features", "Seurat", function(.data,
 #' @importFrom Matrix rowSums
 #' @importFrom ttservice aggregate_cells
 #' @importFrom SeuratObject DefaultAssay
+#' @importFrom Seurat DietSeurat
 #' @importFrom purrr map_int
 #' @export
 setMethod("aggregate_cells", "Seurat",  function(.data,
@@ -140,7 +142,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
     # Subset only wanted assays
     if(!is.null(assays)){
         DefaultAssay(.data) <- assays[1]
-        .data@assays <- .data@assays[assays]
+        .data = .data |> DietSeurat(assays = assays)
     }
 
     .data %>%
@@ -151,7 +153,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                 # Loop over assays
                 map2(.x@assays, names(.x@assays),
                     # Get counts
-                    ~ GetAssayData(.x, slot=slot) %>%
+                    ~ GetAssayData(.x, layer=slot) %>%
                         aggregation_function(na.rm=T) %>%
                         tibble::enframe(
                             name=".feature",
@@ -159,9 +161,9 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                         ) %>%
                         mutate(.feature=as.character(.feature)) 
                 ) %>%
-                Reduce(function(...) full_join(..., by=c(".feature")), .)            
-            )
-        ) %>%
+                Reduce(function(...) full_join(..., by=c(".feature")), .), 
+                .progress = TRUE          
+        )) %>%
         left_join(
             .data %>%
                 as_tibble() %>%

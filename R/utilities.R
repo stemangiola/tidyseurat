@@ -80,6 +80,7 @@ drop_class <- function(var, name) {
 #' @importFrom magrittr "%$%"
 #' @importFrom utils tail
 #' @importFrom Seurat GetAssayData
+#' @importFrom Seurat DietSeurat
 #' @importFrom SeuratObject DefaultAssay<-
 #' @importFrom stats setNames
 #'
@@ -91,6 +92,10 @@ drop_class <- function(var, name) {
 #' @param prefix prefix for the feature names
 #'
 #' @return A Seurat object
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>%
+#'   get_abundance_sc_wide(features=c("HLA-DRA", "LYZ"))
 #'
 #' @export
 get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
@@ -133,25 +138,22 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
     # This because if a gene is not in an assay I am not interested about
     # this could cause an unneeded error
     DefaultAssay(.data) <- assay
-    for(i in Assays(.data) %>% setdiff(assay)) {
-        .data[[i]] <- NULL
-    }
+    .data = .data |> DietSeurat(assays = assay)
 
     # Just grub last assay
-    .data %>%
+    .data |> 
+      GetAssayData(assay = assay, layer=slot) %>% 
         when(
             variable_genes %>% is.null %>% `!` ~ 
-                (.)[ toupper(rownames(.)) %in% toupper(variable_genes),],
+                (.)[ toupper(rownames(.)) %in% toupper(variable_genes),,drop=FALSE],
             features %>% is.null %>% `!` ~ 
-                (.)[ toupper(rownames(.)) %in% toupper(features),],
+                (.)[ toupper(rownames(.)) %in% toupper(features),,drop=FALSE],
             ~ stop("tidyseurat says: It is not convenient to",
                 " extract all genes, you should have either variable",
                 " features or feature list to extract.")
-        ) %>%
-        .[[assay]] %>%
-        GetAssayData(slot=slot) %>%
-        as.matrix() %>%
-        t %>%
+        ) |> 
+        as.matrix() |> 
+        t() |> 
         as_tibble(rownames=c_(.data)$name) %>%
 
         # Add prefix
@@ -177,6 +179,10 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
 #' @param slot slot in the assay, e.g. `data` and `scale.data`
 #'
 #' @return A Seurat object
+#' @examples
+#' data(pbmc_small)
+#' pbmc_small %>%
+#'   get_abundance_sc_long(features=c("HLA-DRA", "LYZ"))
 #'
 #' @export
 get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
@@ -219,7 +225,7 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
         # Take active assay
         map2(assay,
             ~ .x %>%
-                GetAssayData(slot) %>%
+                GetAssayData(layer = slot) %>%
                 when(
                     variable_genes %>% is.null %>% `!` ~
                         (.)[variable_genes,, drop=FALSE],

@@ -12,13 +12,23 @@
 #' @importFrom dplyr arrange
 #' @export
 arrange.Seurat <- function(.data, ..., .by_group=FALSE) {
-    .data@meta.data <-
-        .data %>%
-        as_tibble() %>%
-        dplyr::arrange(  ..., .by_group=.by_group  ) %>%
-        as_meta_data(.data)
-
-    .data
+  
+  # DEPRECATE
+  deprecate_warn(
+    when="0.7.5",
+    what="arrange()",
+    details="tidyseurat says: arrange() is temporarly deprected as it is not clear that Seurat allows reordering of cells."
+  )
+  
+    # .cell_ordered <-
+    #     .data %>%
+    #     as_tibble() %>%
+    #     dplyr::arrange(  ..., .by_group=.by_group  ) %>%
+    #    pull(!!c_(.data)$symbol)
+    # 
+    # .data[,.cell_ordered]
+  
+  .data
 }
 
 #' @name bind_rows
@@ -48,7 +58,7 @@ bind_rows.Seurat <- function(..., .id=NULL,  add.cell.ids=NULL)
     # slot(object=object[[assay]], name="SCTModel.list")
     # So I have to delete any sample of size 1 if I have calculated SCT
     # if()
-    # GetAssayData(object, slot='SCTModel.list', assay="SCT") %>%
+    # GetAssayData(object, layer='SCTModel.list', assay="SCT") %>%
     #     map(~ .x@cell.attributes %>% nrow)
 
     # Check if cell with same name
@@ -269,6 +279,7 @@ mutate.Seurat <- function(.data, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> rename(s_score=nFeature_RNA)
 #'
+#' @importFrom Seurat DietSeurat
 #' @importFrom tidyselect eval_select
 #' @importFrom dplyr rename
 #' @export
@@ -281,7 +292,10 @@ rename.Seurat <- function(.data, ...)
         get_special_columns(.data))
 
     # Small df to be more efficient
-    df <- .data[1, 1] |> as_tibble() 
+    df <- 
+      DietSeurat(.data, features = rownames(.data)[1])[,1]  |>
+      suppressWarnings() |> 
+      as_tibble() 
     
     # What columns we are going to create
     cols_from <- tidyselect::eval_select(expr(c(...)), df) |> names()
