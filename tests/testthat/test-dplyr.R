@@ -223,9 +223,9 @@ test_that("group_split() works for one variable", {
 
 test_that("group_split() works for combination of variables", {
   fd <- pbmc_small |> 
-    group_split(groups, ident)
+    group_split(groups, letter.idents)
   expect_equal(length(fd), length(unique(pbmc_small$groups)) *
-                 length(unique(pbmc_small)))
+                 length(unique(pbmc_small$letter.idents)))
 })
 
 test_that("group_split() works for one logical statement", {
