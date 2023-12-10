@@ -978,6 +978,7 @@ pull.Seurat <- function(.data, var=-1, name=NULL, ...) {
 #' @importFrom ellipsis check_dots_used
 #' @importFrom dplyr group_by
 #' @importFrom dplyr group_rows
+#' @importFrom dplyr group_split
 #' @export
 group_split.Seurat <- function(.tbl, ..., .keep = TRUE) {
   
