@@ -214,3 +214,32 @@ test_that("rowwise", {
     ((pbmc_small[, 1]$nCount_RNA + pbmc_small[, 1]$nFeature_RNA) / 2) |> unname()
   )
 })
+
+test_that("group_split() works for one variable", {
+  fd <- pbmc_small |> 
+    group_split(groups)
+  expect_equal(length(fd), length(unique(pbmc_small$groups)))
+})
+
+test_that("group_split() works for combination of variables", {
+  fd <- pbmc_small |> 
+    group_split(groups, letter.idents)
+  expect_equal(length(fd), length(unique(pbmc_small$groups)) *
+                 length(unique(pbmc_small$letter.idents)))
+})
+
+test_that("group_split() works for one logical statement", {
+  fd_log <- pbmc_small |> 
+    group_split(groups=="g1")
+  fd_var <- pbmc_small |> 
+    group_split(groups=="g1")
+  expect_equal(lapply(fd_var, count), lapply(fd_log, count))
+})
+
+test_that("group_split() works for two logical statements", {
+  fd <- pbmc_small |>
+    group_split(PC_1>0 & groups=="g1")
+  fd_counts <- lapply(fd, count)
+  expect_equal(c(fd_counts[[1]], fd_counts[[2]], use.names = FALSE), 
+               list(75, 5))
+})
