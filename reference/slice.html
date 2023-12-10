@@ -4,8 +4,8 @@ to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:
 slice_head() and slice_tail() select the first or last rows.
 slice_sample() randomly selects rows.
-slice_min() and slice_max() select rows with the smallest or largest
-values of a variable.
+slice_min() and slice_max() select rows with highest or lowest values
+of a variable.
 
 
 If .data is a grouped_df, the operation will be performed on each group,
@@ -28,7 +28,7 @@ each group."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyseurat</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -74,8 +74,8 @@ each group."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
 to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:</p><ul><li><p><code>slice_head()</code> and <code>slice_tail()</code> select the first or last rows.</p></li>
 <li><p><code>slice_sample()</code> randomly selects rows.</p></li>
-<li><p><code>slice_min()</code> and <code>slice_max()</code> select rows with the smallest or largest
-values of a variable.</p></li>
+<li><p><code>slice_min()</code> and <code>slice_max()</code> select rows with highest or lowest values
+of a variable.</p></li>
 </ul><p>If <code>.data</code> is a <a href="https://dplyr.tidyverse.org/reference/grouped_df.html" class="external-link">grouped_df</a>, the operation will be performed on each group,
 so that (e.g.) <code>slice_head(df, n = 5)</code> will select the first five rows in
 each group.</p>
