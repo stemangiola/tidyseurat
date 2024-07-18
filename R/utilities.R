@@ -491,10 +491,10 @@ subset_tidyseurat <- function(.data, .column) {
     # Make col names
     .column <- enquo(.column)
 
-    # Check if column present
-    if (quo_names(.column) %in% colnames(.data) %>% all %>% `!`)
-        stop("nanny says: some of the .column specified",
-            " do not exist in the input data frame.")
+    # # Check if column present
+    # if (quo_names(.column) %in% colnames(.data) %>% all %>% `!`)
+    #     stop("tidyseurat says: some of the .column specified",
+    #         " do not exist in the input data frame.")
 
     .data %>%
     # Selecting the right columns
@@ -508,8 +508,13 @@ GetAssayData_robust = function(seurat_assay, layer = NULL){
   if(
     seurat_assay |> is("Assay5") & 
     seurat_assay |> ncol() == 1
-  )
-    .x@assays[[1]]@layers[slot]
+  ){
+    m = seurat_assay@layers[[layer]] |> as.matrix()
+    rownames(m) = rownames(seurat_assay)
+    colnames(m) = colnames(seurat_assay)
+    m
+  }
+    
   else 
-    GetAssayData(.x, layer=layer)
+    GetAssayData(seurat_assay, layer=layer)
 }

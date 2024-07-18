@@ -52,6 +52,11 @@ test_that("aggregate_cells() returns expected values", {
                                   pull(.cell)] |>
         LayerData() |> 
         sum())
+  
+  # Aggregate with tidyselect
+  pbmc_small |>
+    aggregate_cells(c(any_of("groups"), letter.idents), assays = "RNA") |> 
+    expect_no_error()
 })
 
 test_that("get_abundance_sc_wide", {

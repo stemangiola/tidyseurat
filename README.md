@@ -105,7 +105,7 @@ pbmc_small
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 15
-    ## # [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m
+    ## # [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -217,7 +217,7 @@ pbmc_small_pca
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 17
-    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -262,7 +262,7 @@ pbmc_small_cluster
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 19
-    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
