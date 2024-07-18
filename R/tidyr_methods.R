@@ -31,6 +31,7 @@ unnest.tidyseurat_nested <- function(data, cols, ...,
 #' @importFrom purrr when
 #' @importFrom rlang quo_name
 #' @importFrom purrr imap
+#' @importFrom magrittr extract2
 #' @export
 unnest_seurat  <-  function(data, cols, ...,
     keep_empty=FALSE, ptype=NULL,
@@ -41,39 +42,34 @@ unnest_seurat  <-  function(data, cols, ...,
   
     cols <- enquo(cols)
   
-    .data_ %>% 
-        when(
-      
-            # If my only column to unnest is tidyseurat
-            pull(., !!cols) %>% .[[1]] %>% is("Seurat") %>% any ~  
-            {
-                # Do my trick to unnest
-                list_seurat <- mutate(.,
-                    !!cols := imap(
-                        !!cols, ~ .x %>%
-                            bind_cols_(
-                                .data_ %>%
+    # If my only column to unnest is tidyseurat
+    if(.data_ |> pull(!!cols) |>  extract2(1) |> is("Seurat") |> any()) {
+      # Do my trick to unnest
+      list_seurat <- .data_ |> mutate(
+                            !!cols := imap(
+                              !!cols, ~ .x %>%
+                                bind_cols_(
+                                  .data_ %>%
                                     select(-!!cols) %>%
                                     slice(rep(.y, nrow(as_tibble(.x))))
-                            )
-                        )) %>%
-                    pull(!!cols)
-                list_seurat[[1]] %>%
-                    # Bind only if length list > 1
-                    when(
-                        length(list_seurat)>1 ~ bind_rows(.,
-                            list_seurat[2:length(list_seurat)]),
-                        ~ (.)
-                    )
-            },
+                                )
+                            )) %>%
+        pull(!!cols)
       
-            # Else do normal stuff
-            ~ (.) %>% 
-                drop_class("tidyseurat_nested") %>%
-                tidyr::unnest(!!cols, ..., keep_empty=keep_empty,
+      if( length(list_seurat)>1) 
+        list_seurat[[1]] |> bind_rows(list_seurat[2:length(list_seurat)])
+      else list_seurat[[1]] 
+    }
+    
+    # Else do normal stuff
+    else
+      .data_ |>  
+      drop_class("tidyseurat_nested") |> 
+      tidyr::unnest(!!cols, ..., keep_empty=keep_empty,
                     ptype=ptype, names_sep=names_sep,
-                    names_repair=names_repair) %>%
-                add_class("tidyseurat_nested"))
+                    names_repair=names_repair) |> 
+      add_class("tidyseurat_nested")
+    
 }
 
 
