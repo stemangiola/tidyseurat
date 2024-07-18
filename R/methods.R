@@ -108,7 +108,6 @@ setMethod("join_features", "Seurat", function(.data,
 
 })
 
-
 #' @name aggregate_cells
 #' @rdname aggregate_cells
 #' @inherit ttservice::aggregate_cells
@@ -128,6 +127,7 @@ setMethod("join_features", "Seurat", function(.data,
 #' @importFrom ttservice aggregate_cells
 #' @importFrom SeuratObject DefaultAssay
 #' @importFrom Seurat DietSeurat
+#' @importFrom Seurat GetAssayData
 #' @importFrom purrr map_int
 #' @export
 setMethod("aggregate_cells", "Seurat",  function(.data,
@@ -153,7 +153,7 @@ setMethod("aggregate_cells", "Seurat",  function(.data,
                 # Loop over assays
                 map2(.x@assays, names(.x@assays),
                     # Get counts
-                    ~ GetAssayData(.x, layer=slot) %>%
+                    ~ GetAssayData_robust(.x, layer=slot) %>%
                         aggregation_function(na.rm=T) %>%
                         tibble::enframe(
                             name=".feature",

@@ -501,3 +501,15 @@ subset_tidyseurat <- function(.data, .column) {
         select(!!.column, get_specific_annotation_columns(.data, !!.column)) %>%
         distinct()
 }
+
+#' @importFrom Seurat GetAssayData
+GetAssayData_robust = function(seurat_assay, layer = NULL){
+  
+  if(
+    seurat_assay |> is("Assay5") & 
+    seurat_assay |> ncol() == 1
+  )
+    .x@assays[[1]]@layers[slot]
+  else 
+    GetAssayData(.x, layer=layer)
+}
