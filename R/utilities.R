@@ -492,8 +492,8 @@ subset_tidyseurat <- function(.data, .column) {
     .column <- enquo(.column)
 
     # Check if column present
-    if (quo_names(.column) %in% colnames(.data) %>% all %>% `!`)
-        stop("nanny says: some of the .column specified",
+    if (.data |> select(!!.column) |> colnames() %in% colnames(.data) %>% all %>% `!`)
+        stop("tidyseurat says: some of the .column specified",
             " do not exist in the input data frame.")
 
     .data %>%
