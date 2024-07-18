@@ -496,8 +496,26 @@ subset_tidyseurat <- function(.data, .column) {
         stop("tidyseurat says: some of the .column specified",
             " do not exist in the input data frame.")
 
+
     .data %>%
     # Selecting the right columns
         select(!!.column, get_specific_annotation_columns(.data, !!.column)) %>%
         distinct()
+}
+
+#' @importFrom Seurat GetAssayData
+GetAssayData_robust = function(seurat_assay, layer = NULL){
+  
+  if(
+    seurat_assay |> is("Assay5") & 
+    seurat_assay |> ncol() == 1
+  ){
+    m = seurat_assay@layers[[layer]] |> as.matrix()
+    rownames(m) = rownames(seurat_assay)
+    colnames(m) = colnames(seurat_assay)
+    m
+  }
+    
+  else 
+    GetAssayData(seurat_assay, layer=layer)
 }
