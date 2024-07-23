@@ -975,7 +975,7 @@ pull.Seurat <- function(.data, var=-1, name=NULL, ...) {
 #' data(pbmc_small)
 #' pbmc_small |> group_split(groups)
 #' 
-#' @importFrom ellipsis check_dots_used
+#' @importFrom rlang check_dots_used
 #' @importFrom dplyr group_by
 #' @importFrom dplyr group_rows
 #' @importFrom dplyr group_split

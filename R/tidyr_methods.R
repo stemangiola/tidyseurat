@@ -204,7 +204,7 @@ extract.Seurat <- function  (data, col, into,
 #'   cols=c(orig.ident, groups),
 #'   names_to="name", values_to="value")
 #' 
-#' @importFrom ellipsis check_dots_used
+#' @importFrom rlang check_dots_used
 #' @importFrom tidyr pivot_longer
 #' @export
 pivot_longer.Seurat <- function(data,
