@@ -14,3 +14,4 @@ README.Rmd
 ^.github$
 ^\.github$
 _pkgdown.yml
+^tidyseurat\.Rproj$
