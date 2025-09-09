@@ -38,8 +38,7 @@ Suggests:
     testthat,
     knitr,
     GGally,
-    markdown,
-    SingleR
+    markdown
 VignetteBuilder: 
     knitr
 RdMacros:
