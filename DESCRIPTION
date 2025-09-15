@@ -38,7 +38,8 @@ Suggests:
     testthat,
     knitr,
     GGally,
-    markdown
+    markdown,
+    rbibutils
 VignetteBuilder: 
     knitr
 RdMacros:
