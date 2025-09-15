@@ -8,8 +8,8 @@
 <title>Brings Seurat to the Tidyverse • tidyseurat</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Brings Seurat to the Tidyverse">
 <meta name="description" content="It creates an invisible layer that allow to see the Seurat object as tibble and interact seamlessly with the tidyverse.">
 <meta property="og:description" content="It creates an invisible layer that allow to see the Seurat object as tibble and interact seamlessly with the tidyverse.">
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,35 +87,35 @@ visual cue
 <h2 id="functionsutilities-available">Functions/utilities available<a class="anchor" aria-label="anchor" href="#functionsutilities-available"></a>
 </h2>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Seurat-compatible Functions</th>
 <th>Description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody><tr>
 <td><code>all</code></td>
 <td></td>
 </tr></tbody>
 </table>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>tidyverse Packages</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>dplyr</code></td>
 <td>All <code>dplyr</code> APIs like for any tibble</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>tidyr</code></td>
 <td>All <code>tidyr</code> APIs like for any tibble</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>ggplot2</code></td>
 <td>
 <code>ggplot</code> like for any tibble</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>plotly</code></td>
 <td>
 <code>plot_ly</code> like for any tibble</td>
@@ -127,26 +127,26 @@ visual cue
 <col width="50%">
 <col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Utilities</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>tidy</code></td>
 <td>Add <code>tidyseurat</code> invisible layer over a Seurat object</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>as_tibble</code></td>
 <td>Convert cell-wise information to a <code>tbl_df</code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>join_features</code></td>
 <td>Add feature-wise information, returns a <code>tbl_df</code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>aggregate_cells</code></td>
 <td>Aggregate cell gene-transcription abundance as pseudobulk tissue</td>
 </tr>
@@ -176,27 +176,27 @@ visual cue
 </h2>
 <p>This is a seurat object but it is evaluated as tibble. So it is fully compatible both with Seurat and tidyverse APIs.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op">=</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="va"><a href="https://mojaveazure.github.io/seurat-object/reference/pbmc_small.html" class="external-link">pbmc_small</a></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op">=</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="va"><a href="https://satijalab.github.io/seurat-object/reference/pbmc_small.html" class="external-link">pbmc_small</a></span></span></code></pre></div>
 <p><strong>It looks like a tibble</strong></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## [90m# A Seurat-tibble abstraction: 80 × 15[39m</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m[39m</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">##  [90m# A Seurat-tibble abstraction: 80 × 15 [39m</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="do">##  [90m#  [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA [0m [39m</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="do">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m </span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="do">## [90m# ℹ 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;,[39m</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="do">## [90m#   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="do">##     [3m [90m&lt;chr&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;dbl&gt; [39m [23m         [3m [90m&lt;int&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;fct&gt; [39m [23m          [3m [90m&lt;chr&gt; [39m [23m </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="do">##  [90m 1 [39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="do">##  [90m 2 [39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="do">##  [90m 3 [39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="do">##  [90m 4 [39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="do">##  [90m 5 [39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="do">##  [90m 6 [39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="do">##  [90m 7 [39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="do">##  [90m 8 [39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="do">##  [90m 9 [39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="do">##  [90m10 [39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="do">##  [90m# ℹ 70 more rows [39m</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="do">##  [90m# ℹ 8 more variables: RNA_snn_res.1 &lt;fct&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, [39m</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="do">##  [90m#   PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt; [39m</span></span></code></pre></div>
 <p><strong>But it is a Seurat object after all</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span><span class="op">@</span><span class="va">assays</span></span></code></pre></div>
@@ -272,24 +272,24 @@ visual cue
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html" class="external-link">RunPCA</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_pca</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [90m# A Seurat-tibble abstraction: 80 × 17[39m</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m[39m</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">##  [90m# A Seurat-tibble abstraction: 80 × 17 [39m</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">##  [90m#  [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT [0m [39m</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="do">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m </span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="do">## [90m# ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;,[39m</span></span>
-<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="do">## [90m#   nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;,[39m</span></span>
-<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="do">## [90m#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="do">##     [3m [90m&lt;chr&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;dbl&gt; [39m [23m         [3m [90m&lt;int&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;fct&gt; [39m [23m          [3m [90m&lt;chr&gt; [39m [23m </span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">##  [90m 1 [39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="do">##  [90m 2 [39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="do">##  [90m 3 [39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="do">##  [90m 4 [39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="do">##  [90m 5 [39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">##  [90m 6 [39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="do">##  [90m 7 [39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="do">##  [90m 8 [39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="do">##  [90m 9 [39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="do">##  [90m10 [39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="do">##  [90m# ℹ 70 more rows [39m</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="do">##  [90m# ℹ 10 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;, [39m</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="do">##  [90m#   nFeature_SCT &lt;int&gt;, PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, [39m</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="do">##  [90m#   PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, tSNE_2 &lt;dbl&gt; [39m</span></span></code></pre></div>
 <p>If a tool is not included in the tidyseurat collection, we can use <code>as_tibble</code> to permanently convert <code>tidyseurat</code> into tibble.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_pca</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -310,38 +310,38 @@ visual cue
 <span>  <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html" class="external-link">FindClusters</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"igraph"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pbmc_small_cluster</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="do">## [90m# A Seurat-tibble abstraction: 80 × 19[39m</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="do">## [90m# [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m[39m</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="do">##  [90m# A Seurat-tibble abstraction: 80 × 19 [39m</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="do">##  [90m#  [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT [0m [39m</span></span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="do">##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="do">##    [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;dbl&gt;[39m[23m        [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;fct&gt;[39m[23m         [3m[90m&lt;chr&gt;[39m[23m </span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="do">## [90m 1[39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="do">## [90m 2[39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="do">## [90m 3[39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="do">## [90m 4[39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="do">## [90m 5[39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="do">## [90m 6[39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="do">## [90m 7[39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="do">## [90m 8[39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="do">## [90m 9[39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="do">## [90m10[39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="do">## [90m# ℹ 70 more rows[39m</span></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="do">## [90m# ℹ 12 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;,[39m</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="do">## [90m#   nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;, seurat_clusters &lt;fct&gt;,[39m</span></span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="do">## [90m#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;,[39m</span></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="do">## [90m#   tSNE_2 &lt;dbl&gt;[39m</span></span></code></pre></div>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="do">##     [3m [90m&lt;chr&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;dbl&gt; [39m [23m         [3m [90m&lt;int&gt; [39m [23m  [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;fct&gt; [39m [23m          [3m [90m&lt;chr&gt; [39m [23m </span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="do">##  [90m 1 [39m ATGC… SeuratPro…         70           47 0               A             g2    </span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="do">##  [90m 2 [39m CATG… SeuratPro…         85           52 0               A             g1    </span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="do">##  [90m 3 [39m GAAC… SeuratPro…         87           50 1               B             g2    </span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="do">##  [90m 4 [39m TGAC… SeuratPro…        127           56 0               A             g2    </span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="do">##  [90m 5 [39m AGTC… SeuratPro…        173           53 0               A             g2    </span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="do">##  [90m 6 [39m TCTG… SeuratPro…         70           48 0               A             g1    </span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="do">##  [90m 7 [39m TGGT… SeuratPro…         64           36 0               A             g1    </span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="do">##  [90m 8 [39m GCAG… SeuratPro…         72           45 0               A             g1    </span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="do">##  [90m 9 [39m GATA… SeuratPro…         52           36 0               A             g1    </span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="do">##  [90m10 [39m AATG… SeuratPro…        100           41 0               A             g1    </span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="do">##  [90m# ℹ 70 more rows [39m</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="do">##  [90m# ℹ 12 more variables: RNA_snn_res.1 &lt;fct&gt;, nCount_SCT &lt;dbl&gt;, [39m</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="do">##  [90m#   nFeature_SCT &lt;int&gt;, SCT_snn_res.0.8 &lt;fct&gt;, seurat_clusters &lt;fct&gt;, [39m</span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="do">##  [90m#   PC_1 &lt;dbl&gt;, PC_2 &lt;dbl&gt;, PC_3 &lt;dbl&gt;, PC_4 &lt;dbl&gt;, PC_5 &lt;dbl&gt;, tSNE_1 &lt;dbl&gt;, [39m</span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="do">##  [90m#   tSNE_2 &lt;dbl&gt; [39m</span></span></code></pre></div>
 <p>Now we can interrogate the object as if it was a regular tibble data frame.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small_cluster</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/count.html">count</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">seurat_clusters</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="do">## [90m# A tibble: 6 × 3[39m</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="do">##  [90m# A tibble: 6 × 3 [39m</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="do">##   groups seurat_clusters     n</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="do">##   [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;fct&gt;[39m[23m           [3m[90m&lt;int&gt;[39m[23m</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="do">## [90m1[39m g1     0                  23</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="do">## [90m2[39m g1     1                  17</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="do">## [90m3[39m g1     2                   4</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="do">## [90m4[39m g2     0                  17</span></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="do">## [90m5[39m g2     1                  13</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="do">## [90m6[39m g2     2                   6</span></span></code></pre></div>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="do">##    [3m [90m&lt;chr&gt; [39m [23m   [3m [90m&lt;fct&gt; [39m [23m            [3m [90m&lt;int&gt; [39m [23m</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="do">##  [90m1 [39m g1     0                  23</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="do">##  [90m2 [39m g1     1                  17</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="do">##  [90m3 [39m g1     2                   4</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="do">##  [90m4 [39m g2     0                  17</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="do">##  [90m5 [39m g2     1                  13</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="do">##  [90m6 [39m g2     2                   6</span></span></code></pre></div>
 <p>We can identify cluster markers using Seurat.</p>
 <!-- If this is Seurat v4, comment out the v3 markers -->
 <!--
@@ -408,10 +408,10 @@ screenshot plotly
 <span></span>
 <span><span class="co"># Infer cell identities</span></span>
 <span><span class="va">cell_type_df</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html" class="external-link">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_small_UMAP</span>, slot <span class="op">=</span> <span class="st">'counts'</span>, assay <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html" class="external-link">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_small_UMAP</span>, slot <span class="op">=</span> <span class="st">'counts'</span>, assay <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">Matrix</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html" class="external-link">Matrix</a></span><span class="op">(</span>sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">SingleR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SingleR/man/SingleR.html" class="external-link">SingleR</a></span><span class="op">(</span></span>
+<span>  <span class="fu">SingleR</span><span class="fu">::</span><span class="fu">SingleR</span><span class="op">(</span></span>
 <span>    ref <span class="op">=</span> <span class="va">blueprint</span>,</span>
 <span>    labels <span class="op">=</span> <span class="va">blueprint</span><span class="op">$</span><span class="va">label.main</span>,</span>
 <span>    method <span class="op">=</span> <span class="st">"single"</span></span>
@@ -544,7 +544,7 @@ screenshot plotly
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Stefano Mangiola <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Stefano Mangiola <br><small class="roles"> Author, maintainer </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -566,7 +566,7 @@ screenshot plotly
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
