@@ -11,7 +11,7 @@
 \arguments{
 \item{x}{Object to format or print.}
 
-\item{...}{Passed on to \code{\link[=tbl_format_setup]{tbl_format_setup()}}.}
+\item{...}{Passed on to \code{\link[pillar:tbl_format_setup]{tbl_format_setup()}}.}
 
 \item{n}{Number of rows to show. If \code{NULL}, the default, will print all rows
 if less than the \code{print_max} \link[pillar:pillar_options]{option}.
