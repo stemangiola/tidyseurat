@@ -37,7 +37,7 @@ as_tibble_col() converts a vector to a tibble with one column."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,6 +113,8 @@ coerced to a tibble.</p></dd>
 <li><p><code>"check_unique"</code>: (default value), no name repair, but check they are
 <code>unique</code>,</p></li>
 <li><p><code>"universal"</code>: Make the names <code>unique</code> and syntactic</p></li>
+<li><p><code>"unique_quiet"</code>: Same as <code>"unique"</code>, but "quiet"</p></li>
+<li><p><code>"universal_quiet"</code>: Same as <code>"universal"</code>, but "quiet"</p></li>
 <li><p>a function: apply custom name repair (e.g., <code>.name_repair = make.names</code>
 for names in the style of base R).</p></li>
 <li><p>A purrr-style anonymous function, see <code><a href="https://rlang.r-lib.org/reference/as_function.html" class="external-link">rlang::as_function()</a></code></p></li>

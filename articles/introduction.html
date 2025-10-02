@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">Stefano
 Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2025-09-15</h4>
+            <h4 data-toc-skip class="date">2025-10-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/master/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -78,14 +78,11 @@ Mangiola</h4>
 <a href="https://stemangiola.github.io/tidyseurat/" class="external-link">tidyseurat</a>
 for tidy single-cell RNA sequencing analysis</li>
 <li>
-<a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">tidySummarizedExperiment</a>
+<a href="https://tidyomics.github.io/tidySummarizedExperiment/" class="external-link">tidySummarizedExperiment</a>
 for tidy bulk RNA sequencing analysis</li>
 <li>
 <a href="https://stemangiola.github.io/tidybulk/" class="external-link">tidybulk</a> for
 tidy bulk RNA-seq analysis</li>
-<li>
-<a href="https://github.com/stemangiola/nanny/" class="external-link">nanny</a> for tidy
-high-level data analysis and manipulation</li>
 <li>
 <a href="https://github.com/stemangiola/tidygate/" class="external-link">tidygate</a> for
 adding custom gate information to your tibble</li>
@@ -101,10 +98,11 @@ for heatmaps produced with tidy principles</li>
 </h2>
 <p>tidyseurat provides a bridge between the Seurat single-cell package
 <span class="citation">(Butler et al. 2018; Stuart et al. 2019)</span>
-and the tidyverse <span class="citation">(Wickham et al. 2019)</span>.
-It creates an invisible layer that enables viewing the Seurat object as
-a tidyverse tibble, and provides Seurat-compatible <em>dplyr</em>,
-<em>tidyr</em>, <em>ggplot</em> and <em>plotly</em> functions.</p>
+and the tidyverse <span class="citation">(<span class="nocase">Wickham
+et al.</span> 2019)</span>. It creates an invisible layer that enables
+viewing the Seurat object as a tidyverse tibble, and provides
+Seurat-compatible <em>dplyr</em>, <em>tidyr</em>, <em>ggplot</em> and
+<em>plotly</em> functions.</p>
 <div class="section level3">
 <h3 id="functionsutilities-available">Functions/utilities available<a class="anchor" aria-label="anchor" href="#functionsutilities-available"></a>
 </h3>
@@ -436,8 +434,8 @@ framework.</p>
 <div class="section level3">
 <h3 id="cell-type-prediction">Cell type prediction<a class="anchor" aria-label="anchor" href="#cell-type-prediction"></a>
 </h3>
-<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(Aran et al. 2019)</span> and manipulate the output
-using tidyverse.</p>
+<p>We can infer cell type identities using <em>SingleR</em> <span class="citation">(<span class="nocase">Aran et al.</span> 2019)</span>
+and manipulate the output using tidyverse.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get cell type reference data</span></span>
 <span><span class="va">blueprint</span> <span class="op">&lt;-</span> <span class="fu">celldex</span><span class="fu">::</span><span class="fu">BlueprintEncodeData</span><span class="op">(</span><span class="op">)</span></span>
@@ -570,7 +568,7 @@ groups of cells across different samples with fixed-effect models.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.5.1 (2025-06-13)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -591,20 +589,20 @@ groups of cells across different samples with fixed-effect models.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] future_1.67.0      tidyseurat_0.8.3   ttservice_0.5.3    Seurat_5.3.0      </span></span>
+<span><span class="co">##  [1] future_1.67.0      tidyseurat_0.8.4   ttservice_0.5.3    Seurat_5.3.0      </span></span>
 <span><span class="co">##  [5] SeuratObject_5.2.0 sp_2.2-0           ggplot2_4.0.0      magrittr_2.0.4    </span></span>
 <span><span class="co">##  [9] purrr_1.1.0        tidyr_1.3.1        dplyr_1.1.4        knitr_1.50        </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] deldir_2.0-4           pbapply_1.7-4          gridExtra_2.3         </span></span>
-<span><span class="co">##   [4] rlang_1.1.6            RcppAnnoy_0.0.22       spatstat.geom_3.5-0   </span></span>
+<span><span class="co">##   [4] rlang_1.1.6            RcppAnnoy_0.0.22       spatstat.geom_3.6-0   </span></span>
 <span><span class="co">##   [7] matrixStats_1.5.0      ggridges_0.5.7         compiler_4.5.1        </span></span>
 <span><span class="co">##  [10] png_0.1-8              systemfonts_1.2.3      vctrs_0.6.5           </span></span>
 <span><span class="co">##  [13] reshape2_1.4.4         stringr_1.5.2          pkgconfig_2.0.3       </span></span>
 <span><span class="co">##  [16] fastmap_1.2.0          labeling_0.4.3         utf8_1.2.6            </span></span>
-<span><span class="co">##  [19] promises_1.3.3         rmarkdown_2.29         ragg_1.5.0            </span></span>
+<span><span class="co">##  [19] promises_1.3.3         rmarkdown_2.30         ragg_1.5.0            </span></span>
 <span><span class="co">##  [22] xfun_0.53              cachem_1.1.0           jsonlite_2.0.0        </span></span>
-<span><span class="co">##  [25] goftest_1.2-3          later_1.4.4            spatstat.utils_3.1-5  </span></span>
+<span><span class="co">##  [25] goftest_1.2-3          later_1.4.4            spatstat.utils_3.2-0  </span></span>
 <span><span class="co">##  [28] irlba_2.3.5.1          parallel_4.5.1         cluster_2.1.8.1       </span></span>
 <span><span class="co">##  [31] R6_2.6.1               ica_1.0-3              spatstat.data_3.1-8   </span></span>
 <span><span class="co">##  [34] bslib_0.9.0            stringi_1.8.7          RColorBrewer_1.1-3    </span></span>
@@ -614,14 +612,14 @@ groups of cells across different samples with fixed-effect models.</p>
 <span><span class="co">##  [46] future.apply_1.20.0    zoo_1.8-14             sctransform_0.4.2     </span></span>
 <span><span class="co">##  [49] httpuv_1.6.16          Matrix_1.7-4           splines_4.5.1         </span></span>
 <span><span class="co">##  [52] igraph_2.1.4           tidyselect_1.2.1       abind_1.4-8           </span></span>
-<span><span class="co">##  [55] yaml_2.3.10            spatstat.random_3.4-1  codetools_0.2-20      </span></span>
-<span><span class="co">##  [58] miniUI_0.1.2           spatstat.explore_3.5-2 listenv_0.9.1         </span></span>
+<span><span class="co">##  [55] yaml_2.3.10            spatstat.random_3.4-2  codetools_0.2-20      </span></span>
+<span><span class="co">##  [58] miniUI_0.1.2           spatstat.explore_3.5-3 listenv_0.9.1         </span></span>
 <span><span class="co">##  [61] lattice_0.22-7         tibble_3.3.0           plyr_1.8.9            </span></span>
 <span><span class="co">##  [64] shiny_1.11.1           withr_3.0.2            S7_0.2.0              </span></span>
 <span><span class="co">##  [67] ROCR_1.0-11            evaluate_1.0.5         Rtsne_0.17            </span></span>
 <span><span class="co">##  [70] fastDummies_1.7.5      desc_1.4.3             survival_3.8-3        </span></span>
-<span><span class="co">##  [73] ggstats_0.10.0         polyclip_1.10-7        fitdistrplus_1.2-4    </span></span>
-<span><span class="co">##  [76] pillar_1.11.0          KernSmooth_2.23-26     plotly_4.11.0         </span></span>
+<span><span class="co">##  [73] ggstats_0.11.0         polyclip_1.10-7        fitdistrplus_1.2-4    </span></span>
+<span><span class="co">##  [76] pillar_1.11.1          KernSmooth_2.23-26     plotly_4.11.0         </span></span>
 <span><span class="co">##  [79] generics_0.1.4         RcppHNSW_0.6.0         scales_1.4.0          </span></span>
 <span><span class="co">##  [82] globals_0.18.0         xtable_1.8-4           glue_1.8.0            </span></span>
 <span><span class="co">##  [85] lazyeval_0.2.2         tools_4.5.1            data.table_1.17.8     </span></span>
@@ -631,7 +629,7 @@ groups of cells across different samples with fixed-effect models.</p>
 <span><span class="co">##  [97] spatstat.sparse_3.1-0  textshaping_1.0.3      fansi_1.0.6           </span></span>
 <span><span class="co">## [100] spam_2.11-1            viridisLite_0.4.2      uwot_0.2.3            </span></span>
 <span><span class="co">## [103] gtable_0.3.6           sass_0.4.10            digest_0.6.37         </span></span>
-<span><span class="co">## [106] progressr_0.15.1       ggrepel_0.9.6          htmlwidgets_1.6.4     </span></span>
+<span><span class="co">## [106] progressr_0.16.0       ggrepel_0.9.6          htmlwidgets_1.6.4     </span></span>
 <span><span class="co">## [109] farver_2.1.2           htmltools_0.5.8.1      pkgdown_2.1.3         </span></span>
 <span><span class="co">## [112] lifecycle_1.0.4        httr_1.4.7             mime_0.13             </span></span>
 <span><span class="co">## [115] MASS_7.3-65</span></span></code></pre>
@@ -639,12 +637,12 @@ groups of cells across different samples with fixed-effect models.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-aran2019reference" class="csl-entry">
-Aran, Dvir, Agnieszka P Looney, Leqian Liu, Esther Wu, Valerie Fong,
-Austin Hsu, Suzanna Chak, et al. 2019. <span>“Reference-Based Analysis
-of Lung Single-Cell Sequencing Reveals a Transitional Profibrotic
-Macrophage.”</span> <em>Nature Immunology</em> 20 (2): 163–72.
+<span class="nocase">Aran, Dvir, Agnieszka P Looney, Leqian Liu, et
+al.</span> 2019. <span>“Reference-Based Analysis of Lung Single-Cell
+Sequencing Reveals a Transitional Profibrotic Macrophage.”</span>
+<em>Nature Immunology</em> 20 (2): 163–72.
 </div>
 <div id="ref-butler2018integrating" class="csl-entry">
 Butler, Andrew, Paul Hoffman, Peter Smibert, Efthymia Papalexi, and
@@ -653,16 +651,14 @@ Across Different Conditions, Technologies, and Species.”</span>
 <em>Nature Biotechnology</em> 36 (5): 411–20.
 </div>
 <div id="ref-stuart2019comprehensive" class="csl-entry">
-Stuart, Tim, Andrew Butler, Paul Hoffman, Christoph Hafemeister,
-Efthymia Papalexi, William M Mauck III, Yuhan Hao, Marlon Stoeckius,
-Peter Smibert, and Rahul Satija. 2019. <span>“Comprehensive Integration
-of Single-Cell Data.”</span> <em>Cell</em> 177 (7): 1888–1902.
+Stuart, Tim, Andrew Butler, Paul Hoffman, et al. 2019.
+<span>“Comprehensive Integration of Single-Cell Data.”</span>
+<em>Cell</em> 177 (7): 1888–902.
 </div>
 <div id="ref-wickham2019welcome" class="csl-entry">
-Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
-D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
-<span>“Welcome to the Tidyverse.”</span> <em>Journal of Open Source
-Software</em> 4 (43): 1686.
+<span class="nocase">Wickham, Hadley, Mara Averick, Jennifer Bryan, et
+al.</span> 2019. <span>“Welcome to the Tidyverse.”</span> <em>Journal of
+Open Source Software</em> 4 (43): 1686.
 </div>
 </div>
 </div>
