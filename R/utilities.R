@@ -504,6 +504,7 @@ subset_tidyseurat <- function(.data, .column) {
 }
 
 #' @importFrom Seurat GetAssayData
+#' @importFrom methods is
 GetAssayData_robust = function(seurat_assay, layer = NULL){
   
   if(

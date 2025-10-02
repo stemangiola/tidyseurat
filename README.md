@@ -21,7 +21,7 @@ Please also have a look at
 
 - [tidyseurat](https://stemangiola.github.io/tidyseurat/) for tidy
   single-cell RNA sequencing analysis
-- [tidySummarizedExperiment](https://stemangiola.github.io/tidySummarizedExperiment/)
+- [tidySummarizedExperiment](https://tidyomics.github.io/tidySummarizedExperiment/)
   for tidy bulk RNA sequencing analysis
 - [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
   RNA-seq analysis
