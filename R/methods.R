@@ -15,26 +15,17 @@ setMethod(
 
 setClass("tidyseurat", contains="Seurat")
 
-#' @name tidy
-#' @rdname tidy
-#' @title tidy for `Seurat`
-#'
-#' @param object A `Seurat` object.
-#' @return A `tidyseurat` object.
-#'
-#' @examples
-#' data(pbmc_small)
-#' pbmc_small
-#'
-#' @export
-tidy <- function(object) {
-    UseMethod("tidy", object)
-}
+#' @importFrom generics tidy
 
-#' @rdname tidy
+#' @title tidy for Seurat objects
+#' @name tidy
+#' @description tidy for Seurat objects
+#' @param x A Seurat object
+#' @param ... Additional arguments (not used)
+#' @return A tidyseurat object
 #' @importFrom lifecycle deprecate_warn
 #' @export
-tidy.Seurat <- function(object){ 
+tidy.Seurat <- function(x, ...){ 
   
     # DEPRECATE
     deprecate_warn(
@@ -43,7 +34,7 @@ tidy.Seurat <- function(object){
         details="tidyseurat says: tidy() is not needed anymore."
     )
   
-    return(object)
+    return(x)
 }
 
 
