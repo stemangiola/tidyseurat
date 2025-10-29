@@ -60,9 +60,9 @@
                         <h4 data-toc-skip class="author">Stefano
 Mangiola</h4>
             
-            <h4 data-toc-skip class="date">2025-10-02</h4>
+            <h4 data-toc-skip class="date">2025-10-29</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/master/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/change-join_feature-orientation/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
     </div>
 
@@ -276,7 +276,7 @@ for plotting.</p>
 <p>Here we plot abundance of two features for each group.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc_small</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/join_features.html">join_features</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/join_features.html">join_features</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HLA-DRA"</span>, <span class="st">"LYZ"</span><span class="op">)</span>, shape <span class="op">=</span> <span class="st">"long"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">groups</span>, <span class="va">.abundance_RNA</span> <span class="op">+</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span>outlier.shape <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">nCount_RNA</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
@@ -595,44 +595,44 @@ groups of cells across different samples with fixed-effect models.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] deldir_2.0-4           pbapply_1.7-4          gridExtra_2.3         </span></span>
-<span><span class="co">##   [4] rlang_1.1.6            RcppAnnoy_0.0.22       spatstat.geom_3.6-0   </span></span>
-<span><span class="co">##   [7] matrixStats_1.5.0      ggridges_0.5.7         compiler_4.5.1        </span></span>
-<span><span class="co">##  [10] png_0.1-8              systemfonts_1.2.3      vctrs_0.6.5           </span></span>
-<span><span class="co">##  [13] reshape2_1.4.4         stringr_1.5.2          pkgconfig_2.0.3       </span></span>
-<span><span class="co">##  [16] fastmap_1.2.0          labeling_0.4.3         utf8_1.2.6            </span></span>
-<span><span class="co">##  [19] promises_1.3.3         rmarkdown_2.30         ragg_1.5.0            </span></span>
-<span><span class="co">##  [22] xfun_0.53              cachem_1.1.0           jsonlite_2.0.0        </span></span>
-<span><span class="co">##  [25] goftest_1.2-3          later_1.4.4            spatstat.utils_3.2-0  </span></span>
-<span><span class="co">##  [28] irlba_2.3.5.1          parallel_4.5.1         cluster_2.1.8.1       </span></span>
-<span><span class="co">##  [31] R6_2.6.1               ica_1.0-3              spatstat.data_3.1-8   </span></span>
-<span><span class="co">##  [34] bslib_0.9.0            stringi_1.8.7          RColorBrewer_1.1-3    </span></span>
-<span><span class="co">##  [37] GGally_2.4.0           reticulate_1.43.0      spatstat.univar_3.1-4 </span></span>
-<span><span class="co">##  [40] parallelly_1.45.1      lmtest_0.9-40          jquerylib_0.1.4       </span></span>
-<span><span class="co">##  [43] scattermore_1.2        Rcpp_1.1.0             tensor_1.5.1          </span></span>
-<span><span class="co">##  [46] future.apply_1.20.0    zoo_1.8-14             sctransform_0.4.2     </span></span>
-<span><span class="co">##  [49] httpuv_1.6.16          Matrix_1.7-4           splines_4.5.1         </span></span>
-<span><span class="co">##  [52] igraph_2.1.4           tidyselect_1.2.1       abind_1.4-8           </span></span>
-<span><span class="co">##  [55] yaml_2.3.10            spatstat.random_3.4-2  codetools_0.2-20      </span></span>
-<span><span class="co">##  [58] miniUI_0.1.2           spatstat.explore_3.5-3 listenv_0.9.1         </span></span>
-<span><span class="co">##  [61] lattice_0.22-7         tibble_3.3.0           plyr_1.8.9            </span></span>
-<span><span class="co">##  [64] shiny_1.11.1           withr_3.0.2            S7_0.2.0              </span></span>
-<span><span class="co">##  [67] ROCR_1.0-11            evaluate_1.0.5         Rtsne_0.17            </span></span>
-<span><span class="co">##  [70] fastDummies_1.7.5      desc_1.4.3             survival_3.8-3        </span></span>
-<span><span class="co">##  [73] ggstats_0.11.0         polyclip_1.10-7        fitdistrplus_1.2-4    </span></span>
-<span><span class="co">##  [76] pillar_1.11.1          KernSmooth_2.23-26     plotly_4.11.0         </span></span>
-<span><span class="co">##  [79] generics_0.1.4         RcppHNSW_0.6.0         scales_1.4.0          </span></span>
-<span><span class="co">##  [82] globals_0.18.0         xtable_1.8-4           glue_1.8.0            </span></span>
-<span><span class="co">##  [85] lazyeval_0.2.2         tools_4.5.1            data.table_1.17.8     </span></span>
-<span><span class="co">##  [88] RSpectra_0.16-2        RANN_2.6.2             fs_1.6.6              </span></span>
-<span><span class="co">##  [91] dotCall64_1.2          cowplot_1.2.0          grid_4.5.1            </span></span>
-<span><span class="co">##  [94] nlme_3.1-168           patchwork_1.3.2        cli_3.6.5             </span></span>
-<span><span class="co">##  [97] spatstat.sparse_3.1-0  textshaping_1.0.3      fansi_1.0.6           </span></span>
-<span><span class="co">## [100] spam_2.11-1            viridisLite_0.4.2      uwot_0.2.3            </span></span>
-<span><span class="co">## [103] gtable_0.3.6           sass_0.4.10            digest_0.6.37         </span></span>
-<span><span class="co">## [106] progressr_0.16.0       ggrepel_0.9.6          htmlwidgets_1.6.4     </span></span>
-<span><span class="co">## [109] farver_2.1.2           htmltools_0.5.8.1      pkgdown_2.1.3         </span></span>
-<span><span class="co">## [112] lifecycle_1.0.4        httr_1.4.7             mime_0.13             </span></span>
-<span><span class="co">## [115] MASS_7.3-65</span></span></code></pre>
+<span><span class="co">##   [4] rlang_1.1.6            RcppAnnoy_0.0.22       otel_0.2.0            </span></span>
+<span><span class="co">##   [7] spatstat.geom_3.6-0    matrixStats_1.5.0      ggridges_0.5.7        </span></span>
+<span><span class="co">##  [10] compiler_4.5.1         png_0.1-8              systemfonts_1.3.1     </span></span>
+<span><span class="co">##  [13] vctrs_0.6.5            reshape2_1.4.4         stringr_1.5.2         </span></span>
+<span><span class="co">##  [16] pkgconfig_2.0.3        fastmap_1.2.0          labeling_0.4.3        </span></span>
+<span><span class="co">##  [19] utf8_1.2.6             promises_1.4.0         rmarkdown_2.30        </span></span>
+<span><span class="co">##  [22] ragg_1.5.0             xfun_0.53              cachem_1.1.0          </span></span>
+<span><span class="co">##  [25] jsonlite_2.0.0         goftest_1.2-3          later_1.4.4           </span></span>
+<span><span class="co">##  [28] spatstat.utils_3.2-0   irlba_2.3.5.1          parallel_4.5.1        </span></span>
+<span><span class="co">##  [31] cluster_2.1.8.1        R6_2.6.1               ica_1.0-3             </span></span>
+<span><span class="co">##  [34] spatstat.data_3.1-9    bslib_0.9.0            stringi_1.8.7         </span></span>
+<span><span class="co">##  [37] RColorBrewer_1.1-3     GGally_2.4.0           reticulate_1.44.0     </span></span>
+<span><span class="co">##  [40] spatstat.univar_3.1-4  parallelly_1.45.1      lmtest_0.9-40         </span></span>
+<span><span class="co">##  [43] jquerylib_0.1.4        scattermore_1.2        Rcpp_1.1.0            </span></span>
+<span><span class="co">##  [46] tensor_1.5.1           future.apply_1.20.0    zoo_1.8-14            </span></span>
+<span><span class="co">##  [49] sctransform_0.4.2      httpuv_1.6.16          Matrix_1.7-4          </span></span>
+<span><span class="co">##  [52] splines_4.5.1          igraph_2.2.1           tidyselect_1.2.1      </span></span>
+<span><span class="co">##  [55] abind_1.4-8            yaml_2.3.10            spatstat.random_3.4-2 </span></span>
+<span><span class="co">##  [58] spatstat.explore_3.5-3 codetools_0.2-20       miniUI_0.1.2          </span></span>
+<span><span class="co">##  [61] listenv_0.9.1          lattice_0.22-7         tibble_3.3.0          </span></span>
+<span><span class="co">##  [64] plyr_1.8.9             shiny_1.11.1           withr_3.0.2           </span></span>
+<span><span class="co">##  [67] S7_0.2.0               ROCR_1.0-11            evaluate_1.0.5        </span></span>
+<span><span class="co">##  [70] Rtsne_0.17             fastDummies_1.7.5      desc_1.4.3            </span></span>
+<span><span class="co">##  [73] survival_3.8-3         ggstats_0.11.0         polyclip_1.10-7       </span></span>
+<span><span class="co">##  [76] fitdistrplus_1.2-4     pillar_1.11.1          KernSmooth_2.23-26    </span></span>
+<span><span class="co">##  [79] plotly_4.11.0          generics_0.1.4         RcppHNSW_0.6.0        </span></span>
+<span><span class="co">##  [82] scales_1.4.0           globals_0.18.0         xtable_1.8-4          </span></span>
+<span><span class="co">##  [85] glue_1.8.0             lazyeval_0.2.2         tools_4.5.1           </span></span>
+<span><span class="co">##  [88] data.table_1.17.8      RSpectra_0.16-2        RANN_2.6.2            </span></span>
+<span><span class="co">##  [91] fs_1.6.6               dotCall64_1.2          cowplot_1.2.0         </span></span>
+<span><span class="co">##  [94] grid_4.5.1             nlme_3.1-168           patchwork_1.3.2       </span></span>
+<span><span class="co">##  [97] cli_3.6.5              spatstat.sparse_3.1-0  textshaping_1.0.4     </span></span>
+<span><span class="co">## [100] fansi_1.0.6            spam_2.11-1            viridisLite_0.4.2     </span></span>
+<span><span class="co">## [103] uwot_0.2.3             gtable_0.3.6           sass_0.4.10           </span></span>
+<span><span class="co">## [106] digest_0.6.37          progressr_0.17.0       ggrepel_0.9.6         </span></span>
+<span><span class="co">## [109] htmlwidgets_1.6.4      farver_2.1.2           htmltools_0.5.8.1     </span></span>
+<span><span class="co">## [112] pkgdown_2.1.3          lifecycle_1.0.4        httr_1.4.7            </span></span>
+<span><span class="co">## [115] mime_0.13              MASS_7.3-65</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
