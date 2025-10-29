@@ -9,7 +9,7 @@ join_transcripts(
   transcripts = NULL,
   all = FALSE,
   exclude_zeros = FALSE,
-  shape = "long",
+  shape = "wide",
   ...
 )
 }

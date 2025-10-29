@@ -31,7 +31,7 @@ join_transcripts <- function(.data,
                           transcripts = NULL,
                           all = FALSE,
                           exclude_zeros = FALSE,
-                          shape = "long", ...) {
+                          shape = "wide", ...) {
   UseMethod("join_transcripts", .data)
 }
 #' @export
@@ -40,7 +40,7 @@ join_transcripts.default <-
            transcripts = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
-           shape = "long", ...)
+           shape = "wide", ...)
   {
     print("tidyseurat says: This function cannot be applied to this object")
   }
@@ -50,7 +50,7 @@ join_transcripts.Seurat <-
            transcripts = NULL,
            all = FALSE,
            exclude_zeros = FALSE,
-           shape = "long", ...)
+           shape = "wide", ...)
   {
     
     deprecate_warn("0.2.1", "join_transcripts()", "tidyseurat::join_features()")

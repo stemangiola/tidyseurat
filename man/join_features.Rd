@@ -10,7 +10,7 @@
   features = NULL,
   all = FALSE,
   exclude_zeros = FALSE,
-  shape = "long",
+  shape = "wide",
   assay = NULL,
   slot = "data",
   ...

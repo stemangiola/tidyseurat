@@ -62,7 +62,7 @@ tidy.Seurat <- function(x, ...){
 #' @importFrom ttservice join_features
 #' @export
 setMethod("join_features", "Seurat", function(.data,
-    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="long",
+    features=NULL, all=FALSE, exclude_zeros=FALSE, shape="wide",
     assay=NULL, slot="data", ...) {
   
   .feature = NULL

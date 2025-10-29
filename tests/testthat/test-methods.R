@@ -18,6 +18,14 @@ test_that("join_features_wide", {
     expect_equal(6.35, tolerance = 0.1)
 })
 
+test_that("join_features_default_wide", {
+  pbmc_small |> 
+    join_features("CD3D") |> 
+    slice(1) |>
+    pull(CD3D) |>
+    expect_equal(6.35, tolerance = 0.1)
+})
+
 test_that("aggregate_cells() returns expected values", {
   # Create pseudo-bulk object for testing
   pbmc_pseudo_bulk <-
