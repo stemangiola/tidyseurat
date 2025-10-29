@@ -16,7 +16,6 @@ setMethod(
 setClass("tidyseurat", contains="Seurat")
 
 #' @importFrom generics tidy
-generics::tidy
 
 #' @rdname tidy
 #' @importFrom lifecycle deprecate_warn
