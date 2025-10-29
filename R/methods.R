@@ -16,7 +16,6 @@ setMethod(
 setClass("tidyseurat", contains="Seurat")
 
 #' @importFrom generics tidy
-#' @export
 generics::tidy
 
 #' @rdname tidy
