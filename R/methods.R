@@ -15,21 +15,9 @@ setMethod(
 
 setClass("tidyseurat", contains="Seurat")
 
-#' @name tidy
-#' @rdname tidy
-#' @title tidy for `Seurat`
-#'
-#' @param object A `Seurat` object.
-#' @return A `tidyseurat` object.
-#'
-#' @examples
-#' data(pbmc_small)
-#' pbmc_small
-#'
+#' @importFrom generics tidy
 #' @export
-tidy <- function(object) {
-    UseMethod("tidy", object)
-}
+generics::tidy
 
 #' @rdname tidy
 #' @importFrom lifecycle deprecate_warn
