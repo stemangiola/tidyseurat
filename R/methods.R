@@ -120,7 +120,6 @@ setMethod("join_features", "Seurat", function(.data,
 #' @importFrom Seurat DietSeurat
 #' @importFrom Seurat GetAssayData
 #' @importFrom purrr map_int
-#' @export
 setMethod("aggregate_cells", "Seurat",  function(.data,
     .sample=NULL, slot="data", assays=NULL,
     aggregation_function=Matrix::rowSums, ...){
