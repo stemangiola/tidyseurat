@@ -23,10 +23,8 @@ Please also have a look at
   single-cell RNA sequencing analysis
 - [tidySummarizedExperiment](https://tidyomics.github.io/tidySummarizedExperiment/)
   for tidy bulk RNA sequencing analysis
-- [tidybulk](https://stemangiola.github.io/tidybulk/) for tidy bulk
+- [tidybulk](https://tidyomics.github.io/tidybulk/) for tidy bulk
   RNA-seq analysis
-- [nanny](https://github.com/stemangiola/nanny/) for tidy high-level
-  data analysis and manipulation
 - [tidygate](https://github.com/stemangiola/tidygate/) for adding custom
   gate information to your tibble
 - [tidyHeatmap](https://stemangiola.github.io/tidyHeatmap/) for heatmaps
@@ -58,11 +56,11 @@ Seurat-compatible *dplyr*, *tidyr*, *ggplot* and *plotly* functions.
 | `ggplot2`          | `ggplot` like for any tibble         |
 | `plotly`           | `plot_ly` like for any tibble        |
 
-| Utilities         | Description                                                      |
-|-------------------|------------------------------------------------------------------|
-| `tidy`            | Add `tidyseurat` invisible layer over a Seurat object            |
-| `as_tibble`       | Convert cell-wise information to a `tbl_df`                      |
-| `join_features`   | Add feature-wise information, returns a `tbl_df`                 |
+| Utilities | Description |
+|----|----|
+| `tidy` | Add `tidyseurat` invisible layer over a Seurat object |
+| `as_tibble` | Convert cell-wise information to a `tbl_df` |
+| `join_features` | Add feature-wise information, returns a `tbl_df` |
 | `aggregate_cells` | Aggregate cell gene-transcription abundance as pseudobulk tissue |
 
 ## Installation
@@ -105,7 +103,7 @@ pbmc_small
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 15
-    ## # [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m
+    ## # [90mFeatures=230 | Cells=80 | Active assay=RNA | Assays=RNA[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -191,7 +189,7 @@ Here we plot abundance of two features for each group.
 
 ``` r
 pbmc_small %>%
-  join_features(features = c("HLA-DRA", "LYZ")) %>%
+  join_features(features = c("HLA-DRA", "LYZ"), shape = "long") %>%
   ggplot(aes(groups, .abundance_RNA + 1, fill = groups)) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(aes(size = nCount_RNA), alpha = 0.5, width = 0.2) +
@@ -217,7 +215,7 @@ pbmc_small_pca
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 17
-    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -262,7 +260,7 @@ pbmc_small_cluster
 ```
 
     ## # A Seurat-tibble abstraction: 80 × 19
-    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
+    ## # [90mFeatures=220 | Cells=80 | Active assay=SCT | Assays=RNA, SCT[0m
     ##    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
     ##    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
     ##  1 ATGC… SeuratPro…         70           47 0               A             g2    
@@ -302,9 +300,10 @@ pbmc_small_cluster %>%
 We can identify cluster markers using Seurat.
 
 <!-- If this is Seurat v4, comment out the v3 markers -->
+
 <!--
 &#10;
-```r
+``` r
 # Identify top 10 markers per cluster
 markers <-
   pbmc_small_cluster %>%
@@ -320,6 +319,7 @@ pbmc_small_cluster %>%
   )
 ```
 &#10;-->
+
 <!-- If this is Seurat v3, comment out the v4 markers -->
 
 ``` r
