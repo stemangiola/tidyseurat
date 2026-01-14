@@ -1125,8 +1125,7 @@ sample_frac.Seurat <- function(tbl, size = 1, replace = FALSE,
 #'   If omitted, it will default to `n`. If there's already a column called `n`,
 #'   it will error, and require you to specify the name.
 #' @param .drop For `count()`: if `FALSE` will include counts for empty groups
-#'   (i.e. for levels of factors that don't exist in the data). Deprecated in
-#'   `add_count()` since it didn't actually affect the output.
+#'   (i.e. for levels of factors that don't exist in the data).
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
@@ -1177,21 +1176,21 @@ count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = g
 
 #' @export
 #' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("add_count")
 }
 
 #' @export
 #' @rdname count
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
-  dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)
+  dplyr::add_count(x=x, ..., wt = !!enquo(wt), sort = sort, name = name)
 
 }
 
 #' @export
 #' @rdname count
-add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
   # Deprecation of special column names
   if(is_sample_feature_deprecated_used(
@@ -1204,7 +1203,7 @@ add_count.Seurat <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   x@meta.data =
     x %>%
     as_tibble %>%
-    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name, .drop = .drop)  %>%
+    dplyr::add_count(..., wt = !!enquo(wt), sort = sort, name = name)  %>%
     as_meta_data(x)
 
   x

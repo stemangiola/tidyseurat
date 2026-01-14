@@ -16,32 +16,11 @@ count(
   .drop = group_by_drop_default(x)
 )
 
-add_count(
-  x,
-  ...,
-  wt = NULL,
-  sort = FALSE,
-  name = NULL,
-  .drop = group_by_drop_default(x)
-)
+add_count(x, ..., wt = NULL, sort = FALSE, name = NULL)
 
-\method{add_count}{default}(
-  x,
-  ...,
-  wt = NULL,
-  sort = FALSE,
-  name = NULL,
-  .drop = group_by_drop_default(x)
-)
+\method{add_count}{default}(x, ..., wt = NULL, sort = FALSE, name = NULL)
 
-\method{add_count}{Seurat}(
-  x,
-  ...,
-  wt = NULL,
-  sort = FALSE,
-  name = NULL,
-  .drop = group_by_drop_default(x)
-)
+\method{add_count}{Seurat}(x, ..., wt = NULL, sort = FALSE, name = NULL)
 }
 \arguments{
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a
@@ -63,8 +42,7 @@ lazy data frame (e.g. from dbplyr or dtplyr).}
   it will error, and require you to specify the name.}
 
 \item{.drop}{For `count()`: if `FALSE` will include counts for empty groups
-(i.e. for levels of factors that don't exist in the data). Deprecated in
-`add_count()` since it didn't actually affect the output.}
+(i.e. for levels of factors that don't exist in the data).}
 }
 \value{
 An object of the same type as `.data`. `count()` and `add_count()`
