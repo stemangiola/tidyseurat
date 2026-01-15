@@ -196,7 +196,7 @@ plot_ly(pbmc_small)
 
 }
 \references{
-\url{https://plotly.com/r/}
+\url{https://plotly-r.com/overview.html}
 }
 \seealso{
 \itemize{

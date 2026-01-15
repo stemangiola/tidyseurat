@@ -21,8 +21,8 @@ If not supplied, then \code{...} is derived as all columns \emph{not} selected b
 \code{.by}, and will use the column name from \code{.key}.
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}:
-previously you could write \code{df \%>\% nest(x, y, z)}.
-Convert to \code{df \%>\% nest(data = c(x, y, z))}.}
+previously you could write \code{df |> nest(x, y, z)}.
+Convert to \code{df |> nest(data = c(x, y, z))}.}
 
 \item{.names_sep}{If \code{NULL}, the default, the inner names will come from
 the former outer names. If a string, the  new inner names will use the
@@ -64,16 +64,16 @@ unnest <- unnest_legacy
 \section{Grouped data frames}{
 
 
-\code{df \%>\% nest(data = c(x, y))} specifies the columns to be nested; i.e. the
-columns that will appear in the inner data frame. \code{df \%>\% nest(.by = c(x, y))} specifies the columns to nest \emph{by}; i.e. the columns that will remain in
+\code{df |> nest(data = c(x, y))} specifies the columns to be nested; i.e. the
+columns that will appear in the inner data frame. \code{df |> nest(.by = c(x, y))} specifies the columns to nest \emph{by}; i.e. the columns that will remain in
 the outer data frame. An alternative way to achieve the latter is to \code{nest()}
 a grouped data frame created by \code{\link[dplyr:group_by]{dplyr::group_by()}}. The grouping variables
 remain in the outer data frame and the others are nested. The result
 preserves the grouping of the input.
 
 Variables supplied to \code{nest()} will override grouping variables so that
-\code{df \%>\% group_by(x, y) \%>\% nest(data = !z)} will be equivalent to
-\code{df \%>\% nest(data = !z)}.
+\code{df |> group_by(x, y) |> nest(data = !z)} will be equivalent to
+\code{df |> nest(data = !z)}.
 
 You can't supply \code{.by} with a grouped data frame, as the groups already
 represent what you are nesting by.
