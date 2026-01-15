@@ -17,7 +17,7 @@ Learn more in vignette("nest").'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,8 +79,8 @@ tidyselect expression.</p>
 <p>If not supplied, then <code>...</code> is derived as all columns <em>not</em> selected by
 <code>.by</code>, and will use the column name from <code>.key</code>.</p>
 <p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>:
-previously you could write <code>df %&gt;% nest(x, y, z)</code>.
-Convert to <code>df %&gt;% nest(data = c(x, y, z))</code>.</p></dd>
+previously you could write <code>df |&gt; nest(x, y, z)</code>.
+Convert to <code>df |&gt; nest(data = c(x, y, z))</code>.</p></dd>
 
 
 <dt id="arg--names-sep">.names_sep<a class="anchor" aria-label="anchor" href="#arg--names-sep"></a></dt>
@@ -118,15 +118,15 @@ behaviour using <code><a href="https://tidyr.tidyverse.org/reference/nest_legacy
 
 
 
-<p><code>df %&gt;% nest(data = c(x, y))</code> specifies the columns to be nested; i.e. the
-columns that will appear in the inner data frame. <code>df %&gt;% nest(.by = c(x, y))</code> specifies the columns to nest <em>by</em>; i.e. the columns that will remain in
+<p><code>df |&gt; nest(data = c(x, y))</code> specifies the columns to be nested; i.e. the
+columns that will appear in the inner data frame. <code>df |&gt; nest(.by = c(x, y))</code> specifies the columns to nest <em>by</em>; i.e. the columns that will remain in
 the outer data frame. An alternative way to achieve the latter is to <code>nest()</code>
 a grouped data frame created by <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code>. The grouping variables
 remain in the outer data frame and the others are nested. The result
 preserves the grouping of the input.</p>
 <p>Variables supplied to <code>nest()</code> will override grouping variables so that
-<code>df %&gt;% group_by(x, y) %&gt;% nest(data = !z)</code> will be equivalent to
-<code>df %&gt;% nest(data = !z)</code>.</p>
+<code>df |&gt; group_by(x, y) |&gt; nest(data = !z)</code> will be equivalent to
+<code>df |&gt; nest(data = !z)</code>.</p>
 <p>You can't supply <code>.by</code> with a grouped data frame, as the groups already
 represent what you are nesting by.</p>
     </div>

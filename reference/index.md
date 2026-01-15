@@ -17,9 +17,8 @@
 
 - [`cell_type_df`](cell_type_df.md) : Cell types of 80 PBMC single cells
 
-- [`count(`*`<Seurat>`*`)`](count.md)
-  [`add_count(`*`<Seurat>`*`)`](count.md) : Count the observations in
-  each group
+- [`count(`*`<Seurat>`*`)`](count.md) [`add_count()`](count.md) : Count
+  observations by group
 
 - [`distinct(`*`<Seurat>`*`)`](distinct.md) : Keep distinct/unique rows
 

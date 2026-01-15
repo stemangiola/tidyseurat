@@ -1,19 +1,13 @@
-# Count the observations in each group
+# Count observations by group
 
-`count()` lets you quickly count the unique values of one or more
-variables: `df %>% count(a, b)` is roughly equivalent to
-`df %>% group_by(a, b) %>% summarise(n = n())`. `count()` is paired with
-[`tally()`](https://dplyr.tidyverse.org/reference/count.html), a
-lower-level helper that is equivalent to `df %>% summarise(n = n())`.
-Supply `wt` to perform weighted counts, switching the summary from
-`n = n()` to `n = sum(wt)`.
+\`count()\` lets you quickly count the unique values of one or more
+variables: \`df \`df \`count()\` is paired with \`tally()\`, a
+lower-level helper that is equivalent to \`df switching the summary from
+\`n = n()\` to \`n = sum(wt)\`.
 
-`add_count()` and
-[`add_tally()`](https://dplyr.tidyverse.org/reference/count.html) are
-equivalents to `count()` and
-[`tally()`](https://dplyr.tidyverse.org/reference/count.html) but use
-[`mutate()`](mutate.md) instead of [`summarise()`](summarise.md) so that
-they add a new column with group-wise counts.
+\`add_count()\` and \`add_tally()\` are equivalents to \`count()\` and
+\`tally()\` but use \`mutate()\` instead of \`summarise()\` so that they
+add a new column with group-wise counts.
 
 ## Usage
 
@@ -28,15 +22,13 @@ count(
   .drop = group_by_drop_default(x)
 )
 
+add_count(x, ..., wt = NULL, sort = FALSE, name = NULL)
+
+# Default S3 method
+add_count(x, ..., wt = NULL, sort = FALSE, name = NULL)
+
 # S3 method for class 'Seurat'
-add_count(
-  x,
-  ...,
-  wt = NULL,
-  sort = FALSE,
-  name = NULL,
-  .drop = group_by_drop_default(x)
-)
+add_count(x, ..., wt = NULL, sort = FALSE, name = NULL)
 ```
 
 ## Arguments
@@ -48,45 +40,36 @@ add_count(
 
 - ...:
 
-  \<[`data-masking`](https://rlang.r-lib.org/reference/args_data_masking.html)\>
-  Variables to group by.
+  \<\[\`data-masking\`\]\[dplyr_data_masking\]\> Variables to group by.
 
 - wt:
 
-  \<[`data-masking`](https://rlang.r-lib.org/reference/args_data_masking.html)\>
-  Frequency weights. Can be `NULL` or a variable:
+  \<\[\`data-masking\`\]\[dplyr_data_masking\]\> Frequency weights. Can
+  be \`NULL\` or a variable:
 
-  - If `NULL` (the default), counts the number of rows in each group.
-
-  - If a variable, computes `sum(wt)` for each group.
+  \* If \`NULL\` (the default), counts the number of rows in each group.
+  \* If a variable, computes \`sum(wt)\` for each group.
 
 - sort:
 
-  If `TRUE`, will show the largest groups at the top.
+  If \`TRUE\`, will show the largest groups at the top.
 
 - name:
 
   The name of the new column in the output.
 
-  If omitted, it will default to `n`. If there's already a column called
-  `n`, it will use `nn`. If there's a column called `n` and `nn`, it'll
-  use `nnn`, and so on, adding `n`s until it gets a new name.
+  If omitted, it will default to \`n\`. If there's already a column
+  called \`n\`, it will error, and require you to specify the name.
 
 - .drop:
 
-  Handling of factor levels that don't appear in the data, passed on to
-  [`group_by()`](https://dplyr.tidyverse.org/reference/group_by.html).
-
-  For `count()`: if `FALSE` will include counts for empty groups (i.e.
-  for levels of factors that don't exist in the data).
-
-  **\[deprecated\]** For `add_count()`: deprecated since it can't
-  actually affect the output.
+  For \`count()\`: if \`FALSE\` will include counts for empty groups
+  (i.e. for levels of factors that don't exist in the data).
 
 ## Value
 
-An object of the same type as `.data`. `count()` and `add_count()` group
-transiently, so the output has the same groups as the input.
+An object of the same type as \`.data\`. \`count()\` and \`add_count()\`
+group transiently, so the output has the same groups as the input.
 
 ## Examples
 

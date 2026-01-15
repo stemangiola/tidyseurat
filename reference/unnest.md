@@ -53,11 +53,11 @@ unnest_seurat(
 - ...:
 
   **\[deprecated\]**: previously you could write
-  `df %>% unnest(x, y, z)`. Convert to `df %>% unnest(c(x, y, z))`. If
-  you previously created a new variable in `unnest()` you'll now need to
-  do it explicitly with [`mutate()`](mutate.md). Convert
-  `df %>% unnest(y = fun(x, y, z))` to
-  `df %>% mutate(y = fun(x, y, z)) %>% unnest(y)`.
+  `df |> unnest(x, y, z)`. Convert to `df |> unnest(c(x, y, z))`. If you
+  previously created a new variable in `unnest()` you'll now need to do
+  it explicitly with [`mutate()`](mutate.md). Convert
+  `df |> unnest(y = fun(x, y, z))` to
+  `df |> mutate(y = fun(x, y, z)) |> unnest(y)`.
 
 - keep_empty:
 
@@ -116,8 +116,8 @@ unnest_seurat(
 
 - .id:
 
-  **\[deprecated\]**: convert `df %>% unnest(x, .id = "id")` to
-  `df %>% mutate(id = names(x)) %>% unnest(x))`.
+  **\[deprecated\]**: convert `df |> unnest(x, .id = "id")` to
+  `df |> mutate(id = names(x)) |> unnest(x))`.
 
 - .sep:
 

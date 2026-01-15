@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,11 +89,11 @@ to their common size.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>:
-previously you could write <code>df %&gt;% unnest(x, y, z)</code>.
-Convert to <code>df %&gt;% unnest(c(x, y, z))</code>. If you previously created a new
+previously you could write <code>df |&gt; unnest(x, y, z)</code>.
+Convert to <code>df |&gt; unnest(c(x, y, z))</code>. If you previously created a new
 variable in <code>unnest()</code> you'll now need to do it explicitly with <code><a href="mutate.html">mutate()</a></code>.
-Convert <code>df %&gt;% unnest(y = fun(x, y, z))</code>
-to <code>df %&gt;% mutate(y = fun(x, y, z)) %&gt;% unnest(y)</code>.</p></dd>
+Convert <code>df |&gt; unnest(y = fun(x, y, z))</code>
+to <code>df |&gt; mutate(y = fun(x, y, z)) |&gt; unnest(y)</code>.</p></dd>
 
 
 <dt id="arg-keep-empty">keep_empty<a class="anchor" aria-label="anchor" href="#arg-keep-empty"></a></dt>
@@ -140,7 +140,7 @@ unnesting.</p></dd>
 
 <dt id="arg--id">.id<a class="anchor" aria-label="anchor" href="#arg--id"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>:
-convert <code>df %&gt;% unnest(x, .id = "id")</code> to <code>df %&gt;% mutate(id = names(x)) %&gt;% unnest(x))</code>.</p></dd>
+convert <code>df |&gt; unnest(x, .id = "id")</code> to <code>df |&gt; mutate(id = names(x)) |&gt; unnest(x))</code>.</p></dd>
 
 
 <dt id="arg--sep">.sep<a class="anchor" aria-label="anchor" href="#arg--sep"></a></dt>

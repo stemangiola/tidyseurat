@@ -34,8 +34,8 @@ nest(.data, ..., .names_sep = NULL)
   If not supplied, then `...` is derived as all columns *not* selected
   by `.by`, and will use the column name from `.key`.
 
-  **\[deprecated\]**: previously you could write `df %>% nest(x, y, z)`.
-  Convert to `df %>% nest(data = c(x, y, z))`.
+  **\[deprecated\]**: previously you could write `df |> nest(x, y, z)`.
+  Convert to `df |> nest(data = c(x, y, z))`.
 
 - .names_sep:
 
@@ -71,18 +71,18 @@ as follows:
 
 ## Grouped data frames
 
-`df %>% nest(data = c(x, y))` specifies the columns to be nested; i.e.
+`df |> nest(data = c(x, y))` specifies the columns to be nested; i.e.
 the columns that will appear in the inner data frame.
-`df %>% nest(.by = c(x, y))` specifies the columns to nest *by*; i.e.
-the columns that will remain in the outer data frame. An alternative way
-to achieve the latter is to `nest()` a grouped data frame created by
+`df |> nest(.by = c(x, y))` specifies the columns to nest *by*; i.e. the
+columns that will remain in the outer data frame. An alternative way to
+achieve the latter is to `nest()` a grouped data frame created by
 [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html).
 The grouping variables remain in the outer data frame and the others are
 nested. The result preserves the grouping of the input.
 
 Variables supplied to `nest()` will override grouping variables so that
-`df %>% group_by(x, y) %>% nest(data = !z)` will be equivalent to
-`df %>% nest(data = !z)`.
+`df |> group_by(x, y) |> nest(data = !z)` will be equivalent to
+`df |> nest(data = !z)`.
 
 You can't supply `.by` with a grouped data frame, as the groups already
 represent what you are nesting by.
