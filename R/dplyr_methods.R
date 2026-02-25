@@ -953,11 +953,12 @@ add_count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
 #' @rdname count
 add_count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
     if (is.null(name)) name <- "n"
-    x %>%
+    .out <- x %>%
         dplyr::group_by(..., .add = TRUE) %>%
-        dplyr::mutate(!!rlang::sym(name) := if (is.null(wt)) n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
-        dplyr::ungroup() %>%
-        { if (sort) dplyr::arrange(., desc(!!rlang::sym(name))) else . }
+        dplyr::mutate(!!rlang::sym(name) := if (is.null(wt)) dplyr::n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
+        dplyr::ungroup()
+    if (sort) .out <- dplyr::arrange(.out, dplyr::desc(!!rlang::sym(name)))
+    .out
 }
 
 #' @rdname count
@@ -974,14 +975,13 @@ add_count.Seurat <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
     }
 
     if (is.null(name)) name <- "n"
-    x@meta.data <-
-        x %>%
+    .out <- x %>%
         as_tibble %>%
         dplyr::group_by(..., .add = TRUE) %>%
-        dplyr::mutate(!!sym(name) := if (is.null(wt)) n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
-        dplyr::ungroup() %>%
-        { if (sort) dplyr::arrange(., desc(!!sym(name))) else . } %>%
-        as_meta_data(x)
+        dplyr::mutate(!!sym(name) := if (is.null(wt)) dplyr::n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
+        dplyr::ungroup()
+    if (sort) .out <- dplyr::arrange(.out, dplyr::desc(!!sym(name)))
+    x@meta.data <- .out %>% as_meta_data(x)
 
     x
 }
