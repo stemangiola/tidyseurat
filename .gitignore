@@ -16,3 +16,4 @@ dev/dplyr-master/*
 tidyseurat.Rproj
 /doc/
 /Meta/
+..Rcheck/*

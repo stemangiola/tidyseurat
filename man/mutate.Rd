@@ -68,16 +68,16 @@ yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped mutate:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\%
-  select(name, mass, species) \%>\%
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |>
+  select(name, mass, species) |>
   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 }\if{html}{\out{</div>}}
 
 With the grouped equivalent:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\%
-  select(name, mass, species) \%>\%
-  group_by(species) \%>\%
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |>
+  select(name, mass, species) |>
+  group_by(species) |>
   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 }\if{html}{\out{</div>}}
 

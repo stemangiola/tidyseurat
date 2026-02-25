@@ -952,27 +952,36 @@ add_count <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
 #' @export
 #' @rdname count
 add_count.default <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
-    dplyr::add_count(x=x, ..., wt=!!enquo(wt), sort=sort, name=name)
+    if (is.null(name)) name <- "n"
+    .out <- x %>%
+        dplyr::group_by(..., .add = TRUE) %>%
+        dplyr::mutate(!!rlang::sym(name) := if (is.null(wt)) dplyr::n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
+        dplyr::ungroup()
+    if (sort) .out <- dplyr::arrange(.out, dplyr::desc(!!rlang::sym(name)))
+    .out
 }
 
 #' @rdname count
 #' @aliases add_count
-#' @importFrom dplyr add_count
+#' @importFrom rlang sym
 #' @export
 add_count.Seurat <- function(x, ..., wt=NULL, sort=FALSE, name=NULL) {
 
     # Deprecation of special column names
-    .cols <- enquos(..., .ignore_empty="all") %>% 
+    .cols <- enquos(..., .ignore_empty="all") %>%
         map(~ quo_name(.x)) %>% unlist()
     if (is_sample_feature_deprecated_used(x, .cols)) {
         x <- ping_old_special_column_into_metadata(x)
     }
 
-    x@meta.data <-
-        x %>%
+    if (is.null(name)) name <- "n"
+    .out <- x %>%
         as_tibble %>%
-        dplyr::add_count(..., wt=!!enquo(wt), sort=sort, name=name) %>%
-        as_meta_data(x)
+        dplyr::group_by(..., .add = TRUE) %>%
+        dplyr::mutate(!!sym(name) := if (is.null(wt)) dplyr::n() else sum(!!enquo(wt), na.rm = TRUE)) %>%
+        dplyr::ungroup()
+    if (sort) .out <- dplyr::arrange(.out, dplyr::desc(!!sym(name)))
+    x@meta.data <- .out %>% as_meta_data(x)
 
     x
 }
