@@ -23,6 +23,7 @@ group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 
 - ...:
 
+  \<[`data-masking`](https://rlang.r-lib.org/reference/args_data_masking.html)\>
   In `group_by()`, variables or computations to group by. Computations
   are always done on the ungrouped data frame. To perform computations
   on the grouped data, you need to use a separate
@@ -36,10 +37,6 @@ group_by(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data))
 
   When `FALSE`, the default, `group_by()` will override existing groups.
   To add to the existing groups, use `.add = TRUE`.
-
-  This argument was previously called `add`, but that prevented creating
-  a new grouping variable called `add`, and conflicts with our naming
-  conventions.
 
 - .drop:
 
@@ -87,9 +84,9 @@ call to
 [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) and
 set the `.locale` argument. For example:
 
-    data %>%
-      group_by(chr) %>%
-      summarise(avg = mean(x)) %>%
+    data |>
+      group_by(chr) |>
+      summarise(avg = mean(x)) |>
       arrange(chr, .locale = "en")
 
 This is often useful as a preliminary step before generating content
@@ -97,15 +94,17 @@ intended for humans, such as an HTML table.
 
 ### Legacy behavior
 
+**\[deprecated\]**
+
 Prior to dplyr 1.1.0, character vector grouping columns were ordered in
-the system locale. If you need to temporarily revert to this behavior,
-you can set the global option `dplyr.legacy_locale` to `TRUE`, but this
-should be used sparingly and you should expect this option to be removed
-in a future version of dplyr. It is better to update existing code to
-explicitly call `arrange(.locale = )` instead. Note that setting
-`dplyr.legacy_locale` will also force calls to
-[`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) to use
-the system locale.
+the system locale. Setting the global option `dplyr.legacy_locale` to
+`TRUE` retains this legacy behavior, but this has been deprecated.
+Update existing code to explicitly call `arrange(.locale = )` instead.
+Run `Sys.getlocale("LC_COLLATE")` to determine your system locale, and
+compare that against the list in
+[`stringi::stri_locale_list()`](https://rdrr.io/pkg/stringi/man/stri_locale_list.html)
+to find an appropriate value for `.locale`, i.e. for American English,
+`"en_US"`.
 
 ## See also
 

@@ -25,7 +25,7 @@
 - [`extract(`*`<Seurat>`*`)`](extract.md) **\[superseded\]** : Extract a
   character column into multiple columns using regular expression groups
 
-- [`filter(`*`<Seurat>`*`)`](filter.md) : Keep rows that match a
+- [`filter(`*`<Seurat>`*`)`](filter.md) : Keep or drop rows that match a
   condition
 
 - [`print(`*`<Seurat>`*`)`](formatting.md) : Printing tibbles

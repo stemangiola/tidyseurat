@@ -29,7 +29,7 @@ each group."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ each group."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Subset rows using their positions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/master/R/dplyr_methods.R" class="external-link"><code>R/dplyr_methods.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/fix-drop-argument-deprecation-dplyr/R/dplyr_methods.R" class="external-link"><code>R/dplyr_methods.R</code></a></small>
       <div class="d-none name"><code>slice.Rd</code></div>
     </div>
 
@@ -138,16 +138,14 @@ Indices beyond the number of rows in the input are silently ignored.</p>
 
 
 <dt id="arg--by-by">.by, by<a class="anchor" aria-label="anchor" href="#arg--by-by"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>&lt;<code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">tidy-select</a></code>&gt; Optionally, a selection of columns to
+<dd><p>&lt;<code><a href="https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html" class="external-link">tidy-select</a></code>&gt; Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by()</a></code>. For
 details and examples, see <a href="https://dplyr.tidyverse.org/reference/dplyr_by.html" class="external-link">?dplyr_by</a>.</p></dd>
 
 
 <dt id="arg--preserve">.preserve<a class="anchor" aria-label="anchor" href="#arg--preserve"></a></dt>
-<dd><p>Relevant when the <code>.data</code> input is grouped.
-If <code>.preserve = FALSE</code> (the default), the grouping structure
-is recalculated based on the resulting data, otherwise the grouping is kept as is.</p></dd>
+<dd><p>Relevant when the <code>.data</code> input is grouped. If <code>.preserve = FALSE</code> (the default), the grouping structure is recalculated based on the
+resulting data, otherwise the grouping is kept as is.</p></dd>
 
 
 <dt id="arg-n-prop">n, prop<a class="anchor" aria-label="anchor" href="#arg-n-prop"></a></dt>
@@ -165,7 +163,9 @@ rows; <code>prop = -0.25</code> with 8 rows will select 8 * (1 - 0.25) = 6 rows.
 <dt id="arg-weight-by">weight_by<a class="anchor" aria-label="anchor" href="#arg-weight-by"></a></dt>
 <dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Sampling
 weights. This must evaluate to a vector of non-negative numbers the same
-length as the input. Weights are automatically standardised to sum to 1.</p></dd>
+length as the input. Weights are automatically standardised to sum to 1.
+See the <code>Details</code> section for more technical details regarding these
+weights.</p></dd>
 
 
 <dt id="arg-replace">replace<a class="anchor" aria-label="anchor" href="#arg-replace"></a></dt>
@@ -205,6 +205,11 @@ properties:</p><ul><li><p>Each row may appear 0, 1, or many times in the output.
     <p>Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/row_number.html" class="external-link">row_number()</a></code>.</p>
+<p>For <code>slice_sample()</code>, note that the weights provided in <code>weight_by</code> are
+passed through to the <code>prob</code> argument of <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">base::sample.int()</a></code>. This means
+they cannot be used to reconstruct summary statistics from the underlying
+population. See <a href="https://stats.stackexchange.com/q/639211/" class="external-link">this discussion</a>
+for more details.</p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>

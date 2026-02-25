@@ -11,7 +11,7 @@ where operations are performed "by group". ungroup() removes grouping.'></head><
 
     <a class="navbar-brand me-2" href="../index.html">tidyseurat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ where operations are performed "by group". ungroup() removes grouping.'></head><
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Group by one or more variables</h1>
-      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/master/R/dplyr_methods.R" class="external-link"><code>R/dplyr_methods.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/stemangiola/tidyseurat/blob/fix-drop-argument-deprecation-dplyr/R/dplyr_methods.R" class="external-link"><code>R/dplyr_methods.R</code></a></small>
       <div class="d-none name"><code>group_by.Rd</code></div>
     </div>
 
@@ -64,10 +64,10 @@ more details.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>In <code>group_by()</code>, variables or computations to group by.
-Computations are always done on the ungrouped data frame.
-To perform computations on the grouped data, you need to use
-a separate <code><a href="mutate.html">mutate()</a></code> step before the <code>group_by()</code>.
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; In <code>group_by()</code>,
+variables or computations to group by. Computations are always done on the
+ungrouped data frame. To perform computations on the grouped data, you need
+to use a separate <code><a href="mutate.html">mutate()</a></code> step before the <code>group_by()</code>.
 Computations are not allowed in <code><a href="https://dplyr.tidyverse.org/reference/nest_by.html" class="external-link">nest_by()</a></code>.
 In <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup()</a></code>, variables to remove from the grouping.</p></dd>
 
@@ -75,10 +75,7 @@ In <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="ex
 <dt id="arg--add">.add<a class="anchor" aria-label="anchor" href="#arg--add"></a></dt>
 <dd><p>When <code>FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To add to the existing groups, use
-<code>.add = TRUE</code>.</p>
-<p>This argument was previously called <code>add</code>, but that prevented
-creating a new grouping variable called <code>add</code>, and conflicts with
-our naming conventions.</p></dd>
+<code>.add = TRUE</code>.</p></dd>
 
 
 <dt id="arg--drop">.drop<a class="anchor" aria-label="anchor" href="#arg--drop"></a></dt>
@@ -119,22 +116,23 @@ for performance and reproducibility across R sessions. If the resulting
 ordering of your grouped operation matters and is dependent on the locale,
 you should follow up the grouped operation with an explicit call to
 <code><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange()</a></code> and set the <code>.locale</code> argument. For example:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">group_by</span>(chr) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(x)) <span class="sc">%&gt;%</span></span>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">group_by</span>(chr) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(x)) <span class="sc">|&gt;</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">arrange</span>(chr, <span class="at">.locale =</span> <span class="st">"en"</span>)</span></code></pre><p></p></div>
 <p>This is often useful as a preliminary step before generating content intended
 for humans, such as an HTML table.</p><div class="section">
 <h3 id="legacy-behavior">Legacy behavior<a class="anchor" aria-label="anchor" href="#legacy-behavior"></a></h3>
 
 
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
 <p>Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
-system locale. If you need to temporarily revert to this behavior, you can
-set the global option <code>dplyr.legacy_locale</code> to <code>TRUE</code>, but this should be
-used sparingly and you should expect this option to be removed in a future
-version of dplyr. It is better to update existing code to explicitly call
-<code>arrange(.locale = )</code> instead. Note that setting <code>dplyr.legacy_locale</code> will
-also force calls to <code><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange()</a></code> to use the system locale.</p>
+system locale. Setting the global option <code>dplyr.legacy_locale</code> to <code>TRUE</code>
+retains this legacy behavior, but this has been deprecated. Update existing
+code to explicitly call <code>arrange(.locale = )</code> instead. Run
+<code>Sys.getlocale("LC_COLLATE")</code> to determine your system locale, and compare
+that against the list in <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> to find an appropriate
+value for <code>.locale</code>, i.e. for American English, <code>"en_US"</code>.</p>
 </div>
 
 

@@ -86,8 +86,6 @@ slice_max(
 
 - .by, by:
 
-  **\[experimental\]**
-
   \<[`tidy-select`](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html)\>
   Optionally, a selection of columns to group by for just this
   operation, functioning as an alternative to
@@ -119,7 +117,8 @@ slice_max(
   \<[`data-masking`](https://rlang.r-lib.org/reference/args_data_masking.html)\>
   Sampling weights. This must evaluate to a vector of non-negative
   numbers the same length as the input. Weights are automatically
-  standardised to sum to 1.
+  standardised to sum to 1. See the `Details` section for more technical
+  details regarding these weights.
 
 - replace:
 
@@ -166,6 +165,13 @@ intrinsic notion of row order. If you want to perform the equivalent
 operation, use
 [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) and
 [`row_number()`](https://dplyr.tidyverse.org/reference/row_number.html).
+
+For `slice_sample()`, note that the weights provided in `weight_by` are
+passed through to the `prob` argument of
+[`base::sample.int()`](https://rdrr.io/r/base/sample.html). This means
+they cannot be used to reconstruct summary statistics from the
+underlying population. See [this
+discussion](https://stats.stackexchange.com/q/639211/) for more details.
 
 ## Methods
 

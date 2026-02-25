@@ -38,12 +38,8 @@ summarize(.data, ...)
     [`n()`](https://dplyr.tidyverse.org/reference/context.html), or
     `sum(is.na(y))`.
 
-  - A data frame, to add multiple columns from a single expression.
-
-  **\[deprecated\]** Returning values with size 0 or \>1 was deprecated
-  as of 1.1.0. Please use
-  [`reframe()`](https://dplyr.tidyverse.org/reference/reframe.html) for
-  this instead.
+  - A data frame with 1 row, to add multiple columns from a single
+    expression.
 
 ## Value
 

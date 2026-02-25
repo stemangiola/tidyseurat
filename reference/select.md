@@ -121,9 +121,7 @@ specific help pages to learn about helpers like
 [`starts_with()`](https://tidyselect.r-lib.org/reference/starts_with.html).
 
 The selection language can be used in functions like
-[`dplyr::select()`](https://dplyr.tidyverse.org/reference/select.html)
-or
-[`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html).
+[`dplyr::select()`](https://dplyr.tidyverse.org/reference/select.html).
 Let's first attach the tidyverse:
 
     library(tidyverse)
@@ -133,7 +131,7 @@ Let's first attach the tidyverse:
 
 Select variables by name:
 
-    starwars %>% select(height)
+    starwars |> select(height)
     #> # A tibble: 87 x 1
     #>   height
     #>    <int>
@@ -143,20 +141,20 @@ Select variables by name:
     #> 4    202
     #> # i 83 more rows
 
-    iris %>% pivot_longer(Sepal.Length)
-    #> # A tibble: 150 x 6
-    #>   Sepal.Width Petal.Length Petal.Width Species name         value
-    #>         <dbl>        <dbl>       <dbl> <fct>   <chr>        <dbl>
-    #> 1         3.5          1.4         0.2 setosa  Sepal.Length   5.1
-    #> 2         3            1.4         0.2 setosa  Sepal.Length   4.9
-    #> 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7
-    #> 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6
+    iris |> select(Sepal.Length)
+    #> # A tibble: 150 x 1
+    #>   Sepal.Length
+    #>          <dbl>
+    #> 1          5.1
+    #> 2          4.9
+    #> 3          4.7
+    #> 4          4.6
     #> # i 146 more rows
 
 Select multiple variables by separating them with commas. Note how the
 order of columns is determined by the order of inputs:
 
-    starwars %>% select(homeworld, height, mass)
+    starwars |> select(homeworld, height, mass)
     #> # A tibble: 87 x 3
     #>   homeworld height  mass
     #>   <chr>      <int> <dbl>
@@ -166,26 +164,39 @@ order of columns is determined by the order of inputs:
     #> 4 Tatooine     202   136
     #> # i 83 more rows
 
-Functions like
-[`tidyr::pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html)
-don't take variables with dots. In this case use
-[`c()`](https://rdrr.io/r/base/c.html) to select multiple variables:
+    iris |> select(Sepal.Length, Petal.Length)
+    #> # A tibble: 150 x 2
+    #>   Sepal.Length Petal.Length
+    #>          <dbl>        <dbl>
+    #> 1          5.1          1.4
+    #> 2          4.9          1.4
+    #> 3          4.7          1.3
+    #> 4          4.6          1.5
+    #> # i 146 more rows
 
-    iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
-    #> # A tibble: 300 x 5
-    #>   Sepal.Width Petal.Width Species name         value
-    #>         <dbl>       <dbl> <fct>   <chr>        <dbl>
-    #> 1         3.5         0.2 setosa  Sepal.Length   5.1
-    #> 2         3.5         0.2 setosa  Petal.Length   1.4
-    #> 3         3           0.2 setosa  Sepal.Length   4.9
-    #> 4         3           0.2 setosa  Petal.Length   1.4
-    #> # i 296 more rows
+If you use a named vector to select columns, the output will have its
+columns renamed:
+
+    selection <- c(
+      new_homeworld = "homeworld",
+      new_height = "height",
+      new_mass = "mass"
+    )
+    starwars |> select(all_of(selection))
+    #> # A tibble: 87 x 3
+    #>   new_homeworld new_height new_mass
+    #>   <chr>              <int>    <dbl>
+    #> 1 Tatooine             172       77
+    #> 2 Tatooine             167       75
+    #> 3 Naboo                 96       32
+    #> 4 Tatooine             202      136
+    #> # i 83 more rows
 
 ### Operators:
 
 The `:` operator selects a range of consecutive variables:
 
-    starwars %>% select(name:mass)
+    starwars |> select(name:mass)
     #> # A tibble: 87 x 3
     #>   name           height  mass
     #>   <chr>           <int> <dbl>
@@ -197,7 +208,7 @@ The `:` operator selects a range of consecutive variables:
 
 The `!` operator negates a selection:
 
-    starwars %>% select(!(name:mass))
+    starwars |> select(!(name:mass))
     #> # A tibble: 87 x 11
     #>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species
     #>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>
@@ -208,7 +219,7 @@ The `!` operator negates a selection:
     #> # i 83 more rows
     #> # i 3 more variables: films <list>, vehicles <list>, starships <list>
 
-    iris %>% select(!c(Sepal.Length, Petal.Length))
+    iris |> select(!c(Sepal.Length, Petal.Length))
     #> # A tibble: 150 x 3
     #>   Sepal.Width Petal.Width Species
     #>         <dbl>       <dbl> <fct>
@@ -218,7 +229,7 @@ The `!` operator negates a selection:
     #> 4         3.1         0.2 setosa
     #> # i 146 more rows
 
-    iris %>% select(!ends_with("Width"))
+    iris |> select(!ends_with("Width"))
     #> # A tibble: 150 x 3
     #>   Sepal.Length Petal.Length Species
     #>          <dbl>        <dbl> <fct>
@@ -230,7 +241,7 @@ The `!` operator negates a selection:
 
 `&` and `|` take the intersection or the union of two selections:
 
-    iris %>% select(starts_with("Petal") & ends_with("Width"))
+    iris |> select(starts_with("Petal") & ends_with("Width"))
     #> # A tibble: 150 x 1
     #>   Petal.Width
     #>         <dbl>
@@ -240,7 +251,7 @@ The `!` operator negates a selection:
     #> 4         0.2
     #> # i 146 more rows
 
-    iris %>% select(starts_with("Petal") | ends_with("Width"))
+    iris |> select(starts_with("Petal") | ends_with("Width"))
     #> # A tibble: 150 x 3
     #>   Petal.Length Petal.Width Sepal.Width
     #>          <dbl>       <dbl>       <dbl>
@@ -253,7 +264,7 @@ The `!` operator negates a selection:
 To take the difference between two selections, combine the `&` and `!`
 operators:
 
-    iris %>% select(starts_with("Petal") & !ends_with("Width"))
+    iris |> select(starts_with("Petal") & !ends_with("Width"))
     #> # A tibble: 150 x 1
     #>   Petal.Length
     #>          <dbl>

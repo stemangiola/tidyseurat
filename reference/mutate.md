@@ -86,7 +86,7 @@ properties:
 
 - [`if_else()`](https://dplyr.tidyverse.org/reference/if_else.html),
   [`recode()`](https://dplyr.tidyverse.org/reference/recode.html),
-  [`case_when()`](https://dplyr.tidyverse.org/reference/case_when.html)
+  [`case_when()`](https://dplyr.tidyverse.org/reference/case-and-replace-when.html)
 
 ## Grouped tibbles
 
@@ -95,15 +95,15 @@ different results on grouped tibbles. This will be the case as soon as
 an aggregating, lagging, or ranking function is involved. Compare this
 ungrouped mutate:
 
-    starwars %>%
-      select(name, mass, species) %>%
+    starwars |>
+      select(name, mass, species) |>
       mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 
 With the grouped equivalent:
 
-    starwars %>%
-      select(name, mass, species) %>%
-      group_by(species) %>%
+    starwars |>
+      select(name, mass, species) |>
+      group_by(species) |>
       mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 
 The former normalises `mass` by the global average whereas the latter
