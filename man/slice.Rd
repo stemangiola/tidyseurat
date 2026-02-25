@@ -67,15 +67,12 @@ Indices beyond the number of rows in the input are silently ignored.
 
 For \verb{slice_*()}, these arguments are passed on to methods.}
 
-\item{.by, by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+\item{.by, by}{<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[dplyr:group_by]{group_by()}}. For
 details and examples, see \link[dplyr:dplyr_by]{?dplyr_by}.}
 
-\item{.preserve}{Relevant when the \code{.data} input is grouped.
-If \code{.preserve = FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise the grouping is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped. If \code{.preserve = FALSE} (the default), the grouping structure is recalculated based on the
+resulting data, otherwise the grouping is kept as is.}
 
 \item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
 proportion of rows to select. If neither are supplied, \code{n = 1} will be
@@ -90,7 +87,9 @@ rows; \code{prop = -0.25} with 8 rows will select 8 * (1 - 0.25) = 6 rows.}
 
 \item{weight_by}{<\code{\link[rlang:args_data_masking]{data-masking}}> Sampling
 weights. This must evaluate to a vector of non-negative numbers the same
-length as the input. Weights are automatically standardised to sum to 1.}
+length as the input. Weights are automatically standardised to sum to 1.
+See the \code{Details} section for more technical details regarding these
+weights.}
 
 \item{replace}{Should sampling be performed with (\code{TRUE}) or without
 (\code{FALSE}, the default) replacement.}
@@ -137,6 +136,12 @@ each group.
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[dplyr:filter]{filter()}} and \code{\link[dplyr:row_number]{row_number()}}.
+
+For \code{slice_sample()}, note that the weights provided in \code{weight_by} are
+passed through to the \code{prob} argument of \code{\link[base:sample]{base::sample.int()}}. This means
+they cannot be used to reconstruct summary statistics from the underlying
+population. See \href{https://stats.stackexchange.com/q/639211/}{this discussion}
+for more details.
 }
 \section{Methods}{
 
