@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/stemangiola/tidyseurat/blob/fix-drop-argument-deprecation-dplyr/inst/CITATION)
+[`inst/CITATION`](https://github.com/stemangiola/tidyseurat/blob/master/inst/CITATION)
 
 Mangiola S, Doyle MA, Anthony ATP (2021). “Interfacing Seurat with the R
 tidy universe.” *Bioinformatics*, **btab404**.
