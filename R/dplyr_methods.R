@@ -369,20 +369,20 @@ left_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
         as_tibble() %>%
         dplyr::left_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
-        when(
+        {
 
             # If duplicated cells returns tibble
-            count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+            if (count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0)) {
                 message(duplicated_cell_names)
                 (.)
-            },
+            }
 
             # Otherwise return updated tidyseurat
-            ~ {
+            else {
                 x@meta.data <- (.) %>% as_meta_data(x)
                 x
             }
-        )
+        }
 
 }
 
@@ -414,21 +414,21 @@ inner_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
         as_tibble() %>%
         dplyr::inner_join( y, by=by, copy=copy, suffix=suffix, ...)  %>%
 
-        when(
+        {
 
             # If duplicated cells returns tibble
-            count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+            if (count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0)) {
                 message(duplicated_cell_names)
                 (.)
-            },
+            }
 
             # Otherwise return updated tidyseurat
-            ~ {
+            else {
                 new_obj <- subset(x, cells= pull(., c_(x)$name))
                 new_obj@meta.data <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
-        )
+        }
 
 }
 
@@ -460,21 +460,21 @@ right_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
         as_tibble() %>%
         dplyr::right_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
-        when(
+        {
 
             # If duplicated cells returns tibble
-            count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+            if (count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0)) {
                 message(duplicated_cell_names)
                 (.)
-            },
+            }
 
             # Otherwise return updated tidyseurat
-            ~ {
+            else {
                 new_obj <- subset(x, cells=(.) %>% pull(c_(x)$name))
                 new_obj@meta.data <- (.) %>% as_meta_data(new_obj)
                 new_obj
             }
-        )
+        }
 
 }
 
@@ -502,20 +502,20 @@ full_join.Seurat <- function (x, y, by=NULL, copy=FALSE,
         as_tibble() %>%
         dplyr::full_join( y, by=by, copy=copy, suffix=suffix, ...) %>%
 
-        when(
+        {
 
             # If duplicated cells returns tibble
-            count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0) ~ {
+            if (count(., !!c_(x)$symbol) %>% filter(n>1) %>% nrow %>% gt(0)) {
                 message(duplicated_cell_names)
                 (.)
-            },
+            }
 
             # Otherwise return updated tidyseurat
-            ~ {
+            else {
                 x@meta.data <- (.) %>% as_meta_data(x)
                 x
             }
-        )
+        }
 
 }
 
@@ -782,21 +782,21 @@ select.Seurat <- function (.data, ...)
     .data %>%
         as_tibble() %>%
         select_helper(...) %>%
-        when(
+        {
 
             # If key columns are missing
-            (get_needed_columns(.data) %in% colnames(.)) %>% all %>% `!` ~ {
+            if ((get_needed_columns(.data) %in% colnames(.)) %>% all %>% `!`) {
                 message("tidyseurat says: Key columns are missing.",
                     " A data frame is returned for independent data analysis.")
                 (.)
-            },
+            }
 
             # If valid seurat meta data
-            ~ {
+            else {
                 .data@meta.data <- (.) %>% as_meta_data(.data)
                 .data
             }
-        )
+        }
 
 }
 

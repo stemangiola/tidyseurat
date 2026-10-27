@@ -28,7 +28,6 @@ unnest.tidyseurat_nested <- function(data, cols, ...,
 
 #' @rdname unnest
 #' @importFrom tidyr unnest
-#' @importFrom purrr when
 #' @importFrom rlang quo_name
 #' @importFrom purrr imap
 #' @export
@@ -42,10 +41,9 @@ unnest_seurat  <-  function(data, cols, ...,
     cols <- enquo(cols)
   
     .data_ %>% 
-        when(
-      
+        {
             # If my only column to unnest is tidyseurat
-            pull(., !!cols) %>% .[[1]] %>% is("Seurat") %>% any ~  
+            if (pull(., !!cols) %>% .[[1]] %>% is("Seurat") %>% any)
             {
                 # Do my trick to unnest
                 list_seurat <- mutate(.,
@@ -60,20 +58,21 @@ unnest_seurat  <-  function(data, cols, ...,
                     pull(!!cols)
                 list_seurat[[1]] %>%
                     # Bind only if length list > 1
-                    when(
-                        length(list_seurat)>1 ~ bind_rows(.,
-                            list_seurat[2:length(list_seurat)]),
-                        ~ (.)
-                    )
-            },
+                    {
+                        if (length(list_seurat)>1) bind_rows(.,
+                            list_seurat[2:length(list_seurat)])
+                        else (.)
+                    }
+            }
       
             # Else do normal stuff
-            ~ (.) %>% 
+            else (.) %>% 
                 drop_class("tidyseurat_nested") %>%
                 tidyr::unnest(!!cols, ..., keep_empty=keep_empty,
                     ptype=ptype, names_sep=names_sep,
                     names_repair=names_repair) %>%
-                add_class("tidyseurat_nested"))
+                add_class("tidyseurat_nested")
+        }
 }
 
 

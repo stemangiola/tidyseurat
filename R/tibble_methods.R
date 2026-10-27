@@ -21,28 +21,28 @@ as_tibble.Seurat <- function(x, ...,
         tibble::as_tibble(rownames=c_(x)$name) %>%
 
         # Attach reduced dimensions
-        when(
+        {
             # Only if I have reduced dimensions and special datasets
-            length(x@reductions) > 0 ~ (.) %>%
+            if (length(x@reductions) > 0) (.) %>%
                 left_join(
                     get_special_datasets(x, ...) %>%
-                    map(~ .x %>% when(
+                    map(~ .x %>% {
                         # If row == 1 do a trick
-                        dim(.) %>% is.null ~ {
+                        if (dim(.) %>% is.null) {
                             (.) %>% tibble::enframe() %>%
                                 spread(name, value) %>%
                                 mutate(!!c_(x)$symbol := rownames(x[[]]))
-                        },
+                        }
 
                         # Otherwise continue normally
-                        ~ as_tibble(., rownames=c_(x)$name)
-                    )) %>%
+                        else as_tibble(., rownames=c_(x)$name)
+                    }) %>%
                     reduce(left_join, by=c_(x)$name),
                 by=c_(x)$name
-                ),
+                )
             # Otherwise skip
-            ~ (.)
-        )
+            else (.)
+        }
 }
 
 #' @name glimpse
