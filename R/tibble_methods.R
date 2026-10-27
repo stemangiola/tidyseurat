@@ -17,32 +17,28 @@ as_tibble.Seurat <- function(x, ...,
     .name_repair=c("check_unique", "unique", "universal", "minimal"),
     rownames=NULL){
 
-    x[[]] %>%
-        tibble::as_tibble(rownames=c_(x)$name) %>%
+    out <- x[[]] %>%
+        tibble::as_tibble(rownames=c_(x)$name)
 
-        # Attach reduced dimensions
-        {
-            # Only if I have reduced dimensions and special datasets
-            if (length(x@reductions) > 0) (.) %>%
-                left_join(
-                    get_special_datasets(x, ...) %>%
-                    map(~ .x %>% {
-                        # If row == 1 do a trick
-                        if (dim(.) %>% is.null) {
-                            (.) %>% tibble::enframe() %>%
-                                spread(name, value) %>%
-                                mutate(!!c_(x)$symbol := rownames(x[[]]))
-                        }
+    # Attach reduced dimensions only if present
+    if (length(x@reductions) > 0) {
+        special_datasets <- get_special_datasets(x, ...) %>%
+            map(~ {
+                # If row == 1 do a trick
+                if (is.null(dim(.x))) {
+                    .x %>% tibble::enframe() %>%
+                        spread(name, value) %>%
+                        mutate(!!c_(x)$symbol := rownames(x[[]]))
+                } else {
+                    as_tibble(.x, rownames=c_(x)$name)
+                }
+            }) %>%
+            reduce(left_join, by=c_(x)$name)
 
-                        # Otherwise continue normally
-                        else as_tibble(., rownames=c_(x)$name)
-                    }) %>%
-                    reduce(left_join, by=c_(x)$name),
-                by=c_(x)$name
-                )
-            # Otherwise skip
-            else (.)
-        }
+        out <- out %>% left_join(special_datasets, by=c_(x)$name)
+    }
+
+    out
 }
 
 #' @name glimpse
