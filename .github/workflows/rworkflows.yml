@@ -46,7 +46,9 @@ jobs:
         run_vignettes: ${{ true }}
         has_testthat: ${{ true }}
         run_covr: ${{ true }}
-        run_pkgdown: ${{ true }}
+        # Fork PRs get a read-only GITHUB_TOKEN, so gh-pages deploy 403s.
+        # Build/deploy docs on push to protected branches only.
+        run_pkgdown: ${{ github.event_name != 'pull_request' }}
         has_runit: ${{ false }}
         has_latex: ${{ false }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
