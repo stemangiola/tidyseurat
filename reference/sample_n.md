@@ -75,16 +75,16 @@ pbmc_small |> sample_n(50)
 #> # Features=230 | Cells=50 | Active assay=RNA | Assays=RNA
 #>    .cell orig.ident nCount_RNA nFeature_RNA RNA_snn_res.0.8 letter.idents groups
 #>    <chr> <fct>           <dbl>        <int> <fct>           <fct>         <chr> 
-#>  1 AGAT… SeuratPro…        187           61 0               A             g2    
-#>  2 TACA… SeuratPro…        108           44 0               A             g2    
-#>  3 CATG… SeuratPro…         51           26 0               A             g2    
-#>  4 GCAC… SeuratPro…        292           71 1               B             g2    
-#>  5 CGTA… SeuratPro…        371           75 1               B             g1    
-#>  6 TTAC… SeuratPro…        298           65 1               B             g1    
-#>  7 ATAA… SeuratPro…         99           42 1               B             g2    
-#>  8 TGGT… SeuratPro…         64           36 0               A             g1    
-#>  9 GTTG… SeuratPro…        221           67 0               A             g2    
-#> 10 GGCA… SeuratPro…        172           29 0               A             g1    
+#>  1 GATA… SeuratPro…        328           72 1               B             g1    
+#>  2 GGCA… SeuratPro…        126           53 0               A             g1    
+#>  3 ATGC… SeuratPro…         70           47 0               A             g2    
+#>  4 AGAT… SeuratPro…        187           61 0               A             g2    
+#>  5 TACA… SeuratPro…        108           44 0               A             g2    
+#>  6 CATG… SeuratPro…         51           26 0               A             g2    
+#>  7 GCAC… SeuratPro…        292           71 1               B             g2    
+#>  8 CGTA… SeuratPro…        371           75 1               B             g1    
+#>  9 TTAC… SeuratPro…        298           65 1               B             g1    
+#> 10 ATAA… SeuratPro…         99           42 1               B             g2    
 #> # ℹ 40 more rows
 #> # ℹ 8 more variables: RNA_snn_res.1 <fct>, PC_1 <dbl>, PC_2 <dbl>, PC_3 <dbl>,
 #> #   PC_4 <dbl>, PC_5 <dbl>, tSNE_1 <dbl>, tSNE_2 <dbl>
