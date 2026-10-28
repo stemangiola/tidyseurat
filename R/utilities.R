@@ -141,21 +141,22 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
     .data = .data |> DietSeurat(assays = assay)
 
     # Just grub last assay
-    .data |> 
-      GetAssayData(assay = assay, layer=slot) %>% 
-        when(
-            variable_genes %>% is.null %>% `!` ~ 
-                (.)[ toupper(rownames(.)) %in% toupper(variable_genes),,drop=FALSE],
-            features %>% is.null %>% `!` ~ 
-                (.)[ toupper(rownames(.)) %in% toupper(features),,drop=FALSE],
-            ~ stop("tidyseurat says: It is not convenient to",
-                " extract all genes, you should have either variable",
-                " features or feature list to extract.")
-        ) |> 
-        as.matrix() |> 
-        t() |> 
-        as_tibble(rownames=c_(.data)$name) %>%
+    counts <- .data |> GetAssayData(assay = assay, layer=slot)
 
+    if (!is.null(variable_genes)) {
+        counts <- counts[toupper(rownames(counts)) %in% toupper(variable_genes),,drop=FALSE]
+    } else if (!is.null(features)) {
+        counts <- counts[toupper(rownames(counts)) %in% toupper(features),,drop=FALSE]
+    } else {
+        stop("tidyseurat says: It is not convenient to",
+            " extract all genes, you should have either variable",
+            " features or feature list to extract.")
+    }
+
+    counts |>
+        as.matrix() |>
+        t() |>
+        as_tibble(rownames=c_(.data)$name) %>%
         # Add prefix
         setNames(c(c_(.data)$name, sprintf("%s%s", prefix, colnames(.)[-1])))
 }
@@ -168,7 +169,6 @@ get_abundance_sc_wide <- function(.data, features=NULL, all=FALSE,
 #' @importFrom Seurat VariableFeatures
 #' @importFrom tidyr pivot_longer
 #' @importFrom tibble as_tibble
-#' @importFrom purrr when
 #' @importFrom purrr map2
 #'
 #' @param .data A tidyseurat
@@ -224,34 +224,35 @@ get_abundance_sc_long <- function(.data, features=NULL, all=FALSE,
   	    .[assay] %>%
         # Take active assay
         map2(assay,
-            ~ .x %>%
-                GetAssayData(layer = slot) %>%
-                when(
-                    variable_genes %>% is.null %>% `!` ~
-                        (.)[variable_genes,, drop=FALSE],
-                    features %>% is.null %>% `!` ~ 
-                        (.)[ toupper(rownames((.))) %in% 
-                            toupper(features), , drop=FALSE],
-                    all ~ (.),
-                    ~ stop("tidyseurat says: It is not convenient to",
+            ~ {
+                counts <- .x %>% GetAssayData(layer = slot)
+
+                if (!is.null(variable_genes)) {
+                    counts <- counts[variable_genes,, drop=FALSE]
+                } else if (!is.null(features)) {
+                    counts <- counts[toupper(rownames(counts)) %in%
+                        toupper(features), , drop=FALSE]
+                } else if (!all) {
+                    stop("tidyseurat says: It is not convenient to",
                         " extract all genes, you should have either variable",
                         " features or feature list to extract.")
-                ) %>%
+                }
 
                 # Replace 0 with NA
-                when(exclude_zeros ~ 
-                        (.) %>%
-                        { x=(.); x[x == 0] <- NA; x }, ~ (.)) %>%
-                        data.frame(check.names=FALSE) %>%
-                        as_tibble(rownames=".feature") %>%
-                        tidyr::pivot_longer(
-                            cols= - .feature,
-                            names_to=c_(.data)$name,
-                            values_to=".abundance" %>% paste(.y, sep="_"),
-                            values_drop_na=TRUE
-                        ) #%>%
-                #mutate_if(is.character, as.factor) %>%
-        ) %>%
+                if (exclude_zeros) {
+                    counts[counts == 0] <- NA
+                }
+
+                counts %>%
+                    data.frame(check.names=FALSE) %>%
+                    as_tibble(rownames=".feature") %>%
+                    tidyr::pivot_longer(
+                        cols= - .feature,
+                        names_to=c_(.data)$name,
+                        values_to=".abundance" %>% paste(.y, sep="_"),
+                        values_drop_na=TRUE
+                    )
+            }) %>%
         Reduce(function(...)
             full_join(..., by=c(".feature", c_(.data)$name)), .)
 }
@@ -333,7 +334,6 @@ return_arguments_of <- function(expression){
     variables
 }
 
-#' @importFrom purrr when
 #' @importFrom dplyr select
 #' @importFrom rlang expr
 select_helper <- function(.data, ...){
@@ -358,8 +358,7 @@ clean_seurat_object <- function(.data){
     if (.hasSlot(.data, "images"))
         .data@images <-
             map(.data@images,
-                ~ .x %>% when((.)@coordinates %>% nrow() %>% gt(0) ~ (.))) %>%
-
+                ~ if (nrow(.x@coordinates) > 0) .x) %>%
                 # Drop NULL
                 Filter(Negate(is.null), .)
 
@@ -369,10 +368,7 @@ clean_seurat_object <- function(.data){
                 if (.hasSlot(., "SCTModel.list"))
                     my_assay@SCTModel.list  =
                     map(my_assay@SCTModel.list,
-                        ~ .x %>%
-                            when((.)@cell.attributes %>%
-                                nrow() %>% gt(0) ~ (.))) %>%
-
+                        ~ if (nrow(.x@cell.attributes) > 0) .x) %>%
                             # Drop NULL
                             Filter(Negate(is.null), .)
                 my_assay

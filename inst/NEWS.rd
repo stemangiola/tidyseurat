@@ -1,6 +1,11 @@
 \name{NEWS}
 \title{News for Package \pkg{tidyseurat}}
 
+\section{Changes in version 0.8.10}{
+\itemize{
+    \item Replace defunct \code{purrr::when()} with base \code{if}/\code{else} across dplyr, tidyr, tibble, and utility methods (purrr 1.0.0+).
+}}
+
 \section{Changes in version 0.8.9}{
 \itemize{
     \item CRAN fix: \code{add_count()} now uses \code{count(..., .add = TRUE)} instead of \code{dplyr::add_count()}, avoiding the defunct \code{.drop} argument (dplyr 1.0.0+).
